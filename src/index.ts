@@ -134,6 +134,20 @@ export * from './ui/Logo';
 
 // UI Components - Animation
 export * from './ui/AnimatedCounter';
+export * from './ui/AnimatedSection';
+
+// UI Components - Layout (Advanced)
+export * from './ui/Masonry';
+
+// UI Components - Icons
+export * from './ui/IconContainer';
+export * from './ui/GradientIconContainer';
+
+// UI Components - Headers
+export * from './ui/PageSectionHeader';
+
+// UI Components - Accessibility
+export * from './ui/VisuallyHidden';
 
 // Re-export design system for convenience
 export {
