@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm install:*)",
+      "Bash(npx eslint:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: React Native UI components library\n\nSetup @sudobility/components-rn with:\n- Core UI components (Button, Card, Alert, Input, etc.)\n- NativeWind/Tailwind CSS styling support\n- TypeScript with full type definitions\n- Vite build configuration\n- ESLint + Prettier code quality tooling\n- Workspace packages for email, web3, devops, and marketing components\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
