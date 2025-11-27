@@ -158,6 +158,9 @@ export * from './ui/Kbd';
 export * from './ui/Table';
 export * from './ui/SkeletonLoader';
 
+// UI Components - Command Palette
+export * from './ui/Command';
+
 // Re-export design system for convenience
 export {
   variants,
