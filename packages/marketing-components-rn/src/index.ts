@@ -21,10 +21,8 @@ export {
   type TopicClusterLinksProps,
   type RelatedLinksProps,
 } from './InternalLinkClusters';
-export { LandingBuilder, type LandingBuilderProps } from './LandingBuilder';
 export { NpsSurvey, type NpsSurveyProps } from './NpsSurvey';
 export { SalesReport, type SalesReportProps } from './SalesReport';
-export { SubscriberList, type SubscriberListProps } from './SubscriberList';
 export { TestimonialSlider, type TestimonialSliderProps } from './TestimonialSlider';
 export {
   UseCaseGrid,

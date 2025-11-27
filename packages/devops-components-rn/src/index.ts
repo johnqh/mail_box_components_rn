@@ -12,7 +12,6 @@ export { BuildLog, type BuildLogProps } from './BuildLog';
 export { ChangelogDisplay, type ChangelogDisplayProps } from './ChangelogDisplay';
 export { CodePlayground, type CodePlaygroundProps } from './CodePlayground';
 export { ConflictResolver, type ConflictResolverProps } from './ConflictResolver';
-export { DashboardBuilder, type DashboardBuilderProps } from './DashboardBuilder';
 export { DealPipeline, type DealPipelineProps } from './DealPipeline';
 export { DeploymentStatus, type DeploymentStatusProps } from './DeploymentStatus';
 export { DriverLog, type DriverLogProps } from './DriverLog';
@@ -22,7 +21,6 @@ export {
   type MetricsGridProps,
   type MetricItem,
 } from './MetricsGrid';
-export { PageBuilder, type PageBuilderProps } from './PageBuilder';
 export { PipelineView, type PipelineViewProps } from './PipelineView';
 export { RegressionTest, type RegressionTestProps } from './RegressionTest';
 export { SystemStatusIndicator, type SystemStatusIndicatorProps } from './SystemStatusIndicator';

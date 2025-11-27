@@ -60,7 +60,6 @@ export * from './ui/Backdrop';
 
 // UI Components - Overlay
 export * from './ui/Sheet';
-export * from './ui/Drawer';
 export * from './ui/Tooltip';
 export * from './ui/Dialog';
 export * from './ui/Popover';
@@ -152,12 +151,10 @@ export * from './ui/VisuallyHidden';
 
 // UI Components - Navigation (Additional)
 export * from './ui/BreadcrumbNav';
-export * from './ui/PaginationNav';
 
 // UI Components - Display (Additional)
 export * from './ui/Kbd';
 export * from './ui/Table';
-export * from './ui/SkeletonLoader';
 
 // UI Components - Command Palette
 export * from './ui/Command';
@@ -171,9 +168,7 @@ export * from './ui/StepList';
 // UI Components - Features
 export * from './ui/FeatureCard';
 export * from './ui/FeatureGrid';
-export * from './ui/CalloutBox';
 export * from './ui/CTASection';
-export * from './ui/InfoCard';
 export * from './ui/PromotionalBanner';
 export * from './ui/CollapsibleSection';
 
