@@ -206,10 +206,46 @@ npm run type-check
 
 ### Specialized Packages
 
-- **DevOps**: SystemStatusIndicator
-- **Email**: ContactCard
-- **Web3**: AddressLabel, WalletIcon
-- **Marketing**: FeatureListItem, WelcomeScreen
+**DevOps** (`@sudobility/devops-components-rn` - 25 components):
+- AlertDialog, MetricsGrid, SystemStatusIndicator
+- ApiPlayground, ApiReference, AuditLog
+- BuildLog, ChangelogDisplay, CodePlayground
+- ConflictResolver, DashboardBuilder, DealPipeline
+- DeploymentStatus, DriverLog, MemoryUsage
+- PageBuilder, PipelineView, RegressionTest
+- TestResult, TestRunner, WebhookLogger
+- WorkflowBuilder, WorkflowTemplate, XmlParser, BodyMetrics
+
+**Email** (`@sudobility/email-components-rn` - 10 components):
+- AbTestEmail, ContactCard, EmailAccountsList
+- EmailAnalytics, EmailCampaign, EmailInputGroup
+- EmailTemplate, FreeEmailBanner
+- SubscriberList, SubscriptionPlan
+
+**Web3** (`@sudobility/web3-components-rn` - 8 components):
+- AddressLabel, CryptoPortfolio, GasTracker
+- NftGallery, TokenSwap, WalletConnect
+- WalletIcon, WalletSelection
+
+**Marketing** (`@sudobility/marketing-components-rn` - 13 components):
+- CrmDashboard, CtaBanner, FeatureListItem
+- FeatureSpotlight, HeroBannerWithBadge
+- InternalLinkClusters, LandingBuilder
+- NpsSurvey, SalesReport, SubscriberList
+- TestimonialSlider, UseCaseGrid, WelcomeScreen
+
+## Testing
+
+```bash
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+```
 
 ## License
 

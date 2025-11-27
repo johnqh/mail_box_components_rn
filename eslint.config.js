@@ -100,6 +100,7 @@ export default [
         test: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
+        jest: 'readonly',
       },
     },
   },
