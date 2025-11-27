@@ -181,6 +181,14 @@ export * from './ui/DashboardStatCard';
 export * from './ui/StatDisplay';
 export * from './ui/KeyValuePair';
 
+// UI Components - Smart Navigation
+export * from './ui/SmartLink';
+export * from './ui/ScrollSpy';
+
+// UI Components - Advanced Layout
+export * from './ui/SplitPane';
+export * from './ui/VirtualList';
+
 // Re-export design system for convenience
 export {
   variants,
