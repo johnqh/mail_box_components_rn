@@ -6,12 +6,28 @@
 // Utilities
 export { cn } from './lib/utils';
 
-// UI Components
+// UI Components - Core
 export * from './ui/Button';
 export * from './ui/Card';
 export * from './ui/Input';
 export * from './ui/Spinner';
 export * from './ui/Alert';
+
+// UI Components - Layout
+export * from './ui/Box';
+export * from './ui/Flex';
+export * from './ui/Stack';
+export * from './ui/Divider';
+
+// UI Components - Form
+export * from './ui/Label';
+export * from './ui/TextArea';
+export * from './ui/Checkbox';
+export * from './ui/Switch';
+export * from './ui/HelperText';
+
+// UI Components - Display
+export * from './ui/Badge';
 
 // Re-export design system for convenience
 export {

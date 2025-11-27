@@ -12,11 +12,21 @@ This project mirrors the structure of `@sudobility/components`:
 mail_box_components_rn/
 ├── src/                              # @sudobility/components-rn source
 │   ├── ui/                           # Core UI components
+│   │   ├── Alert/
+│   │   ├── Badge/
+│   │   ├── Box/
 │   │   ├── Button/
 │   │   ├── Card/
+│   │   ├── Checkbox/
+│   │   ├── Divider/
+│   │   ├── Flex/
+│   │   ├── HelperText/
 │   │   ├── Input/
+│   │   ├── Label/
 │   │   ├── Spinner/
-│   │   └── Alert/
+│   │   ├── Stack/
+│   │   ├── Switch/
+│   │   └── TextArea/
 │   ├── lib/                          # Utilities (cn function)
 │   └── index.ts
 ├── packages/                         # Specialized packages
@@ -57,15 +67,55 @@ npm install @sudobility/components-rn @sudobility/design
 ### Basic Usage
 
 ```tsx
-import { Button, Card, Input, Spinner, Alert } from '@sudobility/components-rn';
+import {
+  Button, Card, Input, Spinner, Alert,
+  Box, Flex, Stack, VStack, HStack,
+  Label, TextArea, Checkbox, Switch, HelperText,
+  Badge, Divider
+} from '@sudobility/components-rn';
 
 export function MyScreen() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [subscribe, setSubscribe] = useState(false);
+
   return (
     <Card variant="elevated" padding="md">
-      <Input placeholder="Enter your email" onChangeText={setEmail} />
-      <Button variant="primary" onPress={handleSubmit}>
-        Submit
-      </Button>
+      <VStack spacing="md">
+        <Box>
+          <Label>Email Address</Label>
+          <Input placeholder="Enter your email" onChangeText={setEmail} />
+          <HelperText>We'll never share your email</HelperText>
+        </Box>
+
+        <Box>
+          <Label>Message</Label>
+          <TextArea
+            value={message}
+            onChangeText={setMessage}
+            placeholder="Write your message..."
+            showCount
+            maxLength={500}
+          />
+        </Box>
+
+        <Checkbox
+          checked={subscribe}
+          onChange={setSubscribe}
+          label="Subscribe to newsletter"
+        />
+
+        <Flex justify="between" align="center">
+          <Badge variant="success">Active</Badge>
+          <Switch checked={subscribe} onCheckedChange={setSubscribe} />
+        </Flex>
+
+        <Divider label="OR" />
+
+        <Button variant="primary" onPress={handleSubmit}>
+          Submit
+        </Button>
+      </VStack>
     </Card>
   );
 }
@@ -99,14 +149,33 @@ npm run type-check
 
 ## Current Components
 
-### Main Package (POC)
-- Button
-- Card (Card, CardHeader, CardContent, CardFooter)
-- Input
-- Spinner
-- Alert (Alert, AlertTitle, AlertDescription)
+### Main Package
 
-### Specialized Packages (Sample)
+**Core UI:**
+- Button - Pressable button with variants (primary, secondary, outline, ghost, link, destructive)
+- Card - Container with CardHeader, CardContent, CardFooter
+- Input - Text input with variants and states
+- Spinner - Loading indicator with size variants
+- Alert - Notification with AlertTitle, AlertDescription
+
+**Layout:**
+- Box - Fundamental layout primitive with spacing, sizing, styling props
+- Flex - Flexbox layout component with direction, align, justify, gap props
+- Stack / VStack / HStack - Flexbox-based layout for arranging children with spacing
+- Divider - Visual separator with optional label
+
+**Form:**
+- Label - Text label for form inputs
+- TextArea - Multi-line text input with character counting
+- Checkbox - Custom styled checkbox with controlled/uncontrolled modes
+- Switch - Toggle switch with smooth animation
+- HelperText - Form field descriptions and error messages
+
+**Display:**
+- Badge - Status/label component for metadata, tags, counts
+
+### Specialized Packages
+
 - **DevOps**: SystemStatusIndicator
 - **Email**: ContactCard
 - **Web3**: AddressLabel, WalletIcon
