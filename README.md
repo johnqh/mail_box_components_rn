@@ -11,8 +11,9 @@ This project mirrors the structure of `@sudobility/components`:
 ```
 mail_box_components_rn/
 ├── src/                              # @sudobility/components-rn source
-│   ├── ui/                           # Core UI components
+│   ├── ui/                           # Core UI components (22 components)
 │   │   ├── Alert/
+│   │   ├── Avatar/
 │   │   ├── Badge/
 │   │   ├── Box/
 │   │   ├── Button/
@@ -23,9 +24,15 @@ mail_box_components_rn/
 │   │   ├── HelperText/
 │   │   ├── Input/
 │   │   ├── Label/
+│   │   ├── Modal/
+│   │   ├── Progress/
+│   │   ├── SearchInput/
+│   │   ├── Select/
+│   │   ├── Skeleton/
 │   │   ├── Spinner/
 │   │   ├── Stack/
 │   │   ├── Switch/
+│   │   ├── Tabs/
 │   │   └── TextArea/
 │   ├── lib/                          # Utilities (cn function)
 │   └── index.ts
@@ -170,9 +177,20 @@ npm run type-check
 - Checkbox - Custom styled checkbox with controlled/uncontrolled modes
 - Switch - Toggle switch with smooth animation
 - HelperText - Form field descriptions and error messages
+- Select - Dropdown select with modal picker
+- SearchInput - Search input with icon, clear button, loading state
 
 **Display:**
 - Badge - Status/label component for metadata, tags, counts
+- Avatar / AvatarGroup - User avatar with initials fallback and status indicator
+- Skeleton / SkeletonText / SkeletonAvatar - Loading placeholder with pulse animation
+
+**Feedback:**
+- Progress / ProgressBar - Linear progress indicators
+- Modal / ModalHeader / ModalContent / ModalFooter - Modal dialog
+
+**Navigation:**
+- Tabs / TabsList / TabsTrigger / TabsContent - Tab navigation
 
 ### Specialized Packages
 
