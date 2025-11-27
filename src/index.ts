@@ -114,6 +114,27 @@ export * from './ui/TextInputModal';
 export * from './ui/FormAlerts';
 export * from './ui/ScrollArea';
 
+// UI Components - Badges & Labels
+export * from './ui/SectionBadge';
+
+// UI Components - List Items
+export * from './ui/ListItemWithAction';
+
+// UI Components - Overlays & Modals
+export * from './ui/Overlay';
+
+// UI Components - Transfer & Selection
+export * from './ui/TransferList';
+
+// UI Components - File & Media
+export * from './ui/FileInput';
+
+// UI Components - Branding
+export * from './ui/Logo';
+
+// UI Components - Animation
+export * from './ui/AnimatedCounter';
+
 // Re-export design system for convenience
 export {
   variants,
