@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, type ViewProps } from 'react-native';
+import { View, Text, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 
 export type WalletProvider =

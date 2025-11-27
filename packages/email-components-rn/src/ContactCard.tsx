@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, Pressable, type ViewProps } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 
-export interface ContactCardProps extends ViewProps {
+export interface ContactCardProps extends Omit<ViewProps, 'role'> {
   name: string;
   email: string;
   avatar?: string;
