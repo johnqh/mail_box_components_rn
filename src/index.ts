@@ -172,6 +172,9 @@ export * from './ui/FeatureCard';
 export * from './ui/FeatureGrid';
 export * from './ui/CalloutBox';
 export * from './ui/CTASection';
+export * from './ui/InfoCard';
+export * from './ui/PromotionalBanner';
+export * from './ui/CollapsibleSection';
 
 // Re-export design system for convenience
 export {
