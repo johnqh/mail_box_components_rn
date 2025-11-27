@@ -91,6 +91,16 @@ export * from './ui/ProgressCircle';
 export * from './ui/SideNav';
 export * from './ui/SectionHeader';
 export * from './ui/PageContainer';
+export * from './ui/FloatingPanel';
+
+// UI Components - Form (Advanced)
+export * from './ui/PhoneInput';
+export * from './ui/TimePicker';
+export * from './ui/Combobox';
+
+// UI Components - Data Display
+export * from './ui/TreeView';
+export * from './ui/AddressLink';
 
 // Re-export design system for convenience
 export {
