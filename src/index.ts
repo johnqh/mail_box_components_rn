@@ -68,6 +68,16 @@ export * from './ui/Popover';
 // UI Components - Navigation
 export * from './ui/Tabs';
 export * from './ui/Link';
+export * from './ui/Breadcrumb';
+export * from './ui/Pagination';
+export * from './ui/SettingsList';
+export * from './ui/NavigationList';
+
+// UI Components - Patterns
+export * from './ui/Dropdown';
+export * from './ui/AspectRatio';
+export * from './ui/QuickActions';
+export * from './ui/EmptyState';
 
 // Re-export design system for convenience
 export {
