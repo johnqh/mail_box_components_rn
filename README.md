@@ -1,14 +1,16 @@
 # @sudobility/components-rn
 
-React Native component library for Sudobility, ported from [@sudobility/components](../mail_box_components).
+React Native component library for Sudobility, ported from
+[@sudobility/components](../mail_box_components).
 
 ## Structure
 
 This project mirrors the structure of `@sudobility/components`:
+
 - **Root** (`/`) - Main package `@sudobility/components-rn`
 - **`/packages/`** - Specialized component packages
 
-```
+```text
 mail_box_components_rn/
 ├── src/                              # @sudobility/components-rn source
 │   ├── ui/                           # Core UI components (22 components)
@@ -146,32 +148,37 @@ npm run type-check
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| `@sudobility/components-rn` | Core React Native UI components |
-| `@sudobility/devops-components-rn` | DevOps monitoring & deployment |
-| `@sudobility/email-components-rn` | Email marketing & contacts |
-| `@sudobility/web3-components-rn` | Web3 wallet & crypto |
-| `@sudobility/marketing-components-rn` | Marketing & landing pages |
+| Package                              | Description                       |
+| ------------------------------------ | --------------------------------- |
+| `@sudobility/components-rn`          | Core React Native UI components   |
+| `@sudobility/devops-components-rn`   | DevOps monitoring & deployment    |
+| `@sudobility/email-components-rn`    | Email marketing & contacts        |
+| `@sudobility/web3-components-rn`     | Web3 wallet & crypto              |
+| `@sudobility/marketing-components-rn`| Marketing & landing pages         |
 
 ## Current Components
 
 ### Main Package
 
 **Core UI:**
-- Button - Pressable button with variants (primary, secondary, outline, ghost, link, destructive)
+
+- Button - Pressable button with variants (primary, secondary, outline,
+  ghost, link, destructive)
 - Card - Container with CardHeader, CardContent, CardFooter
 - Input - Text input with variants and states
 - Spinner - Loading indicator with size variants
 - Alert - Notification with AlertTitle, AlertDescription
 
 **Layout:**
+
 - Box - Fundamental layout primitive with spacing, sizing, styling props
 - Flex - Flexbox layout component with direction, align, justify, gap props
-- Stack / VStack / HStack - Flexbox-based layout for arranging children with spacing
+- Stack / VStack / HStack - Flexbox-based layout for arranging children
+  with spacing
 - Divider - Visual separator with optional label
 
 **Form:**
+
 - Label - Text label for form inputs
 - TextArea - Multi-line text input with character counting
 - Checkbox - Custom styled checkbox with controlled/uncontrolled modes
@@ -181,15 +188,20 @@ npm run type-check
 - SearchInput - Search input with icon, clear button, loading state
 
 **Display:**
+
 - Badge - Status/label component for metadata, tags, counts
-- Avatar / AvatarGroup - User avatar with initials fallback and status indicator
-- Skeleton / SkeletonText / SkeletonAvatar - Loading placeholder with pulse animation
+- Avatar / AvatarGroup - User avatar with initials fallback and status
+  indicator
+- Skeleton / SkeletonText / SkeletonAvatar - Loading placeholder with
+  pulse animation
 
 **Feedback:**
+
 - Progress / ProgressBar - Linear progress indicators
 - Modal / ModalHeader / ModalContent / ModalFooter - Modal dialog
 
 **Navigation:**
+
 - Tabs / TabsList / TabsTrigger / TabsContent - Tab navigation
 
 ### Specialized Packages
