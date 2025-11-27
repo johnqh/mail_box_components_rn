@@ -101,6 +101,18 @@ export * from './ui/Combobox';
 // UI Components - Data Display
 export * from './ui/TreeView';
 export * from './ui/AddressLink';
+export * from './ui/CodeDisplay';
+
+// UI Components - Form (Date/Time)
+export * from './ui/DateInput';
+export * from './ui/DateTimePicker';
+
+// UI Components - Advanced
+export * from './ui/InfiniteScroll';
+export * from './ui/ExternalLink';
+export * from './ui/TextInputModal';
+export * from './ui/FormAlerts';
+export * from './ui/ScrollArea';
 
 // Re-export design system for convenience
 export {
