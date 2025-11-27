@@ -116,6 +116,7 @@ export * from './ui/ScrollArea';
 
 // UI Components - Badges & Labels
 export * from './ui/SectionBadge';
+export * from './ui/ChainBadge';
 
 // UI Components - List Items
 export * from './ui/ListItemWithAction';
