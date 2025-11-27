@@ -167,6 +167,12 @@ export * from './ui/PageHeader';
 export * from './ui/StandardPageLayout';
 export * from './ui/StepList';
 
+// UI Components - Features
+export * from './ui/FeatureCard';
+export * from './ui/FeatureGrid';
+export * from './ui/CalloutBox';
+export * from './ui/CTASection';
+
 // Re-export design system for convenience
 export {
   variants,
