@@ -176,6 +176,11 @@ export * from './ui/InfoCard';
 export * from './ui/PromotionalBanner';
 export * from './ui/CollapsibleSection';
 
+// UI Components - Stats & Data Display
+export * from './ui/DashboardStatCard';
+export * from './ui/StatDisplay';
+export * from './ui/KeyValuePair';
+
 // Re-export design system for convenience
 export {
   variants,
