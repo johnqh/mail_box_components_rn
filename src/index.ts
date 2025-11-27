@@ -19,6 +19,8 @@ export * from './ui/Flex';
 export * from './ui/Stack';
 export * from './ui/Divider';
 export * from './ui/Separator';
+export * from './ui/Container';
+export * from './ui/Center';
 
 // UI Components - Form
 export * from './ui/Label';
@@ -34,6 +36,7 @@ export * from './ui/NumberInput';
 export * from './ui/Text';
 export * from './ui/Heading';
 export * from './ui/Code';
+export * from './ui/TruncatedText';
 
 // UI Components - Display
 export * from './ui/Badge';
@@ -45,6 +48,14 @@ export * from './ui/List';
 export * from './ui/Progress';
 export * from './ui/Modal';
 export * from './ui/Toast';
+export * from './ui/LoadingOverlay';
+export * from './ui/LoadingDots';
+export * from './ui/Backdrop';
+
+// UI Components - Overlay
+export * from './ui/Sheet';
+export * from './ui/Drawer';
+export * from './ui/Tooltip';
 
 // UI Components - Navigation
 export * from './ui/Tabs';
