@@ -79,6 +79,19 @@ export * from './ui/AspectRatio';
 export * from './ui/QuickActions';
 export * from './ui/EmptyState';
 
+// UI Components - Data & Selection
+export * from './ui/Calendar';
+export * from './ui/DataList';
+export * from './ui/MultiSelect';
+
+// UI Components - Progress
+export * from './ui/ProgressCircle';
+
+// UI Components - Layout & Structure
+export * from './ui/SideNav';
+export * from './ui/SectionHeader';
+export * from './ui/PageContainer';
+
 // Re-export design system for convenience
 export {
   variants,
