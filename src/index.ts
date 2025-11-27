@@ -161,6 +161,12 @@ export * from './ui/SkeletonLoader';
 // UI Components - Command Palette
 export * from './ui/Command';
 
+// UI Components - Layout
+export * from './ui/MasterDetailLayout';
+export * from './ui/PageHeader';
+export * from './ui/StandardPageLayout';
+export * from './ui/StepList';
+
 // Re-export design system for convenience
 export {
   variants,
