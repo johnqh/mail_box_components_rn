@@ -149,6 +149,15 @@ export * from './ui/PageSectionHeader';
 // UI Components - Accessibility
 export * from './ui/VisuallyHidden';
 
+// UI Components - Navigation (Additional)
+export * from './ui/BreadcrumbNav';
+export * from './ui/PaginationNav';
+
+// UI Components - Display (Additional)
+export * from './ui/Kbd';
+export * from './ui/Table';
+export * from './ui/SkeletonLoader';
+
 // Re-export design system for convenience
 export {
   variants,
