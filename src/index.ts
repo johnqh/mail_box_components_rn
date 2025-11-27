@@ -12,6 +12,7 @@ export * from './ui/Card';
 export * from './ui/Input';
 export * from './ui/Spinner';
 export * from './ui/Alert';
+export * from './ui/ActionButton';
 
 // UI Components - Layout
 export * from './ui/Box';
@@ -21,6 +22,8 @@ export * from './ui/Divider';
 export * from './ui/Separator';
 export * from './ui/Container';
 export * from './ui/Center';
+export * from './ui/Spacer';
+export * from './ui/Grid';
 
 // UI Components - Form
 export * from './ui/Label';
@@ -43,6 +46,9 @@ export * from './ui/Badge';
 export * from './ui/Avatar';
 export * from './ui/Skeleton';
 export * from './ui/List';
+export * from './ui/IconText';
+export * from './ui/FormattedNumber';
+export * from './ui/InfoBox';
 
 // UI Components - Feedback
 export * from './ui/Progress';
@@ -56,6 +62,8 @@ export * from './ui/Backdrop';
 export * from './ui/Sheet';
 export * from './ui/Drawer';
 export * from './ui/Tooltip';
+export * from './ui/Dialog';
+export * from './ui/Popover';
 
 // UI Components - Navigation
 export * from './ui/Tabs';
