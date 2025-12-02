@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/components-rn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native UI components and design system - Ported from @sudobility/components",
   "type": "module",
   "main": "dist/index.js",
@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@sudobility/design": "^1.1.11",
+    "@sudobility/design": "^1.1.14",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^29.5.0",
