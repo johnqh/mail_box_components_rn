@@ -51,7 +51,8 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends ButtonBaseProps,
+  extends
+    ButtonBaseProps,
     Omit<PressableProps, 'children' | 'disabled'>,
     Omit<VariantProps<typeof buttonVariants>, 'variant' | 'size'> {
   /** Callback when button is pressed */

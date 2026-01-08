@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/components-rn",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "React Native UI components and design system - Ported from @sudobility/components",
   "type": "module",
   "main": "dist/index.js",
