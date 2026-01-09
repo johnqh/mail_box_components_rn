@@ -10,36 +10,48 @@ with TypeScript, Vite, and NativeWind. It provides reusable UI components
 ported from `@sudobility/components`, with design system functionality
 imported from `@sudobility/design`.
 
+## Package Manager
+
+**This project uses Bun as the package manager.** Always use `bun` commands instead of `npm`:
+
+```bash
+# Install dependencies
+bun install
+
+# Run any script
+bun run <script-name>
+```
+
 ## Common Development Commands
 
 ```bash
 # Build the library (TypeScript compilation + Vite bundling)
-npm run build
+bun run build
 
 # Build all packages (main + specialized)
-npm run build:all
+bun run build:all
 
 # Development mode with watch
-npm run dev
+bun run dev
 
 # Type checking without emitting files
-npm run type-check
+bun run type-check
 
 # Linting (ESLint with TypeScript rules)
-npm run lint
+bun run lint
 
 # Format code
-npm run format
+bun run format
 
 # Package preparation
-npm run prepublishOnly
+bun run prepublishOnly
 ```
 
 ## Architecture
 
 ### Multi-Package Structure
 
-This project uses a **monorepo architecture** with npm workspaces:
+This project uses a **monorepo architecture** with Bun workspaces:
 
 1. **`@sudobility/components-rn`** (root) - Core React Native UI components
 2. **`@sudobility/design`** (`../design_system`) - Design tokens, colors,
