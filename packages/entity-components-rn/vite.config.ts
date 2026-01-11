@@ -1,39 +1,32 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    dts({
-      insertTypesEntry: true,
-    }),
-  ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'SudobilityDevOpsComponentsRN',
-      formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`,
+      name: 'SudobilityEntityComponentsRN',
+      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
     },
     rollupOptions: {
       external: [
         'react',
         'react-native',
-        'nativewind',
         '@sudobility/components-rn',
         '@sudobility/design',
+        '@sudobility/types',
       ],
       output: {
         globals: {
           react: 'React',
           'react-native': 'ReactNative',
-          nativewind: 'NativeWind',
           '@sudobility/components-rn': 'SudobilityComponentsRN',
           '@sudobility/design': 'SudobilityDesign',
+          '@sudobility/types': 'SudobilityTypes',
         },
       },
     },
+    sourcemap: true,
+    emptyOutDir: true,
   },
 });

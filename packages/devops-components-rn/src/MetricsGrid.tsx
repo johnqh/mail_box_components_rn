@@ -1,115 +1,120 @@
 import React from 'react';
-import { View, Text, FlatList, type ViewProps } from 'react-native';
-import { cn } from '@sudobility/components-rn';
+import { View, Text, Pressable } from 'react-native';
+import { cn, Card } from '@sudobility/components-rn';
 
-type MetricColor = 'blue' | 'green' | 'purple' | 'orange' | 'pink' | 'gray';
-
-export interface MetricItem {
-  value: string | number;
+export interface Metric {
+  id: string;
   label: string;
-  color?: MetricColor;
+  value: number | string;
+  unit?: string;
+  change?: number;
+  changeLabel?: string;
   icon?: React.ReactNode;
-  trend?: {
-    direction: 'up' | 'down';
-    value: string;
-  };
 }
 
-export interface MetricsGridProps extends ViewProps {
-  title?: string;
-  description?: string;
-  metrics: MetricItem[];
-  columns?: 2 | 3 | 4;
+export interface MetricsGridProps {
+  metrics: Metric[];
+  columns?: 1 | 2 | 3 | 4;
+  onMetricPress?: (metric: Metric) => void;
+  className?: string;
 }
 
-const colorClasses: Record<MetricColor, string> = {
-  blue: 'text-blue-600 dark:text-blue-400',
-  green: 'text-green-600 dark:text-green-400',
-  purple: 'text-purple-600 dark:text-purple-400',
-  orange: 'text-orange-600 dark:text-orange-400',
-  pink: 'text-pink-600 dark:text-pink-400',
-  gray: 'text-gray-600 dark:text-gray-400',
+const formatChange = (change: number): string => {
+  const sign = change >= 0 ? '+' : '';
+  return sign + change.toFixed(1) + '%';
 };
 
-interface MetricCardProps {
-  metric: MetricItem;
-}
-
-const MetricCard: React.FC<MetricCardProps> = ({ metric }) => {
-  const colorClass = metric.color ? colorClasses[metric.color] : colorClasses.blue;
-
-  return (
-    <View className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 items-center mb-4 mx-2">
-      {metric.icon && (
-        <View className={cn('mb-4', colorClass)}>{metric.icon}</View>
-      )}
-
-      <View className="gap-2 items-center">
-        <Text className={cn('text-3xl font-bold', colorClass)}>
-          {metric.value}
-        </Text>
-
-        <Text className="text-gray-600 dark:text-gray-400 font-medium">
-          {metric.label}
-        </Text>
-
-        {metric.trend && (
-          <Text
-            className={cn(
-              'text-sm font-semibold',
-              metric.trend.direction === 'up'
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-red-600 dark:text-red-400'
-            )}
-          >
-            {metric.trend.direction === 'up' ? '↑' : '↓'} {metric.trend.value}
-          </Text>
-        )}
-      </View>
-    </View>
-  );
-};
-
-/**
- * MetricsGrid component for React Native
- * Grid display of metric cards
- */
 export const MetricsGrid: React.FC<MetricsGridProps> = ({
-  title,
-  description,
   metrics,
   columns = 2,
+  onMetricPress,
   className,
-  ...props
 }) => {
-  return (
-    <View className={cn('py-8 px-4', className)} {...props}>
-      {(title || description) && (
-        <View className="items-center mb-8">
-          {title && (
-            <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">
-              {title}
-            </Text>
-          )}
-          {description && (
-            <Text className="text-lg text-gray-600 dark:text-gray-300 text-center max-w-lg">
-              {description}
-            </Text>
-          )}
-        </View>
-      )}
+  const columnWidthClass = {
+    1: 'w-full',
+    2: 'w-1/2',
+    3: 'w-1/3',
+    4: 'w-1/4',
+  }[columns];
 
-      <FlatList
-        data={metrics}
-        keyExtractor={(_, index) => index.toString()}
-        numColumns={columns > 2 ? 2 : columns}
-        renderItem={({ item }) => (
-          <View className="flex-1">
-            <MetricCard metric={item} />
+  return (
+    <View className={cn('flex-row flex-wrap -m-1', className)}>
+      {metrics.map((metric) => {
+        const content = (
+          <Card className="p-4 m-1 flex-1">
+            <View className="flex-row items-start justify-between">
+              <View className="flex-1">
+                <Text className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                  {metric.label}
+                </Text>
+                <View className="flex-row items-baseline">
+                  <Text className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    {metric.value}
+                  </Text>
+                  {metric.unit && (
+                    <Text className="text-sm text-gray-500 dark:text-gray-500 ml-1">
+                      {metric.unit}
+                    </Text>
+                  )}
+                </View>
+                {metric.change !== undefined && (
+                  <View className="flex-row items-center mt-2">
+                    <View
+                      className={cn(
+                        'px-1.5 py-0.5 rounded',
+                        metric.change >= 0
+                          ? 'bg-green-100 dark:bg-green-900'
+                          : 'bg-red-100 dark:bg-red-900'
+                      )}
+                    >
+                      <Text
+                        className={cn(
+                          'text-xs font-medium',
+                          metric.change >= 0
+                            ? 'text-green-700 dark:text-green-300'
+                            : 'text-red-700 dark:text-red-300'
+                        )}
+                      >
+                        {formatChange(metric.change)}
+                      </Text>
+                    </View>
+                    {metric.changeLabel && (
+                      <Text className="text-xs text-gray-500 dark:text-gray-500 ml-2">
+                        {metric.changeLabel}
+                      </Text>
+                    )}
+                  </View>
+                )}
+              </View>
+              {metric.icon && (
+                <View className="ml-2">{metric.icon}</View>
+              )}
+            </View>
+          </Card>
+        );
+
+        if (onMetricPress) {
+          return (
+            <View key={metric.id} className={columnWidthClass}>
+              <Pressable
+                onPress={() => onMetricPress(metric)}
+                accessibilityRole="button"
+                accessibilityLabel={metric.label + ': ' + metric.value + (metric.unit || '')}
+              >
+                {content}
+              </Pressable>
+            </View>
+          );
+        }
+
+        return (
+          <View key={metric.id} className={columnWidthClass}>
+            {content}
           </View>
-        )}
-        scrollEnabled={false}
-      />
+        );
+      })}
     </View>
   );
 };
+
+export default MetricsGrid;
