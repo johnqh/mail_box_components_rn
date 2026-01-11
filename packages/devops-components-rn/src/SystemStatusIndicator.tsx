@@ -1,74 +1,94 @@
 import React from 'react';
-import { View, Text, type ViewProps } from 'react-native';
-import { cn } from '@sudobility/components-rn';
+import { View, Text, Pressable } from 'react-native';
+import { cn, Card } from '@sudobility/components-rn';
 
-export interface SystemStatusIndicatorProps extends ViewProps {
-  status: 'operational' | 'degraded' | 'partial' | 'major' | 'maintenance';
-  label?: string;
-  showPulse?: boolean;
+export type SystemStatus = 'operational' | 'degraded' | 'major-outage';
+
+export interface SystemStatusIndicatorProps {
+  status: SystemStatus;
+  systemName: string;
+  description?: string;
+  lastChecked?: Date;
+  onPress?: () => void;
+  className?: string;
 }
 
-const statusConfig = {
+const statusConfig: Record<SystemStatus, { color: string; darkColor: string; label: string }> = {
   operational: {
     color: 'bg-green-500',
-    textColor: 'text-green-700 dark:text-green-400',
+    darkColor: 'dark:bg-green-400',
     label: 'Operational',
   },
   degraded: {
     color: 'bg-yellow-500',
-    textColor: 'text-yellow-700 dark:text-yellow-400',
-    label: 'Degraded Performance',
+    darkColor: 'dark:bg-yellow-400',
+    label: 'Degraded',
   },
-  partial: {
-    color: 'bg-orange-500',
-    textColor: 'text-orange-700 dark:text-orange-400',
-    label: 'Partial Outage',
-  },
-  major: {
+  'major-outage': {
     color: 'bg-red-500',
-    textColor: 'text-red-700 dark:text-red-400',
+    darkColor: 'dark:bg-red-400',
     label: 'Major Outage',
-  },
-  maintenance: {
-    color: 'bg-blue-500',
-    textColor: 'text-blue-700 dark:text-blue-400',
-    label: 'Under Maintenance',
   },
 };
 
-/**
- * System status indicator component for displaying service health
- */
 export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
   status,
-  label,
-  showPulse = true,
+  systemName,
+  description,
+  lastChecked,
+  onPress,
   className,
-  ...props
 }) => {
   const config = statusConfig[status];
 
-  return (
-    <View
-      className={cn('flex-row items-center gap-2', className)}
-      accessibilityRole="text"
-      accessibilityLabel={`System status: ${label || config.label}`}
-      {...props}
-    >
-      <View className="relative">
-        <View className={cn('w-3 h-3 rounded-full', config.color)} />
-        {showPulse && status === 'operational' && (
-          <View
+  const content = (
+    <Card className={cn('p-4', className)}>
+      <View className="flex-row items-center">
+        <View
+          className={cn(
+            'w-3 h-3 rounded-full mr-3',
+            config.color,
+            config.darkColor
+          )}
+        />
+        <View className="flex-1">
+          <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            {systemName}
+          </Text>
+          <Text
             className={cn(
-              'absolute inset-0 rounded-full opacity-75',
-              config.color
+              'text-sm',
+              status === 'operational' && 'text-green-600 dark:text-green-400',
+              status === 'degraded' && 'text-yellow-600 dark:text-yellow-400',
+              status === 'major-outage' && 'text-red-600 dark:text-red-400'
             )}
-          />
-        )}
+          >
+            {config.label}
+          </Text>
+        </View>
       </View>
-      <Text className={cn('text-sm font-medium', config.textColor)}>
-        {label || config.label}
-      </Text>
-    </View>
+      {description && (
+        <Text className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          {description}
+        </Text>
+      )}
+      {lastChecked && (
+        <Text className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+          Last checked: {lastChecked.toLocaleString()}
+        </Text>
+      )}
+    </Card>
   );
+
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} accessibilityRole="button">
+        {content}
+      </Pressable>
+    );
+  }
+
+  return content;
 };
+
+export default SystemStatusIndicator;

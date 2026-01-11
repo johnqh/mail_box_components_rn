@@ -1,4 +1,5 @@
-// Type declarations for NativeWind className prop
+/// <reference types="nativewind/types" />
+
 import 'react-native';
 
 declare module 'react-native' {
@@ -11,16 +12,16 @@ declare module 'react-native' {
   interface ImageProps {
     className?: string;
   }
-  interface PressableProps {
-    className?: string;
-  }
-  interface TouchableOpacityProps {
-    className?: string;
-  }
   interface ScrollViewProps {
     className?: string;
   }
   interface TextInputProps {
+    className?: string;
+  }
+  interface PressableProps {
+    className?: string;
+  }
+  interface TouchableOpacityProps {
     className?: string;
   }
 }

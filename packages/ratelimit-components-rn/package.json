@@ -1,0 +1,56 @@
+{
+  "name": "@sudobility/ratelimit-components-rn",
+  "version": "0.1.0",
+  "description": "Rate limit and usage components for React Native",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "dev": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "@sudobility/components-rn": "*",
+    "@sudobility/design": "*",
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0",
+    "react-native-svg": ">=13.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native-svg": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.0.0"
+  },
+  "keywords": [
+    "react-native",
+    "ratelimit",
+    "usage",
+    "dashboard",
+    "components"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sudobility/mail_box_components_rn.git",
+    "directory": "packages/ratelimit-components-rn"
+  }
+}

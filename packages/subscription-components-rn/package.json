@@ -1,0 +1,52 @@
+{
+  "name": "@sudobility/subscription-components-rn",
+  "version": "0.0.1",
+  "description": "Subscription components for React Native",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "dev": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "@sudobility/components-rn": "*",
+    "@sudobility/design": "*",
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0",
+    "react-native-purchases": ">=7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native-purchases": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "nativewind": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.0.0"
+  },
+  "keywords": [
+    "react-native",
+    "subscription",
+    "revenuecat",
+    "in-app-purchases",
+    "nativewind"
+  ],
+  "license": "MIT"
+}
