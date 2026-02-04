@@ -55,7 +55,7 @@
     "dashboard",
     "components"
   ],
-  "license": "MIT",
+  "license": "BUSL-1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/sudobility/mail_box_components_rn.git",

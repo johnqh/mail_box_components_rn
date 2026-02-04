@@ -3,10 +3,6 @@
   "workspaces": {
     "": {
       "name": "@sudobility/components-rn",
-      "dependencies": {
-        "class-variance-authority": "^0.7.1",
-        "clsx": "^2.1.1",
-      },
       "devDependencies": {
         "@eslint/js": "^9.15.0",
         "@sudobility/design": "^1.1.18",
@@ -18,6 +14,8 @@
         "@typescript-eslint/eslint-plugin": "^8.15.0",
         "@typescript-eslint/parser": "^8.15.0",
         "ajv": "^8.17.1",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
         "eslint": "^9.15.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.2.1",
@@ -35,6 +33,8 @@
       },
       "peerDependencies": {
         "@sudobility/design": "^1.1.18",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.0.0",
         "nativewind": ">=4.0.0",
         "react": "^18.0.0 || ^19.0.0",
         "react-native": ">=0.72.0",
