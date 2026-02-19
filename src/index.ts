@@ -75,6 +75,7 @@ export * from './ui/NavigationList';
 // UI Components - Patterns
 export * from './ui/Dropdown';
 export * from './ui/AspectRatio';
+export * from './ui/AspectFitView';
 export * from './ui/QuickActions';
 export * from './ui/EmptyState';
 
