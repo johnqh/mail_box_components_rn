@@ -2,11 +2,19 @@ import React from 'react';
 import { View, ActivityIndicator, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 
+/**
+ * Props for the Spinner loading indicator component.
+ */
 export interface SpinnerProps extends ViewProps {
+  /** Size of the activity indicator. */
   size?: 'small' | 'default' | 'large' | 'extraLarge';
+  /** Color variant for the spinner. */
   variant?: 'default' | 'white' | 'success' | 'warning' | 'error';
+  /** Accessibility label for screen readers. */
   accessibilityLabel?: string;
+  /** Text shown below the spinner when showText is true. */
   loadingText?: string;
+  /** Whether to display loading text below the spinner. */
   showText?: boolean;
 }
 

@@ -3,6 +3,13 @@ import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textVariants, getCardVariantColors } from '@sudobility/design';
 
+/**
+ * Props for the Card component.
+ *
+ * Supports multiple visual variants (bordered, elevated, info, success, etc.),
+ * configurable padding, optional icon display, and a close button for
+ * info-type variants.
+ */
 export interface CardProps extends ViewProps {
   variant?:
     | 'default'
@@ -32,6 +39,22 @@ const paddingStyles = {
   lg: 'p-8',
 };
 
+/**
+ * Card component for React Native.
+ *
+ * A versatile container with variant-based styling from the design system.
+ * Info-type variants (info, success, warning, error) support an optional
+ * icon and close button.
+ *
+ * @example
+ * ```tsx
+ * <Card variant="elevated" padding="md">
+ *   <CardHeader title="Title" description="Subtitle" />
+ *   <CardContent><Text>Body</Text></CardContent>
+ *   <CardFooter><Button>Action</Button></CardFooter>
+ * </Card>
+ * ```
+ */
 export const Card: React.FC<CardProps> = ({
   variant = 'elevated',
   padding = 'md',
@@ -85,11 +108,18 @@ export const Card: React.FC<CardProps> = ({
   );
 };
 
+/** Props for the CardHeader sub-component. */
 interface CardHeaderProps extends ViewProps {
+  /** Card title rendered as a heading. */
   title?: string;
+  /** Card description rendered below the title. */
   description?: string;
 }
 
+/**
+ * Card header sub-component with optional title and description.
+ * Uses design system text variants for consistent typography.
+ */
 export const CardHeader: React.FC<CardHeaderProps> = ({
   title,
   description,
@@ -108,6 +138,7 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   );
 };
 
+/** Card body content area. */
 export const CardContent: React.FC<ViewProps> = ({
   className,
   children,
@@ -120,6 +151,7 @@ export const CardContent: React.FC<ViewProps> = ({
   );
 };
 
+/** Card footer area, rendered as a horizontal row with top padding. */
 export const CardFooter: React.FC<ViewProps> = ({
   className,
   children,

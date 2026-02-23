@@ -5,9 +5,11 @@
 `@sudobility/components-rn` is a React Native UI component library built with TypeScript, Vite, and NativeWind v4. It provides 90+ reusable components ported from `@sudobility/components`, with design tokens and theming imported from `@sudobility/design`. The library follows a monorepo architecture with 10 domain-specific sub-packages under `packages/`.
 
 - **Package name:** `@sudobility/components-rn`
-- **Version:** 1.0.19
+- **Version:** 1.0.21
 - **License:** BUSL-1.1
 - **Package manager:** Bun (always use `bun` instead of `npm`/`yarn`)
+- **Framework:** React 18/19, React Native >= 0.72, TypeScript 5.6+, NativeWind v4
+- **Module Format:** ES Module + CommonJS
 
 ## Project Structure
 
@@ -16,8 +18,8 @@ mail_box_components_rn/
 ├── src/
 │   ├── index.ts                  # Main entry point with all exports
 │   ├── lib/
-│   │   └── utils.ts              # cn() utility (clsx wrapper)
-│   ├── nativewind-env.d.ts       # NativeWind TypeScript declarations
+│   │   └── utils.ts              # cn() utility (clsx wrapper, no tailwind-merge)
+│   ├── nativewind-env.d.ts       # NativeWind TypeScript declarations (className on RN types)
 │   └── ui/                       # 90+ UI component directories
 │       ├── ActionButton/
 │       ├── AddressLink/
@@ -29,16 +31,17 @@ mail_box_components_rn/
 │       ├── Avatar/
 │       ├── Backdrop/
 │       ├── Badge/
+│       ├── Banner/
 │       ├── Box/
 │       ├── Breadcrumb/
 │       ├── BreadcrumbNav/
-│       ├── Button/
+│       ├── Button/            # Includes Button.shared.ts for cross-platform logic
 │       ├── CTASection/
 │       ├── Calendar/
 │       ├── Card/
 │       ├── Center/
+│       ├── ChainBadge.tsx     # Single-file component (no directory)
 │       ├── Checkbox/
-│       ├── ChainBadge/
 │       ├── Code/
 │       ├── CodeDisplay/
 │       ├── CollapsibleSection/
@@ -156,12 +159,12 @@ mail_box_components_rn/
 
 | Category | Components |
 |----------|-----------|
-| **Core** | Button, Card (CardHeader, CardContent, CardFooter), Input, Spinner, Alert (AlertTitle, AlertDescription), ActionButton |
-| **Layout** | Box, Flex, Stack, Divider, Separator, Container, Center, Spacer, Grid, MasterDetailLayout, SplitPane, PageContainer, FloatingPanel, StandardPageLayout, Masonry |
+| **Core** | Button, Card (CardHeader, CardContent, CardFooter), Input, Spinner, Alert (AlertTitle, AlertDescription), ActionButton, Banner |
+| **Layout** | Box, Flex, Stack, Divider, Separator, Container, Center, Spacer, Grid, MasterDetailLayout (MasterListItem), SplitPane, PageContainer, FloatingPanel, StandardPageLayout, Masonry |
 | **Form** | Label, TextArea, Checkbox, Switch, HelperText, Select, SearchInput, NumberInput, PhoneInput, TimePicker, Combobox, DateInput, DateTimePicker, FileInput, MultiSelect |
 | **Typography** | Text, Heading, Code, TruncatedText, CodeDisplay |
 | **Display** | Badge, Avatar, Skeleton, List, IconText, FormattedNumber, InfoBox, Kbd, KeyValuePair, StatDisplay, DashboardStatCard, Table, DataList |
-| **Feedback** | Progress, ProgressBar, ProgressCircle, Modal (ModalHeader, ModalContent, ModalFooter), Toast (ToastProvider, useToast), LoadingOverlay, LoadingDots, Backdrop, FormAlerts |
+| **Feedback** | Progress, ProgressCircle, Modal (ModalHeader, ModalContent, ModalFooter), Toast (ToastProvider, useToast), LoadingOverlay, LoadingDots, Backdrop, FormAlerts |
 | **Overlay** | Sheet, Tooltip, Dialog, Popover, Overlay, TextInputModal |
 | **Navigation** | Tabs (TabsList, TabsTrigger, TabsContent), Link, Breadcrumb, BreadcrumbNav, Pagination, SettingsList, NavigationList, SideNav, SmartLink, ScrollSpy |
 | **Patterns** | Dropdown, AspectRatio, AspectFitView, QuickActions, EmptyState, CollapsibleSection |
@@ -170,10 +173,10 @@ mail_box_components_rn/
 | **Icons** | IconContainer, GradientIconContainer |
 | **Headers** | PageHeader, PageSectionHeader, SectionHeader |
 | **Accessibility** | VisuallyHidden |
-| **Advanced** | InfiniteScroll, ExternalLink, ScrollArea, TransferList, ListItemWithAction, VirtualList, VirtualGrid, Command, TreeView, AddressLink |
+| **Advanced** | InfiniteScroll, ExternalLink, ScrollArea, TransferList, ListItemWithAction, VirtualList, Command, TreeView, AddressLink |
 | **Features/Marketing** | FeatureCard, FeatureGrid, CTASection, PromotionalBanner |
 | **Branding** | Logo |
-| **Layout (Page-Level)** | MasterDetailLayout (MasterListItem), PageHeader, StandardPageLayout, StepList |
+| **Layout (Page-Level)** | MasterDetailLayout, PageHeader, StandardPageLayout, StepList |
 
 ### Specialized Packages (`packages/`)
 
@@ -258,13 +261,15 @@ src/ui/ComponentName/
   └── index.ts             # Barrel export
 ```
 
-Some components have additional shared logic files (e.g., `Button/Button.shared.ts`).
+Exception: `ChainBadge.tsx` is a single-file component directly in `src/ui/`.
+
+Some components have additional shared logic files (e.g., `Button/Button.shared.ts` for cross-platform button logic).
 
 ### Styling Strategy
 
 1. **`cn()` utility** (`src/lib/utils.ts`) -- Wraps `clsx` for conditional class merging. Unlike the web version, does not use `tailwind-merge` since NativeWind processes classes at build time.
 
-2. **NativeWind v4** -- Tailwind CSS classes applied via `className` prop on React Native components. The `nativewind-env.d.ts` file augments RN types to accept `className` on View, Text, Pressable, etc.
+2. **NativeWind v4** -- Tailwind CSS classes applied via `className` prop on React Native components. The `nativewind-env.d.ts` file augments RN types to accept `className` on View, Text, Pressable, TextInput, FlatList, SectionList, ActivityIndicator, Switch, SafeAreaView, KeyboardAvoidingView, Modal, and more.
 
 3. **Variant maps** -- Most components define variant/size/color classes as plain objects within the component file:
    ```typescript
@@ -340,6 +345,8 @@ Components like `Tabs` support both controlled (`value` + `onValueChange`) and u
 - **Path alias** -- `@/` maps to `src/`
 - **Externals** -- React, React Native, NativeWind, `@sudobility/design`, clsx, CVA are all externalized
 - **Metro resolution** -- `"react-native"` field in package.json points to `src/index.ts` for Metro bundler
+- **Source maps** -- Enabled (`sourcemap: true`)
+- **Minification** -- Disabled (`minify: false`) for library consumers to optimize themselves
 
 ### Build Output
 
@@ -434,7 +441,8 @@ const cardClass = getCardVariantColors('elevated');
 
 | Dependency | Version | Purpose |
 |-----------|---------|---------|
-| `@sudobility/design` | ^1.1.18 | Design tokens, colors, typography, variants |
+| `@sudobility/design` | ^1.1.19 | Design tokens, colors, typography, variants |
+| `@sudobility/types` | ^1.9.53 | Shared TypeScript types |
 | `react` | ^18.0.0 or ^19.0.0 | React framework |
 | `react-native` | >=0.72.0 | React Native runtime |
 | `nativewind` | >=4.0.0 | Tailwind CSS for React Native |

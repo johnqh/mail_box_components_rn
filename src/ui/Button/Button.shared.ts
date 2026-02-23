@@ -38,7 +38,10 @@ export interface ButtonBaseProps {
 }
 
 /**
- * Map size abbreviations to design system variant keys
+ * Map size abbreviations to design system variant keys.
+ *
+ * @param size - The abbreviated size key ('sm', 'lg', or 'default')
+ * @returns The full design system variant key ('small', 'large', or 'default')
  */
 export const mapSizeToVariantKey = (size: string | undefined): string => {
   if (!size) return 'default';
@@ -51,7 +54,15 @@ export const mapSizeToVariantKey = (size: string | undefined): string => {
 };
 
 /**
- * Get button variant class from design system
+ * Get button variant class string from the design system.
+ *
+ * Handles gradient variants, web3 variants (wallet/connect/disconnect),
+ * and standard variants with size modifiers.
+ *
+ * @param variantName - The button variant name (e.g., 'primary', 'gradient', 'wallet')
+ * @param sizeName - Optional size abbreviation ('sm' or 'lg')
+ * @param v - The design system variants object
+ * @returns A Tailwind class string from the design system
  */
 export const getButtonVariantClass = (
   variantName: string,
@@ -72,7 +83,11 @@ export const getButtonVariantClass = (
 };
 
 /**
- * Shared button state logic
+ * Shared button state logic for determining disabled and spinner visibility.
+ *
+ * @param loading - Whether the button is in a loading state
+ * @param disabled - Whether the button is explicitly disabled
+ * @returns An object with `isDisabled` and `showSpinner` booleans
  */
 export const useButtonState = (
   loading: boolean | undefined,

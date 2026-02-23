@@ -9,6 +9,7 @@ import React, {
 import { View, Text, Pressable, Animated, SafeAreaView } from 'react-native';
 import { cn } from '../../lib/utils';
 
+/** Data structure representing a single toast notification. */
 export interface ToastMessage {
   id: string;
   title?: string;
@@ -28,6 +29,7 @@ export interface ToastProps {
   onRemove: (id: string) => void;
 }
 
+/** Context value provided by ToastProvider for managing toast notifications. */
 export interface ToastContextValue {
   toasts: ToastMessage[];
   addToast: (toast: Omit<ToastMessage, 'id'>) => void;
@@ -36,6 +38,15 @@ export interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
+/**
+ * Hook to access the toast notification system.
+ *
+ * Must be used within a ToastProvider. Returns functions to add and remove
+ * toast notifications, plus the current list of active toasts.
+ *
+ * @returns The toast context value with addToast, removeToast, and toasts
+ * @throws Error if used outside of a ToastProvider
+ */
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {

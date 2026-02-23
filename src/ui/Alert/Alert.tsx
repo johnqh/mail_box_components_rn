@@ -3,6 +3,12 @@ import { View, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { variants as v } from '@sudobility/design';
 
+/**
+ * Props for the Alert component.
+ *
+ * Supports semantic variants (info, success, warning, attention, error)
+ * with design system styling, optional custom icons, and compound content.
+ */
 export interface AlertProps extends ViewProps {
   variant?: 'info' | 'success' | 'warning' | 'attention' | 'error';
   title?: string;
@@ -20,6 +26,7 @@ const defaultIcons: Record<string, string> = {
   error: '✕',
 };
 
+/** Alert title sub-component with bold font styling. */
 export const AlertTitle: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -27,6 +34,7 @@ export const AlertTitle: React.FC<{
   <Text className={cn('font-medium mb-1', className)}>{children}</Text>
 );
 
+/** Alert description sub-component with smaller text styling. */
 export const AlertDescription: React.FC<{
   children: React.ReactNode;
   className?: string;
