@@ -6,6 +6,7 @@
       "devDependencies": {
         "@eslint/js": "^9.15.0",
         "@sudobility/design": "^1.1.19",
+        "@sudobility/types": "^1.9.53",
         "@testing-library/jest-native": "^5.4.3",
         "@testing-library/react-native": "^13.3.3",
         "@types/jest": "^29.5.0",
@@ -33,6 +34,7 @@
       },
       "peerDependencies": {
         "@sudobility/design": "^1.1.19",
+        "@sudobility/types": "^1.9.53",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "nativewind": ">=4.0.0",
@@ -865,6 +867,8 @@
     "@sudobility/social-components-rn": ["@sudobility/social-components-rn@workspace:packages/social-components-rn"],
 
     "@sudobility/subscription-components-rn": ["@sudobility/subscription-components-rn@workspace:packages/subscription-components-rn"],
+
+    "@sudobility/types": ["@sudobility/types@1.9.53", "", {}, "sha512-h86H+thP+Fm4pZKR0ggSR0Ne1vRbUOmusXJI+IRGtj0MmYtIuWtqcDN++kJJ2K6QFNa+/gs84mvbsgbJ+D491A=="],
 
     "@sudobility/web3-components-rn": ["@sudobility/web3-components-rn@workspace:packages/web3-components-rn"],
 

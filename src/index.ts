@@ -7,6 +7,7 @@
 export { cn } from './lib/utils';
 
 // UI Components - Core
+export * from './ui/Banner';
 export * from './ui/Button';
 export * from './ui/Card';
 export * from './ui/Input';
