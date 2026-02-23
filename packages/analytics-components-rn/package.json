@@ -53,6 +53,7 @@
     "timeline",
     "components"
   ],
+  "private": true,
   "author": "Sudobility",
   "license": "BUSL-1.1"
 }

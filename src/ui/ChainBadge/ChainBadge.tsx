@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, type ViewProps } from 'react-native';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 export type ChainType = 'evm' | 'solana' | 'bitcoin' | 'cosmos';
 
+/** Badge displaying a blockchain network identifier with chain-specific color and icon */
 export interface ChainBadgeProps extends ViewProps {
   chainType: ChainType;
   size?: 'sm' | 'md' | 'lg';

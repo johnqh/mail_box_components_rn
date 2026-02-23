@@ -187,7 +187,10 @@ export * from './ui/ScrollSpy';
 export * from './ui/SplitPane';
 export * from './ui/VirtualList';
 
-// Re-export design system for convenience
+/**
+ * @deprecated Import directly from `@sudobility/design` instead.
+ * These re-exports will be removed in a future major version.
+ */
 export {
   variants,
   textVariants,
