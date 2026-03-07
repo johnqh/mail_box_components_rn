@@ -1,252 +1,83 @@
 # @sudobility/components-rn
 
-React Native component library for Sudobility, ported from
-[@sudobility/components](../mail_box_components).
+React Native UI component library providing 90+ components ported from `@sudobility/components`. Built with TypeScript, Vite, and NativeWind v4. Design tokens and theming from `@sudobility/design`. Includes 10 domain-specific sub-packages under `packages/`.
 
-## Structure
-
-This project mirrors the structure of `@sudobility/components`:
-
-- **Root** (`/`) - Main package `@sudobility/components-rn`
-- **`/packages/`** - Specialized component packages
-
-```text
-mail_box_components_rn/
-├── src/                              # @sudobility/components-rn source
-│   ├── ui/                           # Core UI components (22 components)
-│   │   ├── Alert/
-│   │   ├── Avatar/
-│   │   ├── Badge/
-│   │   ├── Box/
-│   │   ├── Button/
-│   │   ├── Card/
-│   │   ├── Checkbox/
-│   │   ├── Divider/
-│   │   ├── Flex/
-│   │   ├── HelperText/
-│   │   ├── Input/
-│   │   ├── Label/
-│   │   ├── Modal/
-│   │   ├── Progress/
-│   │   ├── SearchInput/
-│   │   ├── Select/
-│   │   ├── Skeleton/
-│   │   ├── Spinner/
-│   │   ├── Stack/
-│   │   ├── Switch/
-│   │   ├── Tabs/
-│   │   └── TextArea/
-│   ├── lib/                          # Utilities (cn function)
-│   └── index.ts
-├── packages/                         # Specialized packages
-│   ├── devops-components-rn/         # @sudobility/devops-components-rn
-│   ├── email-components-rn/          # @sudobility/email-components-rn
-│   ├── web3-components-rn/           # @sudobility/web3-components-rn
-│   └── marketing-components-rn/      # @sudobility/marketing-components-rn
-├── package.json                      # Main package definition + workspaces
-├── vite.config.ts
-├── tsconfig.json
-└── tailwind.config.js                # NativeWind config
-```
-
-## Tech Stack
-
-- **React Native** (Bare workflow)
-- **NativeWind v4** (Tailwind CSS for React Native)
-- **React Navigation** (Navigation)
-- **TypeScript** (Type safety)
-- **npm workspaces** (Monorepo management)
-
-## Getting Started
-
-### Installation
+## Installation
 
 ```bash
-cd mail_box_components_rn
-npm install
-npm run build
+bun add @sudobility/components-rn @sudobility/design
 ```
 
-### Using in your app
+Peer dependencies: `react`, `react-native` (>=0.72), `nativewind` (>=4), `react-native-gesture-handler`, `react-native-reanimated`, `react-native-safe-area-context`, `react-native-svg`, `class-variance-authority`, `clsx`.
 
-```bash
-npm install @sudobility/components-rn @sudobility/design
-```
-
-### Basic Usage
+## Usage
 
 ```tsx
 import {
-  Button, Card, Input, Spinner, Alert,
-  Box, Flex, Stack, VStack, HStack,
-  Label, TextArea, Checkbox, Switch, HelperText,
-  Badge, Divider
+  Button, Card, CardHeader, CardContent, Input, Alert,
+  Box, Flex, Stack, Tabs, TabsList, TabsTrigger, TabsContent,
+  Badge, Avatar, Spinner, Modal, Select, Switch,
+  variants, textVariants, designTokens,
 } from '@sudobility/components-rn';
 
 export function MyScreen() {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [subscribe, setSubscribe] = useState(false);
-
   return (
-    <Card variant="elevated" padding="md">
-      <VStack spacing="md">
-        <Box>
-          <Label>Email Address</Label>
-          <Input placeholder="Enter your email" onChangeText={setEmail} />
-          <HelperText>We'll never share your email</HelperText>
-        </Box>
-
-        <Box>
-          <Label>Message</Label>
-          <TextArea
-            value={message}
-            onChangeText={setMessage}
-            placeholder="Write your message..."
-            showCount
-            maxLength={500}
-          />
-        </Box>
-
-        <Checkbox
-          checked={subscribe}
-          onChange={setSubscribe}
-          label="Subscribe to newsletter"
-        />
-
-        <Flex justify="between" align="center">
-          <Badge variant="success">Active</Badge>
-          <Switch checked={subscribe} onCheckedChange={setSubscribe} />
-        </Flex>
-
-        <Divider label="OR" />
-
-        <Button variant="primary" onPress={handleSubmit}>
-          Submit
-        </Button>
-      </VStack>
+    <Card variant="elevated">
+      <CardContent>
+        <Input placeholder="Enter email" />
+        <Button variant="primary" onPress={handleSubmit}>Submit</Button>
+      </CardContent>
     </Card>
   );
 }
 ```
 
+## API
+
+### Core UI (`src/ui/`) -- 90+ components
+
+- **Layout**: Box, Flex, Stack, Grid, Divider, Separator, Container, Center, Spacer, SplitPane, PageContainer, FloatingPanel, Masonry, MasterDetailLayout
+- **Form**: Input, TextArea, Checkbox, Switch, Select, SearchInput, NumberInput, PhoneInput, Combobox, DateInput, DateTimePicker, FileInput, MultiSelect, Label, HelperText, FormAlerts
+- **Display**: Badge, Avatar, Skeleton, List, DataList, Table, StatDisplay, DashboardStatCard, KeyValuePair, FormattedNumber, IconText, InfoBox
+- **Typography**: Text, Heading, Code, CodeDisplay, TruncatedText, Kbd
+- **Feedback**: Spinner, Progress, ProgressCircle, Modal, Toast, LoadingOverlay, LoadingDots, Alert, Backdrop
+- **Overlay**: Sheet, Dialog, Popover, Tooltip, Overlay, TextInputModal
+- **Navigation**: Tabs, Link, Breadcrumb, BreadcrumbNav, Pagination, NavigationList, SettingsList, SideNav, SmartLink, ScrollSpy
+- **Features**: FeatureCard, FeatureGrid, CTASection, PromotionalBanner, AnimatedCounter, AnimatedSection
+
+### Sub-Packages (`packages/`)
+
+| Package | Description |
+|---------|-------------|
+| `@sudobility/auth-components-rn` | Authentication (AuthProvider, AuthScreen) |
+| `@sudobility/email-components-rn` | Email (ContactCard, EmailAccountsList, EmailTemplate) |
+| `@sudobility/web3-components-rn` | Web3 (WalletIcon, AddressLabel, TokenSwap, NftGallery) |
+| `@sudobility/devops-components-rn` | DevOps (SystemStatusIndicator, PipelineView) |
+| `@sudobility/marketing-components-rn` | Marketing (WelcomeScreen, CtaBanner, NpsSurvey) |
+| `@sudobility/entity-components-rn` | Entity/Org (EntityCard, MemberList) |
+| `@sudobility/subscription-components-rn` | Subscriptions (SubscriptionTile, PeriodSelector) |
+| `@sudobility/ratelimit-components-rn` | Rate limiting (UsageDashboard) |
+| `@sudobility/social-components-rn` | Social (RatingStars, ShareButtons) |
+| `@sudobility/analytics-components-rn` | Analytics (stub, TBD) |
+
 ## Development
 
 ```bash
-# Build main package
-npm run build
-
-# Build all packages (main + specialized)
-npm run build:all
-
-# Watch mode
-npm run dev
-
-# Type check
-npm run type-check
+bun install
+bun run build              # TypeScript + Vite library build
+bun run build:all          # Root + all sub-packages
+bun run dev                # Watch mode
+bun run type-check         # TypeScript checking
+bun run lint               # ESLint
+bun run test               # Jest with react-native preset
 ```
 
-## Packages
+## Related Packages
 
-| Package                              | Description                       |
-| ------------------------------------ | --------------------------------- |
-| `@sudobility/components-rn`          | Core React Native UI components   |
-| `@sudobility/devops-components-rn`   | DevOps monitoring & deployment    |
-| `@sudobility/email-components-rn`    | Email marketing & contacts        |
-| `@sudobility/web3-components-rn`     | Web3 wallet & crypto              |
-| `@sudobility/marketing-components-rn`| Marketing & landing pages         |
-
-## Current Components
-
-### Main Package
-
-**Core UI:**
-
-- Button - Pressable button with variants (primary, secondary, outline,
-  ghost, link, destructive)
-- Card - Container with CardHeader, CardContent, CardFooter
-- Input - Text input with variants and states
-- Spinner - Loading indicator with size variants
-- Alert - Notification with AlertTitle, AlertDescription
-
-**Layout:**
-
-- Box - Fundamental layout primitive with spacing, sizing, styling props
-- Flex - Flexbox layout component with direction, align, justify, gap props
-- Stack / VStack / HStack - Flexbox-based layout for arranging children
-  with spacing
-- Divider - Visual separator with optional label
-
-**Form:**
-
-- Label - Text label for form inputs
-- TextArea - Multi-line text input with character counting
-- Checkbox - Custom styled checkbox with controlled/uncontrolled modes
-- Switch - Toggle switch with smooth animation
-- HelperText - Form field descriptions and error messages
-- Select - Dropdown select with modal picker
-- SearchInput - Search input with icon, clear button, loading state
-
-**Display:**
-
-- Badge - Status/label component for metadata, tags, counts
-- Avatar / AvatarGroup - User avatar with initials fallback and status
-  indicator
-- Skeleton / SkeletonText / SkeletonAvatar - Loading placeholder with
-  pulse animation
-
-**Feedback:**
-
-- Progress / ProgressBar - Linear progress indicators
-- Modal / ModalHeader / ModalContent / ModalFooter - Modal dialog
-
-**Navigation:**
-
-- Tabs / TabsList / TabsTrigger / TabsContent - Tab navigation
-
-### Specialized Packages
-
-**DevOps** (`@sudobility/devops-components-rn` - 25 components):
-- AlertDialog, MetricsGrid, SystemStatusIndicator
-- ApiPlayground, ApiReference, AuditLog
-- BuildLog, ChangelogDisplay, CodePlayground
-- ConflictResolver, DashboardBuilder, DealPipeline
-- DeploymentStatus, DriverLog, MemoryUsage
-- PageBuilder, PipelineView, RegressionTest
-- TestResult, TestRunner, WebhookLogger
-- WorkflowBuilder, WorkflowTemplate, XmlParser, BodyMetrics
-
-**Email** (`@sudobility/email-components-rn` - 10 components):
-- AbTestEmail, ContactCard, EmailAccountsList
-- EmailAnalytics, EmailCampaign, EmailInputGroup
-- EmailTemplate, FreeEmailBanner
-- SubscriberList, SubscriptionPlan
-
-**Web3** (`@sudobility/web3-components-rn` - 8 components):
-- AddressLabel, CryptoPortfolio, GasTracker
-- NftGallery, TokenSwap, WalletConnect
-- WalletIcon, WalletSelection
-
-**Marketing** (`@sudobility/marketing-components-rn` - 13 components):
-- CrmDashboard, CtaBanner, FeatureListItem
-- FeatureSpotlight, HeroBannerWithBadge
-- InternalLinkClusters, LandingBuilder
-- NpsSurvey, SalesReport, SubscriberList
-- TestimonialSlider, UseCaseGrid, WelcomeScreen
-
-## Testing
-
-```bash
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
-```
+- `@sudobility/design` -- design tokens, colors, typography, variants (peer dependency)
+- `@sudobility/types` -- shared TypeScript types (peer dependency)
+- `@sudobility/components` -- web version of this library
 
 ## License
 
-MIT
+BUSL-1.1
