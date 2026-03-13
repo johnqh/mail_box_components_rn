@@ -16,7 +16,7 @@
         "@react-native/js-polyfills": "^0.84.0",
         "@react-native/normalize-colors": "^0.84.0",
         "@sudobility/design": "^1.1.22",
-        "@sudobility/types": "^1.9.56",
+        "@sudobility/types": "^1.9.57",
         "@testing-library/jest-native": "^5.4.3",
         "@testing-library/react-native": "^13.3.3",
         "@types/jest": "^29.5.0",
@@ -46,7 +46,7 @@
       },
       "peerDependencies": {
         "@sudobility/design": "^1.1.22",
-        "@sudobility/types": "^1.9.56",
+        "@sudobility/types": "^1.9.57",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "nativewind": ">=4.0.0",
@@ -880,7 +880,7 @@
 
     "@sudobility/subscription-components-rn": ["@sudobility/subscription-components-rn@workspace:packages/subscription-components-rn"],
 
-    "@sudobility/types": ["@sudobility/types@1.9.56", "", {}, "sha512-wi2BSi9O1cUNlwsTllcix9WZwDGvGM2fdIUgvpGXKSda5W94Y7DjCO14sly3Etey5UZLAYTkTrYT/x0pAxcNNA=="],
+    "@sudobility/types": ["@sudobility/types@1.9.57", "", {}, "sha512-POtx/cRagDEdnEwrXfuoyzhNKyGahD7TYJRZT7WYW6+9ID1ZHwWDGkI88KmenKtwsljiJPQZ9+QM7jy13hdv3g=="],
 
     "@sudobility/web3-components-rn": ["@sudobility/web3-components-rn@workspace:packages/web3-components-rn"],
 
