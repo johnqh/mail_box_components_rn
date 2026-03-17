@@ -15,8 +15,8 @@
         "@react-native/babel-preset": "^0.84.0",
         "@react-native/js-polyfills": "^0.84.0",
         "@react-native/normalize-colors": "^0.84.0",
-        "@sudobility/design": "^1.1.22",
-        "@sudobility/types": "^1.9.57",
+        "@sudobility/design": "^1.1.23",
+        "@sudobility/types": "^1.9.58",
         "@testing-library/jest-native": "^5.4.3",
         "@testing-library/react-native": "^13.3.3",
         "@types/jest": "^29.5.0",
@@ -45,8 +45,8 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
-        "@sudobility/design": "^1.1.22",
-        "@sudobility/types": "^1.9.57",
+        "@sudobility/design": "^1.1.23",
+        "@sudobility/types": "^1.9.58",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "nativewind": ">=4.0.0",
@@ -864,7 +864,7 @@
 
     "@sudobility/components-rn": ["@sudobility/components-rn@1.0.9", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1" }, "peerDependencies": { "@sudobility/design": "^1.1.15", "nativewind": ">=4.0.0", "react": "^18.0.0 || ^19.0.0", "react-native": ">=0.72.0", "react-native-gesture-handler": ">=2.0.0", "react-native-reanimated": ">=3.0.0", "react-native-safe-area-context": ">=4.0.0", "react-native-svg": ">=13.0.0" } }, "sha512-6ukJEZwQNEhMJN1mK4lTbU9dWOBGc7Vcg2VtE8NPHHxyK9E+xB4zKSmZoYgkby2exIE9E2MpY3ILBBLGqemLkw=="],
 
-    "@sudobility/design": ["@sudobility/design@1.1.22", "", { "peerDependencies": { "clsx": ">=2.0.0", "tailwind-merge": ">=2.0.0" } }, "sha512-eO6r96idT81087JEUTw11u2P6yFEjq7h1/9yp+c/D0iRLXHq3tNQxe9XBMIt4dKGoMkbM+O+Y7O7MsMGtebMfw=="],
+    "@sudobility/design": ["@sudobility/design@1.1.23", "", { "peerDependencies": { "clsx": ">=2.0.0", "tailwind-merge": ">=2.0.0" } }, "sha512-lVjGgQbFXQF7QkVRXHU3UKS7oCeGwZaj2hTaayIYzp5Uo156BQqAXO4AljPAM0xZqh/R+km3keCzRNkPyhMDPQ=="],
 
     "@sudobility/devops-components-rn": ["@sudobility/devops-components-rn@workspace:packages/devops-components-rn"],
 
@@ -880,7 +880,7 @@
 
     "@sudobility/subscription-components-rn": ["@sudobility/subscription-components-rn@workspace:packages/subscription-components-rn"],
 
-    "@sudobility/types": ["@sudobility/types@1.9.57", "", {}, "sha512-POtx/cRagDEdnEwrXfuoyzhNKyGahD7TYJRZT7WYW6+9ID1ZHwWDGkI88KmenKtwsljiJPQZ9+QM7jy13hdv3g=="],
+    "@sudobility/types": ["@sudobility/types@1.9.58", "", {}, "sha512-GD6pS8C8loS8SnD7ynzDBCJ++Z9N0vzLTEO03nxFISffrEX67nNOrBEs8LqCU3yFn4LJowiIV7JyigNLCQUAoA=="],
 
     "@sudobility/web3-components-rn": ["@sudobility/web3-components-rn@workspace:packages/web3-components-rn"],
 
