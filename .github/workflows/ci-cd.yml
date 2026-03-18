@@ -56,6 +56,8 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
+      - uses: oven-sh/setup-bun@v2
+
       - name: Check if package needs publishing
         id: check-version
         run: |
@@ -76,15 +78,14 @@ jobs:
 
       - name: Install dependencies
         if: steps.check-version.outputs.changed == '1'
-        working-directory: ./packages/${{ matrix.package }}-components-rn
-        run: npm install --legacy-peer-deps
+        run: bun install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build package
         if: steps.check-version.outputs.changed == '1'
         working-directory: ./packages/${{ matrix.package }}-components-rn
-        run: npm run build
+        run: bun run build
 
       - name: Publish to NPM
         if: steps.check-version.outputs.changed == '1'
