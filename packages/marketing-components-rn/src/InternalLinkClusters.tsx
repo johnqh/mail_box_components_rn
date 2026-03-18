@@ -25,10 +25,14 @@ export const InternalLink: React.FC<InternalLinkProps> = ({
 }) => (
   <Pressable
     onPress={() => onPress?.(to)}
-    accessibilityRole="link"
-    accessibilityLabel={typeof children === 'string' ? `Navigate to ${children}` : undefined}
+    accessibilityRole='link'
+    accessibilityLabel={
+      typeof children === 'string' ? `Navigate to ${children}` : undefined
+    }
   >
-    <Text className={cn('underline font-medium', linkVariants[variant], className)}>
+    <Text
+      className={cn('underline font-medium', linkVariants[variant], className)}
+    >
       {children}
     </Text>
   </Pressable>
@@ -107,11 +111,11 @@ export const TopicClusterLinks: React.FC<TopicClusterLinksProps> = ({
     <View className={cn('flex-row flex-wrap gap-2', className)} {...props}>
       {Object.entries(links).map(([key, url], index) => (
         <React.Fragment key={key}>
-          <InternalLink to={url} variant="primary" onPress={onLinkPress}>
+          <InternalLink to={url} variant='primary' onPress={onLinkPress}>
             {texts[key]}
           </InternalLink>
           {index < Object.keys(links).length - 1 && (
-            <Text className="text-gray-400"> • </Text>
+            <Text className='text-gray-400'> • </Text>
           )}
         </React.Fragment>
       ))}
@@ -143,8 +147,8 @@ export const RelatedLinks: React.FC<RelatedLinksProps> = ({
     )}
     {...props}
   >
-    <View className="flex-row flex-wrap items-center gap-2">
-      <Text className="text-sm font-medium text-blue-900 dark:text-blue-200">
+    <View className='flex-row flex-wrap items-center gap-2'>
+      <Text className='text-sm font-medium text-blue-900 dark:text-blue-200'>
         {title}
       </Text>
       {links.map((link, index) => (
@@ -157,7 +161,7 @@ export const RelatedLinks: React.FC<RelatedLinksProps> = ({
             {link.text}
           </InternalLink>
           {index < links.length - 1 && (
-            <Text className="text-gray-400"> • </Text>
+            <Text className='text-gray-400'> • </Text>
           )}
         </React.Fragment>
       ))}
@@ -165,7 +169,10 @@ export const RelatedLinks: React.FC<RelatedLinksProps> = ({
   </View>
 );
 
-export const generateContextualLinks = (pageType: string, _userStatus?: string) => {
+export const generateContextualLinks = (
+  pageType: string,
+  _userStatus?: string
+) => {
   const baseLinks: Record<string, Array<{ text: string; url: string }>> = {
     homepage: [
       { text: 'How it works', url: '/document#getting-started' },

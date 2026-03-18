@@ -23,8 +23,8 @@ export const TokenSwap: React.FC<TokenSwapProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Token Swap"
+      accessibilityRole='button'
+      accessibilityLabel='Token Swap'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const TokenSwap: React.FC<TokenSwapProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           Token Swap Component
         </Text>
       )}

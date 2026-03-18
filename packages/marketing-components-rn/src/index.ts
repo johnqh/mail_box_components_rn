@@ -6,7 +6,10 @@
 export { CrmDashboard, type CrmDashboardProps } from './CrmDashboard';
 export { CtaBanner, type CtaBannerProps } from './CtaBanner';
 export { FeatureListItem, type FeatureListItemProps } from './FeatureListItem';
-export { FeatureSpotlight, type FeatureSpotlightProps } from './FeatureSpotlight';
+export {
+  FeatureSpotlight,
+  type FeatureSpotlightProps,
+} from './FeatureSpotlight';
 export {
   HeroBannerWithBadge,
   type HeroBannerWithBadgeProps,
@@ -23,7 +26,10 @@ export {
 } from './InternalLinkClusters';
 export { NpsSurvey, type NpsSurveyProps } from './NpsSurvey';
 export { SalesReport, type SalesReportProps } from './SalesReport';
-export { TestimonialSlider, type TestimonialSliderProps } from './TestimonialSlider';
+export {
+  TestimonialSlider,
+  type TestimonialSliderProps,
+} from './TestimonialSlider';
 export {
   UseCaseGrid,
   type UseCaseGridProps,

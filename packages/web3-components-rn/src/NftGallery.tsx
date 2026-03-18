@@ -23,8 +23,8 @@ export const NftGallery: React.FC<NftGalleryProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="NFT Gallery"
+      accessibilityRole='button'
+      accessibilityLabel='NFT Gallery'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const NftGallery: React.FC<NftGalleryProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           NFT Gallery Component
         </Text>
       )}

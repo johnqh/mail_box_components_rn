@@ -77,19 +77,19 @@ export const BuildLog: React.FC<BuildLogProps> = ({
   return (
     <Card className={cn('overflow-hidden', className)}>
       {title && (
-        <View className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-          <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
+        <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+          <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
             {title}
           </Text>
         </View>
       )}
       <ScrollView
         style={{ maxHeight }}
-        className="bg-gray-900 dark:bg-black"
+        className='bg-gray-900 dark:bg-black'
         showsVerticalScrollIndicator={true}
       >
-        <View className="p-3">
-          {entries.map((entry) => {
+        <View className='p-3'>
+          {entries.map(entry => {
             const config = levelConfig[entry.level];
             return (
               <View
@@ -101,21 +101,24 @@ export const BuildLog: React.FC<BuildLogProps> = ({
                 )}
               >
                 {showTimestamp && (
-                  <Text className="font-mono text-xs text-gray-500 dark:text-gray-500 mr-2">
+                  <Text className='font-mono text-xs text-gray-500 dark:text-gray-500 mr-2'>
                     [{formatTime(entry.timestamp)}]
                   </Text>
                 )}
                 <Text
-                  className={cn('font-mono text-xs font-bold mr-2', config.color)}
+                  className={cn(
+                    'font-mono text-xs font-bold mr-2',
+                    config.color
+                  )}
                 >
                   [{config.prefix}]
                 </Text>
                 {showSource && entry.source && (
-                  <Text className="font-mono text-xs text-gray-400 dark:text-gray-600 mr-2">
+                  <Text className='font-mono text-xs text-gray-400 dark:text-gray-600 mr-2'>
                     [{entry.source}]
                   </Text>
                 )}
-                <Text className="font-mono text-xs text-gray-200 dark:text-gray-300 flex-1">
+                <Text className='font-mono text-xs text-gray-200 dark:text-gray-300 flex-1'>
                   {entry.message}
                 </Text>
               </View>
@@ -123,8 +126,8 @@ export const BuildLog: React.FC<BuildLogProps> = ({
           })}
         </View>
       </ScrollView>
-      <View className="px-4 py-2 bg-gray-800 dark:bg-gray-950 border-t border-gray-700">
-        <Text className="text-xs text-gray-400 dark:text-gray-500">
+      <View className='px-4 py-2 bg-gray-800 dark:bg-gray-950 border-t border-gray-700'>
+        <Text className='text-xs text-gray-400 dark:text-gray-500'>
           {entries.length} log entries
         </Text>
       </View>

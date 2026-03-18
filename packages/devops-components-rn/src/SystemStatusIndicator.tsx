@@ -13,7 +13,10 @@ export interface SystemStatusIndicatorProps {
   className?: string;
 }
 
-const statusConfig: Record<SystemStatus, { color: string; darkColor: string; label: string }> = {
+const statusConfig: Record<
+  SystemStatus,
+  { color: string; darkColor: string; label: string }
+> = {
   operational: {
     color: 'bg-green-500',
     darkColor: 'dark:bg-green-400',
@@ -43,7 +46,7 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
 
   const content = (
     <Card className={cn('p-4', className)}>
-      <View className="flex-row items-center">
+      <View className='flex-row items-center'>
         <View
           className={cn(
             'w-3 h-3 rounded-full mr-3',
@@ -51,8 +54,8 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
             config.darkColor
           )}
         />
-        <View className="flex-1">
-          <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
+        <View className='flex-1'>
+          <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
             {systemName}
           </Text>
           <Text
@@ -68,12 +71,12 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
         </View>
       </View>
       {description && (
-        <Text className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <Text className='mt-2 text-sm text-gray-600 dark:text-gray-400'>
           {description}
         </Text>
       )}
       {lastChecked && (
-        <Text className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+        <Text className='mt-2 text-xs text-gray-500 dark:text-gray-500'>
           Last checked: {lastChecked.toLocaleString()}
         </Text>
       )}
@@ -82,7 +85,7 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} accessibilityRole="button">
+      <Pressable onPress={onPress} accessibilityRole='button'>
         {content}
       </Pressable>
     );

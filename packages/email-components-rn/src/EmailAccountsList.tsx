@@ -44,7 +44,7 @@ const ChainPill: React.FC<ChainPillProps> = ({ type, addressType }) => {
     return (
       <ChainBadge
         chainType={addressType === 'solana' ? 'solana' : 'evm'}
-        size="sm"
+        size='sm'
       />
     );
   }
@@ -98,12 +98,12 @@ const CollapsibleDomainEmails: React.FC<CollapsibleDomainEmailsProps> = ({
   if (!isExpanded) return null;
 
   return (
-    <View className="ml-6 mt-2 gap-1">
-      {domainEmails.map((email) => (
+    <View className='ml-6 mt-2 gap-1'>
+      {domainEmails.map(email => (
         <Pressable
           key={email.address}
           onPress={() => onAccountSelect(email.address)}
-          accessibilityRole="button"
+          accessibilityRole='button'
           className={cn(
             'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
             selectedAccount === email.address
@@ -139,17 +139,17 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
   expandedWallets,
   onAccountSelect,
   onToggleWallet,
-  onAccountSettings,
+  onAccountSettings: _onAccountSettings,
   className,
   ...props
 }) => {
   return (
     <View className={cn('gap-1', className)} {...props}>
-      {walletGroups.map((group) => (
+      {walletGroups.map(group => (
         <View key={group.walletAddress}>
           <Pressable
             onPress={() => onAccountSelect(group.primaryEmail.address)}
-            accessibilityRole="button"
+            accessibilityRole='button'
             className={cn(
               'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
               selectedAccount === group.primaryEmail.address &&
@@ -158,7 +158,7 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
                 : 'active:bg-gray-100 dark:active:bg-gray-700'
             )}
           >
-            <View className="flex-row items-center flex-1 min-w-0 gap-2">
+            <View className='flex-row items-center flex-1 min-w-0 gap-2'>
               <Text
                 className={cn(
                   'flex-1 text-sm',
@@ -178,14 +178,13 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
             {group.domainEmails.length > 0 && (
               <Pressable
                 onPress={() => onToggleWallet(group.walletAddress)}
-                accessibilityRole="button"
-                className="p-1 rounded-lg active:bg-gray-200 dark:active:bg-gray-600"
+                accessibilityRole='button'
+                className='p-1 rounded-lg active:bg-gray-200 dark:active:bg-gray-600'
               >
                 <Text
                   className={cn(
                     'text-gray-500',
-                    expandedWallets.includes(group.walletAddress) &&
-                      'rotate-90'
+                    expandedWallets.includes(group.walletAddress) && 'rotate-90'
                   )}
                 >
                   ›

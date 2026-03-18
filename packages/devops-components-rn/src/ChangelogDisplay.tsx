@@ -19,9 +19,13 @@ export const ChangelogDisplay: React.FC<ChangelogDisplayProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Changelog Display"
+    accessibilityLabel='Changelog Display'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">ChangelogDisplay Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        ChangelogDisplay Component
+      </Text>
+    )}
   </View>
 );

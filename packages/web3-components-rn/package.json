@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/web3-components-rn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Web3 components for Sudobility",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -21,7 +21,8 @@
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite build --watch",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "jest --passWithNoTests"
   },
   "peerDependencies": {
     "@sudobility/components-rn": "^1.0.0",

@@ -18,9 +18,9 @@ export const AuthAction: React.FC<AuthActionProps> = ({
   size = 'md',
   loginButtonContent,
   avatarSize = 32,
-  menuItems = [],
+  menuItems: _menuItems = [],
   showUserInfo = true,
-  renderUserInfo,
+  renderUserInfo: _renderUserInfo,
   renderAvatar,
   onLoginPress,
   onLogoutPress,
@@ -58,7 +58,7 @@ export const AuthAction: React.FC<AuthActionProps> = ({
     return (
       <Button
         variant={loginButtonVariant}
-        size={size}
+        size={size === 'md' ? 'default' : size}
         onPress={handleLoginPress}
         disabled={loading}
         className={className}
@@ -74,12 +74,12 @@ export const AuthAction: React.FC<AuthActionProps> = ({
   return (
     <View className={cn('flex-row items-center gap-3', className)}>
       {showUserInfo && (
-        <View className="items-end">
-          <Text className="text-sm font-medium text-gray-900 dark:text-white">
+        <View className='items-end'>
+          <Text className='text-sm font-medium text-gray-900 dark:text-white'>
             {user.displayName || user.email}
           </Text>
           {user.displayName && user.email && (
-            <Text className="text-xs text-gray-500 dark:text-gray-400">
+            <Text className='text-xs text-gray-500 dark:text-gray-400'>
               {user.email}
             </Text>
           )}
@@ -94,11 +94,11 @@ export const AuthAction: React.FC<AuthActionProps> = ({
 
       <Pressable
         onPress={handleLogoutPress}
-        className="px-3 py-1.5 rounded-md bg-gray-100 dark:bg-gray-800 active:opacity-80"
-        accessibilityRole="button"
+        className='px-3 py-1.5 rounded-md bg-gray-100 dark:bg-gray-800 active:opacity-80'
+        accessibilityRole='button'
         accessibilityLabel={texts.logout}
       >
-        <Text className="text-sm text-gray-700 dark:text-gray-300">
+        <Text className='text-sm text-gray-700 dark:text-gray-300'>
           {texts.logout}
         </Text>
       </Pressable>

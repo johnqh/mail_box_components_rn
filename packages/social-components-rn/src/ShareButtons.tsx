@@ -65,7 +65,9 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
       switch (platform) {
         case 'native':
           await Share.share({
-            message: description ? `${title}\n\n${description}\n\n${url}` : `${title}\n\n${url}`,
+            message: description
+              ? `${title}\n\n${description}\n\n${url}`
+              : `${title}\n\n${url}`,
             url: url,
             title: title,
           });
@@ -109,7 +111,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
           setTimeout(() => setCopied(false), 2000);
           break;
       }
-    } catch (error) {
+    } catch {
       Alert.alert('Error', 'Failed to share');
     }
   };
@@ -122,7 +124,10 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
 
   const config = sizeConfig[size];
 
-  const platformConfig: Record<SharePlatform, { name: string; color: string; icon: string }> = {
+  const platformConfig: Record<
+    SharePlatform,
+    { name: string; color: string; icon: string }
+  > = {
     native: {
       name: 'Share',
       color: 'bg-blue-600',
@@ -178,12 +183,12 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
                 width: config.icon,
                 height: config.icon,
               }}
-              accessibilityRole="button"
+              accessibilityRole='button'
               accessibilityLabel={`Share on ${platformCfg.name}`}
             >
               {({ pressed }) => (
                 <Text
-                  className="text-white font-bold"
+                  className='text-white font-bold'
                   style={{
                     fontSize: config.icon * 0.5,
                     opacity: pressed ? 0.7 : 1,
@@ -205,7 +210,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
               config.button,
               platformCfg.color
             )}
-            accessibilityRole="button"
+            accessibilityRole='button'
             accessibilityLabel={`Share on ${platformCfg.name}`}
           >
             {({ pressed }) => (

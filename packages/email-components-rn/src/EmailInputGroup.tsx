@@ -23,16 +23,16 @@ export const EmailInputField: React.FC<EmailInputFieldProps> = ({
 }) => {
   return (
     <View className={className}>
-      <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        {label} {required && <Text className="text-red-500">*</Text>}
+      <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'>
+        {label} {required && <Text className='text-red-500'>*</Text>}
       </Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#9CA3AF"
-        keyboardType="email-address"
-        autoCapitalize="none"
+        placeholderTextColor='#9CA3AF'
+        keyboardType='email-address'
+        autoCapitalize='none'
         autoCorrect={false}
         accessibilityLabel={label}
         className={cn(
@@ -45,7 +45,7 @@ export const EmailInputField: React.FC<EmailInputFieldProps> = ({
         )}
       />
       {error && (
-        <Text className="mt-1 text-sm text-red-600 dark:text-red-400">
+        <Text className='mt-1 text-sm text-red-600 dark:text-red-400'>
           {error}
         </Text>
       )}
@@ -73,10 +73,10 @@ export const CollapsibleEmailField: React.FC<CollapsibleEmailFieldProps> = ({
     <View>
       <Pressable
         onPress={onToggle}
-        accessibilityRole="button"
-        className="flex-row items-center mb-2"
+        accessibilityRole='button'
+        className='flex-row items-center mb-2'
       >
-        <Text className="text-sm text-blue-600 dark:text-blue-400">
+        <Text className='text-sm text-blue-600 dark:text-blue-400'>
           {isVisible ? '▲' : '▼'} {toggleLabel}
         </Text>
       </Pressable>

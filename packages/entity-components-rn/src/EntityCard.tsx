@@ -8,11 +8,13 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
  */
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
-    owner: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+    owner:
+      'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
     admin: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
     member: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
     viewer: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
-    guest: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+    guest:
+      'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -21,7 +23,7 @@ const getRoleBadgeClasses = (role: EntityRole): string => {
  * Get role label
  */
 const getRoleLabel = (role: EntityRole): string => {
-  const config = DEFAULT_ROLE_CONFIGS.find((c) => c.role === role);
+  const config = DEFAULT_ROLE_CONFIGS.find(c => c.role === role);
   return config?.label || role;
 };
 
@@ -63,21 +65,21 @@ export const EntityCard: React.FC<EntityCardProps> = ({
       `}
       style={style}
       testID={testID}
-      accessibilityRole="button"
+      accessibilityRole='button'
       accessibilityLabel={`Entity: ${entity.name}`}
       accessibilityState={{ selected }}
     >
       {/* Avatar */}
-      <View className="mr-3">
+      <View className='mr-3'>
         {entity.avatarUrl ? (
           <Image
             source={{ uri: entity.avatarUrl }}
-            className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600"
+            className='w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600'
             accessibilityIgnoresInvertColors
           />
         ) : (
-          <View className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600 items-center justify-center">
-            <Text className="text-lg font-semibold text-gray-600 dark:text-gray-300">
+          <View className='w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600 items-center justify-center'>
+            <Text className='text-lg font-semibold text-gray-600 dark:text-gray-300'>
               {entity.name.charAt(0).toUpperCase()}
             </Text>
           </View>
@@ -85,18 +87,20 @@ export const EntityCard: React.FC<EntityCardProps> = ({
       </View>
 
       {/* Content */}
-      <View className="flex-1">
-        <View className="flex-row items-center flex-wrap">
+      <View className='flex-1'>
+        <View className='flex-row items-center flex-wrap'>
           <Text
-            className="text-base font-semibold text-gray-900 dark:text-white mr-2"
+            className='text-base font-semibold text-gray-900 dark:text-white mr-2'
             numberOfLines={1}
           >
             {entity.name}
           </Text>
-          
+
           {showRole && entity.role && (
-            <View className={`px-2 py-0.5 rounded-full ${getRoleBadgeClasses(entity.role)}`}>
-              <Text className="text-xs font-medium">
+            <View
+              className={`px-2 py-0.5 rounded-full ${getRoleBadgeClasses(entity.role)}`}
+            >
+              <Text className='text-xs font-medium'>
                 {getRoleLabel(entity.role)}
               </Text>
             </View>
@@ -105,7 +109,7 @@ export const EntityCard: React.FC<EntityCardProps> = ({
 
         {showDescription && entity.description && (
           <Text
-            className="text-sm text-gray-600 dark:text-gray-400 mt-1"
+            className='text-sm text-gray-600 dark:text-gray-400 mt-1'
             numberOfLines={2}
           >
             {entity.description}
@@ -113,16 +117,17 @@ export const EntityCard: React.FC<EntityCardProps> = ({
         )}
 
         {showMemberCount && entity.memberCount !== undefined && (
-          <Text className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-            {entity.memberCount} {entity.memberCount === 1 ? 'member' : 'members'}
+          <Text className='text-xs text-gray-500 dark:text-gray-500 mt-1'>
+            {entity.memberCount}{' '}
+            {entity.memberCount === 1 ? 'member' : 'members'}
           </Text>
         )}
       </View>
 
       {/* Chevron indicator */}
       {onPress && (
-        <View className="ml-2">
-          <Text className="text-gray-400 dark:text-gray-500 text-lg">›</Text>
+        <View className='ml-2'>
+          <Text className='text-gray-400 dark:text-gray-500 text-lg'>›</Text>
         </View>
       )}
     </Pressable>

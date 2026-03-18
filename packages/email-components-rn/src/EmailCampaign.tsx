@@ -26,11 +26,11 @@ export const EmailCampaign: React.FC<EmailCampaignProps> = ({
         disabled && 'opacity-50',
         className
       )}
-      accessibilityLabel="Email Campaign"
+      accessibilityLabel='Email Campaign'
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           EmailCampaign Component
         </Text>
       )}

@@ -25,7 +25,10 @@ export interface AlertDialogProps extends ViewProps {
   loading?: boolean;
 }
 
-const variantClasses: Record<AlertVariant, { iconBg: string; icon: string; button: string }> = {
+const variantClasses: Record<
+  AlertVariant,
+  { iconBg: string; icon: string; button: string }
+> = {
   default: {
     iconBg: 'bg-blue-100 dark:bg-blue-900/30',
     icon: 'text-blue-600 dark:text-blue-400',
@@ -86,10 +89,10 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
     <Modal
       visible={isOpen}
       transparent
-      animationType="fade"
+      animationType='fade'
       onRequestClose={onClose}
     >
-      <View className="flex-1 justify-center items-center bg-black/50 p-4">
+      <View className='flex-1 justify-center items-center bg-black/50 p-4'>
         <View
           className={cn(
             'w-full max-w-md bg-white dark:bg-gray-900 rounded-lg shadow-xl',
@@ -98,8 +101,8 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
           {...props}
         >
           {/* Content */}
-          <View className="p-6">
-            <View className="flex-row items-start gap-4">
+          <View className='p-6'>
+            <View className='flex-row items-start gap-4'>
               <View
                 className={cn(
                   'w-12 h-12 rounded-full items-center justify-center',
@@ -111,14 +114,14 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
                 </Text>
               </View>
 
-              <View className="flex-1">
-                <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <View className='flex-1'>
+                <Text className='text-lg font-semibold text-gray-900 dark:text-white mb-2'>
                   {typeof title === 'string' ? title : null}
                 </Text>
                 {typeof title !== 'string' && title}
 
                 {description && (
-                  <Text className="text-sm text-gray-600 dark:text-gray-400">
+                  <Text className='text-sm text-gray-600 dark:text-gray-400'>
                     {typeof description === 'string' ? description : null}
                   </Text>
                 )}
@@ -128,12 +131,12 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
           </View>
 
           {/* Actions */}
-          <View className="flex-row gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg">
+          <View className='flex-row gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg'>
             {showCancel && (
               <Pressable
                 onPress={onClose}
                 disabled={loading}
-                accessibilityRole="button"
+                accessibilityRole='button'
                 className={cn(
                   'flex-1 px-4 py-2 rounded-md border',
                   'bg-white dark:bg-gray-700',
@@ -141,7 +144,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
                   loading && 'opacity-50'
                 )}
               >
-                <Text className="text-sm font-medium text-center text-gray-700 dark:text-gray-300">
+                <Text className='text-sm font-medium text-center text-gray-700 dark:text-gray-300'>
                   {cancelLabel}
                 </Text>
               </Pressable>
@@ -150,7 +153,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
             <Pressable
               onPress={handleConfirm}
               disabled={confirmDisabled || loading}
-              accessibilityRole="button"
+              accessibilityRole='button'
               className={cn(
                 'flex-1 px-4 py-2 rounded-md',
                 styles.button,
@@ -158,12 +161,14 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
               )}
             >
               {loading ? (
-                <View className="flex-row items-center justify-center gap-2">
-                  <ActivityIndicator size="small" color="white" />
-                  <Text className="text-sm font-medium text-white">Loading...</Text>
+                <View className='flex-row items-center justify-center gap-2'>
+                  <ActivityIndicator size='small' color='white' />
+                  <Text className='text-sm font-medium text-white'>
+                    Loading...
+                  </Text>
                 </View>
               ) : (
-                <Text className="text-sm font-medium text-center text-white">
+                <Text className='text-sm font-medium text-center text-white'>
                   {confirmLabel}
                 </Text>
               )}

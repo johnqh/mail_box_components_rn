@@ -2,15 +2,19 @@
  * AuthProvider - Context provider for authentication state in React Native
  */
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, type ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import type {
   AuthUser,
-  AuthTexts,
   AuthErrorTexts,
-  AuthProvidersConfig,
   AuthContextValue,
   AuthProviderProps,
-  AuthCallbacks,
 } from './types';
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -27,10 +31,12 @@ export function createDefaultErrorTexts(): AuthErrorTexts {
     'auth/email-already-in-use': 'An account already exists with this email.',
     'auth/weak-password': 'Password should be at least 6 characters.',
     'auth/too-many-requests': 'Too many attempts. Please try again later.',
-    'auth/network-request-failed': 'Network error. Please check your connection.',
+    'auth/network-request-failed':
+      'Network error. Please check your connection.',
     'auth/popup-closed-by-user': 'Sign-in was cancelled.',
     'auth/popup-blocked': 'Sign-in popup was blocked.',
-    'auth/account-exists-with-different-credential': 'An account already exists with a different sign-in method.',
+    'auth/account-exists-with-different-credential':
+      'An account already exists with a different sign-in method.',
     'auth/operation-not-allowed': 'This sign-in method is not enabled.',
     default: 'An error occurred. Please try again.',
   };
@@ -144,13 +150,13 @@ export function AuthProvider({
 
   // Sign in with email/password
   const signInWithEmail = useCallback(
-    async (email: string, password: string) => {
+    async (_email: string, _password: string) => {
       setLoading(true);
       setError(null);
       try {
         // Placeholder - implement with @react-native-firebase/auth
         // import auth from '@react-native-firebase/auth';
-        // await auth().signInWithEmailAndPassword(email, password);
+        // await auth().signInWithEmailAndPassword(_email, _password);
         throw new Error('Email sign-in not implemented');
       } catch (err) {
         handleError(err as Error & { code?: string });
@@ -163,7 +169,7 @@ export function AuthProvider({
 
   // Sign up with email/password
   const signUpWithEmail = useCallback(
-    async (email: string, password: string, displayName?: string) => {
+    async (_email: string, _password: string, _displayName?: string) => {
       setLoading(true);
       setError(null);
       try {
@@ -180,7 +186,7 @@ export function AuthProvider({
 
   // Reset password
   const resetPassword = useCallback(
-    async (email: string) => {
+    async (_email: string) => {
       setLoading(true);
       setError(null);
       try {

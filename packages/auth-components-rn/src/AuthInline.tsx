@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { cn, Card } from '@sudobility/components-rn';
+import { Card } from '@sudobility/components-rn';
 import type { AuthInlineProps, AuthMode } from './types';
 import { useAuthStatus } from './AuthProvider';
 import { ProviderButtons } from './ProviderButtons';
@@ -98,9 +98,9 @@ export const AuthInline: React.FC<AuthInlineProps> = ({
   };
 
   const content = (
-    <View className="gap-4">
+    <View className='gap-4'>
       {showTitle && (
-        <Text className="text-xl font-semibold text-gray-900 dark:text-white text-center">
+        <Text className='text-xl font-semibold text-gray-900 dark:text-white text-center'>
           {getTitle()}
         </Text>
       )}
@@ -115,7 +115,7 @@ export const AuthInline: React.FC<AuthInlineProps> = ({
   return (
     <Card
       variant={variant === 'bordered' ? 'bordered' : 'default'}
-      padding="lg"
+      padding='lg'
       className={className}
     >
       {content}

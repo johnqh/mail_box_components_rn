@@ -54,7 +54,7 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
     <Pressable
       onPress={wallet.onPress}
       disabled={isDisabled}
-      accessibilityRole="button"
+      accessibilityRole='button'
       accessibilityLabel={`Connect ${wallet.name} wallet for ${wallet.chainType === 'solana' ? 'Solana' : 'Ethereum'} network`}
       accessibilityState={{ disabled: isDisabled }}
       className={cn(
@@ -67,10 +67,10 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
       )}
       {...props}
     >
-      <View className="flex-row items-center gap-3">
-        <WalletIcon provider={getProviderFromName(wallet.name)} size="md" />
+      <View className='flex-row items-center gap-3'>
+        <WalletIcon provider={getProviderFromName(wallet.name)} size='md' />
         <View>
-          <Text className="font-medium text-gray-900 dark:text-white">
+          <Text className='font-medium text-gray-900 dark:text-white'>
             {wallet.name}
           </Text>
           <Text
@@ -90,7 +90,7 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
 
       {wallet.connecting && (
         <ActivityIndicator
-          size="small"
+          size='small'
           color={wallet.chainType === 'solana' ? '#9333ea' : '#2563eb'}
         />
       )}
@@ -116,7 +116,7 @@ export const WalletTab: React.FC<WalletTabProps> = ({
   return (
     <Pressable
       onPress={onPress}
-      accessibilityRole="tab"
+      accessibilityRole='tab'
       accessibilityState={{ selected: active }}
       className={cn(
         'flex-1 py-2 px-4 rounded-md',
@@ -127,7 +127,7 @@ export const WalletTab: React.FC<WalletTabProps> = ({
           : 'bg-transparent'
       )}
     >
-      <View className="flex-row items-center justify-center gap-2">
+      <View className='flex-row items-center justify-center gap-2'>
         <Text
           className={cn(
             'text-base',
@@ -208,26 +208,26 @@ export const WalletSelectionGrid: React.FC<WalletSelectionGridProps> = ({
   return (
     <View className={cn('gap-6', className)} {...props}>
       {/* Tab Navigation */}
-      <View className="flex-row gap-1 p-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
+      <View className='flex-row gap-1 p-1 bg-gray-100 dark:bg-gray-700 rounded-lg'>
         <WalletTab
           active={activeTab === 'ethereum'}
           onPress={() => onTabChange('ethereum')}
-          icon="⟠"
+          icon='⟠'
           label={finalLabels.ethereum}
-          color="blue"
+          color='blue'
         />
         <WalletTab
           active={activeTab === 'solana'}
           onPress={() => onTabChange('solana')}
-          icon="◎"
+          icon='◎'
           label={finalLabels.solana}
-          color="purple"
+          color='purple'
         />
       </View>
 
       {/* Wallet List */}
-      <View className="gap-3">
-        {currentWallets.map((wallet) => (
+      <View className='gap-3'>
+        {currentWallets.map(wallet => (
           <WalletSelectionButton
             key={wallet.id}
             wallet={{
@@ -244,11 +244,11 @@ export const WalletSelectionGrid: React.FC<WalletSelectionGridProps> = ({
       </View>
 
       {/* Help Text */}
-      <View className="items-center pt-2">
-        <Text className="text-sm text-gray-600 dark:text-gray-400">
+      <View className='items-center pt-2'>
+        <Text className='text-sm text-gray-600 dark:text-gray-400'>
           {finalLabels.noWalletText}{' '}
         </Text>
-        <Pressable onPress={handleInstallPress} accessibilityRole="link">
+        <Pressable onPress={handleInstallPress} accessibilityRole='link'>
           <Text
             className={cn(
               'text-sm font-medium',

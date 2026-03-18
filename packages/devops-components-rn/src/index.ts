@@ -24,11 +24,7 @@ export {
 } from './BuildLog';
 
 // MetricsGrid
-export {
-  MetricsGrid,
-  type MetricsGridProps,
-  type Metric,
-} from './MetricsGrid';
+export { MetricsGrid, type MetricsGridProps, type Metric } from './MetricsGrid';
 
 // AuditLog
 export {

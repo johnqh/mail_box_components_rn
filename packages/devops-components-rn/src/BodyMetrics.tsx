@@ -19,9 +19,13 @@ export const BodyMetrics: React.FC<BodyMetricsProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Body Metrics"
+    accessibilityLabel='Body Metrics'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">BodyMetrics Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        BodyMetrics Component
+      </Text>
+    )}
   </View>
 );

@@ -18,8 +18,8 @@ export const TestRunner: React.FC<TestRunnerProps> = ({
   <Pressable
     onPress={disabled ? undefined : onPress}
     disabled={disabled}
-    accessibilityRole="button"
-    accessibilityLabel="Test Runner"
+    accessibilityRole='button'
+    accessibilityLabel='Test Runner'
     className={cn(
       'p-4 rounded-lg border bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700',
       disabled && 'opacity-50',
@@ -27,6 +27,10 @@ export const TestRunner: React.FC<TestRunnerProps> = ({
     )}
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">TestRunner Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        TestRunner Component
+      </Text>
+    )}
   </Pressable>
 );

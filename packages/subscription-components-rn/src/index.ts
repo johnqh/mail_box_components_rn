@@ -1,43 +1,53 @@
-// Types
-export type {
-  SubscriptionProduct,
-  SubscriptionStatus,
-  BadgeConfig,
-  DiscountBadgeConfig,
-  PremiumCalloutConfig,
-  CtaButtonConfig,
-  FreeTileConfig,
-  SubscriptionContextValue,
-} from './types';
-
-// Provider and Hooks
-export {
-  SubscriptionProvider,
-  useSubscription,
-  useIsSubscribed,
-  useProductsByPeriod,
-  SubscriptionContext,
-} from './SubscriptionProvider';
-export type { SubscriptionProviderProps } from './SubscriptionProvider';
+/**
+ * @sudobility/subscription-components-rn
+ *
+ * Subscription UI components for React Native with RevenueCat integration.
+ * All components support full localization - text labels are passed by the consumer.
+ *
+ * Aligned with @sudobility/subscription-components (web).
+ */
 
 // Components
-export { SubscriptionTile } from './SubscriptionTile';
-export type { SubscriptionTileProps } from './SubscriptionTile';
-
+export {
+  SubscriptionTile,
+  type SubscriptionTileProps,
+} from './SubscriptionTile';
 export {
   SubscriptionLayout,
   SubscriptionDivider,
   SubscriptionFooter,
+  type SubscriptionLayoutProps,
+  type SubscriptionLayoutVariant,
+  type SubscriptionDividerProps,
+  type SubscriptionFooterProps,
 } from './SubscriptionLayout';
-export type {
-  SubscriptionLayoutProps,
-  SubscriptionDividerProps,
-  SubscriptionFooterProps,
-} from './SubscriptionLayout';
-
-export { SegmentedControl, PeriodSelector } from './SegmentedControl';
-export type {
-  SegmentedControlProps,
-  SegmentOption,
-  PeriodSelectorProps,
+export {
+  SegmentedControl,
+  PeriodSelector,
+  type SegmentedControlProps,
+  type SegmentedControlOption,
+  type PeriodSelectorProps,
 } from './SegmentedControl';
+export {
+  SubscriptionProvider,
+  useSubscriptionContext,
+  SubscriptionContext,
+  type SubscriptionProviderProps,
+} from './SubscriptionProvider';
+
+// Types
+export type {
+  SubscriptionProduct,
+  SubscriptionStatus,
+  SubscriptionContextValue,
+  SubscriptionProviderConfig,
+  BadgeConfig,
+  CtaButtonConfig,
+  DiscountBadgeConfig,
+  PremiumCalloutConfig,
+  FreeTileConfig,
+  SubscriptionStatusConfig,
+  ActionButtonConfig,
+  SubscriptionTileTrackingData,
+  SubscriptionLayoutTrackingData,
+} from './types';

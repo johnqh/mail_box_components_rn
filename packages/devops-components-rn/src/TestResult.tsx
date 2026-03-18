@@ -19,9 +19,13 @@ export const TestResult: React.FC<TestResultProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Test Result"
+    accessibilityLabel='Test Result'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">TestResult Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        TestResult Component
+      </Text>
+    )}
   </View>
 );

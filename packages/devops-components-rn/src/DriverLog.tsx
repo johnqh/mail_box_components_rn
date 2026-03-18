@@ -19,9 +19,11 @@ export const DriverLog: React.FC<DriverLogProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Driver Log"
+    accessibilityLabel='Driver Log'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">DriverLog Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>DriverLog Component</Text>
+    )}
   </View>
 );

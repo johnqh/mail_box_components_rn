@@ -23,8 +23,8 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Wallet Connect"
+      accessibilityRole='button'
+      accessibilityLabel='Wallet Connect'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           WalletConnect Component
         </Text>
       )}

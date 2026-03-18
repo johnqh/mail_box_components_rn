@@ -23,8 +23,8 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Email Template"
+      accessibilityRole='button'
+      accessibilityLabel='Email Template'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           EmailTemplate Component
         </Text>
       )}

@@ -23,8 +23,8 @@ export const FeatureSpotlight: React.FC<FeatureSpotlightProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Feature Spotlight"
+      accessibilityRole='button'
+      accessibilityLabel='Feature Spotlight'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const FeatureSpotlight: React.FC<FeatureSpotlightProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           FeatureSpotlight Component
         </Text>
       )}

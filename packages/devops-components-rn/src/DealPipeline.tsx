@@ -19,9 +19,13 @@ export const DealPipeline: React.FC<DealPipelineProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Deal Pipeline"
+    accessibilityLabel='Deal Pipeline'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">DealPipeline Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        DealPipeline Component
+      </Text>
+    )}
   </View>
 );

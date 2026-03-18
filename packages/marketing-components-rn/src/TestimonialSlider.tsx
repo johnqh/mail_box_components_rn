@@ -23,8 +23,8 @@ export const TestimonialSlider: React.FC<TestimonialSliderProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Testimonial Slider"
+      accessibilityRole='button'
+      accessibilityLabel='Testimonial Slider'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const TestimonialSlider: React.FC<TestimonialSliderProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           TestimonialSlider Component
         </Text>
       )}

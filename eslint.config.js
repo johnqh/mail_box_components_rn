@@ -109,6 +109,7 @@ export default [
   {
     ignores: [
       'dist/**',
+      '**/dist/**',
       '**/*.example.*',
       'node_modules/**',
       'vendor/**',

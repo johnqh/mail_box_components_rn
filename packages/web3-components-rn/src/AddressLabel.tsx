@@ -48,11 +48,7 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
 
   const content = (
     <Text
-      className={cn(
-        'font-mono text-sm',
-        variantStyles[variant],
-        className
-      )}
+      className={cn('font-mono text-sm', variantStyles[variant], className)}
       selectable
     >
       {displayAddress}
@@ -63,19 +59,19 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
     return (
       <Pressable
         onPress={handleCopy}
-        className="flex-row items-center gap-1"
-        accessibilityRole="button"
+        className='flex-row items-center gap-1'
+        accessibilityRole='button'
         accessibilityLabel={`Copy address ${displayAddress}`}
         {...props}
       >
         {content}
-        <Text className="text-gray-400">📋</Text>
+        <Text className='text-gray-400'>📋</Text>
       </Pressable>
     );
   }
 
   return (
-    <View className="flex-row items-center" {...props}>
+    <View className='flex-row items-center' {...props}>
       {content}
     </View>
   );

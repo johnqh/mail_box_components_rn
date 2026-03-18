@@ -23,8 +23,8 @@ export const GasTracker: React.FC<GasTrackerProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Gas Tracker"
+      accessibilityRole='button'
+      accessibilityLabel='Gas Tracker'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const GasTracker: React.FC<GasTrackerProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           Gas Tracker Component
         </Text>
       )}

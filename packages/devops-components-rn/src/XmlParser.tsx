@@ -19,9 +19,11 @@ export const XmlParser: React.FC<XmlParserProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="XML Parser"
+    accessibilityLabel='XML Parser'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">XmlParser Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>XmlParser Component</Text>
+    )}
   </View>
 );

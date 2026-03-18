@@ -1,150 +1,214 @@
 /**
- * Represents a subscription product from RevenueCat or other provider
+ * Type definitions for subscription components
+ * Aligned with @sudobility/subscription-components (web)
+ */
+
+/**
+ * Product information from RevenueCat or custom backend
  */
 export interface SubscriptionProduct {
-  /** Unique identifier for the product */
-  id: string;
-  /** Display name of the subscription tier */
-  title: string;
-  /** Description of the subscription */
-  description?: string;
-  /** Formatted price string (e.g., "$9.99/mo") */
+  /** Unique identifier for the product/package */
+  identifier: string;
+  /** Underlying product ID (e.g., from app store) */
+  productId?: string;
+  /** Numeric price value */
+  price: string;
+  /** Formatted price string (e.g., "$9.99") */
   priceString: string;
-  /** Raw price in cents/smallest currency unit */
-  priceInCents: number;
-  /** Currency code (e.g., "USD") */
-  currencyCode: string;
-  /** Billing period: monthly, yearly, weekly, etc. */
-  period: 'weekly' | 'monthly' | 'quarterly' | 'yearly' | 'lifetime';
-  /** List of features included in this tier */
-  features: string[];
-  /** Whether this is the recommended/highlighted option */
-  isRecommended?: boolean;
-  /** Whether this is the current user's active subscription */
-  isCurrent?: boolean;
-  /** Original price if discounted */
-  originalPriceString?: string;
-  /** Savings percentage for annual vs monthly */
-  savingsPercentage?: number;
-  /** RevenueCat package identifier */
-  rcPackageId?: string;
-  /** Trial period info */
-  trialPeriod?: {
-    days: number;
-    priceString: string;
-  };
+  /** Product title */
+  title: string;
+  /** Product description */
+  description?: string;
+  /** ISO 8601 duration (e.g., "P1M", "P1Y") */
+  period?: string;
+  /** Formatted introductory price */
+  introPrice?: string;
+  /** Raw intro price amount */
+  introPriceAmount?: string;
+  /** Intro price period (ISO 8601) */
+  introPricePeriod?: string;
+  /** Number of billing cycles for intro price */
+  introPriceCycles?: number;
+  /** Free trial period (ISO 8601, e.g., "P7D") */
+  freeTrialPeriod?: string;
+  /** Entitlement identifier this product grants (from offering metadata) */
+  entitlement?: string;
 }
 
 /**
- * Current subscription status
+ * Active subscription status
  */
 export interface SubscriptionStatus {
-  /** Whether user has an active subscription */
-  isSubscribed: boolean;
-  /** Whether user is in a trial period */
-  isInTrial: boolean;
-  /** Current subscription tier ID */
-  currentTierId?: string;
-  /** Expiration date of current subscription */
+  /** Whether the user has an active subscription */
+  isActive: boolean;
+  /** Expiration date of the subscription */
   expirationDate?: Date;
+  /** Date when subscription was purchased */
+  purchaseDate?: Date;
+  /** Product identifier of the current subscription */
+  productIdentifier?: string;
   /** Whether subscription will auto-renew */
-  willRenew: boolean;
-  /** Platform where subscription was purchased */
-  platform?: 'ios' | 'android' | 'web';
-  /** Management URL for subscription */
+  willRenew?: boolean;
+  /** Whether this is a sandbox/test subscription */
+  isSandbox?: boolean;
+  /** Date when unsubscription was detected */
+  unsubscribeDetectedAt?: Date;
+  /** Date when billing issue was detected */
+  billingIssueDetectedAt?: Date;
+  /** Active entitlement identifiers */
+  activeEntitlements?: string[];
+  /** Management URL for subscription (platform store management) */
   managementUrl?: string;
 }
 
 /**
- * Configuration for badge display on subscription tiles
+ * Badge display configuration
  */
 export interface BadgeConfig {
   /** Badge text */
   text: string;
-  /** Badge variant/color scheme */
-  variant: 'default' | 'primary' | 'success' | 'warning' | 'premium';
-  /** Icon name (optional) */
-  icon?: string;
+  /** Badge color variant */
+  color: 'purple' | 'green' | 'blue' | 'yellow' | 'red';
 }
 
 /**
- * Configuration for discount badges
+ * Discount badge configuration
  */
 export interface DiscountBadgeConfig {
-  /** Percentage off (e.g., 20 for 20% off) */
-  percentage: number;
-  /** Custom text override */
-  customText?: string;
-  /** Badge position */
-  position?: 'top-left' | 'top-right' | 'inline';
+  /** Discount text (e.g., "Save 40%") */
+  text: string;
+  /** Whether this is the best value option */
+  isBestValue?: boolean;
 }
 
 /**
- * Configuration for premium callout sections
+ * Premium callout section configuration
  */
 export interface PremiumCalloutConfig {
   /** Callout title */
   title: string;
-  /** Callout description */
-  description: string;
-  /** Icon name */
-  icon?: string;
-  /** Background gradient colors */
-  gradientColors?: [string, string];
+  /** List of premium features */
+  features: string[];
 }
 
 /**
- * Configuration for CTA button
+ * CTA button configuration for tile
  */
 export interface CtaButtonConfig {
-  /** Button text */
-  text: string;
-  /** Loading state text */
-  loadingText?: string;
-  /** Variant */
-  variant?: 'default' | 'primary' | 'premium';
+  /** Button label */
+  label: string;
+  /** Press handler */
+  onPress?: () => void;
+}
+
+/** Tracking data for SubscriptionTile actions */
+export interface SubscriptionTileTrackingData {
+  action: 'select' | 'cta_click';
+  trackingLabel?: string;
+  componentName?: string;
+}
+
+/** Tracking data for SubscriptionLayout actions */
+export interface SubscriptionLayoutTrackingData {
+  action: 'primary_action' | 'secondary_action';
+  trackingLabel?: string;
+  componentName?: string;
 }
 
 /**
- * Configuration for free tier tile
+ * Free tile configuration for CTA variant layout
  */
 export interface FreeTileConfig {
-  /** Title text */
+  /** Tile title (e.g., "Free") */
   title: string;
-  /** Description */
-  description?: string;
-  /** Features list */
+  /** Price display (e.g., "$0") */
+  price: string;
+  /** Period label (e.g., "/month") */
+  periodLabel?: string;
+  /** List of features included in free tier */
   features: string[];
-  /** CTA text */
-  ctaText?: string;
+  /** CTA button configuration */
+  ctaButton: CtaButtonConfig;
+  /** Optional top badge */
+  topBadge?: BadgeConfig;
+}
+
+/**
+ * Current subscription status display configuration
+ */
+export interface SubscriptionStatusConfig {
+  /** Whether user has an active subscription */
+  isActive: boolean;
+  /** Content to display when subscription is active */
+  activeContent?: {
+    /** Status title (e.g., "Active Subscription") */
+    title: string;
+    /** Status fields to display */
+    fields?: Array<{
+      label: string;
+      value: string;
+    }>;
+  };
+  /** Content to display when no active subscription */
+  inactiveContent?: {
+    /** Status title (e.g., "No Active Subscription") */
+    title: string;
+    /** Description message */
+    message: string;
+  };
+}
+
+/**
+ * Action button configuration
+ */
+export interface ActionButtonConfig {
+  /** Button label */
+  label: string;
+  /** Press handler */
+  onPress: () => void;
+  /** Whether button is disabled */
+  disabled?: boolean;
+  /** Whether button is in loading state */
+  loading?: boolean;
 }
 
 /**
  * Subscription context value
  */
 export interface SubscriptionContextValue {
-  /** Available subscription products */
+  /** Available products */
   products: SubscriptionProduct[];
   /** Current subscription status */
-  status: SubscriptionStatus;
-  /** Currently selected product ID */
-  selectedProductId: string | null;
-  /** Selected billing period */
-  selectedPeriod: 'monthly' | 'yearly';
-  /** Whether products are loading */
+  currentSubscription: SubscriptionStatus | null;
+  /** Whether data is loading */
   isLoading: boolean;
-  /** Whether a purchase is in progress */
-  isPurchasing: boolean;
   /** Error message if any */
   error: string | null;
-  /** Select a product */
-  selectProduct: (productId: string) => void;
-  /** Change billing period */
-  setPeriod: (period: 'monthly' | 'yearly') => void;
-  /** Initiate purchase for selected product */
-  purchase: () => Promise<boolean>;
-  /** Restore previous purchases */
-  restore: () => Promise<boolean>;
-  /** Refresh products and status */
+  /** Initialize the subscription service. If userId is undefined, clears the current user. */
+  initialize: (userId?: string, email?: string) => Promise<void>;
+  /** Purchase a subscription. subscriptionUserId identifies which user/entity the subscription is for. */
+  purchase: (
+    productIdentifier: string,
+    subscriptionUserId?: string
+  ) => Promise<boolean>;
+  /** Restore previous purchases. subscriptionUserId identifies which user/entity to restore for. */
+  restore: (subscriptionUserId?: string) => Promise<boolean>;
+  /** Refresh subscription status */
   refresh: () => Promise<void>;
+  /** Clear error state */
+  clearError: () => void;
+}
+
+/**
+ * Provider configuration
+ */
+export interface SubscriptionProviderConfig {
+  /** RevenueCat API key */
+  apiKey: string;
+  /** Optional user email for RevenueCat */
+  userEmail?: string;
+  /** Error callback */
+  onError?: (error: Error) => void;
+  /** Success callback after purchase */
+  onPurchaseSuccess?: (productId: string) => void;
 }

@@ -42,7 +42,7 @@ const ProviderButton: React.FC<ProviderButtonProps> = ({
         bgColors[provider],
         className
       )}
-      accessibilityRole="button"
+      accessibilityRole='button'
       accessibilityLabel={label}
     >
       <Text className={cn('font-medium text-base', textColors[provider])}>
@@ -92,8 +92,8 @@ export const ProviderButtons: React.FC<ProviderButtonsProps> = ({
   };
 
   return (
-    <View className="gap-3">
-      {providers.map((provider) => (
+    <View className='gap-3'>
+      {providers.map(provider => (
         <ProviderButton
           key={provider}
           provider={provider}

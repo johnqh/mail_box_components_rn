@@ -1,11 +1,9 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [
-    react(),
     dts({
       insertTypesEntry: true,
     }),
@@ -15,7 +13,9 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'SudobilityDevOpsComponentsRN',
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`,
+      fileName: format => {
+        return format === 'es' ? 'index.mjs' : 'index.cjs';
+      },
     },
     rollupOptions: {
       external: [
@@ -34,6 +34,13 @@ export default defineConfig({
           '@sudobility/design': 'SudobilityDesign',
         },
       },
+    },
+    sourcemap: true,
+    minify: false,
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
     },
   },
 });

@@ -24,7 +24,13 @@ export interface DeploymentStatusProps {
 
 const stateConfig: Record<
   DeploymentState,
-  { color: string; bgColor: string; darkBgColor: string; label: string; icon: string }
+  {
+    color: string;
+    bgColor: string;
+    darkBgColor: string;
+    label: string;
+    icon: string;
+  }
 > = {
   pending: {
     color: 'text-gray-600 dark:text-gray-400',
@@ -95,9 +101,9 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
 
   const content = (
     <Card className={cn('p-4', className)}>
-      <View className="flex-row items-start justify-between">
-        <View className="flex-1">
-          <View className="flex-row items-center">
+      <View className='flex-row items-start justify-between'>
+        <View className='flex-1'>
+          <View className='flex-row items-center'>
             <View
               className={cn(
                 'px-2 py-1 rounded-md mr-2',
@@ -109,23 +115,23 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
                 {config.icon} {config.label}
               </Text>
             </View>
-            <View className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md">
-              <Text className="text-xs font-medium text-gray-700 dark:text-gray-300">
+            <View className='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md'>
+              <Text className='text-xs font-medium text-gray-700 dark:text-gray-300'>
                 {environment}
               </Text>
             </View>
           </View>
-          <Text className="mt-2 text-base font-semibold text-gray-900 dark:text-gray-100">
+          <Text className='mt-2 text-base font-semibold text-gray-900 dark:text-gray-100'>
             {version}
           </Text>
           {commitHash && (
-            <Text className="mt-1 text-sm font-mono text-gray-600 dark:text-gray-400">
+            <Text className='mt-1 text-sm font-mono text-gray-600 dark:text-gray-400'>
               {commitHash.substring(0, 7)}
             </Text>
           )}
           {commitMessage && (
             <Text
-              className="mt-1 text-sm text-gray-600 dark:text-gray-400"
+              className='mt-1 text-sm text-gray-600 dark:text-gray-400'
               numberOfLines={2}
             >
               {commitMessage}
@@ -133,12 +139,12 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
           )}
         </View>
       </View>
-      <View className="flex-row items-center justify-between mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-        <Text className="text-xs text-gray-500 dark:text-gray-500">
+      <View className='flex-row items-center justify-between mt-3 pt-3 border-t border-gray-200 dark:border-gray-700'>
+        <Text className='text-xs text-gray-500 dark:text-gray-500'>
           {timestamp.toLocaleString()}
         </Text>
         {duration !== undefined && (
-          <Text className="text-xs text-gray-500 dark:text-gray-500">
+          <Text className='text-xs text-gray-500 dark:text-gray-500'>
             Duration: {formatDuration(duration)}
           </Text>
         )}
@@ -148,7 +154,7 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} accessibilityRole="button">
+      <Pressable onPress={onPress} accessibilityRole='button'>
         {content}
       </Pressable>
     );

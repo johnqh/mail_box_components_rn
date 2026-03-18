@@ -23,8 +23,8 @@ export const CryptoPortfolio: React.FC<CryptoPortfolioProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Crypto Portfolio"
+      accessibilityRole='button'
+      accessibilityLabel='Crypto Portfolio'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const CryptoPortfolio: React.FC<CryptoPortfolioProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           Crypto Portfolio Component
         </Text>
       )}

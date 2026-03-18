@@ -1,5 +1,8 @@
-import type { ReactNode } from 'react';
-import type { ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import type { ComponentType, ReactElement, ReactNode } from 'react';
+import type { ViewStyle } from 'react-native';
+
+/** Type matching FlatList's ListHeaderComponent/ListFooterComponent */
+type ListComponentProp = ComponentType<any> | ReactElement | null;
 
 /**
  * Entity role types
@@ -78,8 +81,8 @@ export interface EntityListProps {
   loading?: boolean;
   refreshing?: boolean;
   onRefresh?: () => void;
-  ListHeaderComponent?: ReactNode;
-  ListFooterComponent?: ReactNode;
+  ListHeaderComponent?: ListComponentProp;
+  ListFooterComponent?: ListComponentProp;
   className?: string;
   style?: ViewStyle;
   testID?: string;
@@ -118,8 +121,8 @@ export interface MemberListProps {
   loading?: boolean;
   refreshing?: boolean;
   onRefresh?: () => void;
-  ListHeaderComponent?: ReactNode;
-  ListFooterComponent?: ReactNode;
+  ListHeaderComponent?: ListComponentProp;
+  ListFooterComponent?: ListComponentProp;
   className?: string;
   style?: ViewStyle;
   testID?: string;
@@ -169,8 +172,8 @@ export interface InvitationListProps {
   loading?: boolean;
   refreshing?: boolean;
   onRefresh?: () => void;
-  ListHeaderComponent?: ReactNode;
-  ListFooterComponent?: ReactNode;
+  ListHeaderComponent?: ListComponentProp;
+  ListFooterComponent?: ListComponentProp;
   className?: string;
   style?: ViewStyle;
   testID?: string;

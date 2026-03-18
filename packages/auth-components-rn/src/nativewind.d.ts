@@ -19,8 +19,12 @@ declare module 'react-native' {
   }
   interface ScrollViewProps {
     className?: string;
+    contentContainerClassName?: string;
   }
   interface TextInputProps {
+    className?: string;
+  }
+  interface SafeAreaViewProps {
     className?: string;
   }
 }

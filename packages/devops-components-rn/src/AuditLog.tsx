@@ -145,16 +145,13 @@ export const AuditLog: React.FC<AuditLogProps> = ({
   return (
     <Card className={cn('overflow-hidden', className)}>
       {title && (
-        <View className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-          <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
+        <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+          <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
             {title}
           </Text>
         </View>
       )}
-      <ScrollView
-        style={{ maxHeight }}
-        showsVerticalScrollIndicator={true}
-      >
+      <ScrollView style={{ maxHeight }} showsVerticalScrollIndicator={true}>
         {entries.map((entry, index) => {
           const config = actionConfig[entry.action];
           const isLast = index === entries.length - 1;
@@ -166,7 +163,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
                 !isLast && 'border-b border-gray-100 dark:border-gray-800'
               )}
             >
-              <View className="flex-row items-start">
+              <View className='flex-row items-start'>
                 <View
                   className={cn(
                     'w-8 h-8 rounded-full items-center justify-center mr-3',
@@ -178,19 +175,19 @@ export const AuditLog: React.FC<AuditLogProps> = ({
                     {config.icon}
                   </Text>
                 </View>
-                <View className="flex-1">
-                  <View className="flex-row items-center flex-wrap">
-                    <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                <View className='flex-1'>
+                  <View className='flex-row items-center flex-wrap'>
+                    <Text className='text-sm font-medium text-gray-900 dark:text-gray-100'>
                       {entry.actor.name}
                     </Text>
-                    <Text className="text-sm text-gray-600 dark:text-gray-400 mx-1">
+                    <Text className='text-sm text-gray-600 dark:text-gray-400 mx-1'>
                       {entry.action}d
                     </Text>
-                    <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <Text className='text-sm font-medium text-gray-900 dark:text-gray-100'>
                       {entry.resource.name}
                     </Text>
                   </View>
-                  <View className="flex-row items-center mt-1">
+                  <View className='flex-row items-center mt-1'>
                     <View
                       className={cn(
                         'px-1.5 py-0.5 rounded mr-2',
@@ -198,20 +195,25 @@ export const AuditLog: React.FC<AuditLogProps> = ({
                         config.darkBgColor
                       )}
                     >
-                      <Text className={cn('text-xs font-medium uppercase', config.color)}>
+                      <Text
+                        className={cn(
+                          'text-xs font-medium uppercase',
+                          config.color
+                        )}
+                      >
                         {entry.action}
                       </Text>
                     </View>
-                    <Text className="text-xs text-gray-500 dark:text-gray-500">
+                    <Text className='text-xs text-gray-500 dark:text-gray-500'>
                       {entry.resource.type}
                     </Text>
                   </View>
-                  <View className="flex-row items-center mt-2">
-                    <Text className="text-xs text-gray-400 dark:text-gray-600">
+                  <View className='flex-row items-center mt-2'>
+                    <Text className='text-xs text-gray-400 dark:text-gray-600'>
                       {formatTimestamp(entry.timestamp)}
                     </Text>
                     {entry.ipAddress && (
-                      <Text className="text-xs text-gray-400 dark:text-gray-600 ml-2">
+                      <Text className='text-xs text-gray-400 dark:text-gray-600 ml-2'>
                         IP: {entry.ipAddress}
                       </Text>
                     )}
@@ -226,7 +228,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
               <Pressable
                 key={entry.id}
                 onPress={() => onEntryPress(entry)}
-                accessibilityRole="button"
+                accessibilityRole='button'
               >
                 {content}
               </Pressable>
@@ -236,8 +238,8 @@ export const AuditLog: React.FC<AuditLogProps> = ({
           return <View key={entry.id}>{content}</View>;
         })}
       </ScrollView>
-      <View className="px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-        <Text className="text-xs text-gray-500 dark:text-gray-500">
+      <View className='px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700'>
+        <Text className='text-xs text-gray-500 dark:text-gray-500'>
           Showing {entries.length} audit entries
         </Text>
       </View>

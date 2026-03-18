@@ -19,9 +19,13 @@ export const WebhookLogger: React.FC<WebhookLoggerProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Webhook Logger"
+    accessibilityLabel='Webhook Logger'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">WebhookLogger Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        WebhookLogger Component
+      </Text>
+    )}
   </View>
 );

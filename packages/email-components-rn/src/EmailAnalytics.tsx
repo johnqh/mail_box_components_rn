@@ -26,11 +26,11 @@ export const EmailAnalytics: React.FC<EmailAnalyticsProps> = ({
         disabled && 'opacity-50',
         className
       )}
-      accessibilityLabel="Email Analytics"
+      accessibilityLabel='Email Analytics'
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           EmailAnalytics Component
         </Text>
       )}

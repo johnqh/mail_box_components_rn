@@ -26,11 +26,11 @@ export const AbTestEmail: React.FC<AbTestEmailProps> = ({
         disabled && 'opacity-50',
         className
       )}
-      accessibilityLabel="AB Test Email"
+      accessibilityLabel='AB Test Email'
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           AbTestEmail Component
         </Text>
       )}

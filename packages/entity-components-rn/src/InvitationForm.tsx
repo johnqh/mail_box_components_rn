@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import type { InvitationFormProps, EntityRole } from './types';
 import { MemberRoleSelector } from './MemberRoleSelector';
 
@@ -41,7 +47,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
   const handleSubmit = async () => {
     // Validate email
     const trimmedEmail = email.trim();
-    
+
     if (!trimmedEmail) {
       setError('Email address is required');
       return;
@@ -61,7 +67,9 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
       setEmail('');
       setSelectedRole(defaultRole);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send invitation');
+      setError(
+        err instanceof Error ? err.message : 'Failed to send invitation'
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -73,19 +81,19 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
   return (
     <View className={`${className}`} style={style} testID={testID}>
       {/* Email Input */}
-      <View className="mb-4">
-        <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <View className='mb-4'>
+        <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
           Email Address
         </Text>
         <TextInput
           value={email}
           onChangeText={handleEmailChange}
           placeholder={placeholder}
-          placeholderTextColor="#9CA3AF"
-          keyboardType="email-address"
-          autoCapitalize="none"
+          placeholderTextColor='#9CA3AF'
+          keyboardType='email-address'
+          autoCapitalize='none'
           autoCorrect={false}
-          autoComplete="email"
+          autoComplete='email'
           editable={!isDisabled}
           className={`
             px-4 py-3 rounded-xl
@@ -94,19 +102,19 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
             text-gray-900 dark:text-white
             ${isDisabled ? 'opacity-50' : ''}
           `}
-          accessibilityLabel="Email address input"
-          accessibilityHint="Enter the email address of the person you want to invite"
+          accessibilityLabel='Email address input'
+          accessibilityHint='Enter the email address of the person you want to invite'
         />
         {error && (
-          <Text className="text-sm text-red-500 dark:text-red-400 mt-1">
+          <Text className='text-sm text-red-500 dark:text-red-400 mt-1'>
             {error}
           </Text>
         )}
       </View>
 
       {/* Role Selector */}
-      <View className="mb-4">
-        <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <View className='mb-4'>
+        <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
           Role
         </Text>
         <MemberRoleSelector
@@ -126,24 +134,26 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           flex-row items-center justify-center px-6 py-4 rounded-xl
           ${canSubmit ? 'bg-blue-500 dark:bg-blue-600 active:bg-blue-600 dark:active:bg-blue-700' : 'bg-gray-300 dark:bg-gray-600'}
         `}
-        accessibilityRole="button"
+        accessibilityRole='button'
         accessibilityLabel={submitLabel}
         accessibilityState={{ disabled: !canSubmit }}
       >
         {isSubmitting ? (
           <>
-            <ActivityIndicator size="small" color="#FFFFFF" />
-            <Text className="text-white font-semibold ml-2">Sending...</Text>
+            <ActivityIndicator size='small' color='#FFFFFF' />
+            <Text className='text-white font-semibold ml-2'>Sending...</Text>
           </>
         ) : (
-          <Text className={`font-semibold ${canSubmit ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+          <Text
+            className={`font-semibold ${canSubmit ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`}
+          >
             {submitLabel}
           </Text>
         )}
       </Pressable>
 
       {/* Help Text */}
-      <Text className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
+      <Text className='text-xs text-gray-500 dark:text-gray-400 mt-3 text-center'>
         The invitee will receive an email with instructions to join.
       </Text>
     </View>

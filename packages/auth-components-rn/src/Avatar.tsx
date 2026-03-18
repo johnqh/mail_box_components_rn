@@ -49,22 +49,16 @@ export const Avatar: React.FC<AvatarProps & ViewProps> = ({
     <Image
       source={{ uri: user.photoURL! }}
       style={sizeStyle}
-      className="bg-gray-200 dark:bg-gray-700"
+      className='bg-gray-200 dark:bg-gray-700'
       onError={() => setImageError(true)}
       accessibilityLabel={user.displayName || 'User avatar'}
     />
   ) : (
     <View
       style={sizeStyle}
-      className={cn(
-        'items-center justify-center bg-blue-600',
-        className
-      )}
+      className={cn('items-center justify-center bg-blue-600', className)}
     >
-      <Text
-        style={{ fontSize: size * 0.4 }}
-        className="font-medium text-white"
-      >
+      <Text style={{ fontSize: size * 0.4 }} className='font-medium text-white'>
         {initials}
       </Text>
     </View>
@@ -75,7 +69,7 @@ export const Avatar: React.FC<AvatarProps & ViewProps> = ({
       <Pressable
         onPress={onPress}
         className={cn('active:opacity-80', className)}
-        accessibilityRole="button"
+        accessibilityRole='button'
         accessibilityLabel={user.displayName || 'User avatar'}
         {...props}
       >

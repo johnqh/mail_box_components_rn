@@ -1,8 +1,5 @@
-/// <reference types="nativewind/types" />
-
-declare module 'nativewind' {
-  export function styled<T>(component: T): T;
-}
+// Type declarations for NativeWind className prop
+import 'react-native';
 
 declare module 'react-native' {
   interface ViewProps {

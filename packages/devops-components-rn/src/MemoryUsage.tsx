@@ -19,9 +19,13 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Memory Usage"
+    accessibilityLabel='Memory Usage'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">MemoryUsage Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        MemoryUsage Component
+      </Text>
+    )}
   </View>
 );

@@ -57,7 +57,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
   allowHalf = false,
   className,
 }) => {
-  const [hoverRating, setHoverRating] = React.useState(0);
+  const [hoverRating, _setHoverRating] = React.useState(0);
 
   const sizeConfig = {
     sm: { star: 16, text: 'text-sm', gap: 'gap-0.5' },
@@ -89,7 +89,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
       return (
         <Text
           style={{ fontSize: starSize, lineHeight: starSize * 1.2 }}
-          className="text-yellow-400"
+          className='text-yellow-400'
         >
           ★
         </Text>
@@ -105,14 +105,14 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
               lineHeight: starSize * 1.2,
               position: 'absolute',
             }}
-            className="text-gray-300 dark:text-gray-600"
+            className='text-gray-300 dark:text-gray-600'
           >
             ★
           </Text>
           <View style={{ overflow: 'hidden', width: starSize / 2 }}>
             <Text
               style={{ fontSize: starSize, lineHeight: starSize * 1.2 }}
-              className="text-yellow-400"
+              className='text-yellow-400'
             >
               ★
             </Text>
@@ -124,7 +124,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
     return (
       <Text
         style={{ fontSize: starSize, lineHeight: starSize * 1.2 }}
-        className="text-gray-300 dark:text-gray-600"
+        className='text-gray-300 dark:text-gray-600'
       >
         ★
       </Text>
@@ -142,7 +142,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
               key={starIndex}
               onPress={() => handlePress(starIndex)}
               disabled={readonly}
-              accessibilityRole="button"
+              accessibilityRole='button'
               accessibilityLabel={`Rate ${starIndex} star${starIndex !== 1 ? 's' : ''}`}
               accessibilityState={{ disabled: readonly }}
               style={({ pressed }) => ({

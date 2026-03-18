@@ -111,22 +111,22 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
         getSizeStyle(size),
         className
       )}
-      accessibilityLabel="Free Email Banner"
+      accessibilityLabel='Free Email Banner'
       {...props}
     >
-      <View className="items-center gap-4">
+      <View className='items-center gap-4'>
         {isDismissible && onDismiss && (
           <Pressable
             onPress={onDismiss}
-            accessibilityRole="button"
+            accessibilityRole='button'
             accessibilityLabel={dismissAriaLabel}
-            className="absolute right-2 top-2 p-1 rounded-full"
+            className='absolute right-2 top-2 p-1 rounded-full'
           >
-            <Text className="text-current opacity-60">✕</Text>
+            <Text className='text-current opacity-60'>✕</Text>
           </Pressable>
         )}
 
-        <View className="flex-row items-center justify-center flex-wrap gap-2">
+        <View className='flex-row items-center justify-center flex-wrap gap-2'>
           {showBadge && (
             <View
               className={cn(
@@ -144,18 +144,17 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
               </Text>
             </View>
           )}
-          <Text className={cn('font-semibold text-center', getTextStyle(variant))}>
+          <Text
+            className={cn('font-semibold text-center', getTextStyle(variant))}
+          >
             {message}
           </Text>
         </View>
 
         <Pressable
           onPress={handleCtaPress}
-          accessibilityRole="button"
-          className={cn(
-            'px-6 py-2 rounded-lg',
-            getButtonStyle(variant)
-          )}
+          accessibilityRole='button'
+          className={cn('px-6 py-2 rounded-lg', getButtonStyle(variant))}
         >
           <Text className={cn('font-medium', getButtonTextStyle(variant))}>
             {ctaText}

@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/devops-components-rn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native DevOps and deployment UI components for Sudobility",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

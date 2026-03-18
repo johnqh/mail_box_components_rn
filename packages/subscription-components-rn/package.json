@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/subscription-components-rn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Subscription UI components for Sudobility with RevenueCat support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -22,7 +22,7 @@
     "build": "tsc && vite build",
     "dev": "vite build --watch",
     "type-check": "tsc --noEmit",
-    "test": "jest --passWithNoTests"
+    "test": "cd ../.. && jest --passWithNoTests --testPathPattern=packages/subscription-components-rn"
   },
   "peerDependencies": {
     "@sudobility/components-rn": "^1.0.0",

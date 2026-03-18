@@ -34,7 +34,13 @@ export interface PipelineViewProps {
 
 const statusConfig: Record<
   PipelineStageStatus,
-  { color: string; bgColor: string; darkBgColor: string; borderColor: string; icon: string }
+  {
+    color: string;
+    bgColor: string;
+    darkBgColor: string;
+    borderColor: string;
+    icon: string;
+  }
 > = {
   pending: {
     color: 'text-gray-600 dark:text-gray-400',
@@ -94,31 +100,31 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
   onStagePress,
   className,
 }) => {
-  const overallStatus = stages.some((s) => s.status === 'failed')
+  const overallStatus = stages.some(s => s.status === 'failed')
     ? 'failed'
-    : stages.some((s) => s.status === 'running')
-    ? 'running'
-    : stages.every((s) => s.status === 'success')
-    ? 'success'
-    : stages.every((s) => s.status === 'pending')
-    ? 'pending'
-    : 'running';
+    : stages.some(s => s.status === 'running')
+      ? 'running'
+      : stages.every(s => s.status === 'success')
+        ? 'success'
+        : stages.every(s => s.status === 'pending')
+          ? 'pending'
+          : 'running';
 
   const overallConfig = statusConfig[overallStatus];
 
   return (
     <Card className={cn('overflow-hidden', className)}>
       {(pipelineName || pipelineId) && (
-        <View className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-          <View className="flex-row items-center justify-between">
+        <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+          <View className='flex-row items-center justify-between'>
             <View>
               {pipelineName && (
-                <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
                   {pipelineName}
                 </Text>
               )}
               {pipelineId && (
-                <Text className="text-xs font-mono text-gray-500 dark:text-gray-500">
+                <Text className='text-xs font-mono text-gray-500 dark:text-gray-500'>
                   #{pipelineId}
                 </Text>
               )}
@@ -131,7 +137,8 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
               )}
             >
               <Text className={cn('text-xs font-medium', overallConfig.color)}>
-                {overallConfig.icon} {overallStatus.charAt(0).toUpperCase() + overallStatus.slice(1)}
+                {overallConfig.icon}{' '}
+                {overallStatus.charAt(0).toUpperCase() + overallStatus.slice(1)}
               </Text>
             </View>
           </View>
@@ -142,13 +149,13 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
         showsHorizontalScrollIndicator={true}
         contentContainerStyle={{ padding: 16 }}
       >
-        <View className="flex-row items-center">
+        <View className='flex-row items-center'>
           {stages.map((stage, index) => {
             const config = statusConfig[stage.status];
             const isLast = index === stages.length - 1;
 
             const stageContent = (
-              <View className="items-center">
+              <View className='items-center'>
                 <View
                   className={cn(
                     'w-24 p-3 rounded-lg border-2',
@@ -157,27 +164,28 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                     config.borderColor
                   )}
                 >
-                  <View className="items-center">
+                  <View className='items-center'>
                     <Text className={cn('text-lg', config.color)}>
                       {config.icon}
                     </Text>
                     <Text
-                      className="text-xs font-medium text-gray-900 dark:text-gray-100 mt-1 text-center"
+                      className='text-xs font-medium text-gray-900 dark:text-gray-100 mt-1 text-center'
                       numberOfLines={2}
                     >
                       {stage.name}
                     </Text>
                     {stage.duration !== undefined && (
-                      <Text className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                      <Text className='text-xs text-gray-500 dark:text-gray-500 mt-1'>
                         {formatDuration(stage.duration)}
                       </Text>
                     )}
                   </View>
                 </View>
                 {stage.jobs && stage.jobs.length > 0 && (
-                  <View className="mt-2">
-                    <Text className="text-xs text-gray-500 dark:text-gray-500">
-                      {stage.jobs.filter((j) => j.status === 'success').length}/{stage.jobs.length} jobs
+                  <View className='mt-2'>
+                    <Text className='text-xs text-gray-500 dark:text-gray-500'>
+                      {stage.jobs.filter(j => j.status === 'success').length}/
+                      {stage.jobs.length} jobs
                     </Text>
                   </View>
                 )}
@@ -185,11 +193,11 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
             );
 
             return (
-              <View key={stage.id} className="flex-row items-center">
+              <View key={stage.id} className='flex-row items-center'>
                 {onStagePress ? (
                   <Pressable
                     onPress={() => onStagePress(stage)}
-                    accessibilityRole="button"
+                    accessibilityRole='button'
                     accessibilityLabel={`${stage.name} - ${stage.status}`}
                   >
                     {stageContent}
@@ -198,9 +206,9 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                   stageContent
                 )}
                 {!isLast && (
-                  <View className="mx-2">
-                    <View className="w-8 h-0.5 bg-gray-300 dark:bg-gray-600" />
-                    <Text className="absolute -top-2 left-2 text-gray-400 dark:text-gray-600">
+                  <View className='mx-2'>
+                    <View className='w-8 h-0.5 bg-gray-300 dark:bg-gray-600' />
+                    <Text className='absolute -top-2 left-2 text-gray-400 dark:text-gray-600'>
                       →
                     </Text>
                   </View>
@@ -210,9 +218,10 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
           })}
         </View>
       </ScrollView>
-      <View className="px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-        <Text className="text-xs text-gray-500 dark:text-gray-500">
-          {stages.length} stages | {stages.filter((s) => s.status === 'success').length} completed
+      <View className='px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700'>
+        <Text className='text-xs text-gray-500 dark:text-gray-500'>
+          {stages.length} stages |{' '}
+          {stages.filter(s => s.status === 'success').length} completed
         </Text>
       </View>
     </Card>

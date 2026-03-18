@@ -99,13 +99,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   return (
     <SafeAreaView className={cn('flex-1 bg-white dark:bg-gray-900', className)}>
       <ScrollView
-        className="flex-1"
-        contentContainerClassName="flex-grow justify-center px-6 py-8"
-        keyboardShouldPersistTaps="handled"
+        className='flex-1'
+        contentContainerClassName='flex-grow justify-center px-6 py-8'
+        keyboardShouldPersistTaps='handled'
       >
-        <View className="max-w-md w-full self-center gap-8">
+        <View className='max-w-md w-full self-center gap-8'>
           {showTitle && (
-            <Text className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+            <Text className='text-2xl font-bold text-gray-900 dark:text-white text-center'>
               {getTitle()}
             </Text>
           )}

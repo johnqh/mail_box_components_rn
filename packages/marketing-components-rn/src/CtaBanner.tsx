@@ -23,8 +23,8 @@ export const CtaBanner: React.FC<CtaBannerProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="CTA Banner"
+      accessibilityRole='button'
+      accessibilityLabel='CTA Banner'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const CtaBanner: React.FC<CtaBannerProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           CtaBanner Component
         </Text>
       )}

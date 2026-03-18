@@ -19,9 +19,13 @@ export const RegressionTest: React.FC<RegressionTestProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="Regression Test"
+    accessibilityLabel='Regression Test'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">RegressionTest Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        RegressionTest Component
+      </Text>
+    )}
   </View>
 );

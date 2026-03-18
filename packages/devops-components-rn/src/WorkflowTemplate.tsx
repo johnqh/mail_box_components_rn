@@ -18,8 +18,8 @@ export const WorkflowTemplate: React.FC<WorkflowTemplateProps> = ({
   <Pressable
     onPress={disabled ? undefined : onPress}
     disabled={disabled}
-    accessibilityRole="button"
-    accessibilityLabel="Workflow Template"
+    accessibilityRole='button'
+    accessibilityLabel='Workflow Template'
     className={cn(
       'p-4 rounded-lg border bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700',
       disabled && 'opacity-50',
@@ -27,6 +27,10 @@ export const WorkflowTemplate: React.FC<WorkflowTemplateProps> = ({
     )}
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">WorkflowTemplate Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        WorkflowTemplate Component
+      </Text>
+    )}
   </Pressable>
 );

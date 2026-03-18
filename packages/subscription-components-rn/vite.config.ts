@@ -13,7 +13,9 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'SudobilitySubscriptionComponentsRN',
       formats: ['es', 'cjs'],
-      fileName: (format) => \`index.\${format === 'es' ? 'mjs' : 'js'}\`,
+      fileName: format => {
+        return format === 'es' ? 'index.mjs' : 'index.js';
+      },
     },
     rollupOptions: {
       external: [
@@ -33,6 +35,8 @@ export default defineConfig({
         },
       },
     },
+    sourcemap: true,
+    minify: false,
   },
   resolve: {
     alias: {

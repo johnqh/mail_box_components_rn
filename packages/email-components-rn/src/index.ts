@@ -24,4 +24,7 @@ export {
 export { EmailTemplate, type EmailTemplateProps } from './EmailTemplate';
 export { FreeEmailBanner, type FreeEmailBannerProps } from './FreeEmailBanner';
 export { SubscriberList, type SubscriberListProps } from './SubscriberList';
-export { SubscriptionPlan, type SubscriptionPlanProps } from './SubscriptionPlan';
+export {
+  SubscriptionPlan,
+  type SubscriptionPlanProps,
+} from './SubscriptionPlan';

@@ -26,11 +26,11 @@ export const SubscriberList: React.FC<SubscriberListProps> = ({
         disabled && 'opacity-50',
         className
       )}
-      accessibilityLabel="Subscriber List"
+      accessibilityLabel='Subscriber List'
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           SubscriberList Component
         </Text>
       )}

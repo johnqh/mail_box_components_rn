@@ -30,48 +30,43 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
 }) => {
   return (
     <View
-      className={cn(
-        'flex-1 items-center justify-center px-6 py-12',
-        className
-      )}
+      className={cn('flex-1 items-center justify-center px-6 py-12', className)}
       {...props}
     >
-      {illustration && (
-        <View className="mb-8">{illustration}</View>
-      )}
+      {illustration && <View className='mb-8'>{illustration}</View>}
 
       {subtitle && (
-        <Text className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 uppercase tracking-wide">
+        <Text className='text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 uppercase tracking-wide'>
           {subtitle}
         </Text>
       )}
 
-      <Text className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-4">
+      <Text className='text-3xl font-bold text-gray-900 dark:text-white text-center mb-4'>
         {title}
       </Text>
 
       {description && (
-        <Text className="text-base text-gray-600 dark:text-gray-400 text-center mb-8 max-w-sm">
+        <Text className='text-base text-gray-600 dark:text-gray-400 text-center mb-8 max-w-sm'>
           {description}
         </Text>
       )}
 
-      <View className="w-full max-w-xs gap-3">
+      <View className='w-full max-w-xs gap-3'>
         <Button
-          variant="primary"
-          size="lg"
+          variant='primary'
+          size='lg'
           onPress={onPrimaryPress}
-          className="w-full"
+          className='w-full'
         >
           {primaryButtonText}
         </Button>
 
         {secondaryButtonText && (
           <Button
-            variant="ghost"
-            size="lg"
+            variant='ghost'
+            size='lg'
             onPress={onSecondaryPress}
-            className="w-full"
+            className='w-full'
           >
             {secondaryButtonText}
           </Button>

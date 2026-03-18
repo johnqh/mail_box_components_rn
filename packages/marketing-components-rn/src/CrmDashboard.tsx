@@ -26,11 +26,11 @@ export const CrmDashboard: React.FC<CrmDashboardProps> = ({
         disabled && 'opacity-50',
         className
       )}
-      accessibilityLabel="CRM Dashboard"
+      accessibilityLabel='CRM Dashboard'
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           CrmDashboard Component
         </Text>
       )}

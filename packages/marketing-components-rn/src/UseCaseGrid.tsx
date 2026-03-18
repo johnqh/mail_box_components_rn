@@ -42,36 +42,40 @@ interface UseCaseCardProps {
 }
 
 const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase }) => {
-  const iconColor = useCase.color ? colorClasses[useCase.color] : colorClasses.blue;
-  const bulletColor = useCase.color ? bulletColors[useCase.color] : bulletColors.blue;
+  const iconColor = useCase.color
+    ? colorClasses[useCase.color]
+    : colorClasses.blue;
+  const bulletColor = useCase.color
+    ? bulletColors[useCase.color]
+    : bulletColors.blue;
 
   return (
-    <View className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 mb-4 mx-2">
+    <View className='bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 mb-4 mx-2'>
       <View className={cn('mb-4', iconColor)}>{useCase.icon}</View>
 
-      <Text className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+      <Text className='text-xl font-semibold text-gray-900 dark:text-white mb-3'>
         {useCase.title}
       </Text>
 
-      <Text className="text-gray-600 dark:text-gray-300 mb-4">
+      <Text className='text-gray-600 dark:text-gray-300 mb-4'>
         {useCase.description}
       </Text>
 
       {useCase.examples && useCase.examples.length > 0 && (
         <View>
-          <Text className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          <Text className='text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'>
             Examples:
           </Text>
-          <View className="gap-1">
+          <View className='gap-1'>
             {useCase.examples.map((example, exampleIndex) => (
-              <View key={exampleIndex} className="flex-row items-start">
+              <View key={exampleIndex} className='flex-row items-start'>
                 <View
                   className={cn(
                     'w-1.5 h-1.5 rounded-full mt-2 mr-2',
                     bulletColor
                   )}
                 />
-                <Text className="text-sm text-gray-600 dark:text-gray-400 flex-1">
+                <Text className='text-sm text-gray-600 dark:text-gray-400 flex-1'>
                   {example}
                 </Text>
               </View>
@@ -98,14 +102,14 @@ export const UseCaseGrid: React.FC<UseCaseGridProps> = ({
   return (
     <View className={cn('py-8 px-4', className)} {...props}>
       {(title || description) && (
-        <View className="items-center mb-8">
+        <View className='items-center mb-8'>
           {title && (
-            <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+            <Text className='text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center'>
               {title}
             </Text>
           )}
           {description && (
-            <Text className="text-lg text-gray-600 dark:text-gray-300 text-center max-w-lg">
+            <Text className='text-lg text-gray-600 dark:text-gray-300 text-center max-w-lg'>
               {description}
             </Text>
           )}

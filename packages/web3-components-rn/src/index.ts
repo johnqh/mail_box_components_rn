@@ -9,7 +9,11 @@ export { GasTracker, type GasTrackerProps } from './GasTracker';
 export { NftGallery, type NftGalleryProps } from './NftGallery';
 export { TokenSwap, type TokenSwapProps } from './TokenSwap';
 export { WalletConnect, type WalletConnectProps } from './WalletConnect';
-export { WalletIcon, type WalletIconProps, type WalletProvider } from './WalletIcon';
+export {
+  WalletIcon,
+  type WalletIconProps,
+  type WalletProvider,
+} from './WalletIcon';
 export {
   WalletSelectionButton,
   WalletSelectionGrid,

@@ -19,9 +19,13 @@ export const ApiReference: React.FC<ApiReferenceProps> = ({
       disabled && 'opacity-50',
       className
     )}
-    accessibilityLabel="API Reference"
+    accessibilityLabel='API Reference'
     {...props}
   >
-    {children || <Text className="text-gray-900 dark:text-white">ApiReference Component</Text>}
+    {children || (
+      <Text className='text-gray-900 dark:text-white'>
+        ApiReference Component
+      </Text>
+    )}
   </View>
 );

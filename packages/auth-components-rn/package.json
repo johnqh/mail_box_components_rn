@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/auth-components-rn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Authentication components for Sudobility with Firebase Auth support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

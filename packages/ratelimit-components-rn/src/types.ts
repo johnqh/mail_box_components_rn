@@ -1,7 +1,13 @@
 /**
  * Color variants for usage bars
  */
-export type UsageBarColor = 'green' | 'yellow' | 'orange' | 'red' | 'blue' | 'gray';
+export type UsageBarColor =
+  | 'green'
+  | 'yellow'
+  | 'orange'
+  | 'red'
+  | 'blue'
+  | 'gray';
 
 /**
  * Configuration for a single usage bar

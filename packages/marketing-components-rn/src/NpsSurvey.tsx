@@ -23,8 +23,8 @@ export const NpsSurvey: React.FC<NpsSurveyProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="NPS Survey"
+      accessibilityRole='button'
+      accessibilityLabel='NPS Survey'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const NpsSurvey: React.FC<NpsSurveyProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           NpsSurvey Component
         </Text>
       )}

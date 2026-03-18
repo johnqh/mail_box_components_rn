@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
 import type { EntityListProps, Entity } from './types';
 import { EntityCard } from './EntityCard';
 
@@ -34,24 +40,26 @@ export const EntityList: React.FC<EntityListProps> = ({
       showRole={showRoles}
       showMemberCount={showMemberCounts}
       showDescription={showDescriptions}
-      className="mb-3"
+      className='mb-3'
     />
   );
 
   const renderEmpty = () => {
     if (loading) {
       return (
-        <View className="flex-1 items-center justify-center py-12">
-          <ActivityIndicator size="large" color="#3B82F6" />
-          <Text className="text-gray-500 dark:text-gray-400 mt-4">Loading...</Text>
+        <View className='flex-1 items-center justify-center py-12'>
+          <ActivityIndicator size='large' color='#3B82F6' />
+          <Text className='text-gray-500 dark:text-gray-400 mt-4'>
+            Loading...
+          </Text>
         </View>
       );
     }
 
     return (
-      <View className="flex-1 items-center justify-center py-12">
+      <View className='flex-1 items-center justify-center py-12'>
         {emptyIcon}
-        <Text className="text-gray-500 dark:text-gray-400 text-center mt-2">
+        <Text className='text-gray-500 dark:text-gray-400 text-center mt-2'>
           {emptyMessage}
         </Text>
       </View>
@@ -76,7 +84,7 @@ export const EntityList: React.FC<EntityListProps> = ({
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              tintColor="#3B82F6"
+              tintColor='#3B82F6'
             />
           ) : undefined
         }

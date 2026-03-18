@@ -39,26 +39,26 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
 
   return (
     <View className={cn('flex-row flex-wrap -m-1', className)}>
-      {metrics.map((metric) => {
+      {metrics.map(metric => {
         const content = (
-          <Card className="p-4 m-1 flex-1">
-            <View className="flex-row items-start justify-between">
-              <View className="flex-1">
-                <Text className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+          <Card className='p-4 m-1 flex-1'>
+            <View className='flex-row items-start justify-between'>
+              <View className='flex-1'>
+                <Text className='text-sm text-gray-600 dark:text-gray-400 mb-1'>
                   {metric.label}
                 </Text>
-                <View className="flex-row items-baseline">
-                  <Text className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                <View className='flex-row items-baseline'>
+                  <Text className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
                     {metric.value}
                   </Text>
                   {metric.unit && (
-                    <Text className="text-sm text-gray-500 dark:text-gray-500 ml-1">
+                    <Text className='text-sm text-gray-500 dark:text-gray-500 ml-1'>
                       {metric.unit}
                     </Text>
                   )}
                 </View>
                 {metric.change !== undefined && (
-                  <View className="flex-row items-center mt-2">
+                  <View className='flex-row items-center mt-2'>
                     <View
                       className={cn(
                         'px-1.5 py-0.5 rounded',
@@ -79,16 +79,14 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
                       </Text>
                     </View>
                     {metric.changeLabel && (
-                      <Text className="text-xs text-gray-500 dark:text-gray-500 ml-2">
+                      <Text className='text-xs text-gray-500 dark:text-gray-500 ml-2'>
                         {metric.changeLabel}
                       </Text>
                     )}
                   </View>
                 )}
               </View>
-              {metric.icon && (
-                <View className="ml-2">{metric.icon}</View>
-              )}
+              {metric.icon && <View className='ml-2'>{metric.icon}</View>}
             </View>
           </Card>
         );
@@ -98,8 +96,10 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
             <View key={metric.id} className={columnWidthClass}>
               <Pressable
                 onPress={() => onMetricPress(metric)}
-                accessibilityRole="button"
-                accessibilityLabel={metric.label + ': ' + metric.value + (metric.unit || '')}
+                accessibilityRole='button'
+                accessibilityLabel={
+                  metric.label + ': ' + metric.value + (metric.unit || '')
+                }
               >
                 {content}
               </Pressable>

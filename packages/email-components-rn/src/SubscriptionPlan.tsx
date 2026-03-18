@@ -23,8 +23,8 @@ export const SubscriptionPlan: React.FC<SubscriptionPlanProps> = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel="Subscription Plan"
+      accessibilityRole='button'
+      accessibilityLabel='Subscription Plan'
       accessibilityState={{ disabled }}
       className={cn(
         'p-4 rounded-lg border',
@@ -37,7 +37,7 @@ export const SubscriptionPlan: React.FC<SubscriptionPlanProps> = ({
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           SubscriptionPlan Component
         </Text>
       )}

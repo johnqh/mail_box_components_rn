@@ -13,7 +13,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'SudobilityRatelimitComponentsRN',
       formats: ['es', 'cjs'],
-      fileName: (format) => {
+      fileName: format => {
         return format === 'es' ? 'index.mjs' : 'index.js';
       },
     },

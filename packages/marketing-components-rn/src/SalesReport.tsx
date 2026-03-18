@@ -26,11 +26,11 @@ export const SalesReport: React.FC<SalesReportProps> = ({
         disabled && 'opacity-50',
         className
       )}
-      accessibilityLabel="Sales Report"
+      accessibilityLabel='Sales Report'
       {...props}
     >
       {children || (
-        <Text className="text-gray-900 dark:text-white">
+        <Text className='text-gray-900 dark:text-white'>
           SalesReport Component
         </Text>
       )}

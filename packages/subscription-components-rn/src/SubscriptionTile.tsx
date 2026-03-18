@@ -1,220 +1,388 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import type { SubscriptionProduct, BadgeConfig, DiscountBadgeConfig } from './types';
+import type {
+  BadgeConfig,
+  CtaButtonConfig,
+  DiscountBadgeConfig,
+  PremiumCalloutConfig,
+  SubscriptionTileTrackingData,
+} from './types';
 
-/**
- * Props for SubscriptionTile component
- */
 export interface SubscriptionTileProps {
-  /** Subscription product data */
-  product: SubscriptionProduct;
+  /** Unique identifier for the subscription */
+  id: string;
+  /** Plan title */
+  title: string;
+  /** Formatted price string (e.g., "$9.99") */
+  price: string;
+  /** Period label (e.g., "/month", "/year") - passed by consumer for localization */
+  periodLabel?: string;
+  /** List of features/benefits */
+  features: string[];
   /** Whether this tile is currently selected */
-  isSelected?: boolean;
-  /** Called when tile is pressed */
-  onSelect?: (productId: string) => void;
-  /** Badge configuration */
-  badge?: BadgeConfig;
-  /** Discount badge configuration */
+  isSelected: boolean;
+  /** Selection callback */
+  onSelect: () => void;
+  /** Whether this is the user's current plan (shows persistent blue border) */
+  isCurrentPlan?: boolean;
+
+  /** Optional top badge (e.g., "Most Popular", "Free Trial") */
+  topBadge?: BadgeConfig;
+  /** Optional discount badge (e.g., "Save 40%") */
   discountBadge?: DiscountBadgeConfig;
-  /** Show trial info if available */
-  showTrialInfo?: boolean;
-  /** Custom styles */
+  /** Optional premium callout section */
+  premiumCallout?: PremiumCalloutConfig;
+  /** Optional bottom note (e.g., new expiration date) */
+  bottomNote?: string;
+  /** Optional intro price note */
+  introPriceNote?: string;
+
+  /** Whether this is the best value option (affects styling) */
+  isBestValue?: boolean;
+  /** CTA button configuration - when provided, renders a button instead of radio indicator */
+  ctaButton?: CtaButtonConfig;
+  /** Additional NativeWind classes */
   className?: string;
-  /** Disabled state */
+  /** Custom content to render in the content area */
+  children?: ReactNode;
+  /** Disabled state (prevents interaction but keeps normal appearance) */
   disabled?: boolean;
-  /** Accessibility label override */
+  /** Whether this tile is enabled/selectable (false = grayed out, no indicator) */
+  enabled?: boolean;
+
+  /** Accessibility label */
   accessibilityLabel?: string;
+
+  /** Optional tracking callback */
+  onTrack?: (data: SubscriptionTileTrackingData) => void;
+  /** Optional tracking label */
+  trackingLabel?: string;
+  /** Optional component name for tracking */
+  componentName?: string;
+  /** Hide both radio button and CTA button (for free tier tiles) */
+  hideSelectionIndicator?: boolean;
 }
 
-/**
- * Badge variant styles mapping
- */
-const badgeVariants = {
-  default: 'bg-neutral-200 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200',
-  primary: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-  success: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-  warning: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200',
-  premium: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+const BADGE_COLORS: Record<BadgeConfig['color'], string> = {
+  purple: 'bg-purple-500',
+  green: 'bg-green-500',
+  blue: 'bg-blue-500',
+  yellow: 'bg-yellow-400',
+  red: 'bg-red-500',
 };
 
 /**
- * Individual subscription plan tile component
- * Displays plan details, pricing, features, and selection state
+ * SubscriptionTile - A reusable subscription plan display component
+ *
+ * Displays a subscription plan with pricing, features, badges, and selection state.
+ * All text is passed by the consumer for full localization control.
+ *
+ * Layout: Uses flexbox with content area (flex-1) and a fixed-height bottom area
+ * for button/radio. This ensures no overlap between content and bottom elements.
  */
 export function SubscriptionTile({
-  product,
-  isSelected = false,
+  id: _id,
+  title,
+  price,
+  periodLabel,
+  features,
+  isSelected,
   onSelect,
-  badge,
+  isCurrentPlan = false,
+  topBadge,
   discountBadge,
-  showTrialInfo = true,
+  premiumCallout,
+  bottomNote,
+  introPriceNote,
+  isBestValue: _isBestValue = false,
+  ctaButton,
   className = '',
+  children,
   disabled = false,
+  enabled = true,
   accessibilityLabel,
+  onTrack,
+  trackingLabel,
+  componentName = 'SubscriptionTile',
+  hideSelectionIndicator = false,
 }: SubscriptionTileProps) {
+  // When ctaButton is provided, tile is not selectable (CTA mode)
+  const isCtaMode = !!ctaButton;
+  // Whether to show any bottom indicator (radio or CTA)
+  // Hide indicator when: hideSelectionIndicator, isCurrentPlan (user's current plan), or not enabled
+  const showIndicator = !hideSelectionIndicator && !isCurrentPlan && enabled;
+  // Whether the tile is interactive (can be pressed/selected)
+  const isInteractive = enabled && !isCurrentPlan && !disabled;
+
+  // Styling logic:
+  // - Selected: Blue background with blue border
+  // - Current plan (not selected): Blue border to indicate current subscription
+  // - Not enabled: Grayed out with opacity-50
+  // - Default: Gray background
+  const containerClasses = [
+    'relative rounded-2xl p-6',
+    isSelected
+      ? 'bg-blue-600 border-2 border-blue-600'
+      : isCurrentPlan
+        ? 'bg-gray-100 dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400'
+        : !enabled
+          ? 'bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50'
+          : 'bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   const handlePress = () => {
-    if (!disabled && onSelect) {
-      onSelect(product.id);
+    if (isInteractive && !isCtaMode) {
+      onTrack?.({ action: 'select', trackingLabel, componentName });
+      onSelect();
     }
   };
 
-  const defaultAccessibilityLabel = [
-    product.title,
-    'subscription',
-    product.priceString,
-    product.isRecommended ? 'recommended' : '',
-    isSelected ? 'selected' : '',
-  ].filter(Boolean).join(', ');
+  const handleCtaPress = () => {
+    onTrack?.({ action: 'cta_click', trackingLabel, componentName });
+    ctaButton?.onPress?.();
+  };
 
-  const containerClasses = [
-    'relative rounded-2xl p-4 border-2 transition-all',
-    isSelected
-      ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-950'
-      : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900',
-    disabled ? 'opacity-50' : '',
-    product.isRecommended ? 'shadow-lg' : '',
-    className,
-  ].filter(Boolean).join(' ');
-
-  const titleClasses = [
-    'text-lg font-semibold',
-    isSelected
-      ? 'text-blue-900 dark:text-blue-100'
-      : 'text-neutral-900 dark:text-neutral-100',
-  ].join(' ');
-
-  const priceClasses = [
-    'text-2xl font-bold',
-    isSelected
-      ? 'text-blue-900 dark:text-blue-100'
-      : 'text-neutral-900 dark:text-neutral-100',
-  ].join(' ');
-
-  const selectionIndicatorClasses = [
-    'w-6 h-6 rounded-full border-2 items-center justify-center',
-    isSelected
-      ? 'border-blue-500 dark:border-blue-400 bg-blue-500 dark:bg-blue-400'
-      : 'border-neutral-300 dark:border-neutral-600',
-  ].join(' ');
-
-  const discountBadgePositionClass = discountBadge?.position === 'top-left' ? 'left-4' : 'right-4';
+  const defaultLabel = `${title} - ${price}${periodLabel || ''}`;
 
   return (
     <Pressable
       onPress={handlePress}
-      disabled={disabled}
-      accessibilityRole="button"
-      accessibilityState={{ selected: isSelected, disabled }}
-      accessibilityLabel={accessibilityLabel ?? defaultAccessibilityLabel}
+      disabled={!isInteractive || isCtaMode}
+      accessibilityRole={isCtaMode ? 'summary' : 'radio'}
+      accessibilityState={{
+        checked: isCtaMode ? undefined : isSelected,
+        disabled: !isInteractive,
+      }}
+      accessibilityLabel={accessibilityLabel || defaultLabel}
       className={containerClasses}
     >
-      {/* Discount Badge - Positioned absolutely */}
-      {discountBadge && (
+      {/* Top Badge - vertically centered on the top border */}
+      {topBadge && (
+        <View className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10'>
+          <View
+            className={[
+              BADGE_COLORS[topBadge.color],
+              'px-4 py-1.5 rounded-full',
+            ].join(' ')}
+          >
+            <Text className='text-white text-sm font-semibold'>
+              {topBadge.text}
+            </Text>
+          </View>
+        </View>
+      )}
+
+      {/* Main content - flex-1 takes available space above the fixed bottom area */}
+      <View className='flex-1'>
+        {/* Title and Price - add top margin when there's a topBadge */}
         <View
-          className={[
-            'absolute -top-3 px-3 py-1 rounded-full bg-green-500 dark:bg-green-600',
-            discountBadgePositionClass,
-          ].join(' ')}
+          className={['items-center mb-6', topBadge ? 'mt-2' : '']
+            .filter(Boolean)
+            .join(' ')}
         >
-          <Text className="text-xs font-bold text-white">
-            {discountBadge.customText ?? ('Save ' + discountBadge.percentage + '%')}
+          <Text
+            className={[
+              'text-xl font-bold mb-2',
+              isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100',
+            ].join(' ')}
+          >
+            {title}
           </Text>
-        </View>
-      )}
+          <View className='flex-row items-baseline mb-3'>
+            <Text
+              className={[
+                'text-4xl font-bold',
+                isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100',
+              ].join(' ')}
+            >
+              {price}
+            </Text>
+            {periodLabel && (
+              <Text
+                className={[
+                  'text-lg',
+                  isSelected
+                    ? 'text-blue-100'
+                    : 'text-gray-500 dark:text-gray-400',
+                ].join(' ')}
+              >
+                {periodLabel}
+              </Text>
+            )}
+          </View>
 
-      {/* Header Row */}
-      <View className="flex-row items-center justify-between mb-3">
-        <View className="flex-row items-center gap-2">
-          <Text className={titleClasses}>
-            {product.title}
-          </Text>
-
-          {/* Badge */}
-          {badge && (
-            <View className={'px-2 py-0.5 rounded-full ' + badgeVariants[badge.variant]}>
-              <Text className="text-xs font-medium">{badge.text}</Text>
-            </View>
-          )}
-
-          {/* Recommended Badge */}
-          {product.isRecommended && !badge && (
-            <View className="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900">
-              <Text className="text-xs font-medium text-purple-800 dark:text-purple-200">
-                Popular
+          {/* Discount Badge */}
+          {discountBadge && (
+            <View
+              className={[
+                'px-2 py-1 rounded-full',
+                isSelected
+                  ? 'bg-blue-500'
+                  : 'bg-green-100 dark:bg-green-900/50',
+              ].join(' ')}
+            >
+              <Text
+                className={[
+                  'text-sm font-semibold',
+                  isSelected
+                    ? 'text-white'
+                    : 'text-green-700 dark:text-green-300',
+                ].join(' ')}
+              >
+                {discountBadge.text}
               </Text>
             </View>
           )}
+        </View>
 
-          {/* Current Badge */}
-          {product.isCurrent && (
-            <View className="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900">
-              <Text className="text-xs font-medium text-green-800 dark:text-green-200">
-                Current
+        {/* Custom Content Area */}
+        {children}
+
+        {/* Features List - no flex-grow, just takes its natural height */}
+        {features.length > 0 && (
+          <View className='gap-3 mb-6'>
+            {features.map((feature, index) => (
+              <View key={index} className='flex-row items-start'>
+                <Text
+                  className={[
+                    'mr-3',
+                    isSelected ? 'text-blue-200' : 'text-green-500',
+                  ].join(' ')}
+                >
+                  ✓
+                </Text>
+                <Text
+                  className={[
+                    'text-sm flex-1',
+                    isSelected
+                      ? 'text-white'
+                      : 'text-gray-700 dark:text-gray-300',
+                  ].join(' ')}
+                >
+                  {feature.replace(/^✓\s*/, '')}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Premium Callout */}
+        {premiumCallout && (
+          <View
+            className={[
+              'rounded-lg p-4 mb-4',
+              isSelected
+                ? 'bg-blue-500/30'
+                : 'bg-purple-50 dark:bg-purple-900/20',
+            ].join(' ')}
+          >
+            <Text
+              className={[
+                'font-semibold text-sm mb-2',
+                isSelected
+                  ? 'text-white'
+                  : 'text-purple-600 dark:text-purple-400',
+              ].join(' ')}
+            >
+              {premiumCallout.title}
+            </Text>
+            {premiumCallout.features.map((feat, idx) => (
+              <Text
+                key={idx}
+                className={[
+                  'text-xs',
+                  isSelected
+                    ? 'text-blue-100'
+                    : 'text-gray-600 dark:text-gray-400',
+                ].join(' ')}
+              >
+                • {feat}
               </Text>
-            </View>
-          )}
-        </View>
+            ))}
+          </View>
+        )}
 
-        {/* Selection Indicator */}
-        <View className={selectionIndicatorClasses}>
-          {isSelected && (
-            <View className="w-2.5 h-2.5 rounded-full bg-white" />
-          )}
-        </View>
-      </View>
-
-      {/* Description */}
-      {product.description && (
-        <Text className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
-          {product.description}
-        </Text>
-      )}
-
-      {/* Pricing */}
-      <View className="flex-row items-baseline gap-2 mb-3">
-        <Text className={priceClasses}>
-          {product.priceString}
-        </Text>
-
-        {/* Original Price (strikethrough) */}
-        {product.originalPriceString && (
-          <Text className="text-base text-neutral-400 dark:text-neutral-500 line-through">
-            {product.originalPriceString}
+        {/* Bottom Note (e.g., new expiration date) */}
+        {bottomNote && (
+          <Text
+            className={[
+              'text-center text-sm font-medium mb-4',
+              isSelected ? 'text-blue-100' : 'text-blue-600 dark:text-blue-400',
+            ].join(' ')}
+          >
+            {bottomNote}
           </Text>
         )}
 
-        {/* Savings */}
-        {product.savingsPercentage && product.savingsPercentage > 0 && (
-          <View className="px-2 py-0.5 rounded bg-green-100 dark:bg-green-900">
-            <Text className="text-xs font-semibold text-green-700 dark:text-green-300">
-              Save {product.savingsPercentage}%
+        {/* Intro Price Banner */}
+        {introPriceNote && (
+          <View
+            className={[
+              'p-3 rounded-lg',
+              isSelected
+                ? 'bg-blue-500/30'
+                : 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800',
+            ].join(' ')}
+          >
+            <Text
+              className={[
+                'text-sm font-semibold text-center',
+                isSelected
+                  ? 'text-white'
+                  : 'text-yellow-700 dark:text-yellow-300',
+              ].join(' ')}
+            >
+              {introPriceNote}
             </Text>
           </View>
         )}
       </View>
 
-      {/* Trial Info */}
-      {showTrialInfo && product.trialPeriod && (
-        <View className="bg-amber-50 dark:bg-amber-950 rounded-lg p-2 mb-3">
-          <Text className="text-sm text-amber-800 dark:text-amber-200">
-            {product.trialPeriod.days}-day free trial, then {product.trialPeriod.priceString}
-          </Text>
-        </View>
-      )}
+      {/* Fixed-height bottom area - always present to reserve space */}
+      <View className='h-14 justify-end items-center'>
+        {/* CTA Button */}
+        {showIndicator && isCtaMode && (
+          <Pressable
+            onPress={handleCtaPress}
+            disabled={disabled}
+            className={[
+              'w-full py-3 rounded-lg items-center',
+              isSelected ? 'bg-white' : 'bg-blue-600',
+              disabled ? 'opacity-50' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <Text
+              className={[
+                'font-semibold',
+                isSelected ? 'text-blue-600' : 'text-white',
+              ].join(' ')}
+            >
+              {ctaButton.label}
+            </Text>
+          </Pressable>
+        )}
 
-      {/* Features List */}
-      {product.features.length > 0 && (
-        <View className="gap-2">
-          {product.features.map((feature, index) => (
-            <View key={index} className="flex-row items-start gap-2">
-              <Text className="text-green-500 dark:text-green-400 text-sm">✓</Text>
-              <Text className="text-sm text-neutral-700 dark:text-neutral-300 flex-1">
-                {feature}
-              </Text>
-            </View>
-          ))}
-        </View>
-      )}
+        {/* Radio button indicator */}
+        {showIndicator && !isCtaMode && (
+          <View
+            className={[
+              'w-5 h-5 rounded-full border-2 items-center justify-center',
+              isSelected
+                ? 'border-white bg-white'
+                : 'border-gray-300 dark:border-gray-600',
+            ].join(' ')}
+          >
+            {isSelected && (
+              <View className='w-2 h-2 rounded-full bg-blue-600' />
+            )}
+          </View>
+        )}
+      </View>
     </Pressable>
   );
 }
