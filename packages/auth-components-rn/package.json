@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/auth-components-rn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React Native Authentication components for Sudobility with Firebase Auth support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -40,9 +40,6 @@
     "@sudobility/components-rn": "^1.0.7",
     "@sudobility/design": "^1.1.14",
     "@types/react": "^18.3.0",
-    "@types/react-native": "^0.73.0",
-    "react": "^18.3.0",
-    "react-native": "^0.76.0",
     "typescript": "^5.6.0",
     "vite": "^6.0.0",
     "vite-plugin-dts": "^4.3.0"

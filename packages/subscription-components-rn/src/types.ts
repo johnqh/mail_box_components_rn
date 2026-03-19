@@ -127,8 +127,8 @@ export interface FreeTileConfig {
   periodLabel?: string;
   /** List of features included in free tier */
   features: string[];
-  /** CTA button configuration */
-  ctaButton: CtaButtonConfig;
+  /** CTA button configuration (omit to hide the button) */
+  ctaButton?: CtaButtonConfig;
   /** Optional top badge */
   topBadge?: BadgeConfig;
 }
