@@ -78,6 +78,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.check-version.outputs.changed == '1'
+        working-directory: ./packages/${{ matrix.package }}-components-rn
         run: bun install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
