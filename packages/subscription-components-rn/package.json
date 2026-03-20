@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/subscription-components-rn",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React Native Subscription UI components for Sudobility with RevenueCat support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

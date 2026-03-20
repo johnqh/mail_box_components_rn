@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 export interface SegmentedControlOption<T extends string = string> {
   /** Value for this option */
@@ -31,30 +31,6 @@ export interface SegmentedControlProps<T extends string = string> {
 }
 
 /**
- * Size class mapping
- */
-const sizeClasses = {
-  sm: {
-    container: 'p-1 rounded-lg',
-    segment: 'px-3 py-1.5 rounded-md',
-    text: 'text-xs',
-    badge: 'text-xs px-1.5 py-0.5',
-  },
-  md: {
-    container: 'p-1 rounded-lg',
-    segment: 'px-4 py-2 rounded-md',
-    text: 'text-sm',
-    badge: 'text-xs px-2 py-0.5',
-  },
-  lg: {
-    container: 'p-1 rounded-lg',
-    segment: 'px-6 py-3 rounded-lg',
-    text: 'text-base',
-    badge: 'text-sm px-2 py-1',
-  },
-};
-
-/**
  * SegmentedControl - A toggle control for switching between options
  *
  * Commonly used for billing period selection (Monthly/Yearly).
@@ -82,51 +58,31 @@ export function SegmentedControl<T extends string = string>({
   fullWidth = true,
   accessibilityLabel,
 }: SegmentedControlProps<T>) {
-  const sizes = sizeClasses[size];
-
-  const containerClasses = [
-    'flex-row bg-gray-100 dark:bg-gray-800',
-    sizes.container,
-    fullWidth ? 'w-full' : '',
-    disabled ? 'opacity-50' : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  void className;
 
   return (
     <View
-      className={containerClasses}
-      accessibilityRole='tablist'
+      style={[
+        styles.container,
+        fullWidth && styles.fullWidth,
+        disabled && styles.disabled,
+        size === 'sm' && styles.containerSm,
+        size === 'md' && styles.containerMd,
+        size === 'lg' && styles.containerLg,
+      ]}
+      accessibilityRole="tablist"
       accessibilityLabel={accessibilityLabel}
     >
       {options.map(option => {
         const isSelected = value === option.value;
         const isDisabled = disabled || option.disabled;
 
-        const segmentClasses = [
-          sizes.segment,
-          'flex-1 items-center justify-center flex-row gap-2',
-          isSelected ? 'bg-white dark:bg-gray-700 shadow-sm' : 'bg-transparent',
-          isDisabled ? 'opacity-50' : '',
-        ]
-          .filter(Boolean)
-          .join(' ');
-
-        const textClasses = [
-          sizes.text,
-          'font-medium',
-          isSelected
-            ? 'text-gray-900 dark:text-white'
-            : 'text-gray-600 dark:text-gray-400',
-        ].join(' ');
-
         return (
           <Pressable
             key={option.value}
             onPress={() => !isDisabled && onChange(option.value)}
             disabled={isDisabled}
-            accessibilityRole='tab'
+            accessibilityRole="tab"
             accessibilityState={{
               selected: isSelected,
               disabled: isDisabled,
@@ -134,28 +90,45 @@ export function SegmentedControl<T extends string = string>({
             accessibilityLabel={
               option.label + (option.badge ? ', ' + option.badge : '')
             }
-            className={segmentClasses}
+            style={[
+              styles.segment,
+              size === 'sm' && styles.segmentSm,
+              size === 'md' && styles.segmentMd,
+              size === 'lg' && styles.segmentLg,
+              isSelected && styles.segmentSelected,
+              isDisabled && styles.disabled,
+            ]}
           >
-            <Text className={textClasses}>{option.label}</Text>
+            <Text
+              style={[
+                styles.text,
+                size === 'sm' && styles.textSm,
+                size === 'md' && styles.textMd,
+                size === 'lg' && styles.textLg,
+                isSelected ? styles.textSelected : styles.textUnselected,
+              ]}
+            >
+              {option.label}
+            </Text>
 
             {/* Badge */}
             {option.badge && (
               <View
-                className={[
-                  sizes.badge,
-                  'rounded-full',
-                  isSelected
-                    ? 'bg-green-100 dark:bg-green-900'
-                    : 'bg-gray-200 dark:bg-gray-700',
-                ].join(' ')}
+                style={[
+                  styles.badge,
+                  size === 'sm' && styles.badgeSm,
+                  size === 'md' && styles.badgeMd,
+                  size === 'lg' && styles.badgeLg,
+                  isSelected ? styles.badgeSelected : styles.badgeUnselected,
+                ]}
               >
                 <Text
-                  className={[
-                    'text-xs font-semibold',
+                  style={[
+                    styles.badgeText,
                     isSelected
-                      ? 'text-green-700 dark:text-green-300'
-                      : 'text-gray-600 dark:text-gray-400',
-                  ].join(' ')}
+                      ? styles.badgeTextSelected
+                      : styles.badgeTextUnselected,
+                  ]}
                 >
                   {option.badge}
                 </Text>
@@ -219,3 +192,103 @@ export function PeriodSelector({
 }
 
 export default SegmentedControl;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    backgroundColor: '#f3f4f6',
+    borderRadius: 8,
+    padding: 4,
+  },
+  fullWidth: {
+    width: '100%',
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  containerSm: {
+    borderRadius: 8,
+  },
+  containerMd: {
+    borderRadius: 8,
+  },
+  containerLg: {
+    borderRadius: 12,
+  },
+  segment: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  segmentSm: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    gap: 8,
+  },
+  segmentMd: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    gap: 8,
+  },
+  segmentLg: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    gap: 8,
+  },
+  segmentSelected: {
+    backgroundColor: '#ffffff',
+  },
+  text: {
+    fontWeight: '500',
+  },
+  textSm: {
+    fontSize: 12,
+  },
+  textMd: {
+    fontSize: 14,
+  },
+  textLg: {
+    fontSize: 16,
+  },
+  textSelected: {
+    color: '#111827',
+  },
+  textUnselected: {
+    color: '#4b5563',
+  },
+  badge: {
+    borderRadius: 999,
+  },
+  badgeSm: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  badgeMd: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  badgeLg: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  badgeSelected: {
+    backgroundColor: '#dcfce7',
+  },
+  badgeUnselected: {
+    backgroundColor: '#e5e7eb',
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  badgeTextSelected: {
+    color: '#15803d',
+  },
+  badgeTextUnselected: {
+    color: '#4b5563',
+  },
+});
