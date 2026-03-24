@@ -15,8 +15,8 @@
         "@react-native/babel-preset": "^0.84.0",
         "@react-native/js-polyfills": "^0.84.0",
         "@react-native/normalize-colors": "^0.84.0",
-        "@sudobility/design": "^1.1.23",
-        "@sudobility/types": "^1.9.59",
+        "@sudobility/design": "^1.1.24",
+        "@sudobility/types": "^1.9.60",
         "@testing-library/jest-native": "^5.4.3",
         "@testing-library/react-native": "^13.3.3",
         "@types/jest": "^29.5.0",
@@ -45,8 +45,8 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
-        "@sudobility/design": "^1.1.23",
-        "@sudobility/types": "^1.9.59",
+        "@sudobility/design": "^1.1.24",
+        "@sudobility/types": "^1.9.60",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "nativewind": ">=4.0.0",
@@ -570,9 +570,9 @@
 
     "@sinonjs/fake-timers": ["@sinonjs/fake-timers@13.0.5", "", { "dependencies": { "@sinonjs/commons": "^3.0.1" } }, "sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw=="],
 
-    "@sudobility/design": ["@sudobility/design@1.1.23", "", { "peerDependencies": { "clsx": ">=2.0.0", "tailwind-merge": ">=2.0.0" } }, "sha512-lVjGgQbFXQF7QkVRXHU3UKS7oCeGwZaj2hTaayIYzp5Uo156BQqAXO4AljPAM0xZqh/R+km3keCzRNkPyhMDPQ=="],
+    "@sudobility/design": ["@sudobility/design@1.1.24", "", { "peerDependencies": { "clsx": ">=2.0.0", "tailwind-merge": ">=2.0.0" } }, "sha512-2nKsdI5QsnG1yT1/7Yp8mwVdMcstHXrR8zXZgivDLrbh7Fk55fn0+5dxWyM6B6eM2eVtJFRFi+pMCGhhyB5A3g=="],
 
-    "@sudobility/types": ["@sudobility/types@1.9.59", "", {}, "sha512-ysz2JU1wu31H26TktCkgZZD2DQqpMX5KVLMiVuFY7ndPYMjNtoYzZoiigV1juHz0HWSh3LIFbRBR73O6UTg7Aw=="],
+    "@sudobility/types": ["@sudobility/types@1.9.60", "", {}, "sha512-7UEDk7JDgTeymGqz1ElS3BvyqH2utHLvK5I4SHN4X9ZEvWRLXIEHQhFm+gy4zkwnOUCZh4jb1MH0HTYBZsIH/A=="],
 
     "@testing-library/jest-native": ["@testing-library/jest-native@5.4.3", "", { "dependencies": { "chalk": "^4.1.2", "jest-diff": "^29.0.1", "jest-matcher-utils": "^29.0.1", "pretty-format": "^29.0.3", "redent": "^3.0.0" }, "peerDependencies": { "react": ">=16.0.0", "react-native": ">=0.59", "react-test-renderer": ">=16.0.0" } }, "sha512-/sSDGaOuE+PJ1Z9Kp4u7PQScSVVXGud59I/qsBFFJvIbcn4P6yYw6cBnBmbPF+X9aRIsTJRDl6gzw5ZkJNm66w=="],
 
