@@ -148,6 +148,11 @@ export interface SubscriptionStatusConfig {
       label: string;
       value: string;
     }>;
+    /** Subscription platform display */
+    platform?: {
+      label: string;
+      value: 'web' | 'ios' | 'android' | 'macos';
+    };
   };
   /** Content to display when no active subscription */
   inactiveContent?: {

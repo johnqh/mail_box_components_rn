@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SubscriptionTile } from './SubscriptionTile';
+import { PlatformIcon, platformDisplayName } from './PlatformIcon';
 import type {
   FreeTileConfig,
   SubscriptionLayoutTrackingData,
@@ -137,10 +138,10 @@ export function SubscriptionLayout({
             </Text>
 
             {currentStatus.isActive ? (
-              <View className='bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4'>
+              <View className='bg-gray-50 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg p-4'>
                 <View className='flex-row items-center mb-2'>
                   <View className='w-3 h-3 bg-green-500 rounded-full mr-3' />
-                  <Text className='font-semibold text-green-800 dark:text-green-300'>
+                  <Text className='font-semibold text-gray-800 dark:text-gray-200'>
                     {currentStatus.activeContent?.title ||
                       'Active Subscription'}
                   </Text>
@@ -151,10 +152,10 @@ export function SubscriptionLayout({
                       {currentStatus.activeContent.fields.map(
                         (field, index) => (
                           <View key={index}>
-                            <Text className='text-sm text-green-600 dark:text-green-400'>
+                            <Text className='text-sm text-gray-500 dark:text-gray-400'>
                               {field.label}
                             </Text>
-                            <Text className='font-semibold text-green-800 dark:text-green-300'>
+                            <Text className='font-semibold text-gray-700 dark:text-gray-300'>
                               {field.value}
                             </Text>
                           </View>
@@ -162,6 +163,22 @@ export function SubscriptionLayout({
                       )}
                     </View>
                   )}
+                {currentStatus.activeContent?.platform && (
+                  <View className='mt-4'>
+                    <Text className='text-sm text-gray-500 dark:text-gray-400'>
+                      {currentStatus.activeContent.platform.label}
+                    </Text>
+                    <View className='flex-row items-center gap-1.5 mt-0.5'>
+                      <PlatformIcon
+                        platform={currentStatus.activeContent.platform.value}
+                        className='text-gray-600 dark:text-gray-300'
+                      />
+                      <Text className='font-semibold text-gray-700 dark:text-gray-300'>
+                        {platformDisplayName(currentStatus.activeContent.platform.value)}
+                      </Text>
+                    </View>
+                  </View>
+                )}
               </View>
             ) : (
               <View className='bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4'>
