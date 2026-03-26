@@ -33,6 +33,7 @@ export * from './ui/Checkbox';
 export * from './ui/Switch';
 export * from './ui/HelperText';
 export * from './ui/Select';
+export * from './ui/PopupSelect';
 export * from './ui/SearchInput';
 export * from './ui/NumberInput';
 

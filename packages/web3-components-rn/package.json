@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/web3-components-rn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native Web3 components for Sudobility",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
