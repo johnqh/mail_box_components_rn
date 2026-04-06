@@ -44,6 +44,7 @@ export * from './ui/Code';
 export * from './ui/TruncatedText';
 
 // UI Components - Display
+export * from './ui/AppVersion';
 export * from './ui/Badge';
 export * from './ui/Avatar';
 export * from './ui/Skeleton';
