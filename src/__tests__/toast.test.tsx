@@ -4,6 +4,14 @@ import { Text, Pressable } from 'react-native';
 import { Toast, ToastProvider, useToast } from '../ui/Toast';
 import type { ToastMessage } from '../ui/Toast';
 
+beforeEach(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
+
 describe('Toast', () => {
   const baseToast: ToastMessage = {
     id: 'test-1',
@@ -14,16 +22,25 @@ describe('Toast', () => {
 
   it('renders title', () => {
     render(<Toast toast={baseToast} onRemove={jest.fn()} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('Test Toast')).toBeTruthy();
   });
 
   it('renders description', () => {
     render(<Toast toast={baseToast} onRemove={jest.fn()} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('This is a test toast')).toBeTruthy();
   });
 
   it('renders close button', () => {
     render(<Toast toast={baseToast} onRemove={jest.fn()} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     const closeButton = screen.getByLabelText('Close notification');
     expect(closeButton).toBeTruthy();
   });
@@ -31,6 +48,9 @@ describe('Toast', () => {
   it('calls onRemove when close button is pressed', () => {
     const onRemove = jest.fn();
     render(<Toast toast={baseToast} onRemove={onRemove} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     fireEvent.press(screen.getByLabelText('Close notification'));
     expect(onRemove).toHaveBeenCalledWith('test-1');
   });
@@ -42,6 +62,9 @@ describe('Toast', () => {
       action: { label: 'Undo', onPress: onAction },
     };
     render(<Toast toast={toastWithAction} onRemove={jest.fn()} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('Undo')).toBeTruthy();
     fireEvent.press(screen.getByText('Undo'));
     expect(onAction).toHaveBeenCalledTimes(1);
@@ -59,6 +82,9 @@ describe('Toast', () => {
     variants.forEach(variant => {
       const toast: ToastMessage = { ...baseToast, variant, id: variant };
       const { unmount } = render(<Toast toast={toast} onRemove={jest.fn()} />);
+      act(() => {
+        jest.runAllTimers();
+      });
       expect(screen.getByText('Test Toast')).toBeTruthy();
       unmount();
     });
@@ -70,6 +96,9 @@ describe('Toast', () => {
       description: 'Description only',
     };
     render(<Toast toast={toast} onRemove={jest.fn()} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('Description only')).toBeTruthy();
   });
 
@@ -79,6 +108,9 @@ describe('Toast', () => {
       title: 'Title only',
     };
     render(<Toast toast={toast} onRemove={jest.fn()} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('Title only')).toBeTruthy();
   });
 });

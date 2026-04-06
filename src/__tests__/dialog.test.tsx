@@ -1,7 +1,15 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { render, screen, fireEvent, act } from '@testing-library/react-native';
 import { Text } from 'react-native';
 import { Dialog } from '../ui/Dialog';
+
+beforeEach(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
 
 describe('Dialog', () => {
   const defaultProps = {
@@ -16,11 +24,17 @@ describe('Dialog', () => {
 
   it('renders children when open', () => {
     render(<Dialog {...defaultProps} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('Dialog content')).toBeTruthy();
   });
 
   it('renders close button by default when onClose is provided', () => {
     render(<Dialog {...defaultProps} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     const closeButton = screen.getByLabelText('Close dialog');
     expect(closeButton).toBeTruthy();
   });
@@ -32,12 +46,18 @@ describe('Dialog', () => {
         <Text>Content</Text>
       </Dialog>
     );
+    act(() => {
+      jest.runAllTimers();
+    });
     fireEvent.press(screen.getByLabelText('Close dialog'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('hides close button when showCloseButton is false', () => {
     render(<Dialog {...defaultProps} showCloseButton={false} />);
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.queryByLabelText('Close dialog')).toBeNull();
   });
 
@@ -50,6 +70,9 @@ describe('Dialog', () => {
           <Text>{size}</Text>
         </Dialog>
       );
+      act(() => {
+        jest.runAllTimers();
+      });
       expect(screen.getByText(size)).toBeTruthy();
       unmount();
     });
@@ -61,6 +84,9 @@ describe('Dialog', () => {
         <Text>No close</Text>
       </Dialog>
     );
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.queryByLabelText('Close dialog')).toBeNull();
   });
 
@@ -70,6 +96,9 @@ describe('Dialog', () => {
         <Text>No X button</Text>
       </Dialog>
     );
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.getByText('No X button')).toBeTruthy();
     expect(screen.queryByLabelText('Close dialog')).toBeNull();
   });
