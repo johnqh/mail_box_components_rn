@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export interface FeatureListItemProps extends ViewProps {
   title: string;
@@ -16,7 +17,7 @@ export const FeatureListItem: React.FC<FeatureListItemProps> = ({
   title,
   description,
   icon,
-  iconColor = 'text-blue-600 dark:text-blue-400',
+  iconColor = colors.component.alert.info.icon,
   className,
   ...props
 }) => {
@@ -28,16 +29,16 @@ export const FeatureListItem: React.FC<FeatureListItemProps> = ({
       {icon ? (
         <View className={cn('w-6 h-6', iconColor)}>{icon}</View>
       ) : (
-        <View className='w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900 items-center justify-center'>
-          <Text className='text-blue-600 dark:text-blue-400'>✓</Text>
+        <View className={cn('w-6 h-6 rounded-full items-center justify-center', colors.component.badge.primary.base, colors.component.badge.primary.dark)}>
+          <Text className={colors.component.alert.info.icon}>✓</Text>
         </View>
       )}
       <View className='flex-1'>
-        <Text className='font-semibold text-gray-900 dark:text-white'>
+        <Text className={textVariants.body.strong.md()}>
           {title}
         </Text>
         {description && (
-          <Text className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
+          <Text className={cn(textVariants.body.sm(), 'mt-1')}>
             {description}
           </Text>
         )}

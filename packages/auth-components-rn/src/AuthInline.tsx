@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Card } from '@sudobility/components-rn';
+import { textVariants } from '@sudobility/design';
 import type { AuthInlineProps, AuthMode } from './types';
 import { useAuthStatus } from './AuthProvider';
 import { ProviderButtons } from './ProviderButtons';
@@ -100,7 +101,7 @@ export const AuthInline: React.FC<AuthInlineProps> = ({
   const content = (
     <View className='gap-4'>
       {showTitle && (
-        <Text className='text-xl font-semibold text-gray-900 dark:text-white text-center'>
+        <Text className={`${textVariants.heading.h4()} text-center`}>
           {getTitle()}
         </Text>
       )}

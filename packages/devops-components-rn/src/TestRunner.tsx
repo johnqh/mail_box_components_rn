@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { getCardVariantColors } from '@sudobility/design';
 
 export interface TestRunnerProps extends ViewProps {
   disabled?: boolean;
@@ -21,7 +22,8 @@ export const TestRunner: React.FC<TestRunnerProps> = ({
     accessibilityRole='button'
     accessibilityLabel='Test Runner'
     className={cn(
-      'p-4 rounded-lg border bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700',
+      'p-4 rounded-lg',
+      getCardVariantColors('bordered'),
       disabled && 'opacity-50',
       className
     )}

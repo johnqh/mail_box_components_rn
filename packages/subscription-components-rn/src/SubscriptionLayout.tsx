@@ -6,6 +6,7 @@ import {
   Pressable,
   ActivityIndicator,
 } from 'react-native';
+import { cn } from '@sudobility/components-rn';
 import { SubscriptionTile } from './SubscriptionTile';
 import { PlatformIcon, platformDisplayName } from './PlatformIcon';
 import type {
@@ -243,14 +244,11 @@ export function SubscriptionLayout({
               <Pressable
                 onPress={handleSecondaryPress}
                 disabled={secondaryAction.disabled || secondaryAction.loading}
-                className={[
+                className={cn(
                   'py-3 rounded-lg border border-gray-300 dark:border-gray-600 items-center',
-                  secondaryAction.disabled || secondaryAction.loading
-                    ? 'opacity-50'
-                    : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+                  (secondaryAction.disabled || secondaryAction.loading) &&
+                    'opacity-50'
+                )}
               >
                 {secondaryAction.loading ? (
                   <ActivityIndicator size='small' />
@@ -265,14 +263,11 @@ export function SubscriptionLayout({
             <Pressable
               onPress={handlePrimaryPress}
               disabled={primaryAction.disabled || primaryAction.loading}
-              className={[
+              className={cn(
                 'py-3 rounded-lg bg-blue-600 items-center',
-                primaryAction.disabled || primaryAction.loading
-                  ? 'opacity-50'
-                  : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
+                (primaryAction.disabled || primaryAction.loading) &&
+                  'opacity-50'
+              )}
             >
               {primaryAction.loading ? (
                 <ActivityIndicator size='small' color='white' />
@@ -305,7 +300,7 @@ export function SubscriptionDivider({
 }: SubscriptionDividerProps) {
   if (label) {
     return (
-      <View className={'flex-row items-center gap-4 my-4 ' + className}>
+      <View className={cn('flex-row items-center gap-4 my-4', className)}>
         <View className='flex-1 h-px bg-gray-200 dark:bg-gray-700' />
         <Text className='text-sm text-gray-500 dark:text-gray-400'>
           {label}
@@ -316,7 +311,7 @@ export function SubscriptionDivider({
   }
 
   return (
-    <View className={'h-px bg-gray-200 dark:bg-gray-700 my-4 ' + className} />
+    <View className={cn('h-px bg-gray-200 dark:bg-gray-700 my-4', className)} />
   );
 }
 
@@ -350,7 +345,7 @@ export function SubscriptionFooter({
   className = '',
 }: SubscriptionFooterProps) {
   return (
-    <View className={'items-center gap-3 ' + className}>
+    <View className={cn('items-center gap-3', className)}>
       {/* Restore Button */}
       {onRestore && (
         <Text

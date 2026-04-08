@@ -5,6 +5,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, designTokens } from '@sudobility/design';
 import type { ProviderButtonsProps, AuthProviderType } from './types';
 import { useAuthStatus } from './AuthProvider';
 
@@ -15,37 +16,43 @@ interface ProviderButtonProps {
   className?: string;
 }
 
+const providerBgColors: Record<AuthProviderType, string> = {
+  google: `bg-white border ${colors.component.input.default.base.split(' ').find(c => c.startsWith('border-')) ?? 'border-gray-300'}`,
+  apple: 'bg-black',
+  email: `bg-[${colors.raw.blue[600]}]`,
+};
+
+const providerTextColors: Record<AuthProviderType, string> = {
+  google: 'text-gray-900 dark:text-gray-900',
+  apple: 'text-white',
+  email: 'text-white',
+};
+
 const ProviderButton: React.FC<ProviderButtonProps> = ({
   provider,
   label,
   onPress,
   className,
 }) => {
-  const bgColors: Record<AuthProviderType, string> = {
-    google: 'bg-white border border-gray-300',
-    apple: 'bg-black',
-    email: 'bg-blue-600',
-  };
-
-  const textColors: Record<AuthProviderType, string> = {
-    google: 'text-gray-900',
-    apple: 'text-white',
-    email: 'text-white',
-  };
-
   return (
     <Pressable
       onPress={onPress}
       className={cn(
         'flex-row items-center justify-center py-3 px-4 rounded-lg',
         'active:opacity-80',
-        bgColors[provider],
+        providerBgColors[provider],
         className
       )}
       accessibilityRole='button'
       accessibilityLabel={label}
     >
-      <Text className={cn('font-medium text-base', textColors[provider])}>
+      <Text
+        className={cn(
+          designTokens.typography.weight.medium,
+          designTokens.typography.size.base,
+          providerTextColors[provider]
+        )}
+      >
         {label}
       </Text>
     </Pressable>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export type LogLevel = 'info' | 'warn' | 'error' | 'debug' | 'success';
 
@@ -26,7 +27,7 @@ const levelConfig: Record<
   { color: string; bgColor: string; darkBgColor: string; prefix: string }
 > = {
   info: {
-    color: 'text-blue-600 dark:text-blue-400',
+    color: `${colors.component.alert.info.icon}`,
     bgColor: 'bg-blue-50',
     darkBgColor: 'dark:bg-blue-950',
     prefix: 'INFO',
@@ -38,7 +39,7 @@ const levelConfig: Record<
     prefix: 'WARN',
   },
   error: {
-    color: 'text-red-600 dark:text-red-400',
+    color: `${colors.component.alert.error.icon}`,
     bgColor: 'bg-red-50',
     darkBgColor: 'dark:bg-red-950',
     prefix: 'ERROR',
@@ -50,7 +51,7 @@ const levelConfig: Record<
     prefix: 'DEBUG',
   },
   success: {
-    color: 'text-green-600 dark:text-green-400',
+    color: `${colors.component.alert.success.icon}`,
     bgColor: 'bg-green-50',
     darkBgColor: 'dark:bg-green-950',
     prefix: 'SUCCESS',
@@ -78,7 +79,7 @@ export const BuildLog: React.FC<BuildLogProps> = ({
     <Card className={cn('overflow-hidden', className)}>
       {title && (
         <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
-          <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className={textVariants.label.default()}>
             {title}
           </Text>
         </View>
@@ -127,7 +128,7 @@ export const BuildLog: React.FC<BuildLogProps> = ({
         </View>
       </ScrollView>
       <View className='px-4 py-2 bg-gray-800 dark:bg-gray-950 border-t border-gray-700'>
-        <Text className='text-xs text-gray-400 dark:text-gray-500'>
+        <Text className={textVariants.caption.default()}>
           {entries.length} log entries
         </Text>
       </View>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface ProgressCircleProps {
   /** Progress value (0-100) */
@@ -48,18 +49,18 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
   label,
   variant = 'primary',
   color,
-  trackColor = '#e5e7eb',
+  trackColor = colors.raw.neutral[200],
   className,
 }) => {
   // Clamp value between 0 and 100
   const progress = Math.min(100, Math.max(0, value));
 
-  // Color variants
+  // Color variants from design system raw palette
   const variantColors = {
-    primary: '#2563eb',
-    success: '#16a34a',
-    warning: '#ca8a04',
-    danger: '#dc2626',
+    primary: colors.raw.blue[600],
+    success: colors.raw.green[600],
+    warning: colors.raw.amber[600],
+    danger: colors.raw.red[600],
   };
 
   const progressColor = color || variantColors[variant];

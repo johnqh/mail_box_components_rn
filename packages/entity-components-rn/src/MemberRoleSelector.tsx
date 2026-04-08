@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, Modal } from 'react-native';
+import { cn } from '@sudobility/components-rn';
 import type { MemberRoleSelectorProps, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
 
@@ -62,20 +63,20 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
       <Pressable
         onPress={handleOpen}
         disabled={disabled}
-        className={`
-          flex-row items-center justify-between px-4 py-3 rounded-xl
-          bg-white dark:bg-gray-800
-          border border-gray-200 dark:border-gray-700
-          ${disabled ? 'opacity-50' : ''}
-          active:opacity-80
-        `}
+        className={cn(
+          'flex-row items-center justify-between px-4 py-3 rounded-xl',
+          'bg-white dark:bg-gray-800',
+          'border border-gray-200 dark:border-gray-700',
+          disabled && 'opacity-50',
+          'active:opacity-80',
+        )}
         accessibilityRole='button'
         accessibilityLabel={`Selected role: ${selectedConfig?.label || selectedRole}`}
         accessibilityState={{ disabled }}
       >
         <View className='flex-row items-center'>
           <View
-            className={`px-3 py-1 rounded-full mr-2 ${getRoleBadgeClasses(selectedRole)}`}
+            className={cn('px-3 py-1 rounded-full mr-2', getRoleBadgeClasses(selectedRole))}
           >
             <Text className='text-sm font-medium'>
               {selectedConfig?.label || selectedRole}
@@ -120,11 +121,11 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
               <Pressable
                 key={config.role}
                 onPress={() => handleSelect(config.role)}
-                className={`
-                  px-4 py-4 border-b border-gray-100 dark:border-gray-700
-                  ${selectedRole === config.role ? 'bg-blue-50 dark:bg-blue-900/30' : ''}
-                  active:bg-gray-100 dark:active:bg-gray-700
-                `}
+                className={cn(
+                  'px-4 py-4 border-b border-gray-100 dark:border-gray-700',
+                  selectedRole === config.role && 'bg-blue-50 dark:bg-blue-900/30',
+                  'active:bg-gray-100 dark:active:bg-gray-700',
+                )}
                 accessibilityRole='button'
                 accessibilityLabel={`${config.label}: ${config.description}`}
                 accessibilityState={{ selected: selectedRole === config.role }}
@@ -133,7 +134,7 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
                   <View className='flex-1'>
                     <View className='flex-row items-center'>
                       <View
-                        className={`px-3 py-1 rounded-full ${getRoleBadgeClasses(config.role)}`}
+                        className={cn('px-3 py-1 rounded-full', getRoleBadgeClasses(config.role))}
                       >
                         <Text className='text-sm font-medium'>
                           {config.label}

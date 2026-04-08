@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, designTokens } from '@sudobility/design';
 import type { AvatarProps } from './types';
 
 /**
@@ -55,10 +56,13 @@ export const Avatar: React.FC<AvatarProps & ViewProps> = ({
     />
   ) : (
     <View
-      style={sizeStyle}
-      className={cn('items-center justify-center bg-blue-600', className)}
+      style={[sizeStyle, { backgroundColor: colors.raw.blue[600] }]}
+      className={cn('items-center justify-center', className)}
     >
-      <Text style={{ fontSize: size * 0.4 }} className='font-medium text-white'>
+      <Text
+        style={{ fontSize: size * 0.4 }}
+        className={`${designTokens.typography.weight.medium} text-white`}
+      >
         {initials}
       </Text>
     </View>

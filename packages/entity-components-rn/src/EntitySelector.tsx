@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, Modal, FlatList, Image } from 'react-native';
+import { cn } from '@sudobility/components-rn';
 import type { EntitySelectorProps, Entity } from './types';
 
 /**
@@ -43,7 +44,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       return (
         <Image
           source={{ uri: entity.avatarUrl }}
-          className={`${sizeClasses} rounded-full bg-gray-200 dark:bg-gray-600`}
+          className={cn(sizeClasses, 'rounded-full bg-gray-200 dark:bg-gray-600')}
           accessibilityIgnoresInvertColors
         />
       );
@@ -51,10 +52,10 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
 
     return (
       <View
-        className={`${sizeClasses} rounded-full bg-gray-200 dark:bg-gray-600 items-center justify-center`}
+        className={cn(sizeClasses, 'rounded-full bg-gray-200 dark:bg-gray-600 items-center justify-center')}
       >
         <Text
-          className={`${textSize} font-semibold text-gray-600 dark:text-gray-300`}
+          className={cn(textSize, 'font-semibold text-gray-600 dark:text-gray-300')}
         >
           {entity.name.charAt(0).toUpperCase()}
         </Text>
@@ -65,11 +66,11 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
   const renderItem = ({ item }: { item: Entity }) => (
     <Pressable
       onPress={() => handleSelect(item)}
-      className={`
-        flex-row items-center px-4 py-3
-        ${selectedEntity?.id === item.id ? 'bg-blue-50 dark:bg-blue-900/30' : ''}
-        active:bg-gray-100 dark:active:bg-gray-700
-      `}
+      className={cn(
+        'flex-row items-center px-4 py-3',
+        selectedEntity?.id === item.id && 'bg-blue-50 dark:bg-blue-900/30',
+        'active:bg-gray-100 dark:active:bg-gray-700',
+      )}
       accessibilityRole='button'
       accessibilityLabel={`Select ${item.name}`}
       accessibilityState={{ selected: selectedEntity?.id === item.id }}
@@ -100,13 +101,13 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       <Pressable
         onPress={handleOpen}
         disabled={disabled || loading}
-        className={`
-          flex-row items-center px-4 py-3 rounded-xl
-          bg-white dark:bg-gray-800
-          border border-gray-200 dark:border-gray-700
-          ${disabled ? 'opacity-50' : ''}
-          active:opacity-80
-        `}
+        className={cn(
+          'flex-row items-center px-4 py-3 rounded-xl',
+          'bg-white dark:bg-gray-800',
+          'border border-gray-200 dark:border-gray-700',
+          disabled && 'opacity-50',
+          'active:opacity-80',
+        )}
         accessibilityRole='button'
         accessibilityLabel={
           selectedEntity ? `Selected: ${selectedEntity.name}` : placeholder

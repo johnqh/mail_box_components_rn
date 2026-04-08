@@ -8,6 +8,7 @@ import {
   type ViewProps,
 } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 type AlertVariant = 'default' | 'danger' | 'warning' | 'success';
 
@@ -30,23 +31,23 @@ const variantClasses: Record<
   { iconBg: string; icon: string; button: string }
 > = {
   default: {
-    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
-    icon: 'text-blue-600 dark:text-blue-400',
+    iconBg: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
+    icon: `${colors.component.alert.info.icon}`,
     button: 'bg-blue-600 active:bg-blue-700',
   },
   danger: {
-    iconBg: 'bg-red-100 dark:bg-red-900/30',
-    icon: 'text-red-600 dark:text-red-400',
+    iconBg: `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`,
+    icon: `${colors.component.alert.error.icon}`,
     button: 'bg-red-600 active:bg-red-700',
   },
   warning: {
-    iconBg: 'bg-yellow-100 dark:bg-yellow-900/30',
-    icon: 'text-yellow-600 dark:text-yellow-400',
-    button: 'bg-yellow-600 active:bg-yellow-700',
+    iconBg: `${colors.component.badge.attention.base} ${colors.component.badge.attention.dark}`,
+    icon: `${colors.component.alert.attention.icon}`,
+    button: 'bg-amber-600 active:bg-amber-700',
   },
   success: {
-    iconBg: 'bg-green-100 dark:bg-green-900/30',
-    icon: 'text-green-600 dark:text-green-400',
+    iconBg: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
+    icon: `${colors.component.alert.success.icon}`,
     button: 'bg-green-600 active:bg-green-700',
   },
 };
@@ -115,13 +116,13 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
               </View>
 
               <View className='flex-1'>
-                <Text className='text-lg font-semibold text-gray-900 dark:text-white mb-2'>
+                <Text className={cn(textVariants.heading.h5(), 'mb-2')}>
                   {typeof title === 'string' ? title : null}
                 </Text>
                 {typeof title !== 'string' && title}
 
                 {description && (
-                  <Text className='text-sm text-gray-600 dark:text-gray-400'>
+                  <Text className={textVariants.body.sm()}>
                     {typeof description === 'string' ? description : null}
                   </Text>
                 )}

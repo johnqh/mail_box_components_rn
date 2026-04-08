@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { View, Text, Pressable } from 'react-native';
+import { cn } from '@sudobility/components-rn';
 import type {
   BadgeConfig,
   CtaButtonConfig,
@@ -119,7 +120,7 @@ export function SubscriptionTile({
   // - Current plan (not selected): Blue border to indicate current subscription
   // - Not enabled: Grayed out with opacity-50
   // - Default: Gray background
-  const containerClasses = [
+  const containerClasses = cn(
     'relative rounded-2xl p-6',
     isSelected
       ? 'bg-blue-600 border-2 border-blue-600'
@@ -128,10 +129,8 @@ export function SubscriptionTile({
         : !enabled
           ? 'bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50'
           : 'bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   const handlePress = () => {
     if (isInteractive && !isCtaMode) {
@@ -163,10 +162,10 @@ export function SubscriptionTile({
       {topBadge && (
         <View className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10'>
           <View
-            className={[
+            className={cn(
               BADGE_COLORS[topBadge.color],
-              'px-4 py-1.5 rounded-full',
-            ].join(' ')}
+              'px-4 py-1.5 rounded-full'
+            )}
           >
             <Text className='text-white text-sm font-semibold'>
               {topBadge.text}
@@ -179,35 +178,33 @@ export function SubscriptionTile({
       <View className='flex-1'>
         {/* Title and Price - add top margin when there's a topBadge */}
         <View
-          className={['items-center mb-6', topBadge ? 'mt-2' : '']
-            .filter(Boolean)
-            .join(' ')}
+          className={cn('items-center mb-6', topBadge && 'mt-2')}
         >
           <Text
-            className={[
+            className={cn(
               'text-xl font-bold mb-2',
-              isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100',
-            ].join(' ')}
+              isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+            )}
           >
             {title}
           </Text>
           <View className='flex-row items-baseline mb-3'>
             <Text
-              className={[
+              className={cn(
                 'text-4xl font-bold',
-                isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100',
-              ].join(' ')}
+                isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+              )}
             >
               {price}
             </Text>
             {periodLabel && (
               <Text
-                className={[
+                className={cn(
                   'text-lg',
                   isSelected
                     ? 'text-blue-100'
-                    : 'text-gray-500 dark:text-gray-400',
-                ].join(' ')}
+                    : 'text-gray-500 dark:text-gray-400'
+                )}
               >
                 {periodLabel}
               </Text>
@@ -217,20 +214,20 @@ export function SubscriptionTile({
           {/* Discount Badge */}
           {discountBadge && (
             <View
-              className={[
+              className={cn(
                 'px-2 py-1 rounded-full',
                 isSelected
                   ? 'bg-blue-500'
-                  : 'bg-green-100 dark:bg-green-900/50',
-              ].join(' ')}
+                  : 'bg-green-100 dark:bg-green-900/50'
+              )}
             >
               <Text
-                className={[
+                className={cn(
                   'text-sm font-semibold',
                   isSelected
                     ? 'text-white'
-                    : 'text-green-700 dark:text-green-300',
-                ].join(' ')}
+                    : 'text-green-700 dark:text-green-300'
+                )}
               >
                 {discountBadge.text}
               </Text>
@@ -247,20 +244,20 @@ export function SubscriptionTile({
             {features.map((feature, index) => (
               <View key={index} className='flex-row items-start'>
                 <Text
-                  className={[
+                  className={cn(
                     'mr-3',
-                    isSelected ? 'text-blue-200' : 'text-green-500',
-                  ].join(' ')}
+                    isSelected ? 'text-blue-200' : 'text-green-500'
+                  )}
                 >
                   ✓
                 </Text>
                 <Text
-                  className={[
+                  className={cn(
                     'text-sm flex-1',
                     isSelected
                       ? 'text-white'
-                      : 'text-gray-700 dark:text-gray-300',
-                  ].join(' ')}
+                      : 'text-gray-700 dark:text-gray-300'
+                  )}
                 >
                   {feature.replace(/^✓\s*/, '')}
                 </Text>
@@ -272,32 +269,32 @@ export function SubscriptionTile({
         {/* Premium Callout */}
         {premiumCallout && (
           <View
-            className={[
+            className={cn(
               'rounded-lg p-4 mb-4',
               isSelected
                 ? 'bg-blue-500/30'
-                : 'bg-purple-50 dark:bg-purple-900/20',
-            ].join(' ')}
+                : 'bg-purple-50 dark:bg-purple-900/20'
+            )}
           >
             <Text
-              className={[
+              className={cn(
                 'font-semibold text-sm mb-2',
                 isSelected
                   ? 'text-white'
-                  : 'text-purple-600 dark:text-purple-400',
-              ].join(' ')}
+                  : 'text-purple-600 dark:text-purple-400'
+              )}
             >
               {premiumCallout.title}
             </Text>
             {premiumCallout.features.map((feat, idx) => (
               <Text
                 key={idx}
-                className={[
+                className={cn(
                   'text-xs',
                   isSelected
                     ? 'text-blue-100'
-                    : 'text-gray-600 dark:text-gray-400',
-                ].join(' ')}
+                    : 'text-gray-600 dark:text-gray-400'
+                )}
               >
                 • {feat}
               </Text>
@@ -308,10 +305,10 @@ export function SubscriptionTile({
         {/* Bottom Note (e.g., new expiration date) */}
         {bottomNote && (
           <Text
-            className={[
+            className={cn(
               'text-center text-sm font-medium mb-4',
-              isSelected ? 'text-blue-100' : 'text-blue-600 dark:text-blue-400',
-            ].join(' ')}
+              isSelected ? 'text-blue-100' : 'text-blue-600 dark:text-blue-400'
+            )}
           >
             {bottomNote}
           </Text>
@@ -320,20 +317,20 @@ export function SubscriptionTile({
         {/* Intro Price Banner */}
         {introPriceNote && (
           <View
-            className={[
+            className={cn(
               'p-3 rounded-lg',
               isSelected
                 ? 'bg-blue-500/30'
-                : 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800',
-            ].join(' ')}
+                : 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800'
+            )}
           >
             <Text
-              className={[
+              className={cn(
                 'text-sm font-semibold text-center',
                 isSelected
                   ? 'text-white'
-                  : 'text-yellow-700 dark:text-yellow-300',
-              ].join(' ')}
+                  : 'text-yellow-700 dark:text-yellow-300'
+              )}
             >
               {introPriceNote}
             </Text>
@@ -348,19 +345,17 @@ export function SubscriptionTile({
           <Pressable
             onPress={handleCtaPress}
             disabled={disabled}
-            className={[
+            className={cn(
               'w-full py-3 rounded-lg items-center',
               isSelected ? 'bg-white' : 'bg-blue-600',
-              disabled ? 'opacity-50' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+              disabled && 'opacity-50'
+            )}
           >
             <Text
-              className={[
+              className={cn(
                 'font-semibold',
-                isSelected ? 'text-blue-600' : 'text-white',
-              ].join(' ')}
+                isSelected ? 'text-blue-600' : 'text-white'
+              )}
             >
               {ctaButton.label}
             </Text>
@@ -370,12 +365,12 @@ export function SubscriptionTile({
         {/* Radio button indicator */}
         {showIndicator && !isCtaMode && (
           <View
-            className={[
+            className={cn(
               'w-5 h-5 rounded-full border-2 items-center justify-center',
               isSelected
                 ? 'border-white bg-white'
-                : 'border-gray-300 dark:border-gray-600',
-            ].join(' ')}
+                : 'border-gray-300 dark:border-gray-600'
+            )}
           >
             {isSelected && (
               <View className='w-2 h-2 rounded-full bg-blue-600' />

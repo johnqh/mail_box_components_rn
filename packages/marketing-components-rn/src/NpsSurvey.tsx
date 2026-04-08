@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { getCardVariantColors } from '@sudobility/design';
 
 export interface NpsSurveyProps extends ViewProps {
   disabled?: boolean;
@@ -27,9 +28,8 @@ export const NpsSurvey: React.FC<NpsSurveyProps> = ({
       accessibilityLabel='NPS Survey'
       accessibilityState={{ disabled }}
       className={cn(
-        'p-4 rounded-lg border',
-        'bg-white dark:bg-gray-900',
-        'border-gray-200 dark:border-gray-700',
+        'p-4 rounded-lg',
+        getCardVariantColors('bordered'),
         disabled && 'opacity-50',
         'active:bg-gray-50 dark:active:bg-gray-800',
         className

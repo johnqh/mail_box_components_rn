@@ -3,6 +3,13 @@ import { View, Text, ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textVariants } from '@sudobility/design';
 
+// Divider line colors aligned with DS border tokens (colors.semantic.border)
+const lineVariantClasses = {
+  light: 'bg-gray-200 dark:bg-gray-700',
+  medium: 'bg-gray-300 dark:bg-gray-600',
+  dark: 'bg-gray-400 dark:bg-gray-500',
+} as const;
+
 export interface DividerProps extends ViewProps {
   /** Optional text label */
   label?: string;
@@ -81,20 +88,13 @@ export const Divider: React.FC<DividerProps> = ({
     thick: 4,
   };
 
-  // Color variant configurations
-  const variantClasses = {
-    light: 'bg-gray-200 dark:bg-gray-700',
-    medium: 'bg-gray-300 dark:bg-gray-600',
-    dark: 'bg-gray-400 dark:bg-gray-500',
-  };
-
   // Vertical divider
   if (orientation === 'vertical') {
     return (
       <View
         className={cn(
           'self-stretch',
-          variantClasses[variant],
+          lineVariantClasses[variant],
           spacingClasses.vertical[spacing],
           className
         )}
@@ -111,7 +111,7 @@ export const Divider: React.FC<DividerProps> = ({
       <View
         className={cn(
           'w-full',
-          variantClasses[variant],
+          lineVariantClasses[variant],
           spacingClasses.horizontal[spacing],
           lineClassName,
           className
@@ -143,21 +143,16 @@ export const Divider: React.FC<DividerProps> = ({
     >
       {labelPosition !== 'left' && (
         <View
-          className={cn('flex-1', variantClasses[variant], lineClassName)}
+          className={cn('flex-1', lineVariantClasses[variant], lineClassName)}
           style={{ height: thicknessValues[thickness] }}
         />
       )}
-      <Text
-        className={cn(
-          textVariants.body.sm(),
-          'px-3 text-gray-500 dark:text-gray-400'
-        )}
-      >
+      <Text className={cn(textVariants.caption.default(), 'px-3')}>
         {label}
       </Text>
       {labelPosition !== 'right' && (
         <View
-          className={cn('flex-1', variantClasses[variant], lineClassName)}
+          className={cn('flex-1', lineVariantClasses[variant], lineClassName)}
           style={{ height: thicknessValues[thickness] }}
         />
       )}

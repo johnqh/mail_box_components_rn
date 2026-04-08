@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { getStatusIndicatorColor } from '@sudobility/design';
 
 type UseCaseColor = 'blue' | 'green' | 'purple' | 'orange' | 'pink' | 'gray';
 
@@ -29,12 +30,12 @@ const colorClasses: Record<UseCaseColor, string> = {
 };
 
 const bulletColors: Record<UseCaseColor, string> = {
-  blue: 'bg-blue-500',
-  green: 'bg-green-500',
+  blue: getStatusIndicatorColor('info'),
+  green: getStatusIndicatorColor('success'),
   purple: 'bg-purple-500',
-  orange: 'bg-orange-500',
+  orange: getStatusIndicatorColor('warning'),
   pink: 'bg-pink-500',
-  gray: 'bg-gray-500',
+  gray: getStatusIndicatorColor('neutral'),
 };
 
 interface UseCaseCardProps {

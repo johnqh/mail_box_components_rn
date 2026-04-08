@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { ChainBadge } from '@sudobility/components-rn';
+import { colors } from '@sudobility/design';
 
 export interface EmailAccount {
   address: string;
@@ -54,9 +55,9 @@ const ChainPill: React.FC<ChainPillProps> = ({ type, addressType }) => {
   const getChainStyle = () => {
     switch (type) {
       case 'ens':
-        return 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800';
+        return `${colors.component.card.success.base} ${colors.component.card.success.dark}`;
       case 'sns':
-        return 'bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-800';
+        return `${colors.component.card.warning.base} ${colors.component.card.warning.dark}`;
       default:
         return 'bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800';
     }
@@ -107,7 +108,7 @@ const CollapsibleDomainEmails: React.FC<CollapsibleDomainEmailsProps> = ({
           className={cn(
             'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
             selectedAccount === email.address
-              ? 'bg-blue-100 dark:bg-blue-900/30'
+              ? `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`
               : 'active:bg-gray-100 dark:active:bg-gray-700'
           )}
         >

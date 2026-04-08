@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
+import { getStatusIndicatorColor, textVariants } from '@sudobility/design';
 
 export type SystemStatus = 'operational' | 'degraded' | 'major-outage';
 
@@ -15,21 +16,18 @@ export interface SystemStatusIndicatorProps {
 
 const statusConfig: Record<
   SystemStatus,
-  { color: string; darkColor: string; label: string }
+  { dotColor: string; label: string }
 > = {
   operational: {
-    color: 'bg-green-500',
-    darkColor: 'dark:bg-green-400',
+    dotColor: getStatusIndicatorColor('success'),
     label: 'Operational',
   },
   degraded: {
-    color: 'bg-yellow-500',
-    darkColor: 'dark:bg-yellow-400',
+    dotColor: getStatusIndicatorColor('warning'),
     label: 'Degraded',
   },
   'major-outage': {
-    color: 'bg-red-500',
-    darkColor: 'dark:bg-red-400',
+    dotColor: getStatusIndicatorColor('error'),
     label: 'Major Outage',
   },
 };
@@ -50,12 +48,11 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
         <View
           className={cn(
             'w-3 h-3 rounded-full mr-3',
-            config.color,
-            config.darkColor
+            config.dotColor
           )}
         />
         <View className='flex-1'>
-          <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className={textVariants.body.strong.md()}>
             {systemName}
           </Text>
           <Text
@@ -71,12 +68,12 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
         </View>
       </View>
       {description && (
-        <Text className='mt-2 text-sm text-gray-600 dark:text-gray-400'>
+        <Text className={cn(textVariants.body.sm(), 'mt-2')}>
           {description}
         </Text>
       )}
       {lastChecked && (
-        <Text className='mt-2 text-xs text-gray-500 dark:text-gray-500'>
+        <Text className={cn(textVariants.caption.default(), 'mt-2')}>
           Last checked: {lastChecked.toLocaleString()}
         </Text>
       )}

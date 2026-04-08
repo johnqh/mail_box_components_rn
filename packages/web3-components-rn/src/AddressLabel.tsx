@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { textVariants } from '@sudobility/design';
 
 export interface AddressLabelProps extends ViewProps {
   address: string;
@@ -48,7 +49,7 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
 
   const content = (
     <Text
-      className={cn('font-mono text-sm', variantStyles[variant], className)}
+      className={cn(textVariants.web3.address(), variantStyles[variant], className)}
       selectable
     >
       {displayAddress}

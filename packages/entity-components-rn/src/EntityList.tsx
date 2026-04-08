@@ -6,6 +6,8 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
+import { cn } from '@sudobility/components-rn';
+import { colors } from '@sudobility/design';
 import type { EntityListProps, Entity } from './types';
 import { EntityCard } from './EntityCard';
 
@@ -48,7 +50,7 @@ export const EntityList: React.FC<EntityListProps> = ({
     if (loading) {
       return (
         <View className='flex-1 items-center justify-center py-12'>
-          <ActivityIndicator size='large' color='#3B82F6' />
+          <ActivityIndicator size='large' color={colors.raw.blue[500]} />
           <Text className='text-gray-500 dark:text-gray-400 mt-4'>
             Loading...
           </Text>
@@ -69,7 +71,7 @@ export const EntityList: React.FC<EntityListProps> = ({
   const keyExtractor = (item: Entity) => item.id;
 
   return (
-    <View className={`flex-1 ${className}`} style={style} testID={testID}>
+    <View className={cn('flex-1', className)} style={style} testID={testID}>
       <FlatList
         data={entities}
         renderItem={renderItem}
@@ -84,7 +86,7 @@ export const EntityList: React.FC<EntityListProps> = ({
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              tintColor='#3B82F6'
+              tintColor={colors.raw.blue[500]}
             />
           ) : undefined
         }

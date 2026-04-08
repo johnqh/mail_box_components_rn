@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, Linking, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export interface ButtonConfig {
   text: string;
@@ -24,15 +25,12 @@ export interface HeroBannerWithBadgeProps extends ViewProps {
 }
 
 const badgeColorClasses: Record<BadgeColor, string> = {
-  blue: 'bg-blue-100 dark:bg-blue-900/30 border-blue-300 dark:border-blue-700',
-  green:
-    'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700',
-  purple:
-    'bg-purple-100 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700',
-  orange:
-    'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700',
+  blue: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark} border-blue-300 dark:border-blue-700`,
+  green: `${colors.component.badge.success.base} ${colors.component.badge.success.dark} border-green-300 dark:border-green-700`,
+  purple: 'bg-purple-100 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700',
+  orange: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark} border-orange-300 dark:border-orange-700`,
   pink: 'bg-pink-100 dark:bg-pink-900/30 border-pink-300 dark:border-pink-700',
-  gray: 'bg-gray-100 dark:bg-gray-900/30 border-gray-300 dark:border-gray-700',
+  gray: `${colors.component.badge.default.base} ${colors.component.badge.default.dark} border-gray-300 dark:border-gray-700`,
 };
 
 const badgeTextClasses: Record<BadgeColor, string> = {
@@ -86,7 +84,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
         </View>
 
         {/* Title */}
-        <Text className='text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 text-center'>
+        <Text className={cn(textVariants.heading.h2(), 'mb-2 text-center')}>
           {typeof title === 'string' ? title : null}
         </Text>
         {typeof title !== 'string' && title}
@@ -98,7 +96,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
         )}
 
         {/* Description */}
-        <Text className='text-lg text-gray-600 dark:text-gray-300 mb-8 text-center max-w-lg'>
+        <Text className={cn(textVariants.lead.md(), 'mb-8 text-center max-w-lg')}>
           {description}
         </Text>
 

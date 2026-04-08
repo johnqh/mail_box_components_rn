@@ -2,6 +2,26 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, Pressable, Animated } from 'react-native';
 import { InfoType } from '@sudobility/types';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
+
+const alert = colors.component.alert;
+
+// Split DS alert color strings into container (bg+border) and text for RN.
+// Views don't cascade text color to child Text elements.
+function splitAlertClasses(base: string, dark: string) {
+  const all = `${base} ${dark}`.split(' ');
+  return {
+    container: all
+      .filter(c => c.includes('bg-') || c.includes('border-'))
+      .join(' '),
+    text: all.filter(c => c.includes('text-')).join(' '),
+  };
+}
+
+const dsInfo = splitAlertClasses(alert.info.base, alert.info.dark);
+const dsSuccess = splitAlertClasses(alert.success.base, alert.success.dark);
+const dsWarning = splitAlertClasses(alert.warning.base, alert.warning.dark);
+const dsError = splitAlertClasses(alert.error.base, alert.error.dark);
 
 export interface BannerProps {
   /** Whether the banner is visible */
@@ -24,46 +44,39 @@ export interface BannerProps {
   closeAccessibilityLabel?: string;
 }
 
+// Banner variant config derived from design system (colors.component.alert)
 const variantConfig: Record<
   InfoType,
   {
     icon: string;
     container: string;
     iconColor: string;
-    titleColor: string;
-    descriptionColor: string;
+    textColor: string;
   }
 > = {
   [InfoType.INFO]: {
     icon: '\u2139',
-    container:
-      'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800',
-    iconColor: 'text-blue-600 dark:text-blue-400',
-    titleColor: 'text-blue-900 dark:text-blue-100',
-    descriptionColor: 'text-blue-700 dark:text-blue-300',
+    container: dsInfo.container,
+    iconColor: alert.info.icon,
+    textColor: dsInfo.text,
   },
   [InfoType.SUCCESS]: {
     icon: '\u2713',
-    container:
-      'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800',
-    iconColor: 'text-green-600 dark:text-green-400',
-    titleColor: 'text-green-900 dark:text-green-100',
-    descriptionColor: 'text-green-700 dark:text-green-300',
+    container: dsSuccess.container,
+    iconColor: alert.success.icon,
+    textColor: dsSuccess.text,
   },
   [InfoType.WARNING]: {
     icon: '\u26A0',
-    container:
-      'bg-yellow-50 dark:bg-amber-950 border-yellow-200 dark:border-amber-800',
-    iconColor: 'text-yellow-600 dark:text-amber-400',
-    titleColor: 'text-yellow-900 dark:text-amber-100',
-    descriptionColor: 'text-yellow-700 dark:text-amber-300',
+    container: dsWarning.container,
+    iconColor: alert.warning.icon,
+    textColor: dsWarning.text,
   },
   [InfoType.ERROR]: {
     icon: '\u2717',
-    container: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800',
-    iconColor: 'text-red-600 dark:text-red-400',
-    titleColor: 'text-red-900 dark:text-red-100',
-    descriptionColor: 'text-red-700 dark:text-red-300',
+    container: dsError.container,
+    iconColor: alert.error.icon,
+    textColor: dsError.text,
   },
 };
 
@@ -206,11 +219,9 @@ export const Banner: React.FC<BannerProps> = ({
 
         {/* Content */}
         <View className='flex-1 min-w-0'>
-          <Text className={cn('font-semibold', config.titleColor)}>
-            {title}
-          </Text>
+          <Text className={cn('font-semibold', config.textColor)}>{title}</Text>
           {description ? (
-            <Text className={cn('text-sm mt-1', config.descriptionColor)}>
+            <Text className={cn('text-sm mt-1', config.textColor)}>
               {description}
             </Text>
           ) : null}

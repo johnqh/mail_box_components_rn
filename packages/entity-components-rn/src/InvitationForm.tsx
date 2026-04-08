@@ -6,6 +6,8 @@ import {
   Pressable,
   ActivityIndicator,
 } from 'react-native';
+import { cn } from '@sudobility/components-rn';
+import { colors } from '@sudobility/design';
 import type { InvitationFormProps, EntityRole } from './types';
 import { MemberRoleSelector } from './MemberRoleSelector';
 
@@ -79,7 +81,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
   const canSubmit = email.trim().length > 0 && !isDisabled;
 
   return (
-    <View className={`${className}`} style={style} testID={testID}>
+    <View className={cn(className)} style={style} testID={testID}>
       {/* Email Input */}
       <View className='mb-4'>
         <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
@@ -89,19 +91,20 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           value={email}
           onChangeText={handleEmailChange}
           placeholder={placeholder}
-          placeholderTextColor='#9CA3AF'
+          placeholderTextColor={colors.raw.neutral[400]}
           keyboardType='email-address'
           autoCapitalize='none'
           autoCorrect={false}
           autoComplete='email'
           editable={!isDisabled}
-          className={`
-            px-4 py-3 rounded-xl
-            bg-white dark:bg-gray-800
-            border ${error ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'}
-            text-gray-900 dark:text-white
-            ${isDisabled ? 'opacity-50' : ''}
-          `}
+          className={cn(
+            'px-4 py-3 rounded-xl',
+            'bg-white dark:bg-gray-800',
+            'border',
+            error ? 'border-red-500' : 'border-gray-200 dark:border-gray-700',
+            'text-gray-900 dark:text-white',
+            isDisabled && 'opacity-50',
+          )}
           accessibilityLabel='Email address input'
           accessibilityHint='Enter the email address of the person you want to invite'
         />
@@ -130,22 +133,24 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
       <Pressable
         onPress={handleSubmit}
         disabled={!canSubmit}
-        className={`
-          flex-row items-center justify-center px-6 py-4 rounded-xl
-          ${canSubmit ? 'bg-blue-500 dark:bg-blue-600 active:bg-blue-600 dark:active:bg-blue-700' : 'bg-gray-300 dark:bg-gray-600'}
-        `}
+        className={cn(
+          'flex-row items-center justify-center px-6 py-4 rounded-xl',
+          canSubmit
+            ? 'bg-blue-500 dark:bg-blue-600 active:bg-blue-600 dark:active:bg-blue-700'
+            : 'bg-gray-300 dark:bg-gray-600',
+        )}
         accessibilityRole='button'
         accessibilityLabel={submitLabel}
         accessibilityState={{ disabled: !canSubmit }}
       >
         {isSubmitting ? (
           <>
-            <ActivityIndicator size='small' color='#FFFFFF' />
+            <ActivityIndicator size='small' color='#ffffff' />
             <Text className='text-white font-semibold ml-2'>Sending...</Text>
           </>
         ) : (
           <Text
-            className={`font-semibold ${canSubmit ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`}
+            className={cn('font-semibold', canSubmit ? 'text-white' : 'text-gray-500 dark:text-gray-400')}
           >
             {submitLabel}
           </Text>

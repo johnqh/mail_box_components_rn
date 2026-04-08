@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface QuickAction {
   /** Unique identifier */
@@ -53,6 +56,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   columns = 3,
   className,
 }) => {
+  // Variant styles aligned with DS button colors (colors.component.button)
   const variantStyles = {
     default: {
       bg: 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700',
@@ -60,23 +64,23 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       text: 'text-gray-900 dark:text-white',
     },
     primary: {
-      bg: 'bg-blue-500 border-blue-500',
-      bgActive: 'active:bg-blue-600',
+      bg: 'bg-blue-600 border-blue-600',
+      bgActive: 'active:bg-blue-800',
       text: 'text-white',
     },
     success: {
-      bg: 'bg-green-500 border-green-500',
-      bgActive: 'active:bg-green-600',
+      bg: 'bg-green-600 border-green-600',
+      bgActive: 'active:bg-green-800',
       text: 'text-white',
     },
     warning: {
-      bg: 'bg-yellow-500 border-yellow-500',
-      bgActive: 'active:bg-yellow-600',
+      bg: 'bg-orange-600 border-orange-600',
+      bgActive: 'active:bg-orange-800',
       text: 'text-white',
     },
     danger: {
-      bg: 'bg-red-500 border-red-500',
-      bgActive: 'active:bg-red-600',
+      bg: 'bg-red-600 border-red-600',
+      bgActive: 'active:bg-red-800',
       text: 'text-white',
     },
   };
@@ -121,7 +125,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
             accessibilityState={{ disabled: action.disabled }}
           >
             {action.icon && <View className='w-5 h-5'>{action.icon}</View>}
-            <Text className={cn('font-medium', styles.text)}>
+            <Text className={cn(typography.weight.medium, styles.text)}>
               {action.label}
             </Text>
           </Pressable>

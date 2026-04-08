@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
-import { variants as v } from '@sudobility/design';
+import { variants as v, textVariants } from '@sudobility/design';
 
 /**
  * Props for the Alert component.
@@ -31,7 +31,9 @@ export const AlertTitle: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className }) => (
-  <Text className={cn('font-medium mb-1', className)}>{children}</Text>
+  <Text className={cn(textVariants.label.default(), 'mb-1', className)}>
+    {children}
+  </Text>
 );
 
 /** Alert description sub-component with smaller text styling. */
@@ -39,7 +41,7 @@ export const AlertDescription: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className }) => (
-  <Text className={cn('text-sm', className)}>{children}</Text>
+  <Text className={cn(textVariants.body.sm(), className)}>{children}</Text>
 );
 
 /**
@@ -74,8 +76,14 @@ export const Alert: React.FC<AlertProps> = ({
     >
       {IconComponent && <View className='flex-shrink-0'>{IconComponent}</View>}
       <View className='flex-1'>
-        {title && <Text className='font-medium mb-1'>{title}</Text>}
-        {description && <Text className='text-sm'>{description}</Text>}
+        {title && (
+          <Text className={cn(textVariants.label.default(), 'mb-1')}>
+            {title}
+          </Text>
+        )}
+        {description && (
+          <Text className={textVariants.body.sm()}>{description}</Text>
+        )}
         {children}
       </View>
     </View>

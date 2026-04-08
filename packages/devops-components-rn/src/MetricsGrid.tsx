@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export interface Metric {
   id: string;
@@ -44,15 +45,15 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
           <Card className='p-4 m-1 flex-1'>
             <View className='flex-row items-start justify-between'>
               <View className='flex-1'>
-                <Text className='text-sm text-gray-600 dark:text-gray-400 mb-1'>
+                <Text className={cn(textVariants.body.sm(), 'mb-1')}>
                   {metric.label}
                 </Text>
                 <View className='flex-row items-baseline'>
-                  <Text className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+                  <Text className={textVariants.heading.h3()}>
                     {metric.value}
                   </Text>
                   {metric.unit && (
-                    <Text className='text-sm text-gray-500 dark:text-gray-500 ml-1'>
+                    <Text className={cn(textVariants.caption.default(), 'ml-1')}>
                       {metric.unit}
                     </Text>
                   )}
@@ -63,18 +64,11 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
                       className={cn(
                         'px-1.5 py-0.5 rounded',
                         metric.change >= 0
-                          ? 'bg-green-100 dark:bg-green-900'
-                          : 'bg-red-100 dark:bg-red-900'
+                          ? `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`
+                          : `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`
                       )}
                     >
-                      <Text
-                        className={cn(
-                          'text-xs font-medium',
-                          metric.change >= 0
-                            ? 'text-green-700 dark:text-green-300'
-                            : 'text-red-700 dark:text-red-300'
-                        )}
-                      >
+                      <Text className='text-xs font-medium'>
                         {formatChange(metric.change)}
                       </Text>
                     </View>

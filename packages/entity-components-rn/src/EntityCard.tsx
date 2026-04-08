@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
+import { cn } from '@sudobility/components-rn';
 import type { EntityCardProps, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
 
@@ -55,14 +56,14 @@ export const EntityCard: React.FC<EntityCardProps> = ({
       onPress={handlePress}
       onLongPress={handleLongPress}
       disabled={!onPress && !onLongPress}
-      className={`
-        flex-row items-center p-4 rounded-xl
-        bg-white dark:bg-gray-800
-        border border-gray-200 dark:border-gray-700
-        ${selected ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20' : ''}
-        active:opacity-80
-        ${className}
-      `}
+      className={cn(
+        'flex-row items-center p-4 rounded-xl',
+        'bg-white dark:bg-gray-800',
+        'border border-gray-200 dark:border-gray-700',
+        selected && 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20',
+        'active:opacity-80',
+        className,
+      )}
       style={style}
       testID={testID}
       accessibilityRole='button'
@@ -98,7 +99,7 @@ export const EntityCard: React.FC<EntityCardProps> = ({
 
           {showRole && entity.role && (
             <View
-              className={`px-2 py-0.5 rounded-full ${getRoleBadgeClasses(entity.role)}`}
+              className={cn('px-2 py-0.5 rounded-full', getRoleBadgeClasses(entity.role))}
             >
               <Text className='text-xs font-medium'>
                 {getRoleLabel(entity.role)}

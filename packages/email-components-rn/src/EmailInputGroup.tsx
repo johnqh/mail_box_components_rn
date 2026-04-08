@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export interface EmailInputFieldProps {
   label: string;
@@ -23,29 +24,27 @@ export const EmailInputField: React.FC<EmailInputFieldProps> = ({
 }) => {
   return (
     <View className={className}>
-      <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'>
+      <Text className={cn(textVariants.label.default(), 'mb-1')}>
         {label} {required && <Text className='text-red-500'>*</Text>}
       </Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor='#9CA3AF'
+        placeholderTextColor={colors.raw.neutral[400]}
         keyboardType='email-address'
         autoCapitalize='none'
         autoCorrect={false}
         accessibilityLabel={label}
         className={cn(
           'px-3 py-2 border rounded-md',
-          'bg-white dark:bg-gray-800',
-          'text-gray-900 dark:text-white',
-          error
-            ? 'border-red-300 dark:border-red-600'
-            : 'border-gray-300 dark:border-gray-600'
+          colors.component.input.default.base,
+          colors.component.input.default.dark,
+          error && colors.component.input.default.error
         )}
       />
       {error && (
-        <Text className='mt-1 text-sm text-red-600 dark:text-red-400'>
+        <Text className={cn(textVariants.label.error(), 'mt-1')}>
           {error}
         </Text>
       )}
@@ -76,7 +75,7 @@ export const CollapsibleEmailField: React.FC<CollapsibleEmailFieldProps> = ({
         accessibilityRole='button'
         className='flex-row items-center mb-2'
       >
-        <Text className='text-sm text-blue-600 dark:text-blue-400'>
+        <Text className={textVariants.link.subtle()}>
           {isVisible ? '▲' : '▼'} {toggleLabel}
         </Text>
       </Pressable>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, Linking, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors } from '@sudobility/design';
 
 type BannerVariant = 'default' | 'compact' | 'minimal' | 'vibrant';
 type BannerSize = 'default' | 'compact' | 'large';
@@ -22,13 +23,13 @@ export interface FreeEmailBannerProps extends ViewProps {
 const getBannerStyle = (variant: BannerVariant) => {
   switch (variant) {
     case 'compact':
-      return 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800';
+      return `${colors.component.card.success.base} ${colors.component.card.success.dark}`;
     case 'minimal':
       return 'bg-gray-50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700';
     case 'vibrant':
       return 'bg-blue-600 border-blue-700';
     default:
-      return 'bg-green-100 dark:bg-green-900/20 border-green-200 dark:border-green-700';
+      return `${colors.component.badge.success.base} ${colors.component.badge.success.dark} border-green-200 dark:border-green-700`;
   }
 };
 
@@ -46,13 +47,13 @@ const getSizeStyle = (size: BannerSize) => {
 const getTextStyle = (variant: BannerVariant) => {
   switch (variant) {
     case 'compact':
-      return 'text-green-700 dark:text-green-300';
+      return `${colors.component.card.success.text}`;
     case 'minimal':
       return 'text-gray-700 dark:text-gray-300';
     case 'vibrant':
       return 'text-white';
     default:
-      return 'text-green-800 dark:text-green-200';
+      return `${colors.component.card.success.text}`;
   }
 };
 

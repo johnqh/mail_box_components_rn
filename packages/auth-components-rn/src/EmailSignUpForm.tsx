@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { textVariants, variants as v } from '@sudobility/design';
 import type { EmailSignUpFormProps } from './types';
 import { useAuthStatus } from './AuthProvider';
 
@@ -57,7 +58,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
   return (
     <View className='gap-4'>
       <View className='gap-2'>
-        <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+        <Text className={textVariants.label.default()}>
           {texts.displayName}
         </Text>
         <TextInput
@@ -65,13 +66,13 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
           onChangeText={setDisplayName}
           placeholder={texts.displayNamePlaceholder}
           autoCapitalize='words'
-          className='px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+          className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
           placeholderTextColor='#9CA3AF'
         />
       </View>
 
       <View className='gap-2'>
-        <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+        <Text className={textVariants.label.default()}>
           {texts.email}
         </Text>
         <TextInput
@@ -81,13 +82,13 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
           keyboardType='email-address'
           autoCapitalize='none'
           autoCorrect={false}
-          className='px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+          className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
           placeholderTextColor='#9CA3AF'
         />
       </View>
 
       <View className='gap-2'>
-        <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+        <Text className={textVariants.label.default()}>
           {texts.password}
         </Text>
         <TextInput
@@ -95,13 +96,13 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
           onChangeText={setPassword}
           placeholder={texts.passwordPlaceholder}
           secureTextEntry
-          className='px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+          className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
           placeholderTextColor='#9CA3AF'
         />
       </View>
 
       <View className='gap-2'>
-        <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+        <Text className={textVariants.label.default()}>
           {texts.confirmPassword}
         </Text>
         <TextInput
@@ -109,13 +110,13 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
           onChangeText={setConfirmPassword}
           placeholder={texts.confirmPasswordPlaceholder}
           secureTextEntry
-          className='px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+          className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
           placeholderTextColor='#9CA3AF'
         />
       </View>
 
       {displayError && (
-        <Text className='text-sm text-red-600 dark:text-red-400'>
+        <Text className={textVariants.label.error()}>
           {displayError}
         </Text>
       )}
@@ -124,8 +125,8 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
         onPress={handleSubmit}
         disabled={loading || !email || !password || !confirmPassword}
         className={cn(
-          'py-3 px-4 rounded-lg items-center justify-center',
-          'bg-blue-600 active:bg-blue-700',
+          v.button.primary.default(),
+          'py-3 px-4 rounded-lg',
           (loading || !email || !password || !confirmPassword) && 'opacity-50'
         )}
         accessibilityRole='button'
@@ -137,7 +138,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       </Pressable>
 
       <View className='flex-row items-center justify-center gap-1'>
-        <Text className='text-sm text-gray-500 dark:text-gray-400'>
+        <Text className={textVariants.body.sm()}>
           {texts.haveAccount}
         </Text>
         <Pressable
@@ -151,7 +152,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
           }}
           accessibilityRole='button'
         >
-          <Text className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+          <Text className={textVariants.link.subtle()}>
             {texts.signIn}
           </Text>
         </Pressable>

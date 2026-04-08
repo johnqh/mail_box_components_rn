@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { textVariants } from '@sudobility/design';
 import type { AuthScreenProps, AuthMode } from './types';
 import { useAuthStatus } from './AuthProvider';
 import { ProviderButtons } from './ProviderButtons';
@@ -105,7 +106,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       >
         <View className='max-w-md w-full self-center gap-8'>
           {showTitle && (
-            <Text className='text-2xl font-bold text-gray-900 dark:text-white text-center'>
+            <Text className={`${textVariants.heading.h3()} text-center`}>
               {getTitle()}
             </Text>
           )}

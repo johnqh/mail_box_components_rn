@@ -1,6 +1,38 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
+
+/**
+ * Split combined DS badge color strings (which include both bg-* and text-*)
+ * into separate bg and text class strings. React Native Views don't cascade
+ * text color to child Text elements, so we must apply them separately.
+ */
+function splitBadgeClasses(base: string, dark: string) {
+  const all = `${base} ${dark}`.split(' ');
+  return {
+    bg: all.filter(c => c.includes('bg-')).join(' '),
+    text: all.filter(c => c.includes('text-')).join(' '),
+  };
+}
+
+// Lazily derive badge colors from the design system so module-level access
+// doesn't fail when Jest transforms ESM chunk imports.
+let _badgeColors: ReturnType<typeof buildBadgeColors> | null = null;
+function getBadgeColors() {
+  if (!_badgeColors) _badgeColors = buildBadgeColors();
+  return _badgeColors;
+}
+function buildBadgeColors() {
+  const badge = colors.component.badge;
+  return {
+    default: splitBadgeClasses(badge.default.base, badge.default.dark),
+    primary: splitBadgeClasses(badge.primary.base, badge.primary.dark),
+    success: splitBadgeClasses(badge.success.base, badge.success.dark),
+    warning: splitBadgeClasses(badge.warning.base, badge.warning.dark),
+    error: splitBadgeClasses(badge.error.base, badge.error.dark),
+  };
+}
 
 export interface BadgeProps {
   /** Badge content */
@@ -66,33 +98,36 @@ export const Badge: React.FC<BadgeProps> = ({
   maxCount,
   className,
 }) => {
-  // Color variant configurations for filled style
+  const ds = getBadgeColors();
+
+  // Filled badge backgrounds from design system (colors.component.badge)
   const variantClasses = {
-    default: 'bg-gray-100 dark:bg-gray-700',
-    primary: 'bg-blue-100 dark:bg-blue-900/30',
-    success: 'bg-green-100 dark:bg-green-900/30',
-    warning: 'bg-yellow-100 dark:bg-yellow-900/30',
-    danger: 'bg-red-100 dark:bg-red-900/30',
-    info: 'bg-blue-100 dark:bg-blue-900/30',
+    default: ds.default.bg,
+    primary: ds.primary.bg,
+    success: ds.success.bg,
+    warning: ds.warning.bg,
+    danger: ds.error.bg,
+    info: ds.primary.bg,
     purple: 'bg-purple-100 dark:bg-purple-900/30',
   };
 
+  // Filled badge text colors from design system
   const variantTextClasses = {
-    default: 'text-gray-800 dark:text-gray-300',
-    primary: 'text-blue-800 dark:text-blue-400',
-    success: 'text-green-800 dark:text-green-400',
-    warning: 'text-yellow-800 dark:text-yellow-400',
-    danger: 'text-red-800 dark:text-red-400',
-    info: 'text-blue-800 dark:text-blue-400',
+    default: ds.default.text,
+    primary: ds.primary.text,
+    success: ds.success.text,
+    warning: ds.warning.text,
+    danger: ds.error.text,
+    info: ds.primary.text,
     purple: 'text-purple-800 dark:text-purple-400',
   };
 
-  // Color variant configurations for outline style
+  // Outline badge borders (no direct DS equivalent; aligned with DS color palette)
   const outlineClasses = {
     default: 'border border-gray-300 dark:border-gray-600',
     primary: 'border border-blue-600 dark:border-blue-400',
     success: 'border border-green-600 dark:border-green-400',
-    warning: 'border border-yellow-600 dark:border-yellow-400',
+    warning: 'border border-orange-600 dark:border-orange-400',
     danger: 'border border-red-600 dark:border-red-400',
     info: 'border border-blue-600 dark:border-blue-400',
     purple: 'border border-purple-600 dark:border-purple-400',
@@ -102,7 +137,7 @@ export const Badge: React.FC<BadgeProps> = ({
     default: 'text-gray-700 dark:text-gray-300',
     primary: 'text-blue-600 dark:text-blue-400',
     success: 'text-green-600 dark:text-green-400',
-    warning: 'text-yellow-600 dark:text-yellow-400',
+    warning: 'text-orange-600 dark:text-orange-400',
     danger: 'text-red-600 dark:text-red-400',
     info: 'text-blue-600 dark:text-blue-400',
     purple: 'text-purple-600 dark:text-purple-400',
@@ -115,18 +150,12 @@ export const Badge: React.FC<BadgeProps> = ({
     lg: 'px-3 py-1.5',
   };
 
-  const textSizeClasses = {
-    sm: 'text-xs',
-    md: 'text-sm',
-    lg: 'text-base',
-  };
-
-  // Dot color configurations
+  // Dot indicator colors aligned with DS palette
   const dotColorClasses = {
     default: 'bg-gray-600 dark:bg-gray-400',
     primary: 'bg-blue-600 dark:bg-blue-400',
     success: 'bg-green-600 dark:bg-green-400',
-    warning: 'bg-yellow-600 dark:bg-yellow-400',
+    warning: 'bg-orange-600 dark:bg-orange-400',
     danger: 'bg-red-600 dark:bg-red-400',
     info: 'bg-blue-600 dark:bg-blue-400',
     purple: 'bg-purple-600 dark:bg-purple-400',
@@ -148,9 +177,15 @@ export const Badge: React.FC<BadgeProps> = ({
     className
   );
 
+  const { typography } = designTokens;
+  const textSizeMap = {
+    sm: typography.size.xs,
+    md: typography.size.sm,
+    lg: typography.size.base,
+  };
   const textClasses = cn(
-    textSizeClasses[size],
-    'font-medium',
+    textSizeMap[size],
+    typography.weight.medium,
     outline ? outlineTextClasses[variant] : variantTextClasses[variant]
   );
 

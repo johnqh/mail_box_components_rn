@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export type PipelineStageStatus =
   | 'pending'
@@ -36,51 +37,44 @@ const statusConfig: Record<
   PipelineStageStatus,
   {
     color: string;
-    bgColor: string;
-    darkBgColor: string;
+    badge: string;
     borderColor: string;
     icon: string;
   }
 > = {
   pending: {
     color: 'text-gray-600 dark:text-gray-400',
-    bgColor: 'bg-gray-100',
-    darkBgColor: 'dark:bg-gray-800',
+    badge: `${colors.component.badge.default.base} ${colors.component.badge.default.dark}`,
     borderColor: 'border-gray-300 dark:border-gray-600',
     icon: '○',
   },
   running: {
-    color: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-100',
-    darkBgColor: 'dark:bg-blue-900',
+    color: `${colors.component.alert.info.icon}`,
+    badge: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
     borderColor: 'border-blue-400 dark:border-blue-500',
     icon: '◐',
   },
   success: {
-    color: 'text-green-600 dark:text-green-400',
-    bgColor: 'bg-green-100',
-    darkBgColor: 'dark:bg-green-900',
+    color: `${colors.component.alert.success.icon}`,
+    badge: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
     borderColor: 'border-green-400 dark:border-green-500',
     icon: '●',
   },
   failed: {
-    color: 'text-red-600 dark:text-red-400',
-    bgColor: 'bg-red-100',
-    darkBgColor: 'dark:bg-red-900',
+    color: `${colors.component.alert.error.icon}`,
+    badge: `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`,
     borderColor: 'border-red-400 dark:border-red-500',
     icon: '✗',
   },
   skipped: {
     color: 'text-gray-400 dark:text-gray-600',
-    bgColor: 'bg-gray-50',
-    darkBgColor: 'dark:bg-gray-900',
+    badge: 'bg-gray-50 text-gray-600 dark:bg-gray-900 dark:text-gray-400',
     borderColor: 'border-gray-200 dark:border-gray-700',
     icon: '◌',
   },
   cancelled: {
-    color: 'text-orange-600 dark:text-orange-400',
-    bgColor: 'bg-orange-100',
-    darkBgColor: 'dark:bg-orange-900',
+    color: `${colors.component.alert.warning.icon}`,
+    badge: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark}`,
     borderColor: 'border-orange-400 dark:border-orange-500',
     icon: '⊘',
   },
@@ -119,7 +113,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
           <View className='flex-row items-center justify-between'>
             <View>
               {pipelineName && (
-                <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
+                <Text className={textVariants.label.default()}>
                   {pipelineName}
                 </Text>
               )}
@@ -132,8 +126,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
             <View
               className={cn(
                 'px-2 py-1 rounded-full',
-                overallConfig.bgColor,
-                overallConfig.darkBgColor
+                overallConfig.badge
               )}
             >
               <Text className={cn('text-xs font-medium', overallConfig.color)}>
@@ -159,8 +152,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                 <View
                   className={cn(
                     'w-24 p-3 rounded-lg border-2',
-                    config.bgColor,
-                    config.darkBgColor,
+                    config.badge,
                     config.borderColor
                   )}
                 >
@@ -219,7 +211,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
         </View>
       </ScrollView>
       <View className='px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700'>
-        <Text className='text-xs text-gray-500 dark:text-gray-500'>
+        <Text className={textVariants.caption.default()}>
           {stages.length} stages |{' '}
           {stages.filter(s => s.status === 'success').length} completed
         </Text>

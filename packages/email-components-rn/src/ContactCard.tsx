@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, Pressable, type ViewProps } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export interface ContactCardProps extends Omit<ViewProps, 'role'> {
   name: string;
@@ -31,21 +32,21 @@ export const ContactCard: React.FC<ContactCardProps> = ({
           accessibilityLabel={`${name}'s avatar`}
         />
       ) : (
-        <View className='w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 items-center justify-center'>
-          <Text className='text-blue-600 dark:text-blue-400 text-lg font-semibold'>
+        <View className={cn('w-12 h-12 rounded-full items-center justify-center', colors.component.badge.primary.base, colors.component.badge.primary.dark)}>
+          <Text className={cn(colors.component.alert.info.icon, 'text-lg font-semibold')}>
             {name.charAt(0).toUpperCase()}
           </Text>
         </View>
       )}
       <View className='flex-1'>
-        <Text className='font-semibold text-gray-900 dark:text-white'>
+        <Text className={textVariants.body.strong.md()}>
           {name}
         </Text>
-        <Text className='text-sm text-gray-500 dark:text-gray-400'>
+        <Text className={textVariants.body.sm()}>
           {email}
         </Text>
         {role && (
-          <Text className='text-xs text-gray-400 dark:text-gray-500'>
+          <Text className={textVariants.caption.default()}>
             {role}
           </Text>
         )}

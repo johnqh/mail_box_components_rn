@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, type ViewProps } from 'react-native';
 import { cn, Button } from '@sudobility/components-rn';
+import { textVariants } from '@sudobility/design';
 
 export interface WelcomeScreenProps extends ViewProps {
   title: string;
@@ -36,17 +37,17 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       {illustration && <View className='mb-8'>{illustration}</View>}
 
       {subtitle && (
-        <Text className='text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 uppercase tracking-wide'>
+        <Text className={cn(textVariants.caption.uppercase(), 'text-blue-600 dark:text-blue-400 mb-2')}>
           {subtitle}
         </Text>
       )}
 
-      <Text className='text-3xl font-bold text-gray-900 dark:text-white text-center mb-4'>
+      <Text className={cn(textVariants.heading.h2(), 'text-center mb-4')}>
         {title}
       </Text>
 
       {description && (
-        <Text className='text-base text-gray-600 dark:text-gray-400 text-center mb-8 max-w-sm'>
+        <Text className={cn(textVariants.body.md(), 'text-center mb-8 max-w-sm')}>
           {description}
         </Text>
       )}

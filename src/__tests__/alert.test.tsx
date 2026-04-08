@@ -4,17 +4,27 @@ import { Text } from 'react-native';
 import { Alert, AlertTitle, AlertDescription } from '../ui/Alert';
 
 // Mock @sudobility/design
-jest.mock('@sudobility/design', () => ({
-  variants: {
-    alert: {
-      info: () => 'mocked-alert-info',
-      success: () => 'mocked-alert-success',
-      warning: () => 'mocked-alert-warning',
-      attention: () => 'mocked-alert-attention',
-      error: () => 'mocked-alert-error',
+jest.mock('@sudobility/design', () => {
+  const createDeepProxy = () =>
+    new Proxy(() => '', {
+      get: (_t, p) => (p === 'then' ? undefined : createDeepProxy()),
+      apply: () => '',
+    });
+  return {
+    variants: {
+      alert: {
+        info: () => 'mocked-alert-info',
+        success: () => 'mocked-alert-success',
+        warning: () => 'mocked-alert-warning',
+        attention: () => 'mocked-alert-attention',
+        error: () => 'mocked-alert-error',
+      },
     },
-  },
-}));
+    textVariants: createDeepProxy(),
+    designTokens: createDeepProxy(),
+    colors: createDeepProxy(),
+  };
+});
 
 describe('Alert', () => {
   it('renders with title', () => {

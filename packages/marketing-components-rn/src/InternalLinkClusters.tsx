@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors, getCardVariantColors } from '@sudobility/design';
 
 export interface InternalLinkProps {
   to: string;
@@ -11,8 +12,8 @@ export interface InternalLinkProps {
 }
 
 const linkVariants = {
-  primary: 'text-blue-600 dark:text-blue-400',
-  secondary: 'text-green-600 dark:text-green-400',
+  primary: `${colors.component.alert.info.icon}`,
+  secondary: `${colors.component.alert.success.icon}`,
   subtle: 'text-gray-600 dark:text-gray-400',
 };
 
@@ -142,7 +143,8 @@ export const RelatedLinks: React.FC<RelatedLinksProps> = ({
 }) => (
   <View
     className={cn(
-      'mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800',
+      'mt-4 p-3 rounded-lg',
+      getCardVariantColors('info'),
       className
     )}
     {...props}

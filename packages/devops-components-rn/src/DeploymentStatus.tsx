@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
+import { colors, textVariants } from '@sudobility/design';
 
 export type DeploymentState =
   | 'pending'
@@ -26,51 +27,44 @@ const stateConfig: Record<
   DeploymentState,
   {
     color: string;
-    bgColor: string;
-    darkBgColor: string;
+    badge: string;
     label: string;
     icon: string;
   }
 > = {
   pending: {
     color: 'text-gray-600 dark:text-gray-400',
-    bgColor: 'bg-gray-100',
-    darkBgColor: 'dark:bg-gray-800',
+    badge: `${colors.component.badge.default.base} ${colors.component.badge.default.dark}`,
     label: 'Pending',
     icon: '⏳',
   },
   building: {
-    color: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-100',
-    darkBgColor: 'dark:bg-blue-900',
+    color: `${colors.component.alert.info.icon}`,
+    badge: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
     label: 'Building',
     icon: '🔨',
   },
   deploying: {
     color: 'text-purple-600 dark:text-purple-400',
-    bgColor: 'bg-purple-100',
-    darkBgColor: 'dark:bg-purple-900',
+    badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
     label: 'Deploying',
     icon: '🚀',
   },
   success: {
-    color: 'text-green-600 dark:text-green-400',
-    bgColor: 'bg-green-100',
-    darkBgColor: 'dark:bg-green-900',
+    color: `${colors.component.alert.success.icon}`,
+    badge: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
     label: 'Success',
     icon: '✓',
   },
   failed: {
-    color: 'text-red-600 dark:text-red-400',
-    bgColor: 'bg-red-100',
-    darkBgColor: 'dark:bg-red-900',
+    color: `${colors.component.alert.error.icon}`,
+    badge: `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`,
     label: 'Failed',
     icon: '✗',
   },
   cancelled: {
-    color: 'text-orange-600 dark:text-orange-400',
-    bgColor: 'bg-orange-100',
-    darkBgColor: 'dark:bg-orange-900',
+    color: `${colors.component.alert.warning.icon}`,
+    badge: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark}`,
     label: 'Cancelled',
     icon: '⊘',
   },
@@ -107,8 +101,7 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
             <View
               className={cn(
                 'px-2 py-1 rounded-md mr-2',
-                config.bgColor,
-                config.darkBgColor
+                config.badge
               )}
             >
               <Text className={cn('text-xs font-medium', config.color)}>
@@ -121,7 +114,7 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
               </Text>
             </View>
           </View>
-          <Text className='mt-2 text-base font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className={cn(textVariants.body.strong.md(), 'mt-2')}>
             {version}
           </Text>
           {commitHash && (
@@ -140,11 +133,11 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
         </View>
       </View>
       <View className='flex-row items-center justify-between mt-3 pt-3 border-t border-gray-200 dark:border-gray-700'>
-        <Text className='text-xs text-gray-500 dark:text-gray-500'>
+        <Text className={textVariants.caption.default()}>
           {timestamp.toLocaleString()}
         </Text>
         {duration !== undefined && (
-          <Text className='text-xs text-gray-500 dark:text-gray-500'>
+          <Text className={textVariants.caption.default()}>
             Duration: {formatDuration(duration)}
           </Text>
         )}

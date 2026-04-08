@@ -1,6 +1,16 @@
 import * as React from 'react';
 import { Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
+
+// Heading colors aligned with the design system color architecture
+const colorClasses = {
+  default: 'text-gray-900 dark:text-gray-100',
+  muted: 'text-gray-700 dark:text-gray-300',
+  primary: 'text-blue-600 dark:text-blue-400',
+} as const;
 
 export interface HeadingProps {
   /** Heading content */
@@ -60,48 +70,15 @@ export const Heading: React.FC<HeadingProps> = ({
 
   const actualSize = size || defaultSizes[level];
 
-  // Size configurations
-  const sizeClasses = {
-    '4xl': 'text-4xl',
-    '3xl': 'text-3xl',
-    '2xl': 'text-2xl',
-    xl: 'text-xl',
-    lg: 'text-lg',
-    base: 'text-base',
-  };
-
-  // Weight configurations
-  const weightClasses = {
-    normal: 'font-normal',
-    medium: 'font-medium',
-    semibold: 'font-semibold',
-    bold: 'font-bold',
-    extrabold: 'font-extrabold',
-  };
-
-  // Color configurations
-  const colorClasses = {
-    default: 'text-gray-900 dark:text-gray-100',
-    muted: 'text-gray-700 dark:text-gray-300',
-    primary: 'text-blue-600 dark:text-blue-400',
-  };
-
-  // Alignment configurations
-  const alignClasses = align
-    ? {
-        left: 'text-left',
-        center: 'text-center',
-        right: 'text-right',
-      }[align]
-    : '';
-
   return (
     <Text
       className={cn(
-        sizeClasses[actualSize],
-        weightClasses[weight],
+        typography.size[actualSize],
+        typography.weight[weight],
+        typography.leading.heading,
+        typography.tracking.heading,
         colorClasses[color],
-        alignClasses,
+        align ? typography.align[align] : '',
         className
       )}
       accessibilityRole='header'

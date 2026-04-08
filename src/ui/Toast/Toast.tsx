@@ -8,6 +8,35 @@ import React, {
 } from 'react';
 import { View, Text, Pressable, Animated, SafeAreaView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, textVariants } from '@sudobility/design';
+
+// Split DS alert colors for RN (Views don't cascade text color)
+function splitAlertClasses(base: string, dark: string) {
+  const all = `${base} ${dark}`.split(' ');
+  return {
+    container: all
+      .filter(c => c.includes('bg-') || c.includes('border-'))
+      .join(' '),
+    icon: all.filter(c => c.includes('text-')).join(' '),
+  };
+}
+
+// Lazily derive alert colors so module-level access doesn't fail
+// when Jest transforms ESM chunk imports.
+let _alertColors: Record<string, ReturnType<typeof splitAlertClasses>> | null =
+  null;
+function getAlertColors() {
+  if (!_alertColors) {
+    const alert = colors.component.alert;
+    _alertColors = {
+      success: splitAlertClasses(alert.success.base, alert.success.dark),
+      error: splitAlertClasses(alert.error.base, alert.error.dark),
+      warning: splitAlertClasses(alert.warning.base, alert.warning.dark),
+      info: splitAlertClasses(alert.info.base, alert.info.dark),
+    };
+  }
+  return _alertColors;
+}
 
 /** Data structure representing a single toast notification. */
 export interface ToastMessage {
@@ -72,24 +101,25 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
     }).start();
   }, [slideAnim]);
 
-  // Variant styles - background
+  const ac = getAlertColors();
+
+  // Variant background+border from design system (colors.component.alert)
   const variantBgClasses = {
     default: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700',
-    success:
-      'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800',
-    error: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800',
-    warning:
-      'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800',
-    info: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800',
+    success: ac.success.container,
+    error: ac.error.container,
+    warning: ac.warning.container,
+    info: ac.info.container,
   };
 
-  // Variant styles - icon color
+  // Variant icon colors from design system
+  const alert = colors.component.alert;
   const iconColorClasses = {
     default: 'text-gray-600 dark:text-gray-400',
-    success: 'text-green-600 dark:text-green-400',
-    error: 'text-red-600 dark:text-red-400',
-    warning: 'text-yellow-600 dark:text-yellow-400',
-    info: 'text-blue-600 dark:text-blue-400',
+    success: alert.success.icon,
+    error: alert.error.icon,
+    warning: alert.warning.icon,
+    info: alert.info.icon,
   };
 
   // Icon symbols
@@ -116,12 +146,17 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
 
       <View className='flex-1 min-w-0'>
         {title && (
-          <Text className='font-semibold text-gray-900 dark:text-white'>
+          <Text
+            className={cn(
+              textVariants.label.default(),
+              'text-gray-900 dark:text-white'
+            )}
+          >
             {title}
           </Text>
         )}
         {description && (
-          <Text className='text-sm text-gray-600 dark:text-gray-300 mt-1'>
+          <Text className={cn(textVariants.body.sm(), 'mt-1')}>
             {description}
           </Text>
         )}

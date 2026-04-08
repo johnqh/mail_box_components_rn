@@ -8,6 +8,8 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
+import { cn } from '@sudobility/components-rn';
+import { colors } from '@sudobility/design';
 import type { MemberListProps, Member, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
 
@@ -114,12 +116,12 @@ export const MemberList: React.FC<MemberListProps> = ({
     <Pressable
       onPress={() => onMemberPress?.(item)}
       disabled={!onMemberPress}
-      className={`
-        flex-row items-center p-4 rounded-xl mb-3
-        bg-white dark:bg-gray-800
-        border border-gray-200 dark:border-gray-700
-        active:opacity-80
-      `}
+      className={cn(
+        'flex-row items-center p-4 rounded-xl mb-3',
+        'bg-white dark:bg-gray-800',
+        'border border-gray-200 dark:border-gray-700',
+        'active:opacity-80',
+      )}
       accessibilityRole='button'
       accessibilityLabel={`Member: ${item.name}, Role: ${item.role}`}
     >
@@ -140,7 +142,7 @@ export const MemberList: React.FC<MemberListProps> = ({
         )}
         {/* Status indicator */}
         <View
-          className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${getStatusColor(item.status)} border-2 border-white dark:border-gray-800`}
+          className={cn('absolute bottom-0 right-0 w-3 h-3 rounded-full', getStatusColor(item.status), 'border-2 border-white dark:border-gray-800')}
         />
       </View>
 
@@ -154,7 +156,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             {item.name}
           </Text>
           <View
-            className={`px-2 py-0.5 rounded-full ${getRoleBadgeClasses(item.role)}`}
+            className={cn('px-2 py-0.5 rounded-full', getRoleBadgeClasses(item.role))}
           >
             <Text className='text-xs font-medium'>
               {getRoleLabel(item.role)}
@@ -208,7 +210,7 @@ export const MemberList: React.FC<MemberListProps> = ({
     if (loading) {
       return (
         <View className='flex-1 items-center justify-center py-12'>
-          <ActivityIndicator size='large' color='#3B82F6' />
+          <ActivityIndicator size='large' color={colors.raw.blue[500]} />
           <Text className='text-gray-500 dark:text-gray-400 mt-4'>
             Loading...
           </Text>
@@ -227,7 +229,7 @@ export const MemberList: React.FC<MemberListProps> = ({
   };
 
   return (
-    <View className={`flex-1 ${className}`} style={style} testID={testID}>
+    <View className={cn('flex-1', className)} style={style} testID={testID}>
       <FlatList
         data={members}
         renderItem={renderItem}
@@ -242,7 +244,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              tintColor='#3B82F6'
+              tintColor={colors.raw.blue[500]}
             />
           ) : undefined
         }

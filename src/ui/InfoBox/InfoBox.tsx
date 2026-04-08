@@ -1,6 +1,24 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
+
+const alert = colors.component.alert;
+
+// Split DS alert color strings into separate parts for RN
+function splitAlertClasses(base: string, dark: string) {
+  const all = `${base} ${dark}`.split(' ');
+  return {
+    bg: all.filter(c => c.includes('bg-')).join(' '),
+    border: all.filter(c => c.includes('border-')).join(' '),
+    text: all.filter(c => c.includes('text-')).join(' '),
+  };
+}
+
+const dsInfo = splitAlertClasses(alert.info.base, alert.info.dark);
+const dsSuccess = splitAlertClasses(alert.success.base, alert.success.dark);
+const dsWarning = splitAlertClasses(alert.warning.base, alert.warning.dark);
+const dsError = splitAlertClasses(alert.error.base, alert.error.dark);
 
 export interface InfoBoxProps {
   /** Content to display in the info box */
@@ -49,31 +67,31 @@ export const InfoBox: React.FC<InfoBoxProps> = ({
   bordered = true,
   className,
 }) => {
-  // Color variant configurations
+  // Color variants derived from design system (colors.component.alert)
   const variantClasses = {
     info: {
-      bg: 'bg-blue-50 dark:bg-blue-900/20',
-      border: 'border-blue-200 dark:border-blue-800',
-      title: 'text-blue-900 dark:text-blue-300',
-      text: 'text-blue-800 dark:text-blue-400',
+      bg: dsInfo.bg,
+      border: dsInfo.border,
+      title: dsInfo.text,
+      text: dsInfo.text,
     },
     success: {
-      bg: 'bg-green-50 dark:bg-green-900/20',
-      border: 'border-green-200 dark:border-green-800',
-      title: 'text-green-900 dark:text-green-300',
-      text: 'text-green-800 dark:text-green-400',
+      bg: dsSuccess.bg,
+      border: dsSuccess.border,
+      title: dsSuccess.text,
+      text: dsSuccess.text,
     },
     warning: {
-      bg: 'bg-yellow-50 dark:bg-yellow-900/20',
-      border: 'border-yellow-200 dark:border-yellow-800',
-      title: 'text-yellow-900 dark:text-yellow-300',
-      text: 'text-yellow-800 dark:text-yellow-400',
+      bg: dsWarning.bg,
+      border: dsWarning.border,
+      title: dsWarning.text,
+      text: dsWarning.text,
     },
     danger: {
-      bg: 'bg-red-50 dark:bg-red-900/20',
-      border: 'border-red-200 dark:border-red-800',
-      title: 'text-red-900 dark:text-red-300',
-      text: 'text-red-800 dark:text-red-400',
+      bg: dsError.bg,
+      border: dsError.border,
+      title: dsError.text,
+      text: dsError.text,
     },
     neutral: {
       bg: 'bg-gray-50 dark:bg-gray-800',

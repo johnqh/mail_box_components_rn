@@ -5,6 +5,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Button } from '@sudobility/components-rn';
+import { textVariants, colors } from '@sudobility/design';
 import type { AuthActionProps } from './types';
 import { useAuthStatus } from './AuthProvider';
 import { Avatar } from './Avatar';
@@ -75,11 +76,11 @@ export const AuthAction: React.FC<AuthActionProps> = ({
     <View className={cn('flex-row items-center gap-3', className)}>
       {showUserInfo && (
         <View className='items-end'>
-          <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+          <Text className={textVariants.label.default()}>
             {user.displayName || user.email}
           </Text>
           {user.displayName && user.email && (
-            <Text className='text-xs text-gray-500 dark:text-gray-400'>
+            <Text className={textVariants.caption.default()}>
               {user.email}
             </Text>
           )}
@@ -94,11 +95,15 @@ export const AuthAction: React.FC<AuthActionProps> = ({
 
       <Pressable
         onPress={handleLogoutPress}
-        className='px-3 py-1.5 rounded-md bg-gray-100 dark:bg-gray-800 active:opacity-80'
+        className={cn(
+          colors.component.button.secondary.base,
+          colors.component.button.secondary.dark,
+          'px-3 py-1.5 rounded-md active:opacity-80'
+        )}
         accessibilityRole='button'
         accessibilityLabel={texts.logout}
       >
-        <Text className='text-sm text-gray-700 dark:text-gray-300'>
+        <Text className={textVariants.body.sm()}>
           {texts.logout}
         </Text>
       </Pressable>

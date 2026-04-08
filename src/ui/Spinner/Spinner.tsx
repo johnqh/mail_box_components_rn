@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ActivityIndicator, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, textVariants } from '@sudobility/design';
 
 /**
  * Props for the Spinner loading indicator component.
@@ -25,12 +26,13 @@ const sizeMap = {
   extraLarge: 'large' as const,
 };
 
+// Spinner colors from design system raw palette
 const colorMap = {
-  default: '#2563eb', // blue-600
+  default: colors.raw.blue[600],
   white: '#ffffff',
-  success: '#16a34a', // green-600
-  warning: '#ea580c', // orange-600
-  error: '#dc2626', // red-600
+  success: colors.raw.green[600],
+  warning: colors.raw.orange[600],
+  error: colors.raw.red[600],
 };
 
 /**
@@ -62,7 +64,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
     >
       <ActivityIndicator size={activitySize} color={color} />
       {showText && (
-        <Text className='mt-2 text-gray-600 dark:text-gray-400 text-sm'>
+        <Text className={cn(textVariants.body.sm(), 'mt-2')}>
           {loadingText}
         </Text>
       )}

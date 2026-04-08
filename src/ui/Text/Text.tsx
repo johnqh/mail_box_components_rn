@@ -1,6 +1,21 @@
 import * as React from 'react';
 import { Text as RNText } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
+
+// Semantic text colors aligned with the design system color architecture.
+// The DS provides these as hex values via colors.semantic; here they are
+// expressed as Tailwind classes for NativeWind consumption.
+const colorClasses = {
+  default: 'text-gray-900 dark:text-gray-100',
+  muted: 'text-gray-600 dark:text-gray-400',
+  primary: 'text-blue-600 dark:text-blue-400',
+  success: 'text-green-600 dark:text-green-400',
+  warning: 'text-yellow-600 dark:text-yellow-400',
+  danger: 'text-red-600 dark:text-red-400',
+} as const;
 
 export interface TextProps {
   /** Text content */
@@ -51,62 +66,14 @@ export const Text: React.FC<TextProps> = ({
   numberOfLines,
   className,
 }) => {
-  // Size configurations
-  const sizeClasses = {
-    xs: 'text-xs',
-    sm: 'text-sm',
-    base: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl',
-    '2xl': 'text-2xl',
-    '3xl': 'text-3xl',
-    '4xl': 'text-4xl',
-  };
-
-  // Weight configurations
-  const weightClasses = {
-    light: 'font-light',
-    normal: 'font-normal',
-    medium: 'font-medium',
-    semibold: 'font-semibold',
-    bold: 'font-bold',
-  };
-
-  // Color configurations
-  const colorClasses = {
-    default: 'text-gray-900 dark:text-gray-100',
-    muted: 'text-gray-600 dark:text-gray-400',
-    primary: 'text-blue-600 dark:text-blue-400',
-    success: 'text-green-600 dark:text-green-400',
-    warning: 'text-yellow-600 dark:text-yellow-400',
-    danger: 'text-red-600 dark:text-red-400',
-  };
-
-  // Alignment configurations
-  const alignClasses = align
-    ? {
-        left: 'text-left',
-        center: 'text-center',
-        right: 'text-right',
-      }[align]
-    : '';
-
-  // Transform configurations
-  const transformClasses = {
-    none: '',
-    uppercase: 'uppercase',
-    lowercase: 'lowercase',
-    capitalize: 'capitalize',
-  };
-
   return (
     <RNText
       className={cn(
-        sizeClasses[size],
-        weightClasses[weight],
+        typography.size[size],
+        typography.weight[weight],
         colorClasses[color],
-        alignClasses,
-        transformClasses[transform],
+        align ? typography.align[align] : '',
+        transform !== 'none' ? typography.transform[transform] : '',
         className
       )}
       numberOfLines={numberOfLines}

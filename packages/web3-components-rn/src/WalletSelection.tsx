@@ -8,6 +8,7 @@ import {
   type ViewProps,
 } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { colors } from '@sudobility/design';
 import { WalletIcon, type WalletProvider } from './WalletIcon';
 
 export interface WalletOption {
@@ -91,7 +92,11 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
       {wallet.connecting && (
         <ActivityIndicator
           size='small'
-          color={wallet.chainType === 'solana' ? '#9333ea' : '#2563eb'}
+          color={
+            wallet.chainType === 'solana'
+              ? colors.raw.purple[600]
+              : colors.raw.blue[600]
+          }
         />
       )}
     </Pressable>

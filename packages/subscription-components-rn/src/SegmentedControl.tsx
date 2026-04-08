@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { colors } from '@sudobility/design';
 
 export interface SegmentedControlOption<T extends string = string> {
   /** Value for this option */
@@ -196,7 +197,7 @@ export default SegmentedControl;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#f3f4f6',
+    backgroundColor: colors.raw.neutral[100],
     borderRadius: 8,
     padding: 4,
   },
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   segmentSelected: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.raw.neutral[0],
   },
   text: {
     fontWeight: '500',
@@ -255,10 +256,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textSelected: {
-    color: '#111827',
+    color: colors.raw.neutral[900],
   },
   textUnselected: {
-    color: '#4b5563',
+    color: colors.raw.neutral[600],
   },
   badge: {
     borderRadius: 999,
@@ -276,19 +277,19 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   badgeSelected: {
-    backgroundColor: '#dcfce7',
+    backgroundColor: colors.raw.green[100],
   },
   badgeUnselected: {
-    backgroundColor: '#e5e7eb',
+    backgroundColor: colors.raw.neutral[200],
   },
   badgeText: {
     fontSize: 12,
     fontWeight: '600',
   },
   badgeTextSelected: {
-    color: '#15803d',
+    color: colors.raw.green[700],
   },
   badgeTextUnselected: {
-    color: '#4b5563',
+    color: colors.raw.neutral[600],
   },
 });

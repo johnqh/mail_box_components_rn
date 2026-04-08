@@ -8,6 +8,13 @@ import {
 import { cn } from '../../lib/utils';
 import { variants as v } from '@sudobility/design';
 
+// RN input state classes aligned with design system (colors.component.input.default).
+// CSS pseudo-class selectors (focus:, disabled:) don't apply in RN, so we
+// apply these conditionally via component state instead.
+const inputFocusClass = 'border-blue-500 dark:border-blue-400';
+const inputErrorClass = 'border-red-500 dark:border-red-400';
+const inputDisabledClass = 'opacity-50 bg-gray-100 dark:bg-gray-800';
+
 export interface InputProps extends Omit<TextInputProps, 'style'> {
   /** Additional class names for styling */
   className?: string;
@@ -54,9 +61,9 @@ export const Input = React.forwardRef<TextInput, InputProps>(
         ref={ref}
         className={cn(
           v.input.default(),
-          isFocused && 'border-blue-500 dark:border-blue-400',
-          error && 'border-red-500 dark:border-red-400',
-          disabled && 'opacity-50 bg-gray-100 dark:bg-gray-800',
+          isFocused && inputFocusClass,
+          error && inputErrorClass,
+          disabled && inputDisabledClass,
           className
         )}
         editable={isEditable}

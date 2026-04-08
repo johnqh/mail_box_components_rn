@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { cn } from '@sudobility/components-rn';
+import { textVariants, variants as v } from '@sudobility/design';
 import type { EmailSignInFormProps } from './types';
 import { useAuthStatus } from './AuthProvider';
 
@@ -39,7 +40,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
   return (
     <View className='gap-4'>
       <View className='gap-2'>
-        <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+        <Text className={textVariants.label.default()}>
           {texts.email}
         </Text>
         <TextInput
@@ -49,13 +50,13 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
           keyboardType='email-address'
           autoCapitalize='none'
           autoCorrect={false}
-          className='px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+          className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
           placeholderTextColor='#9CA3AF'
         />
       </View>
 
       <View className='gap-2'>
-        <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+        <Text className={textVariants.label.default()}>
           {texts.password}
         </Text>
         <TextInput
@@ -63,21 +64,21 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
           onChangeText={setPassword}
           placeholder={texts.passwordPlaceholder}
           secureTextEntry
-          className='px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+          className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
           placeholderTextColor='#9CA3AF'
         />
       </View>
 
       {error && (
-        <Text className='text-sm text-red-600 dark:text-red-400'>{error}</Text>
+        <Text className={textVariants.label.error()}>{error}</Text>
       )}
 
       <Pressable
         onPress={handleSubmit}
         disabled={loading || !email || !password}
         className={cn(
-          'py-3 px-4 rounded-lg items-center justify-center',
-          'bg-blue-600 active:bg-blue-700',
+          v.button.primary.default(),
+          'py-3 px-4 rounded-lg',
           (loading || !email || !password) && 'opacity-50'
         )}
         accessibilityRole='button'
@@ -100,13 +101,13 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
         className='items-center py-2'
         accessibilityRole='button'
       >
-        <Text className='text-sm text-blue-600 dark:text-blue-400'>
+        <Text className={textVariants.link.subtle()}>
           {texts.forgotPassword}
         </Text>
       </Pressable>
 
       <View className='flex-row items-center justify-center gap-1'>
-        <Text className='text-sm text-gray-500 dark:text-gray-400'>
+        <Text className={textVariants.body.sm()}>
           {texts.noAccount}
         </Text>
         <Pressable
@@ -120,7 +121,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
           }}
           accessibilityRole='button'
         >
-          <Text className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+          <Text className={textVariants.link.subtle()}>
             {texts.signUp}
           </Text>
         </Pressable>
