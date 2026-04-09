@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, Pressable, Linking } from 'react-native';
 import { cn } from '../../lib/utils';
+import { textVariants } from '@sudobility/design';
 
 export interface LinkProps {
   /** Link URL */
@@ -53,13 +54,13 @@ export const Link: React.FC<LinkProps> = ({
   // Auto-detect external links
   const isExternal = href.startsWith('http://') || href.startsWith('https://');
 
-  // Variant configurations
+  // Variant configurations using DS textVariants.link where applicable
   const variantClasses = {
-    default: 'text-blue-600 dark:text-blue-400',
-    primary: 'text-blue-600 dark:text-blue-400 font-medium',
-    secondary: 'text-gray-600 dark:text-gray-400',
+    default: textVariants.link.subtle(),
+    primary: `${textVariants.link.default()} font-medium`,
+    secondary: textVariants.link.muted(),
     muted: 'text-gray-500 dark:text-gray-500',
-    underline: 'text-blue-600 dark:text-blue-400 underline',
+    underline: textVariants.link.default(),
   };
 
   const handlePress = async () => {

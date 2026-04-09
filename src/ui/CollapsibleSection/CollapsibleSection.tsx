@@ -10,6 +10,9 @@ import {
   UIManager,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 // Enable LayoutAnimation on Android
 if (
@@ -126,7 +129,8 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
         >
           <Text
             className={cn(
-              'text-base font-medium',
+              typography.size.base,
+              typography.weight.medium,
               isSelected && !selectedSubsection
                 ? 'text-blue-700 dark:text-blue-300'
                 : 'text-gray-700 dark:text-gray-300'
@@ -145,7 +149,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             accessibilityLabel={isExpanded ? 'Collapse' : 'Expand'}
           >
             <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-              <Text className='text-gray-500 text-lg'>›</Text>
+              <Text className={cn('text-gray-500', typography.size.lg)}>›</Text>
             </Animated.View>
           </Pressable>
         )}
@@ -172,7 +176,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               >
                 <Text
                   className={cn(
-                    'text-sm',
+                    typography.size.sm,
                     selectedSubsection === subsection.id
                       ? 'text-blue-700 dark:text-blue-300'
                       : 'text-gray-600 dark:text-gray-400'

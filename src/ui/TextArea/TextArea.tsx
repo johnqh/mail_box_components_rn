@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, TextInput, Text, TextInputProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface TextAreaProps extends Omit<TextInputProps, 'onChange'> {
   /** Current value */
@@ -108,7 +109,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
           readOnly && 'bg-gray-50 dark:bg-gray-900',
           inputClassName
         )}
-        placeholderTextColor='#9CA3AF'
+        placeholderTextColor={colors.raw.neutral[400]}
         accessibilityRole='text'
         accessibilityState={{ disabled }}
         {...textInputProps}

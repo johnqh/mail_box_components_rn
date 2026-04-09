@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface PaginationProps {
   /** Current page number (1-indexed) */
@@ -65,18 +68,18 @@ export const Pagination: React.FC<PaginationProps> = ({
   const sizeConfig = {
     sm: {
       button: 'h-8 w-8',
-      text: 'text-xs',
-      icon: 'text-xs',
+      text: typography.size.xs,
+      icon: typography.size.xs,
     },
     md: {
       button: 'h-10 w-10',
-      text: 'text-sm',
-      icon: 'text-sm',
+      text: typography.size.sm,
+      icon: typography.size.sm,
     },
     lg: {
       button: 'h-12 w-12',
-      text: 'text-base',
-      icon: 'text-base',
+      text: typography.size.base,
+      icon: typography.size.base,
     },
   };
 

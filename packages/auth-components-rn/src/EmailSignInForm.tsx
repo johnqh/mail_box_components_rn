@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { cn } from '@sudobility/components-rn';
-import { textVariants, variants as v } from '@sudobility/design';
+import { textVariants, variants as v, colors } from '@sudobility/design';
 import type { EmailSignInFormProps } from './types';
 import { useAuthStatus } from './AuthProvider';
 
@@ -51,7 +51,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
           autoCapitalize='none'
           autoCorrect={false}
           className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
-          placeholderTextColor='#9CA3AF'
+          placeholderTextColor={colors.raw.neutral[400]}
         />
       </View>
 
@@ -65,7 +65,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
           placeholder={texts.passwordPlaceholder}
           secureTextEntry
           className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
-          placeholderTextColor='#9CA3AF'
+          placeholderTextColor={colors.raw.neutral[400]}
         />
       </View>
 

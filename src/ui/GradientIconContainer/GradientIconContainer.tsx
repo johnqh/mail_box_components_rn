@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface GradientIconContainerProps {
   /** Icon element */
@@ -28,6 +29,36 @@ export interface GradientIconContainerProps {
  * </GradientIconContainer>
  * ```
  */
+
+// Lazily derive gradient icon colors from DS to avoid ESM issues in tests.
+let _gradientIconColors: Record<string, string> | null = null;
+function getGradientIconColors() {
+  if (!_gradientIconColors) {
+    const btn = colors.component.button;
+    // Extract the leading bg-* class from DS button base strings (solid colors)
+    function extractBg(base: string) {
+      return (
+        base
+          .split(' ')
+          .find(
+            c =>
+              c.startsWith('bg-') &&
+              !c.includes('hover:') &&
+              !c.includes('active:')
+          ) || ''
+      );
+    }
+    _gradientIconColors = {
+      blue: extractBg(btn.primary.base),
+      purple: 'bg-purple-600', // DS has no purple button; local fallback
+      green: extractBg(btn.success.base),
+      orange: 'bg-orange-600', // DS has no orange button; local fallback
+      gray: 'bg-gray-700 dark:bg-gray-600',
+    };
+  }
+  return _gradientIconColors;
+}
+
 export const GradientIconContainer: React.FC<GradientIconContainerProps> = ({
   children,
   size = 'md',
@@ -50,14 +81,8 @@ export const GradientIconContainer: React.FC<GradientIconContainerProps> = ({
     circle: 'rounded-full',
   };
 
-  // Color variants (solid colors approximating gradients)
-  const variantClasses = {
-    blue: 'bg-blue-600',
-    purple: 'bg-purple-600',
-    green: 'bg-green-600',
-    orange: 'bg-orange-600',
-    gray: 'bg-gray-700 dark:bg-gray-600',
-  };
+  // Color variants from DS (solid colors approximating gradients)
+  const variantClasses = getGradientIconColors();
 
   const config = sizeConfig[size];
 

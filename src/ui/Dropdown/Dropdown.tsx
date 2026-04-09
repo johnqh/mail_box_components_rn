@@ -8,6 +8,9 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface DropdownItem {
   /** Unique identifier */
@@ -156,7 +159,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     {item.icon && <View className='w-5 h-5'>{item.icon}</View>}
                     <Text
                       className={cn(
-                        'text-sm',
+                        typography.size.sm,
                         item.disabled
                           ? 'text-gray-400 dark:text-gray-500'
                           : 'text-gray-700 dark:text-gray-200'

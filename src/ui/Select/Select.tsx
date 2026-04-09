@@ -9,6 +9,9 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface SelectOption {
   label: string;
@@ -92,9 +95,9 @@ export const Select: React.FC<SelectProps> = ({
       <View className='flex flex-row items-center justify-between'>
         <Text
           className={cn(
-            'text-base',
+            typography.size.base,
             item.value === value
-              ? 'text-blue-600 dark:text-blue-400 font-medium'
+              ? `text-blue-600 dark:text-blue-400 ${typography.weight.medium}`
               : 'text-gray-900 dark:text-gray-100'
           )}
         >
@@ -125,7 +128,8 @@ export const Select: React.FC<SelectProps> = ({
       >
         <Text
           className={cn(
-            'text-base flex-1',
+            typography.size.base,
+            'flex-1',
             selectedOption
               ? 'text-gray-900 dark:text-gray-100'
               : 'text-gray-400 dark:text-gray-500'
@@ -149,11 +153,22 @@ export const Select: React.FC<SelectProps> = ({
             {/* Header */}
             <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
               <Pressable onPress={() => setIsOpen(false)}>
-                <Text className='text-blue-600 dark:text-blue-400 text-base'>
+                <Text
+                  className={cn(
+                    'text-blue-600 dark:text-blue-400',
+                    typography.size.base
+                  )}
+                >
                   Cancel
                 </Text>
               </Pressable>
-              <Text className='text-base font-semibold text-gray-900 dark:text-white'>
+              <Text
+                className={cn(
+                  typography.size.base,
+                  typography.weight.semibold,
+                  'text-gray-900 dark:text-white'
+                )}
+              >
                 {title}
               </Text>
               <View style={{ width: 60 }} />

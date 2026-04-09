@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface TextInputModalProps {
   /** Modal visibility */
@@ -151,7 +152,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     value={value}
                     onChangeText={setValue}
                     placeholder={placeholder}
-                    placeholderTextColor='#9ca3af'
+                    placeholderTextColor={colors.raw.neutral[400]}
                     maxLength={maxLength}
                     editable={!isLoading}
                     autoFocus

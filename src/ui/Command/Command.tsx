@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface CommandItem {
   /** Item ID */
@@ -159,7 +160,7 @@ export const Command: React.FC<CommandProps> = ({
                   value={searchQuery}
                   onChangeText={setSearchQuery}
                   placeholder={placeholder}
-                  placeholderTextColor='#9ca3af'
+                  placeholderTextColor={colors.raw.neutral[400]}
                   className='flex-1 text-gray-900 dark:text-white text-base'
                   autoCapitalize='none'
                   autoCorrect={false}

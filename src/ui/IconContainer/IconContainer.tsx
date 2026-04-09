@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface IconContainerProps {
   /** Icon element */
@@ -34,6 +35,29 @@ export interface IconContainerProps {
  * </IconContainer>
  * ```
  */
+
+// Lazily derive icon container colors from DS to avoid ESM issues in tests.
+let _iconContainerColors: Record<string, string> | null = null;
+function getIconContainerColors() {
+  if (!_iconContainerColors) {
+    const badge = colors.component.badge;
+    // DS badge classes include text-*, but IconContainer only needs bg-*
+    function extractBg(base: string, dark: string) {
+      const all = `${base} ${dark}`.split(' ');
+      return all.filter(c => c.includes('bg-')).join(' ');
+    }
+    _iconContainerColors = {
+      primary: extractBg(badge.primary.base, badge.primary.dark),
+      secondary: 'bg-purple-100 dark:bg-purple-900/30', // DS has no purple badge variant; local fallback
+      success: extractBg(badge.success.base, badge.success.dark),
+      warning: extractBg(badge.warning.base, badge.warning.dark),
+      error: extractBg(badge.error.base, badge.error.dark),
+      neutral: extractBg(badge.default.base, badge.default.dark),
+    };
+  }
+  return _iconContainerColors;
+}
+
 export const IconContainer: React.FC<IconContainerProps> = ({
   children,
   size = 'md',
@@ -49,15 +73,8 @@ export const IconContainer: React.FC<IconContainerProps> = ({
     xl: 'w-20 h-20',
   };
 
-  // Variant configurations
-  const variantClasses = {
-    primary: 'bg-blue-100 dark:bg-blue-900/30',
-    secondary: 'bg-purple-100 dark:bg-purple-900/30',
-    success: 'bg-green-100 dark:bg-green-900/30',
-    warning: 'bg-yellow-100 dark:bg-yellow-900/30',
-    error: 'bg-red-100 dark:bg-red-900/30',
-    neutral: 'bg-gray-100 dark:bg-gray-800',
-  };
+  // Variant configurations from DS
+  const variantClasses = getIconContainerColors();
 
   // Shape configurations
   const shapeClasses = {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Pressable, PressableProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface CheckboxProps extends Omit<PressableProps, 'onPress'> {
   /** Whether the checkbox is checked (controlled mode) */
@@ -54,6 +55,36 @@ export interface CheckboxProps extends Omit<PressableProps, 'onPress'> {
  * />
  * ```
  */
+
+// Lazily derive checkbox colors from DS to avoid ESM issues in tests.
+let _checkboxColors: ReturnType<typeof buildCheckboxColors> | null = null;
+function getCheckboxColors() {
+  if (!_checkboxColors) _checkboxColors = buildCheckboxColors();
+  return _checkboxColors;
+}
+function buildCheckboxColors() {
+  // Extract solid bg colors from DS button variants for checked states
+  // DS button.primary.base contains "bg-blue-600 ... text-white"
+  // We only need the bg-* and border-* portions for checkbox checked state
+  function extractCheckedColor(base: string) {
+    const parts = base.split(' ');
+    const bg =
+      parts.find(
+        c =>
+          c.startsWith('bg-') && !c.includes('hover:') && !c.includes('active:')
+      ) || '';
+    // For checkbox, border matches bg color
+    return `${bg} ${bg.replace('bg-', 'border-')}`;
+  }
+  const btn = colors.component.button;
+  return {
+    primary: extractCheckedColor(btn.primary.base),
+    success: extractCheckedColor(btn.success.base),
+    warning: 'bg-yellow-600 border-yellow-600', // DS has no yellow button; local fallback
+    error: extractCheckedColor(btn.destructive.base),
+  } as Record<string, string>;
+}
+
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked: controlledChecked,
   defaultChecked = false,
@@ -80,43 +111,37 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     sm: {
       box: 'w-4 h-4',
       check: 'w-2 h-2',
-      text: 'text-sm',
-      desc: 'text-xs',
+      text: designTokens.typography.size.sm,
+      desc: designTokens.typography.size.xs,
     },
     md: {
       box: 'w-5 h-5',
       check: 'w-3 h-3',
-      text: 'text-base',
-      desc: 'text-sm',
+      text: designTokens.typography.size.base,
+      desc: designTokens.typography.size.sm,
     },
     lg: {
       box: 'w-6 h-6',
       check: 'w-4 h-4',
-      text: 'text-lg',
-      desc: 'text-base',
+      text: designTokens.typography.size.lg,
+      desc: designTokens.typography.size.base,
     },
   };
 
   const getVariantClasses = () => {
+    const checkedColors = getCheckboxColors();
     if (error) {
       return checked
-        ? 'bg-red-600 border-red-600'
+        ? checkedColors.error
         : 'border-red-600 dark:border-red-500';
     }
 
+    const unchecked = 'border-gray-300 dark:border-gray-600';
     const variantClasses = {
-      primary: checked
-        ? 'bg-blue-600 border-blue-600'
-        : 'border-gray-300 dark:border-gray-600',
-      success: checked
-        ? 'bg-green-600 border-green-600'
-        : 'border-gray-300 dark:border-gray-600',
-      warning: checked
-        ? 'bg-yellow-600 border-yellow-600'
-        : 'border-gray-300 dark:border-gray-600',
-      error: checked
-        ? 'bg-red-600 border-red-600'
-        : 'border-gray-300 dark:border-gray-600',
+      primary: checked ? checkedColors.primary : unchecked,
+      success: checked ? checkedColors.success : unchecked,
+      warning: checked ? checkedColors.warning : unchecked,
+      error: checked ? checkedColors.error : unchecked,
     };
 
     return variantClasses[variant];
@@ -191,7 +216,9 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         )}
       </Pressable>
       {errorMessage && (
-        <Text className='mt-1 text-sm text-red-600 dark:text-red-400'>
+        <Text
+          className={`mt-1 ${designTokens.typography.size.sm} text-red-600 dark:text-red-400`}
+        >
           {errorMessage}
         </Text>
       )}

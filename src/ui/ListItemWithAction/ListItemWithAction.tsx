@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface ListItemWithActionProps {
   /** Main content/text to display */
@@ -91,7 +92,7 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
         {isProcessing ? (
           <ActivityIndicator
             size='small'
-            color={destructive ? '#dc2626' : '#6b7280'}
+            color={destructive ? colors.raw.red[600] : colors.raw.neutral[500]}
           />
         ) : (
           <>

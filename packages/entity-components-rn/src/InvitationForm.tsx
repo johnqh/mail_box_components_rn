@@ -145,7 +145,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
       >
         {isSubmitting ? (
           <>
-            <ActivityIndicator size='small' color='#ffffff' />
+            <ActivityIndicator size='small' color={colors.raw.neutral[0]} />
             <Text className='text-white font-semibold ml-2'>Sending...</Text>
           </>
         ) : (

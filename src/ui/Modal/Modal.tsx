@@ -9,6 +9,9 @@ import {
   Platform,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface ModalProps {
   /** Whether the modal is visible */
@@ -103,7 +106,13 @@ export const Modal: React.FC<ModalProps> = ({
             {(title || showCloseButton) && (
               <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
                 {title && (
-                  <Text className='text-lg font-semibold text-gray-900 dark:text-white flex-1'>
+                  <Text
+                    className={cn(
+                      typography.size.lg,
+                      typography.weight.semibold,
+                      'text-gray-900 dark:text-white flex-1'
+                    )}
+                  >
                     {title}
                   </Text>
                 )}
@@ -114,7 +123,12 @@ export const Modal: React.FC<ModalProps> = ({
                     accessibilityRole='button'
                     accessibilityLabel='Close modal'
                   >
-                    <Text className='text-xl text-gray-500 dark:text-gray-400'>
+                    <Text
+                      className={cn(
+                        typography.size.xl,
+                        'text-gray-500 dark:text-gray-400'
+                      )}
+                    >
                       ✕
                     </Text>
                   </Pressable>

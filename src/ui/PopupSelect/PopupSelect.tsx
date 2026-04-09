@@ -9,6 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '@sudobility/design';
 
 export interface PopupSelectOption {
   label: string;
@@ -163,11 +164,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: colors.raw.neutral[300],
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.raw.neutral[0],
   },
   triggerDisabled: {
     opacity: 0.5,
@@ -175,19 +176,19 @@ const styles = StyleSheet.create({
   triggerText: {
     flex: 1,
     fontSize: 16,
-    color: '#1a1a1a',
+    color: colors.raw.neutral[900],
   },
   triggerPlaceholder: {
-    color: '#9ca3af',
+    color: colors.raw.neutral[400],
   },
   triggerArrow: {
     fontSize: 10,
-    color: '#9ca3af',
+    color: colors.raw.neutral[400],
     marginLeft: 8,
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.raw.neutral[0],
   },
   modalHeader: {
     flexDirection: 'row',
@@ -196,12 +197,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    borderBottomColor: colors.raw.neutral[200],
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#1a1a1a',
+    color: colors.raw.neutral[900],
   },
   closeButton: {
     padding: 8,
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#3b82f6',
+    color: colors.raw.blue[500],
   },
   listContent: {
     padding: 16,
@@ -218,27 +219,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: colors.raw.neutral[50],
     borderRadius: 12,
   },
   optionItemSelected: {
-    backgroundColor: '#e0f2fe',
+    backgroundColor: colors.raw.blue[100],
   },
   optionLabel: {
     flex: 1,
     fontSize: 16,
-    color: '#1a1a1a',
+    color: colors.raw.neutral[900],
   },
   optionLabelSelected: {
     fontWeight: '600',
-    color: '#3b82f6',
+    color: colors.raw.blue[500],
   },
   optionDisabled: {
     opacity: 0.5,
   },
   checkmark: {
     fontSize: 18,
-    color: '#3b82f6',
+    color: colors.raw.blue[500],
     fontWeight: 'bold',
   },
   separator: {

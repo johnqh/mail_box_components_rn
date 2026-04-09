@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { ui, designTokens } from '@sudobility/design';
 
 export interface TableColumn<T> {
   /** Column key */
@@ -99,10 +100,11 @@ export function Table<T extends Record<string, unknown>>({
       className={cn('w-full', className)}
     >
       <View className='flex-1'>
-        {/* Header */}
+        {/* Header -- using DS table.thead */}
         <View
           className={cn(
-            'flex-row bg-gray-50 dark:bg-gray-800',
+            'flex-row',
+            ui.table.thead,
             'border-b border-gray-200 dark:border-gray-700'
           )}
         >
@@ -126,7 +128,15 @@ export function Table<T extends Record<string, unknown>>({
                   alignClasses[column.align || 'left']
                 )}
               >
-                <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider'>
+                <Text
+                  className={cn(
+                    designTokens.typography.size.xs,
+                    designTokens.typography.weight.medium,
+                    'text-gray-700 dark:text-gray-300',
+                    designTokens.typography.transform.uppercase,
+                    designTokens.typography.tracking.wider
+                  )}
+                >
                   {column.label}
                 </Text>
                 {column.sortable && sort?.column === column.key && (
@@ -139,8 +149,8 @@ export function Table<T extends Record<string, unknown>>({
           ))}
         </View>
 
-        {/* Body */}
-        <View className='bg-white dark:bg-gray-900'>
+        {/* Body -- using DS table.tr */}
+        <View className={ui.table.tr}>
           {data.length === 0 ? (
             <View className='px-4 py-8'>
               <Text className='text-center text-sm text-gray-500 dark:text-gray-400'>
@@ -156,9 +166,7 @@ export function Table<T extends Record<string, unknown>>({
                 className={cn(
                   'flex-row',
                   'border-b border-gray-200 dark:border-gray-700',
-                  striped &&
-                    rowIndex % 2 === 1 &&
-                    'bg-gray-50 dark:bg-gray-800/50'
+                  striped && rowIndex % 2 === 1 && ui.table.trAlt
                 )}
                 accessibilityRole='button'
               >
@@ -176,7 +184,12 @@ export function Table<T extends Record<string, unknown>>({
                     {column.render ? (
                       column.render(row, rowIndex)
                     ) : (
-                      <Text className='text-sm text-gray-900 dark:text-white'>
+                      <Text
+                        className={cn(
+                          designTokens.typography.size.sm,
+                          'text-gray-900 dark:text-white'
+                        )}
+                      >
                         {String(row[column.key] ?? '')}
                       </Text>
                     )}

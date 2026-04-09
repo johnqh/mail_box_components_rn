@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens, getCardVariantColors } from '@sudobility/design';
 
 export interface DashboardStatCardProps {
   /** Stat title */
@@ -36,6 +37,22 @@ export interface DashboardStatCardProps {
  * />
  * ```
  */
+
+// Lazily derive card variant colors from DS to avoid ESM issues in tests.
+let _cardColors: Record<string, string> | null = null;
+function getDashboardCardColors() {
+  if (!_cardColors) {
+    _cardColors = {
+      default: getCardVariantColors('default'),
+      primary: getCardVariantColors('info'),
+      success: getCardVariantColors('success'),
+      warning: getCardVariantColors('warning'),
+      danger: getCardVariantColors('error'),
+    };
+  }
+  return _cardColors;
+}
+
 export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
   title,
   value,
@@ -45,13 +62,7 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
   variant = 'default',
   className,
 }) => {
-  const variantClasses = {
-    default: 'bg-white dark:bg-gray-900',
-    primary: 'bg-blue-50 dark:bg-blue-900/20',
-    success: 'bg-green-50 dark:bg-green-900/20',
-    warning: 'bg-yellow-50 dark:bg-yellow-900/20',
-    danger: 'bg-red-50 dark:bg-red-900/20',
-  };
+  const variantClasses = getDashboardCardColors();
 
   const isPositive = change !== undefined && change >= 0;
 
@@ -65,7 +76,9 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
     >
       {/* Header */}
       <View className='flex-row items-start justify-between mb-2'>
-        <Text className='text-sm font-medium text-gray-600 dark:text-gray-400'>
+        <Text
+          className={`${designTokens.typography.size.sm} ${designTokens.typography.weight.medium} text-gray-600 dark:text-gray-400`}
+        >
           {title}
         </Text>
         {icon && (
@@ -74,7 +87,9 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
       </View>
 
       {/* Value */}
-      <Text className='text-3xl font-bold text-gray-900 dark:text-white'>
+      <Text
+        className={`${designTokens.typography.size['3xl']} ${designTokens.typography.weight.bold} text-gray-900 dark:text-white`}
+      >
         {value}
       </Text>
 
@@ -83,7 +98,8 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
         <View className='flex-row items-center gap-1 mt-2'>
           <Text
             className={cn(
-              'text-sm font-medium',
+              designTokens.typography.size.sm,
+              designTokens.typography.weight.medium,
               isPositive
                 ? 'text-green-600 dark:text-green-400'
                 : 'text-red-600 dark:text-red-400'
@@ -91,7 +107,9 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
           >
             {isPositive ? '↑' : '↓'} {Math.abs(change)}%
           </Text>
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+          <Text
+            className={`${designTokens.typography.size.xs} text-gray-500 dark:text-gray-400`}
+          >
             {changePeriod}
           </Text>
         </View>

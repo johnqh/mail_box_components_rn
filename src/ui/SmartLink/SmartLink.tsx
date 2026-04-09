@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Text, Pressable, Linking, Alert } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface SmartLinkProps {
   /** Link destination - URL or internal path */
@@ -61,9 +64,9 @@ export const SmartLink: React.FC<SmartLinkProps> = ({
   };
 
   const sizeClasses = {
-    sm: 'text-sm',
-    default: 'text-base',
-    lg: 'text-lg',
+    sm: typography.size.sm,
+    default: typography.size.base,
+    lg: typography.size.lg,
   };
 
   const handlePress = async () => {

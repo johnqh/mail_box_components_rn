@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, getCardVariantColors } from '@sudobility/design';
 
 export interface Feature {
   /** Unique identifier */
@@ -72,13 +73,12 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
     lg: 'w-20 h-20',
   };
 
+  // Badge variants using DS badge colors
   const badgeVariants = {
-    success:
-      'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
-    info: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
-    warning:
-      'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300',
-    default: 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300',
+    success: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
+    info: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
+    warning: `${colors.component.badge.attention.base} ${colors.component.badge.attention.dark}`,
+    default: `${colors.component.badge.default.base} ${colors.component.badge.default.dark}`,
   };
 
   const renderFeature = (feature: Feature, index: number) => {
@@ -87,7 +87,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         className={cn(
           'items-center',
           cardVariant === 'card' &&
-            'bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg',
+            `${getCardVariantColors('elevated')} rounded-2xl p-6`,
           cardVariant === 'minimal' && 'gap-4'
         )}
       >

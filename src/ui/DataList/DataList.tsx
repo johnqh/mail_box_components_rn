@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable, FlatList } from 'react-native';
 import { cn } from '../../lib/utils';
+import { ui, designTokens } from '@sudobility/design';
 
 export interface DataListColumn<T> {
   /** Column key */
@@ -74,7 +75,13 @@ export function DataList<T extends Record<string, unknown>>({
     if (!showHeader) return null;
 
     return (
-      <View className='flex-row bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700'>
+      <View
+        className={cn(
+          'flex-row',
+          ui.table.thead,
+          'border-b border-gray-200 dark:border-gray-700'
+        )}
+      >
         {columns.map(column => (
           <View
             key={column.key}
@@ -84,7 +91,15 @@ export function DataList<T extends Record<string, unknown>>({
             )}
             style={{ flex: column.flex || 1 }}
           >
-            <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider'>
+            <Text
+              className={cn(
+                designTokens.typography.size.xs,
+                designTokens.typography.weight.medium,
+                'text-gray-700 dark:text-gray-300',
+                designTokens.typography.transform.uppercase,
+                designTokens.typography.tracking.wider
+              )}
+            >
               {column.label}
             </Text>
           </View>
@@ -101,7 +116,7 @@ export function DataList<T extends Record<string, unknown>>({
         onPress={() => onRowPress?.(item, index)}
         className={cn(
           'flex-row border-b border-gray-200 dark:border-gray-700',
-          isOdd && 'bg-gray-50 dark:bg-gray-800/50',
+          isOdd && ui.table.trAlt,
           onRowPress && 'active:bg-gray-100 dark:active:bg-gray-800'
         )}
         disabled={!onRowPress}
@@ -121,7 +136,10 @@ export function DataList<T extends Record<string, unknown>>({
               column.render(item, index)
             ) : (
               <Text
-                className='text-sm text-gray-900 dark:text-white'
+                className={cn(
+                  designTokens.typography.size.sm,
+                  'text-gray-900 dark:text-white'
+                )}
                 numberOfLines={1}
               >
                 {String(item[column.key] ?? '')}
@@ -142,7 +160,7 @@ export function DataList<T extends Record<string, unknown>>({
   );
 
   return (
-    <View className={cn('bg-white dark:bg-gray-900', className)}>
+    <View className={cn(ui.table.tr, className)}>
       {renderHeader()}
       <FlatList
         data={data}

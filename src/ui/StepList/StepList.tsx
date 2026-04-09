@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface StepListItem {
   /** Step content */
@@ -53,14 +56,28 @@ export const StepList: React.FC<StepListProps> = ({
       if (variant === 'enhanced') {
         return (
           <View className='w-6 h-6 bg-blue-600 rounded-full items-center justify-center mr-3'>
-            <Text className='text-white text-sm font-medium'>{index + 1}</Text>
+            <Text
+              className={cn(
+                'text-white',
+                typography.size.sm,
+                typography.weight.medium
+              )}
+            >
+              {index + 1}
+            </Text>
           </View>
         );
       }
       if (variant === 'minimal') {
         return (
           <View className='w-6 h-6 bg-blue-100 dark:bg-blue-900/20 rounded-full items-center justify-center mr-3'>
-            <Text className='text-blue-600 dark:text-blue-400 text-sm font-medium'>
+            <Text
+              className={cn(
+                'text-blue-600 dark:text-blue-400',
+                typography.size.sm,
+                typography.weight.medium
+              )}
+            >
               {index + 1}
             </Text>
           </View>
@@ -121,7 +138,12 @@ export const StepList: React.FC<StepListProps> = ({
                     •
                   </Text>
                   {typeof subItem === 'string' ? (
-                    <Text className='text-sm text-gray-500 dark:text-gray-500 flex-1'>
+                    <Text
+                      className={cn(
+                        typography.size.sm,
+                        'text-gray-500 dark:text-gray-500 flex-1'
+                      )}
+                    >
                       {subItem}
                     </Text>
                   ) : (

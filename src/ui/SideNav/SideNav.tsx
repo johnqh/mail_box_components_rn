@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface NavItem {
   /** Unique identifier */
@@ -60,7 +63,8 @@ export const SideNav: React.FC<SideNavProps> = ({ items, className }) => {
           {item.icon && <View className='w-5 h-5'>{item.icon}</View>}
           <Text
             className={cn(
-              'flex-1 font-medium',
+              'flex-1',
+              typography.weight.medium,
               item.active
                 ? 'text-blue-600 dark:text-blue-400'
                 : 'text-gray-700 dark:text-gray-300'
@@ -70,7 +74,12 @@ export const SideNav: React.FC<SideNavProps> = ({ items, className }) => {
           </Text>
           {item.badge !== undefined && (
             <View className='px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded'>
-              <Text className='text-xs text-gray-700 dark:text-gray-300'>
+              <Text
+                className={cn(
+                  typography.size.xs,
+                  'text-gray-700 dark:text-gray-300'
+                )}
+              >
                 {item.badge}
               </Text>
             </View>

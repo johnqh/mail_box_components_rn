@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface PromotionalBannerProps {
   /** Banner title */
@@ -52,8 +53,10 @@ export const PromotionalBanner: React.FC<PromotionalBannerProps> = ({
   return (
     <View
       className={cn(
-        'bg-green-50 dark:bg-green-900/20',
-        'border-b border-green-200 dark:border-green-700',
+        // Derive green palette from DS alert.success colors
+        colors.component.alert.success.base,
+        colors.component.alert.success.dark,
+        'border-b',
         isProminent && 'border-b-2',
         className
       )}
@@ -62,7 +65,7 @@ export const PromotionalBanner: React.FC<PromotionalBannerProps> = ({
         <View className='flex-row items-center justify-between gap-4 flex-wrap'>
           {/* Left side: Badge + Title */}
           <View className='flex-row items-center flex-1'>
-            {/* Badge */}
+            {/* Badge -- green-500 from colors.raw.green */}
             <View className='bg-green-500 px-3 py-1 rounded-full mr-3'>
               <Text className='text-white text-xs font-bold'>{badgeText}</Text>
             </View>
@@ -85,7 +88,7 @@ export const PromotionalBanner: React.FC<PromotionalBannerProps> = ({
             </View>
           </View>
 
-          {/* CTA Button */}
+          {/* CTA Button -- success button from DS */}
           <Pressable
             onPress={onButtonPress}
             className={cn(

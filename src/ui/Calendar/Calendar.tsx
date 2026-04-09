@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface CalendarProps {
   /** Selected date */
@@ -154,10 +157,23 @@ export const Calendar: React.FC<CalendarProps> = ({
           accessibilityRole='button'
           accessibilityLabel='Previous month'
         >
-          <Text className='text-lg text-gray-700 dark:text-gray-300'>‹</Text>
+          <Text
+            className={cn(
+              typography.size.lg,
+              'text-gray-700 dark:text-gray-300'
+            )}
+          >
+            ‹
+          </Text>
         </Pressable>
 
-        <Text className='text-base font-semibold text-gray-900 dark:text-white'>
+        <Text
+          className={cn(
+            typography.size.base,
+            typography.weight.semibold,
+            'text-gray-900 dark:text-white'
+          )}
+        >
           {monthYear}
         </Text>
 
@@ -167,7 +183,14 @@ export const Calendar: React.FC<CalendarProps> = ({
           accessibilityRole='button'
           accessibilityLabel='Next month'
         >
-          <Text className='text-lg text-gray-700 dark:text-gray-300'>›</Text>
+          <Text
+            className={cn(
+              typography.size.lg,
+              'text-gray-700 dark:text-gray-300'
+            )}
+          >
+            ›
+          </Text>
         </Pressable>
       </View>
 
@@ -175,7 +198,13 @@ export const Calendar: React.FC<CalendarProps> = ({
       <View className='flex-row mb-2'>
         {weekDays.map(day => (
           <View key={day} className='flex-1 items-center py-2'>
-            <Text className='text-xs font-medium text-gray-600 dark:text-gray-400'>
+            <Text
+              className={cn(
+                typography.size.xs,
+                typography.weight.medium,
+                'text-gray-600 dark:text-gray-400'
+              )}
+            >
               {day}
             </Text>
           </View>
@@ -223,11 +252,11 @@ export const Calendar: React.FC<CalendarProps> = ({
               >
                 <Text
                   className={cn(
-                    'text-sm',
+                    typography.size.sm,
                     isCurrentMonth
                       ? 'text-gray-900 dark:text-white'
                       : 'text-gray-400 dark:text-gray-600',
-                    isSelected && 'text-white font-semibold'
+                    isSelected && `text-white ${typography.weight.semibold}`
                   )}
                 >
                   {date.getDate()}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
 
 export type FeatureCardColor =
   | 'green'
@@ -69,57 +70,58 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   borderColor = false,
   className,
 }) => {
-  // Color configurations
+  // Color configurations -- derived from colors.raw.* palette
+  // Each Tailwind class maps to a colors.raw hex value at the same shade
   const colorClasses: Record<FeatureCardColor, string> = {
-    blue: 'text-blue-600 dark:text-blue-400',
-    green: 'text-green-600 dark:text-green-400',
+    blue: 'text-blue-600 dark:text-blue-400', // colors.raw.blue[600] / [400]
+    green: 'text-green-600 dark:text-green-400', // colors.raw.green[600] / [400]
     purple: 'text-purple-600 dark:text-purple-400',
-    orange: 'text-orange-600 dark:text-orange-400',
+    orange: 'text-orange-600 dark:text-orange-400', // colors.raw.orange[600] / [400]
     pink: 'text-pink-600 dark:text-pink-400',
-    gray: 'text-gray-600 dark:text-gray-400',
-    red: 'text-red-600 dark:text-red-400',
+    gray: 'text-gray-600 dark:text-gray-400', // colors.raw.neutral[600] / [400]
+    red: 'text-red-600 dark:text-red-400', // colors.raw.red[600] / [400]
     indigo: 'text-indigo-600 dark:text-indigo-400',
     cyan: 'text-cyan-600 dark:text-cyan-400',
     emerald: 'text-emerald-600 dark:text-emerald-400',
   };
 
   const borderColorClasses: Record<FeatureCardColor, string> = {
-    green: 'border-l-4 border-l-green-500',
-    blue: 'border-l-4 border-l-blue-500',
-    purple: 'border-l-4 border-l-purple-500',
-    orange: 'border-l-4 border-l-orange-500',
-    red: 'border-l-4 border-l-red-500',
+    green: 'border-l-4 border-l-green-500', // colors.raw.green[500]
+    blue: 'border-l-4 border-l-blue-500', // colors.raw.blue[500]
+    purple: 'border-l-4 border-l-purple-500', // colors.raw.purple[500]
+    orange: 'border-l-4 border-l-orange-500', // colors.raw.orange[500]
+    red: 'border-l-4 border-l-red-500', // colors.raw.red[500]
     indigo: 'border-l-4 border-l-indigo-500',
     cyan: 'border-l-4 border-l-cyan-500',
     emerald: 'border-l-4 border-l-emerald-500',
     pink: 'border-l-4 border-l-pink-500',
-    gray: 'border-l-4 border-l-gray-500',
+    gray: 'border-l-4 border-l-gray-500', // colors.raw.neutral[500]
   };
 
   const iconBackgroundClasses: Record<FeatureCardColor, string> = {
-    green: 'bg-green-100 dark:bg-green-900/20',
-    blue: 'bg-blue-100 dark:bg-blue-900/20',
-    purple: 'bg-purple-100 dark:bg-purple-900/20',
-    orange: 'bg-orange-100 dark:bg-orange-900/20',
-    red: 'bg-red-100 dark:bg-red-900/20',
+    green: 'bg-green-100 dark:bg-green-900/20', // colors.raw.green[100] / [900]
+    blue: 'bg-blue-100 dark:bg-blue-900/20', // colors.raw.blue[100] / [900]
+    purple: 'bg-purple-100 dark:bg-purple-900/20', // colors.raw.purple[100] / [900]
+    orange: 'bg-orange-100 dark:bg-orange-900/20', // colors.raw.orange[100] / [900]
+    red: 'bg-red-100 dark:bg-red-900/20', // colors.raw.red[100] / [900]
     indigo: 'bg-indigo-100 dark:bg-indigo-900/20',
     cyan: 'bg-cyan-100 dark:bg-cyan-900/20',
     emerald: 'bg-emerald-100 dark:bg-emerald-900/20',
     pink: 'bg-pink-100 dark:bg-pink-900/20',
-    gray: 'bg-gray-100 dark:bg-gray-900/20',
+    gray: 'bg-gray-100 dark:bg-gray-900/20', // colors.raw.neutral[100] / [900]
   };
 
   const bulletColorClasses: Record<FeatureCardColor, string> = {
-    green: 'bg-green-500',
-    blue: 'bg-blue-500',
-    purple: 'bg-purple-500',
-    orange: 'bg-orange-500',
-    red: 'bg-red-500',
+    green: 'bg-green-500', // colors.raw.green[500]
+    blue: 'bg-blue-500', // colors.raw.blue[500]
+    purple: 'bg-purple-500', // colors.raw.purple[500]
+    orange: 'bg-orange-500', // colors.raw.orange[500]
+    red: 'bg-red-500', // colors.raw.red[500]
     indigo: 'bg-indigo-500',
     cyan: 'bg-cyan-500',
     emerald: 'bg-emerald-500',
     pink: 'bg-pink-500',
-    gray: 'bg-gray-500',
+    gray: 'bg-gray-500', // colors.raw.neutral[500]
   };
 
   const CardContent = () => (
@@ -139,12 +141,24 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
       )}
 
       {/* Title */}
-      <Text className='text-xl font-semibold text-gray-900 dark:text-white mb-3'>
+      <Text
+        className={cn(
+          designTokens.typography.size.xl,
+          designTokens.typography.weight.semibold,
+          'text-gray-900 dark:text-white mb-3'
+        )}
+      >
         {title}
       </Text>
 
       {/* Description */}
-      <Text className='text-gray-600 dark:text-gray-300 mb-4 leading-relaxed'>
+      <Text
+        className={cn(
+          designTokens.typography.size.base,
+          designTokens.typography.leading.relaxed,
+          'text-gray-600 dark:text-gray-300 mb-4'
+        )}
+      >
         {description}
       </Text>
 
@@ -162,7 +176,13 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
                   bulletColorClasses[color]
                 )}
               />
-              <Text className='flex-1 text-sm text-gray-600 dark:text-gray-400'>
+              <Text
+                className={cn(
+                  'flex-1',
+                  designTokens.typography.size.sm,
+                  'text-gray-600 dark:text-gray-400'
+                )}
+              >
                 {benefit}
               </Text>
             </View>
@@ -178,10 +198,21 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
               key={index}
               className='flex-1 min-w-[80px] items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg'
             >
-              <Text className={cn('text-lg font-bold', colorClasses[color])}>
+              <Text
+                className={cn(
+                  designTokens.typography.size.lg,
+                  designTokens.typography.weight.bold,
+                  colorClasses[color]
+                )}
+              >
                 {value}
               </Text>
-              <Text className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
+              <Text
+                className={cn(
+                  designTokens.typography.size.xs,
+                  'text-gray-500 dark:text-gray-400 mt-1'
+                )}
+              >
                 {key}
               </Text>
             </View>

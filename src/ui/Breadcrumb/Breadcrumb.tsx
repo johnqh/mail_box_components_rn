@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface BreadcrumbItem {
   /** Item label */
@@ -64,9 +67,9 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   // Size configurations
   const sizeClasses = {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
+    sm: typography.size.sm,
+    md: typography.size.base,
+    lg: typography.size.lg,
   };
 
   // Determine which items to display
@@ -98,7 +101,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           <Text
             className={cn(
               sizeClasses[size],
-              'text-gray-900 dark:text-white font-medium'
+              `text-gray-900 dark:text-white ${typography.weight.medium}`
             )}
             accessibilityRole='text'
           >
@@ -136,7 +139,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           className={cn(
             sizeClasses[size],
             isCurrent
-              ? 'text-gray-900 dark:text-white font-medium'
+              ? `text-gray-900 dark:text-white ${typography.weight.medium}`
               : 'text-gray-600 dark:text-gray-400'
           )}
         >

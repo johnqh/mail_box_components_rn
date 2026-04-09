@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { View, Text, Pressable, Modal, Animated } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface TooltipProps {
   /** Content to display in the tooltip */
@@ -40,6 +41,45 @@ export interface TooltipProps {
  * </Tooltip>
  * ```
  */
+
+// Lazily derive tooltip colors from DS to avoid ESM issues in tests.
+let _tooltipColors: Record<string, string> | null = null;
+function getTooltipColors() {
+  if (!_tooltipColors) {
+    const btn = colors.component.button;
+    // Extract bg-* from DS button base for solid tooltip backgrounds
+    function extractBg(base: string, darkStr: string) {
+      const bg =
+        base
+          .split(' ')
+          .find(
+            c =>
+              c.startsWith('bg-') &&
+              !c.includes('hover:') &&
+              !c.includes('active:')
+          ) || '';
+      const darkBg =
+        darkStr
+          .split(' ')
+          .find(
+            c =>
+              c.startsWith('dark:bg-') &&
+              !c.includes('hover:') &&
+              !c.includes('active:')
+          ) || '';
+      return `${bg} ${darkBg}`;
+    }
+    _tooltipColors = {
+      default: 'bg-gray-900 dark:bg-gray-700',
+      info: extractBg(btn.primary.base, btn.primary.dark),
+      success: extractBg(btn.success.base, btn.success.dark),
+      warning: 'bg-yellow-600 dark:bg-yellow-500', // DS has no yellow button; local fallback
+      error: extractBg(btn.destructive.base, btn.destructive.dark),
+    };
+  }
+  return _tooltipColors;
+}
+
 export const Tooltip: React.FC<TooltipProps> = ({
   content,
   children,
@@ -98,14 +138,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setIsVisible(false);
   };
 
-  // Variant styles
-  const variantClasses = {
-    default: 'bg-gray-900 dark:bg-gray-700',
-    info: 'bg-blue-600 dark:bg-blue-500',
-    success: 'bg-green-600 dark:bg-green-500',
-    warning: 'bg-yellow-600 dark:bg-yellow-500',
-    error: 'bg-red-600 dark:bg-red-500',
-  };
+  // Variant styles from DS
+  const variantClasses = getTooltipColors();
 
   // Calculate tooltip position
   const getTooltipPosition = () => {
@@ -173,7 +207,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
                 className
               )}
             >
-              <Text className='text-xs font-medium text-white'>{content}</Text>
+              <Text
+                className={`${designTokens.typography.size.xs} ${designTokens.typography.weight.medium} text-white`}
+              >
+                {content}
+              </Text>
             </View>
           </Animated.View>
         </Pressable>

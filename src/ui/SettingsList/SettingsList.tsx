@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 /**
  * Setting item interface
@@ -88,7 +91,7 @@ export const SettingsList: React.FC<SettingsListProps> = ({
             <View className='flex-1 min-w-0'>
               <Text
                 className={cn(
-                  'text-sm',
+                  typography.size.sm,
                   isSelected
                     ? 'text-orange-700 dark:text-orange-300'
                     : 'text-gray-700 dark:text-gray-300'

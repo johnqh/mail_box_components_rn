@@ -29,7 +29,7 @@ const sizeMap = {
 // Spinner colors from design system raw palette
 const colorMap = {
   default: colors.raw.blue[600],
-  white: '#ffffff',
+  white: colors.raw.neutral[0],
   success: colors.raw.green[600],
   warning: colors.raw.orange[600],
   error: colors.raw.red[600],

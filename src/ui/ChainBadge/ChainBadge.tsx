@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export type ChainType = 'evm' | 'solana' | 'bitcoin' | 'cosmos';
 
@@ -11,44 +12,61 @@ export interface ChainBadgeProps extends ViewProps {
   showLabel?: boolean;
 }
 
-const chainConfig: Record<
-  ChainType,
-  { label: string; emoji: string; bgColor: string; textColor: string }
-> = {
-  evm: {
-    label: 'EVM',
-    emoji: '⟠',
-    bgColor:
-      'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800',
-    textColor: 'text-blue-700 dark:text-blue-300',
-  },
-  solana: {
-    label: 'SOL',
-    emoji: '◎',
-    bgColor:
-      'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800',
-    textColor: 'text-purple-700 dark:text-purple-300',
-  },
-  bitcoin: {
-    label: 'BTC',
-    emoji: '₿',
-    bgColor:
-      'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800',
-    textColor: 'text-orange-700 dark:text-orange-300',
-  },
-  cosmos: {
-    label: 'ATOM',
-    emoji: '⚛',
-    bgColor:
-      'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800',
-    textColor: 'text-indigo-700 dark:text-indigo-300',
-  },
+/**
+ * Split combined DS badge color strings (which include both bg-* and text-*)
+ * into separate bg and text class strings.
+ */
+function splitBadgeClasses(base: string, dark: string) {
+  const all = `${base} ${dark}`.split(' ');
+  return {
+    bg: all.filter(c => c.includes('bg-')).join(' '),
+    text: all.filter(c => c.includes('text-')).join(' '),
+  };
+}
+
+// Lazily derive chain colors from DS to avoid ESM issues in tests.
+let _chainColors: ReturnType<typeof buildChainColors> | null = null;
+function getChainColors() {
+  if (!_chainColors) _chainColors = buildChainColors();
+  return _chainColors;
+}
+function buildChainColors() {
+  const badge = colors.component.badge;
+  return {
+    evm: splitBadgeClasses(badge.ethereum.base, badge.ethereum.dark),
+    solana: splitBadgeClasses(badge.solana.base, badge.solana.dark),
+    bitcoin: splitBadgeClasses(badge.bitcoin.base, badge.bitcoin.dark),
+    // DS has no cosmos badge — use local fallback (indigo)
+    cosmos: {
+      bg: 'bg-indigo-50 dark:bg-indigo-900/20',
+      text: 'text-indigo-700 dark:text-indigo-300',
+    },
+  };
+}
+
+const chainMeta: Record<ChainType, { label: string; emoji: string }> = {
+  evm: { label: 'EVM', emoji: '⟠' },
+  solana: { label: 'SOL', emoji: '◎' },
+  bitcoin: { label: 'BTC', emoji: '₿' },
+  cosmos: { label: 'ATOM', emoji: '⚛' },
 };
 
 const sizeConfig = {
-  sm: { padding: 'px-1.5 py-0.5', text: 'text-xs', gap: 'gap-0.5' },
-  md: { padding: 'px-2 py-1', text: 'text-sm', gap: 'gap-1' },
-  lg: { padding: 'px-2.5 py-1.5', text: 'text-base', gap: 'gap-1.5' },
+  sm: {
+    padding: 'px-1.5 py-0.5',
+    text: designTokens.typography.size.xs,
+    gap: 'gap-0.5',
+  },
+  md: {
+    padding: 'px-2 py-1',
+    text: designTokens.typography.size.sm,
+    gap: 'gap-1',
+  },
+  lg: {
+    padding: 'px-2.5 py-1.5',
+    text: designTokens.typography.size.base,
+    gap: 'gap-1.5',
+  },
 };
 
 export const ChainBadge: React.FC<ChainBadgeProps> = ({
@@ -58,27 +76,34 @@ export const ChainBadge: React.FC<ChainBadgeProps> = ({
   className,
   ...props
 }) => {
-  const chain = chainConfig[chainType];
+  const chainColors = getChainColors()[chainType];
+  const meta = chainMeta[chainType];
   const sizeStyles = sizeConfig[size];
 
   return (
     <View
       className={cn(
         'flex-row items-center rounded-md border',
-        chain.bgColor,
+        chainColors.bg,
         sizeStyles.padding,
         sizeStyles.gap,
         className
       )}
-      accessibilityLabel={`${chain.label} chain`}
+      accessibilityLabel={`${meta.label} chain`}
       {...props}
     >
-      <Text className={cn(sizeStyles.text, chain.textColor)}>
-        {chain.emoji}
+      <Text className={cn(sizeStyles.text, chainColors.text)}>
+        {meta.emoji}
       </Text>
       {showLabel && (
-        <Text className={cn('font-medium', sizeStyles.text, chain.textColor)}>
-          {chain.label}
+        <Text
+          className={cn(
+            designTokens.typography.weight.medium,
+            sizeStyles.text,
+            chainColors.text
+          )}
+        >
+          {meta.label}
         </Text>
       )}
     </View>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Animated } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface ProgressProps {
   /** Progress value (0-100) */
@@ -36,6 +37,48 @@ export interface ProgressProps {
  * <Progress indeterminate />
  * ```
  */
+
+// Lazily derive progress colors from DS to avoid ESM issues in tests.
+let _progressColors: ReturnType<typeof buildProgressColors> | null = null;
+function getProgressColors() {
+  if (!_progressColors) _progressColors = buildProgressColors();
+  return _progressColors;
+}
+function buildProgressColors() {
+  // Extract the leading bg-* class from DS button base strings
+  function extractBg(base: string, darkStr: string) {
+    const bg =
+      base
+        .split(' ')
+        .find(
+          c =>
+            c.startsWith('bg-') &&
+            !c.includes('hover:') &&
+            !c.includes('active:')
+        ) || '';
+    const darkBg =
+      darkStr
+        .split(' ')
+        .find(
+          c =>
+            c.startsWith('dark:bg-') &&
+            !c.includes('hover:') &&
+            !c.includes('active:')
+        ) || '';
+    return `${bg} ${darkBg}`;
+  }
+  const btn = colors.component.button;
+  return {
+    default: extractBg(btn.primary.base, btn.primary.dark),
+    primary: extractBg(btn.primary.base, btn.primary.dark),
+    success: extractBg(btn.success.base, btn.success.dark),
+    warning: 'bg-yellow-600 dark:bg-yellow-500', // DS has no yellow button; local fallback
+    danger: extractBg(btn.destructive.base, btn.destructive.dark),
+    purple: 'bg-purple-600 dark:bg-purple-500', // DS has no purple button; local fallback
+    gray: 'bg-gray-600 dark:bg-gray-500', // local fallback
+  } as Record<string, string>;
+}
+
 export const Progress: React.FC<ProgressProps> = ({
   value = 0,
   max = 100,
@@ -71,12 +114,13 @@ export const Progress: React.FC<ProgressProps> = ({
   // Clamp value between 0 and 100
   const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
 
-  // Color configurations
+  // Color configurations from DS
+  const allColors = getProgressColors();
   const colorClasses = {
-    default: 'bg-blue-600 dark:bg-blue-500',
-    success: 'bg-green-600 dark:bg-green-500',
-    warning: 'bg-yellow-600 dark:bg-yellow-500',
-    danger: 'bg-red-600 dark:bg-red-500',
+    default: allColors.default,
+    success: allColors.success,
+    warning: allColors.warning,
+    danger: allColors.danger,
   };
 
   // Size configurations
@@ -119,7 +163,9 @@ export const Progress: React.FC<ProgressProps> = ({
       </View>
       {(showLabel || label) && (
         <View className='mt-1'>
-          <Text className='text-xs text-gray-600 dark:text-gray-400 text-right'>
+          <Text
+            className={`${designTokens.typography.size.xs} text-gray-600 dark:text-gray-400 text-right`}
+          >
             {label || `${Math.round(percentage)}%`}
           </Text>
         </View>
@@ -173,14 +219,15 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
   const displayLabel = label || `${Math.round(percentage)}%`;
 
-  // Color variant configurations
+  // Color variant configurations from DS
+  const progressColors = getProgressColors();
   const variantClasses = {
-    primary: 'bg-blue-600 dark:bg-blue-500',
-    success: 'bg-green-600 dark:bg-green-500',
-    warning: 'bg-yellow-600 dark:bg-yellow-500',
-    danger: 'bg-red-600 dark:bg-red-500',
-    purple: 'bg-purple-600 dark:bg-purple-500',
-    gray: 'bg-gray-600 dark:bg-gray-500',
+    primary: progressColors.primary,
+    success: progressColors.success,
+    warning: progressColors.warning,
+    danger: progressColors.danger,
+    purple: progressColors.purple,
+    gray: progressColors.gray,
   };
 
   // Size configurations
@@ -211,7 +258,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           />
         </View>
         {showLabel && labelPosition === 'outside' && (
-          <Text className='text-sm font-medium text-gray-600 dark:text-gray-400'>
+          <Text
+            className={`${designTokens.typography.size.sm} ${designTokens.typography.weight.medium} text-gray-600 dark:text-gray-400`}
+          >
             {displayLabel}
           </Text>
         )}

@@ -9,6 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface InfiniteScrollProps<T> {
   /** Data items to render */
@@ -117,7 +118,7 @@ export function InfiniteScroll<T>({
   const ListFooterComponent = useCallback(() => {
     const footerLoader = (
       <View className='flex-row justify-center items-center py-4'>
-        <ActivityIndicator size='small' color='#3b82f6' />
+        <ActivityIndicator size='small' color={colors.raw.blue[500]} />
         <Text className='ml-2 text-sm text-gray-600 dark:text-gray-400'>
           Loading...
         </Text>

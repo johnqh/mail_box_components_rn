@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface IconTextProps {
   /** Icon element to display */
@@ -78,13 +79,13 @@ export const IconText: React.FC<IconTextProps> = ({
     right: 'text-right',
   };
 
-  // Color variant configurations
+  // Color variant configurations using DS semantic references
   const variantClasses = {
     default: 'text-gray-700 dark:text-gray-300',
-    primary: 'text-blue-600 dark:text-blue-400',
-    success: 'text-green-600 dark:text-green-400',
-    warning: 'text-yellow-600 dark:text-yellow-400',
-    danger: 'text-red-600 dark:text-red-400',
+    primary: colors.component.alert.info.icon,
+    success: colors.component.alert.success.icon,
+    warning: colors.component.alert.warning.icon,
+    danger: colors.component.alert.error.icon,
     muted: 'text-gray-500 dark:text-gray-400',
   };
 

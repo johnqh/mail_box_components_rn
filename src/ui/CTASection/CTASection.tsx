@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
 
 export interface CTAButton {
   /** Button label */
@@ -68,16 +69,17 @@ export const CTASection: React.FC<CTASectionProps> = ({
     lg: 'py-16 px-8',
   };
 
+  // Typography sizing from design tokens
   const titleSizeClasses = {
-    sm: 'text-2xl',
-    md: 'text-3xl',
-    lg: 'text-4xl',
+    sm: designTokens.typography.size['2xl'],
+    md: designTokens.typography.size['3xl'],
+    lg: designTokens.typography.size['4xl'],
   };
 
   const descriptionSizeClasses = {
-    sm: 'text-base',
-    md: 'text-lg',
-    lg: 'text-xl',
+    sm: designTokens.typography.size.base,
+    md: designTokens.typography.size.lg,
+    lg: designTokens.typography.size.xl,
   };
 
   const textColorClass = textColor === 'light' ? 'text-white' : 'text-gray-900';

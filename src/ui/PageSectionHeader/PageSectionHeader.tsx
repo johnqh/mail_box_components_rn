@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface PageSectionHeaderProps {
   /** Section title */
@@ -107,7 +108,7 @@ export const PageSectionHeader: React.FC<PageSectionHeaderProps> = ({
 
           {loading && (
             <View className='flex-row items-center gap-2'>
-              <ActivityIndicator size='small' color='#3b82f6' />
+              <ActivityIndicator size='small' color={colors.raw.blue[500]} />
               <Text
                 className={cn(
                   sizeConfig.count,

@@ -96,7 +96,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           autoCapitalize='none'
           autoCorrect={false}
           className={cn(v.input.default(), 'px-4 py-3 rounded-lg')}
-          placeholderTextColor='#9CA3AF'
+          placeholderTextColor={colors.raw.neutral[400]}
         />
       </View>
 

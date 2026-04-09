@@ -9,6 +9,7 @@ import {
   TextInputProps,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface SearchInputProps extends Omit<TextInputProps, 'onChange'> {
   /** Current search query */
@@ -137,7 +138,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           disabled && 'opacity-50',
           loading && 'opacity-60'
         )}
-        placeholderTextColor='#9CA3AF'
+        placeholderTextColor={colors.raw.neutral[400]}
         accessibilityRole='search'
         accessibilityState={{ disabled }}
         {...textInputProps}
@@ -159,7 +160,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       {/* Loading Spinner */}
       {loading && (
         <View className='absolute inset-y-0 right-0 flex items-center justify-center pr-3'>
-          <ActivityIndicator size='small' color='#9CA3AF' />
+          <ActivityIndicator size='small' color={colors.raw.neutral[400]} />
         </View>
       )}
     </View>

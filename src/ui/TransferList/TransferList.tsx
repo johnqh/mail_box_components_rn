@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useCallback } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface TransferListItem {
   /** Item ID */
@@ -173,7 +174,7 @@ export const TransferList: React.FC<TransferListProps> = ({
             value={searchValue}
             onChangeText={onSearchChange}
             placeholder={searchPlaceholder}
-            placeholderTextColor='#9ca3af'
+            placeholderTextColor={colors.raw.neutral[400]}
             className='px-3 py-2 text-sm bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-md'
           />
         </View>

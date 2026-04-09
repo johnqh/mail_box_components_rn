@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface KeyValuePairProps {
   /** Label/key text */
@@ -55,9 +58,13 @@ export const KeyValuePair: React.FC<KeyValuePairProps> = ({
   className,
 }) => {
   const sizeClasses = {
-    sm: { label: 'text-sm', value: 'text-sm', gap: 'gap-1' },
-    md: { label: 'text-base', value: 'text-base', gap: 'gap-2' },
-    lg: { label: 'text-lg', value: 'text-lg', gap: 'gap-3' },
+    sm: { label: typography.size.sm, value: typography.size.sm, gap: 'gap-1' },
+    md: {
+      label: typography.size.base,
+      value: typography.size.base,
+      gap: 'gap-2',
+    },
+    lg: { label: typography.size.lg, value: typography.size.lg, gap: 'gap-3' },
   };
 
   const labelWidthStyles = {
@@ -76,13 +83,13 @@ export const KeyValuePair: React.FC<KeyValuePairProps> = ({
   const labelVariantClasses = {
     default: 'text-gray-700 dark:text-gray-300',
     muted: 'text-gray-600 dark:text-gray-400',
-    strong: 'text-gray-900 dark:text-gray-100 font-semibold',
+    strong: `text-gray-900 dark:text-gray-100 ${typography.weight.semibold}`,
   };
 
   const valueVariantClasses = {
     default: 'text-gray-900 dark:text-gray-100',
     muted: 'text-gray-600 dark:text-gray-400',
-    strong: 'text-gray-900 dark:text-gray-100 font-semibold',
+    strong: `text-gray-900 dark:text-gray-100 ${typography.weight.semibold}`,
     primary: 'text-blue-600 dark:text-blue-400',
   };
 

@@ -11,6 +11,9 @@ import {
   PanResponder,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -267,12 +270,24 @@ export const Sheet: React.FC<SheetProps> = ({
               <View className='flex flex-row items-start justify-between'>
                 <View className='flex-1'>
                   {title && (
-                    <Text className='text-lg font-semibold text-gray-900 dark:text-white'>
+                    <Text
+                      className={cn(
+                        typography.size.lg,
+                        typography.weight.semibold,
+                        'text-gray-900 dark:text-white'
+                      )}
+                    >
                       {title}
                     </Text>
                   )}
                   {description && (
-                    <Text className='mt-1 text-sm text-gray-600 dark:text-gray-400'>
+                    <Text
+                      className={cn(
+                        'mt-1',
+                        typography.size.sm,
+                        'text-gray-600 dark:text-gray-400'
+                      )}
+                    >
                       {description}
                     </Text>
                   )}
@@ -284,7 +299,9 @@ export const Sheet: React.FC<SheetProps> = ({
                     accessibilityRole='button'
                     accessibilityLabel='Close sheet'
                   >
-                    <Text className='text-xl text-gray-400'>✕</Text>
+                    <Text className={cn(typography.size.xl, 'text-gray-400')}>
+                      ✕
+                    </Text>
                   </Pressable>
                 )}
               </View>

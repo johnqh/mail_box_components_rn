@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface StatDisplayProps {
   /** The main value/number to display */
@@ -33,31 +34,31 @@ export interface StatDisplayProps {
  * <StatDisplay value="42" label="Active Users" variant="success" size="lg" />
  * ```
  */
-export const StatDisplay: React.FC<StatDisplayProps> = ({
-  value,
-  label,
-  variant = 'neutral',
-  size = 'md',
-  align = 'center',
-  icon,
-  iconPosition = 'top',
-  className,
-}) => {
-  const variantClasses = {
+
+// Lazily derive stat display colors from DS to avoid ESM issues in tests.
+let _statColors: ReturnType<typeof buildStatColors> | null = null;
+function getStatColors() {
+  if (!_statColors) _statColors = buildStatColors();
+  return _statColors;
+}
+function buildStatColors() {
+  const alert = colors.component.alert;
+  // Extract text-* classes from DS alert icon strings
+  return {
     primary: {
-      value: 'text-blue-600 dark:text-blue-400',
+      value: `${alert.info.icon}`,
       label: 'text-blue-600/70 dark:text-blue-400/70',
     },
     success: {
-      value: 'text-green-600 dark:text-green-400',
+      value: `${alert.success.icon}`,
       label: 'text-green-600/70 dark:text-green-400/70',
     },
     warning: {
-      value: 'text-yellow-600 dark:text-yellow-400',
-      label: 'text-yellow-600/70 dark:text-yellow-400/70',
+      value: `${alert.warning.icon}`,
+      label: 'text-orange-600/70 dark:text-orange-400/70',
     },
     danger: {
-      value: 'text-red-600 dark:text-red-400',
+      value: `${alert.error.icon}`,
       label: 'text-red-600/70 dark:text-red-400/70',
     },
     neutral: {
@@ -68,13 +69,38 @@ export const StatDisplay: React.FC<StatDisplayProps> = ({
       value: 'text-white',
       label: 'text-white/70',
     },
-  };
+  } as Record<string, { value: string; label: string }>;
+}
+
+export const StatDisplay: React.FC<StatDisplayProps> = ({
+  value,
+  label,
+  variant = 'neutral',
+  size = 'md',
+  align = 'center',
+  icon,
+  iconPosition = 'top',
+  className,
+}) => {
+  const variantClasses = getStatColors();
 
   const sizeClasses = {
-    sm: { value: 'text-xl', label: 'text-xs' },
-    md: { value: 'text-2xl', label: 'text-sm' },
-    lg: { value: 'text-3xl', label: 'text-base' },
-    xl: { value: 'text-4xl', label: 'text-lg' },
+    sm: {
+      value: designTokens.typography.size.xl,
+      label: designTokens.typography.size.xs,
+    },
+    md: {
+      value: designTokens.typography.size['2xl'],
+      label: designTokens.typography.size.sm,
+    },
+    lg: {
+      value: designTokens.typography.size['3xl'],
+      label: designTokens.typography.size.base,
+    },
+    xl: {
+      value: designTokens.typography.size['4xl'],
+      label: designTokens.typography.size.lg,
+    },
   };
 
   const alignClasses = {
@@ -98,7 +124,11 @@ export const StatDisplay: React.FC<StatDisplayProps> = ({
         <View className={variantConfig.value}>{icon}</View>
         <View>
           <Text
-            className={cn('font-bold', sizeConfig.value, variantConfig.value)}
+            className={cn(
+              designTokens.typography.weight.bold,
+              sizeConfig.value,
+              variantConfig.value
+            )}
           >
             {value}
           </Text>
@@ -115,7 +145,13 @@ export const StatDisplay: React.FC<StatDisplayProps> = ({
       {icon && iconPosition === 'top' && (
         <View className={cn('mb-2', variantConfig.value)}>{icon}</View>
       )}
-      <Text className={cn('font-bold', sizeConfig.value, variantConfig.value)}>
+      <Text
+        className={cn(
+          designTokens.typography.weight.bold,
+          sizeConfig.value,
+          variantConfig.value
+        )}
+      >
         {value}
       </Text>
       <Text className={cn(sizeConfig.label, variantConfig.label)}>{label}</Text>

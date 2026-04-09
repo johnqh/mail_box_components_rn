@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors } from '@sudobility/design';
 
 export interface SectionHeaderProps {
   /** The header text/title */
@@ -53,7 +54,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           {title}
         </Text>
         <View className='flex-row items-center gap-2'>
-          {loading && <ActivityIndicator size='small' color='#2563eb' />}
+          {loading && (
+            <ActivityIndicator size='small' color={colors.raw.blue[600]} />
+          )}
           {actions}
           {onAdd && (
             <Pressable

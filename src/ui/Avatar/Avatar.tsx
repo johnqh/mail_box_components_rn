@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { statusIndicatorColors } from '@sudobility/design';
 
 export interface AvatarProps {
   /** Image source URL */
@@ -76,12 +77,12 @@ export const Avatar: React.FC<AvatarProps> = ({
     xl: 'w-4 h-4',
   };
 
-  // Status indicator configurations
+  // Status indicator configurations using DS statusIndicatorColors
   const statusClasses = {
-    online: 'bg-green-500',
-    offline: 'bg-gray-400',
-    away: 'bg-yellow-500',
-    busy: 'bg-red-500',
+    online: statusIndicatorColors.success, // bg-green-500
+    offline: statusIndicatorColors.neutral, // bg-gray-500
+    away: 'bg-yellow-500', // local fallback, no DS yellow status
+    busy: statusIndicatorColors.error, // bg-red-500
   };
 
   // Generate initials from name

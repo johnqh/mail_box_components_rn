@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useCallback, createContext, useContext } from 'react';
 import { View, Text, Pressable, ScrollView, ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
 
 // Context for tabs state
 interface TabsContextValue {
@@ -104,7 +105,9 @@ export const TabsList: React.FC<TabsListProps> = ({
     horizontal
     showsHorizontalScrollIndicator={false}
     className={cn(
-      'flex-row bg-gray-100 dark:bg-gray-800 rounded-lg p-1',
+      'flex-row bg-gray-100 dark:bg-gray-800',
+      designTokens.radius.lg,
+      'p-1',
       className
     )}
     contentContainerStyle={{ flexGrow: 1 }}
@@ -152,7 +155,9 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
     >
       <Text
         className={cn(
-          'text-sm font-medium text-center',
+          designTokens.typography.size.sm,
+          designTokens.typography.weight.medium,
+          'text-center',
           isSelected
             ? 'text-gray-900 dark:text-white'
             : 'text-gray-600 dark:text-gray-400'

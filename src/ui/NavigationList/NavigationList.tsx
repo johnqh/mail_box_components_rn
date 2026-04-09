@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface NavigationItem {
   /** Unique identifier for the item */
@@ -108,7 +111,7 @@ export const NavigationList: React.FC<NavigationListProps> = ({
               <View className='flex-row items-center'>
                 <Text
                   className={cn(
-                    'font-medium',
+                    typography.weight.medium,
                     isSelected
                       ? 'text-blue-600 dark:text-blue-400'
                       : 'text-gray-700 dark:text-gray-300'
@@ -118,14 +121,25 @@ export const NavigationList: React.FC<NavigationListProps> = ({
                 </Text>
                 {item.badge !== undefined && item.badge > 0 && (
                   <View className='ml-2 px-2 py-0.5 bg-blue-100 dark:bg-blue-900 rounded-full'>
-                    <Text className='text-xs font-medium text-blue-800 dark:text-blue-200'>
+                    <Text
+                      className={cn(
+                        typography.size.xs,
+                        typography.weight.medium,
+                        'text-blue-800 dark:text-blue-200'
+                      )}
+                    >
                       {item.badge}
                     </Text>
                   </View>
                 )}
               </View>
               {item.description && (
-                <Text className='text-xs text-gray-500 dark:text-gray-400 mt-0.5'>
+                <Text
+                  className={cn(
+                    typography.size.xs,
+                    'text-gray-500 dark:text-gray-400 mt-0.5'
+                  )}
+                >
                   {item.description}
                 </Text>
               )}

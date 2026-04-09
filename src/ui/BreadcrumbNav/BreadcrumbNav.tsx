@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { designTokens } from '@sudobility/design';
+
+const { typography } = designTokens;
 
 export interface BreadcrumbNavItem {
   /** Item label */
@@ -49,12 +52,23 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
       {items.map((item, index) => (
         <React.Fragment key={index}>
           {index > 0 && (
-            <Text className='text-gray-400 dark:text-gray-600 text-sm'>
+            <Text
+              className={cn(
+                'text-gray-400 dark:text-gray-600',
+                typography.size.sm
+              )}
+            >
               {typeof separator === 'string' ? separator : separator}
             </Text>
           )}
           {index === items.length - 1 ? (
-            <Text className='text-gray-900 dark:text-white font-medium text-sm'>
+            <Text
+              className={cn(
+                'text-gray-900 dark:text-white',
+                typography.weight.medium,
+                typography.size.sm
+              )}
+            >
               {item.label}
             </Text>
           ) : (
@@ -63,7 +77,12 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
               accessibilityRole='link'
               accessibilityLabel={item.label}
             >
-              <Text className='text-blue-600 dark:text-blue-400 text-sm'>
+              <Text
+                className={cn(
+                  'text-blue-600 dark:text-blue-400',
+                  typography.size.sm
+                )}
+              >
                 {item.label}
               </Text>
             </Pressable>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, TextProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface HelperTextProps extends TextProps {
   /** Helper text content */
@@ -43,10 +44,10 @@ export const HelperText: React.FC<HelperTextProps> = ({
   className,
   ...textProps
 }) => {
-  // Size configurations
+  // Size configurations using design tokens
   const sizeClasses = {
-    sm: 'text-sm',
-    base: 'text-base',
+    sm: designTokens.typography.size.sm,
+    base: designTokens.typography.size.base,
   };
 
   const iconSize = {
@@ -54,22 +55,22 @@ export const HelperText: React.FC<HelperTextProps> = ({
     base: 'w-5 h-5',
   };
 
-  // Variant configurations
+  // Variant configurations using DS alert icon colors and semantic text
   const variantConfig = {
     default: {
-      text: 'text-gray-600 dark:text-gray-400',
+      text: colors.component.alert.info.icon,
       icon: 'ℹ',
     },
     error: {
-      text: 'text-red-600 dark:text-red-400',
+      text: colors.component.alert.error.icon,
       icon: '⚠',
     },
     success: {
-      text: 'text-green-600 dark:text-green-400',
+      text: colors.component.alert.success.icon,
       icon: '✓',
     },
     warning: {
-      text: 'text-yellow-600 dark:text-yellow-400',
+      text: colors.component.alert.warning.icon,
       icon: '⚠',
     },
   };

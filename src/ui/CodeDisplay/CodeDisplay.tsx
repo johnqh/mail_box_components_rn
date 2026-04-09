@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface CodeDisplayProps {
   /** Code or text to display */
@@ -40,6 +41,36 @@ export interface CodeDisplayProps {
  * </CodeDisplay>
  * ```
  */
+
+// Lazily derive display colors from DS to avoid ESM issues in tests.
+let _displayColors: ReturnType<typeof buildDisplayColors> | null = null;
+function getDisplayColors() {
+  if (!_displayColors) _displayColors = buildDisplayColors();
+  return _displayColors;
+}
+function buildDisplayColors() {
+  const alert = colors.component.alert;
+  function splitClasses(base: string, dark: string) {
+    const all = `${base} ${dark}`.split(' ');
+    return {
+      text: all.filter(c => c.includes('text-')).join(' '),
+      bg: all.filter(c => c.includes('bg-')).join(' '),
+    };
+  }
+  const info = splitClasses(alert.info.base, alert.info.dark);
+  const success = splitClasses(alert.success.base, alert.success.dark);
+  const warning = splitClasses(alert.warning.base, alert.warning.dark);
+  return {
+    primary: `${info.text} ${info.bg}`,
+    // secondary uses purple — no DS mapping, keep local
+    secondary:
+      'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30',
+    success: `${success.text} ${success.bg}`,
+    warning: `${warning.text} ${warning.bg}`,
+    neutral: 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800',
+  } as Record<string, string>;
+}
+
 export const CodeDisplay: React.FC<CodeDisplayProps> = ({
   children,
   variant = 'primary',
@@ -49,34 +80,25 @@ export const CodeDisplay: React.FC<CodeDisplayProps> = ({
   wrap = false,
   className,
 }) => {
-  // Color variant configurations
-  const variantClasses = {
-    primary: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30',
-    secondary:
-      'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30',
-    success:
-      'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30',
-    warning:
-      'text-yellow-700 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/30',
-    neutral: 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800',
-  };
+  // Color variant configurations from DS
+  const variantClasses = getDisplayColors();
 
-  // Size configurations
+  // Size configurations using DS typography tokens
   const sizeClasses = {
     xs: {
-      text: 'text-xs',
+      text: designTokens.typography.size.xs,
       padding: inline ? 'px-1.5 py-0.5' : 'px-2 py-1',
     },
     sm: {
-      text: 'text-sm',
+      text: designTokens.typography.size.sm,
       padding: inline ? 'px-2 py-0.5' : 'px-3 py-1.5',
     },
     md: {
-      text: 'text-base',
+      text: designTokens.typography.size.base,
       padding: inline ? 'px-2.5 py-1' : 'px-4 py-2',
     },
     lg: {
-      text: 'text-lg',
+      text: designTokens.typography.size.lg,
       padding: inline ? 'px-3 py-1' : 'px-4 py-2',
     },
   };
@@ -90,14 +112,18 @@ export const CodeDisplay: React.FC<CodeDisplayProps> = ({
 
   const sizeConfig = sizeClasses[size];
 
-  // Extract background and text color classes
-  const [textColorClass, bgClass] = variantClasses[variant].split(' ');
+  // Extract background and text color classes from combined variant string
+  const variantParts = variantClasses[variant].split(' ');
+  const textColorClass = variantParts
+    .filter(c => c.includes('text-'))
+    .join(' ');
+  const bgClass = variantParts.filter(c => c.includes('bg-')).join(' ');
 
   if (inline) {
     return (
       <Text
         className={cn(
-          'font-mono rounded-lg',
+          `${designTokens.typography.family.mono} rounded-lg`,
           textColorClass,
           bgClass,
           sizeConfig.text,
@@ -113,7 +139,7 @@ export const CodeDisplay: React.FC<CodeDisplayProps> = ({
   const content = (
     <Text
       className={cn(
-        'font-mono',
+        designTokens.typography.family.mono,
         textColorClass,
         sizeConfig.text,
         !inline && alignClasses[align],

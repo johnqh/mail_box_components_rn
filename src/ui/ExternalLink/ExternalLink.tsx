@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { Text, Pressable, Linking } from 'react-native';
 import { cn } from '../../lib/utils';
+import { textVariants } from '@sudobility/design';
 
 export interface ExternalLinkProps {
   /** Link URL */
@@ -63,11 +64,11 @@ export const ExternalLink: React.FC<ExternalLinkProps> = ({
     lg: 'text-base',
   };
 
-  // Color variant configurations
+  // Color variant configurations using DS textVariants.link
   const variantClasses = {
-    default: 'text-blue-600 dark:text-blue-400',
-    primary: 'text-blue-700 dark:text-blue-300 font-semibold',
-    muted: 'text-gray-600 dark:text-gray-400',
+    default: textVariants.link.external(),
+    primary: `${textVariants.link.default()} font-semibold`,
+    muted: textVariants.link.muted(),
   };
 
   const handlePress = useCallback(async () => {

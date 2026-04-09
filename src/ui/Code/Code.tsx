@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { cn } from '../../lib/utils';
+import { colors, designTokens } from '@sudobility/design';
 
 export interface CodeProps {
   /** Code content */
@@ -30,6 +31,45 @@ export interface CodeProps {
  * </Code>
  * ```
  */
+
+// Lazily derive code colors from DS to avoid ESM issues in tests.
+let _codeColors: ReturnType<typeof buildCodeColors> | null = null;
+function getCodeColors() {
+  if (!_codeColors) _codeColors = buildCodeColors();
+  return _codeColors;
+}
+function buildCodeColors() {
+  const alert = colors.component.alert;
+  // Split combined DS classes into separate bg/text for RN
+  function splitClasses(base: string, dark: string) {
+    const all = `${base} ${dark}`.split(' ');
+    return {
+      bg: all.filter(c => c.includes('bg-')).join(' '),
+      text: all.filter(c => c.includes('text-')).join(' '),
+    };
+  }
+  const info = splitClasses(alert.info.base, alert.info.dark);
+  const success = splitClasses(alert.success.base, alert.success.dark);
+  const warning = splitClasses(alert.warning.base, alert.warning.dark);
+  const error = splitClasses(alert.error.base, alert.error.dark);
+  return {
+    bg: {
+      default: 'bg-gray-100 dark:bg-gray-800',
+      primary: info.bg,
+      success: success.bg,
+      warning: warning.bg,
+      danger: error.bg,
+    } as Record<string, string>,
+    text: {
+      default: 'text-gray-900 dark:text-gray-100',
+      primary: info.text,
+      success: success.text,
+      warning: warning.text,
+      danger: error.text,
+    } as Record<string, string>,
+  };
+}
+
 export const Code: React.FC<CodeProps> = ({
   children,
   size = 'md',
@@ -38,28 +78,14 @@ export const Code: React.FC<CodeProps> = ({
 }) => {
   // Size configurations
   const sizeClasses = {
-    sm: 'text-xs px-1 py-0.5',
-    md: 'text-sm px-1.5 py-0.5',
-    lg: 'text-base px-2 py-1',
+    sm: `${designTokens.typography.size.xs} px-1 py-0.5`,
+    md: `${designTokens.typography.size.sm} px-1.5 py-0.5`,
+    lg: `${designTokens.typography.size.base} px-2 py-1`,
   };
 
-  // Variant configurations - background
-  const variantBgClasses = {
-    default: 'bg-gray-100 dark:bg-gray-800',
-    primary: 'bg-blue-50 dark:bg-blue-900/30',
-    success: 'bg-green-50 dark:bg-green-900/30',
-    warning: 'bg-yellow-50 dark:bg-yellow-900/30',
-    danger: 'bg-red-50 dark:bg-red-900/30',
-  };
-
-  // Variant configurations - text
-  const variantTextClasses = {
-    default: 'text-gray-900 dark:text-gray-100',
-    primary: 'text-blue-700 dark:text-blue-300',
-    success: 'text-green-700 dark:text-green-300',
-    warning: 'text-yellow-700 dark:text-yellow-300',
-    danger: 'text-red-700 dark:text-red-300',
-  };
+  const codeColors = getCodeColors();
+  const variantBgClasses = codeColors.bg;
+  const variantTextClasses = codeColors.text;
 
   return (
     <View
@@ -71,7 +97,11 @@ export const Code: React.FC<CodeProps> = ({
       )}
     >
       <Text
-        className={cn('font-mono font-medium', variantTextClasses[variant])}
+        className={cn(
+          designTokens.typography.family.mono,
+          designTokens.typography.weight.medium,
+          variantTextClasses[variant]
+        )}
         style={{ fontFamily: 'monospace' }}
       >
         {children}
