@@ -25,13 +25,13 @@
     "test": "jest --passWithNoTests"
   },
   "peerDependencies": {
-    "@sudobility/components-rn": "^1.0.46",
+    "@sudobility/components-rn": "^1.0.47",
     "@sudobility/design": "^1.1.29",
     "react": "^18.0.0 || ^19.0.0",
     "react-native": ">=0.72.0"
   },
   "devDependencies": {
-    "@sudobility/components-rn": "^1.0.46",
+    "@sudobility/components-rn": "^1.0.47",
     "@sudobility/design": "^1.1.29",
     "@types/react": "^18.3.0",
     "typescript": "^5.6.0",
