@@ -128,7 +128,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
           className={cn('rounded-full bg-white shadow-lg', config.thumb)}
           style={{
             transform: [{ translateX: thumbTranslateX }],
-            marginLeft: 2,
+            marginStart: 2,
           }}
         />
       </Pressable>

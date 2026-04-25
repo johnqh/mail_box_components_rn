@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   triggerArrow: {
     fontSize: 10,
     color: colors.raw.neutral[400],
-    marginLeft: 8,
+    marginStart: 8,
   },
   modalContainer: {
     flex: 1,

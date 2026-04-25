@@ -115,7 +115,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
             isSelected && 'bg-blue-50 dark:bg-blue-900/30',
             node.disabled && 'opacity-50'
           )}
-          style={{ paddingLeft: level * 24 + 8 }}
+          style={{ paddingStart: level * 24 + 8 }}
           accessibilityRole='button'
           accessibilityState={{ selected: isSelected, disabled: node.disabled }}
         >

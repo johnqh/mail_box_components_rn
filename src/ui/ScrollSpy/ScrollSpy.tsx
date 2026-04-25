@@ -85,7 +85,7 @@ export const ScrollSpy: React.FC<ScrollSpyProps> = ({
               ? 'bg-blue-50 dark:bg-blue-900/30'
               : 'active:bg-gray-100 dark:active:bg-gray-800'
           )}
-          style={{ paddingLeft: level * 12 + 12 }}
+          style={{ paddingStart: level * 12 + 12 }}
           accessibilityRole='button'
           accessibilityLabel={section.label}
           accessibilityState={{ selected: isActive }}
