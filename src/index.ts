@@ -153,6 +153,9 @@ export * from './ui/PageSectionHeader';
 // UI Components - Accessibility
 export * from './ui/VisuallyHidden';
 
+// UI Components - i18n
+export * from './ui/LanguageSelectorModal';
+
 // UI Components - Navigation (Additional)
 export * from './ui/BreadcrumbNav';
 

@@ -5,7 +5,7 @@ const monoRoot = path.resolve(__dirname, '../..');
 module.exports = {
   preset: 'react-native',
   rootDir: __dirname,
-  setupFiles: [path.join(monoRoot, 'jest.globals.cjs')],
+  setupFiles: [path.join(monoRoot, 'jest.globals.cjs'), path.join(monoRoot, 'jest.mocks.cjs')],
   setupFilesAfterEnv: [path.join(monoRoot, 'jest.setup.cjs')],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: ['**/__tests__/**/*.test.{ts,tsx}'],
@@ -16,7 +16,7 @@ module.exports = {
     ],
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(\\.bun/[^/]+/node_modules/)?(react-native|@react-native|nativewind|react-native-reanimated|clsx|class-variance-authority|@testing-library)/)',
+    '/node_modules/(?!(\\.bun/[^/]+/node_modules/)?(react-native|@react-native|nativewind|react-native-reanimated|clsx|class-variance-authority|@testing-library|@sudobility)/)',
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',

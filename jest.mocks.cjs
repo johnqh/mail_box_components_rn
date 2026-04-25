@@ -39,6 +39,13 @@ jest.mock('@sudobility/design', () => ({
   SEMANTIC_COLOR_MAP: createDeepProxy(),
 }));
 
+// Mock @sudobility/components-rn for subpackage tests that don't resolve to source.
+// Provides the most commonly used utilities; subpackage tests can override with
+// jest.mock() in individual test files if they need more specific mocks.
+jest.mock('@sudobility/components-rn', () => ({
+  cn: (...args) => args.filter(Boolean).join(' '),
+}));
+
 // Mock NativeWind
 jest.mock('nativewind', () => ({
   styled: (component) => component,
