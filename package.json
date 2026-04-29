@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/components-rn",
-  "version": "1.0.56",
+  "version": "1.0.57",
   "description": "React Native UI components and design system - Ported from @sudobility/components",
   "type": "module",
   "main": "dist/index.esm.js",
@@ -110,6 +110,6 @@
   },
   "license": "BUSL-1.1",
   "dependencies": {
-    "@sudobility/components-rn": "^1.0.55"
+    "@sudobility/components-rn": "^1.0.56"
   }
 }
