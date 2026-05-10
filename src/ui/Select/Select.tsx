@@ -156,40 +156,47 @@ export const Select: React.FC<SelectProps> = ({
           }
           disabled={disabled}
           className={cn(
-            'flex flex-row items-center justify-between h-11 px-3 py-2 rounded-md border',
+            'rounded-md border',
             'border-gray-300 dark:border-gray-600',
             'bg-white dark:bg-gray-800',
             disabled && 'opacity-50',
             className
           )}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            minHeight: 44,
+            paddingHorizontal: 12,
+            paddingVertical: 8,
+          }}
           accessibilityRole='combobox'
           accessibilityState={{ disabled, expanded: isOpen }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-            <Text
-              className={cn(
-                typography.size.base,
-                'flex-1',
-                selectedOption
-                  ? 'text-gray-900 dark:text-gray-100'
-                  : 'text-gray-400 dark:text-gray-500'
-              )}
-              numberOfLines={1}
-              style={{ textAlignVertical: 'center' }}
-            >
-              {selectedOption?.label || placeholder}
-            </Text>
-            <View style={{ justifyContent: 'center', marginLeft: 8 }}>
-              <Svg width={16} height={16} viewBox='0 0 20 20'>
-                <Path
-                  fillRule='evenodd'
-                  d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
-                  clipRule='evenodd'
-                  fill='#6b7280'
-                />
-              </Svg>
-            </View>
-          </View>
+          <Text
+            className={cn(
+              typography.size.base,
+              selectedOption
+                ? 'text-gray-900 dark:text-gray-100'
+                : 'text-gray-400 dark:text-gray-500'
+            )}
+            numberOfLines={1}
+            style={{ flex: 1 }}
+          >
+            {selectedOption?.label || placeholder}
+          </Text>
+          <Svg
+            width={16}
+            height={16}
+            viewBox='0 0 20 20'
+            style={{ marginLeft: 8 }}
+          >
+            <Path
+              fillRule='evenodd'
+              d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
+              clipRule='evenodd'
+              fill='#6b7280'
+            />
+          </Svg>
         </Pressable>
       </View>
 
