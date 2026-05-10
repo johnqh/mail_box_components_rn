@@ -156,8 +156,6 @@ export const Select: React.FC<SelectProps> = ({
           }
           disabled={disabled}
           className={cn(
-            'rounded-md border',
-            'border-gray-300 dark:border-gray-600',
             'bg-white dark:bg-gray-800',
             disabled && 'opacity-50',
             className
@@ -165,9 +163,12 @@ export const Select: React.FC<SelectProps> = ({
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            minHeight: 44,
+            minHeight: 36,
             paddingHorizontal: 12,
-            paddingVertical: 8,
+            paddingVertical: 6,
+            borderWidth: 1,
+            borderColor: '#d1d5db',
+            borderRadius: 6,
           }}
           accessibilityRole='combobox'
           accessibilityState={{ disabled, expanded: isOpen }}
