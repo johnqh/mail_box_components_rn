@@ -165,7 +165,7 @@ export const Select: React.FC<SelectProps> = ({
           accessibilityRole='combobox'
           accessibilityState={{ disabled, expanded: isOpen }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <View style={{ flexDirection: 'row', flex: 1 }}>
             <Text
               className={cn(
                 typography.size.base,
@@ -175,22 +175,20 @@ export const Select: React.FC<SelectProps> = ({
                   : 'text-gray-400 dark:text-gray-500'
               )}
               numberOfLines={1}
+              style={{ textAlignVertical: 'center' }}
             >
               {selectedOption?.label || placeholder}
             </Text>
-            <Svg
-              width={16}
-              height={16}
-              viewBox='0 0 20 20'
-              style={{ marginLeft: 8 }}
-            >
-              <Path
-                fillRule='evenodd'
-                d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
-                clipRule='evenodd'
-                fill='#6b7280'
-              />
-            </Svg>
+            <View style={{ justifyContent: 'center', marginLeft: 8 }}>
+              <Svg width={16} height={16} viewBox='0 0 20 20'>
+                <Path
+                  fillRule='evenodd'
+                  d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
+                  clipRule='evenodd'
+                  fill='#6b7280'
+                />
+              </Svg>
+            </View>
           </View>
         </Pressable>
       </View>
