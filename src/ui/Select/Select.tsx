@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,27 @@ import {
   Modal,
   FlatList,
   SafeAreaView,
+  Platform,
+  NativeModules,
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 
 const { typography } = designTokens;
+
+const isDesktop = Platform.OS === 'macos' || Platform.OS === 'windows';
+
+interface PopupMenuModuleInterface {
+  show(
+    items: { key: string; label: string; selected?: boolean }[],
+    screenX: number,
+    screenY: number
+  ): Promise<string | null>;
+}
+
+const PopupMenuModule = isDesktop
+  ? (NativeModules.PopupMenuModule as PopupMenuModuleInterface | undefined)
+  : undefined;
 
 export interface SelectOption {
   label: string;
@@ -66,6 +82,7 @@ export const Select: React.FC<SelectProps> = ({
   title = 'Select Option',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<View>(null);
 
   const selectedOption = options.find(opt => opt.value === value);
 
@@ -76,6 +93,24 @@ export const Select: React.FC<SelectProps> = ({
     },
     [onValueChange]
   );
+
+  const handleDesktopPress = useCallback(async () => {
+    if (disabled || !PopupMenuModule || !triggerRef.current) return;
+    triggerRef.current.measureInWindow((x, y, _width, height) => {
+      const items = options
+        .filter(opt => !opt.disabled)
+        .map(opt => ({
+          key: opt.value,
+          label: opt.label,
+          selected: opt.value === value,
+        }));
+      PopupMenuModule!.show(items, x, y + height).then(selected => {
+        if (selected) {
+          onValueChange?.(selected);
+        }
+      });
+    });
+  }, [disabled, options, value, onValueChange]);
 
   const renderOption = ({ item }: { item: SelectOption; index: number }) => (
     <Pressable
@@ -113,77 +148,83 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <>
       {/* Trigger */}
-      <Pressable
-        onPress={() => !disabled && setIsOpen(true)}
-        disabled={disabled}
-        className={cn(
-          'flex flex-row items-center justify-between h-11 px-3 py-2 rounded-md border',
-          'border-gray-300 dark:border-gray-600',
-          'bg-white dark:bg-gray-800',
-          disabled && 'opacity-50',
-          className
-        )}
-        accessibilityRole='combobox'
-        accessibilityState={{ disabled, expanded: isOpen }}
-      >
-        <Text
+      <View ref={triggerRef} collapsable={false}>
+        <Pressable
+          onPress={
+            isDesktop ? handleDesktopPress : () => !disabled && setIsOpen(true)
+          }
+          disabled={disabled}
           className={cn(
-            typography.size.base,
-            'flex-1',
-            selectedOption
-              ? 'text-gray-900 dark:text-gray-100'
-              : 'text-gray-400 dark:text-gray-500'
+            'flex flex-row items-center justify-between h-11 px-3 py-2 rounded-md border',
+            'border-gray-300 dark:border-gray-600',
+            'bg-white dark:bg-gray-800',
+            disabled && 'opacity-50',
+            className
           )}
-          numberOfLines={1}
+          accessibilityRole='combobox'
+          accessibilityState={{ disabled, expanded: isOpen }}
         >
-          {selectedOption?.label || placeholder}
-        </Text>
-        <Text className='text-gray-400 dark:text-gray-500 ml-2'>▼</Text>
-      </Pressable>
+          <Text
+            className={cn(
+              typography.size.base,
+              'flex-1',
+              selectedOption
+                ? 'text-gray-900 dark:text-gray-100'
+                : 'text-gray-400 dark:text-gray-500'
+            )}
+            numberOfLines={1}
+          >
+            {selectedOption?.label || placeholder}
+          </Text>
+          <Text className='text-gray-400 dark:text-gray-500 ml-2'>▼</Text>
+        </Pressable>
+      </View>
 
-      {/* Modal Picker */}
-      <Modal
-        visible={isOpen}
-        animationType='slide'
-        transparent
-        onRequestClose={() => setIsOpen(false)}
-      >
-        <View className='flex-1 justify-end bg-black/50'>
-          <SafeAreaView className='bg-white dark:bg-gray-800 rounded-t-xl'>
-            {/* Header */}
-            <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
-              <Pressable onPress={() => setIsOpen(false)}>
+      {/* Modal Picker — mobile only */}
+      {!isDesktop && (
+        <Modal
+          visible={isOpen}
+          animationType='slide'
+          transparent
+          onRequestClose={() => setIsOpen(false)}
+        >
+          <View className='flex-1 justify-end bg-black/50'>
+            <SafeAreaView className='bg-white dark:bg-gray-800 rounded-t-xl'>
+              {/* Header */}
+              <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+                <Pressable onPress={() => setIsOpen(false)}>
+                  <Text
+                    className={cn(
+                      'text-blue-600 dark:text-blue-400',
+                      typography.size.base
+                    )}
+                  >
+                    Cancel
+                  </Text>
+                </Pressable>
                 <Text
                   className={cn(
-                    'text-blue-600 dark:text-blue-400',
-                    typography.size.base
+                    typography.size.base,
+                    typography.weight.semibold,
+                    'text-gray-900 dark:text-white'
                   )}
                 >
-                  Cancel
+                  {title}
                 </Text>
-              </Pressable>
-              <Text
-                className={cn(
-                  typography.size.base,
-                  typography.weight.semibold,
-                  'text-gray-900 dark:text-white'
-                )}
-              >
-                {title}
-              </Text>
-              <View style={{ width: 60 }} />
-            </View>
+                <View style={{ width: 60 }} />
+              </View>
 
-            {/* Options */}
-            <FlatList
-              data={options}
-              renderItem={renderOption}
-              keyExtractor={(item: SelectOption) => item.value}
-              style={{ maxHeight: 300 }}
-            />
-          </SafeAreaView>
-        </View>
-      </Modal>
+              {/* Options */}
+              <FlatList
+                data={options}
+                renderItem={renderOption}
+                keyExtractor={(item: SelectOption) => item.value}
+                style={{ maxHeight: 300 }}
+              />
+            </SafeAreaView>
+          </View>
+        </Modal>
+      )}
     </>
   );
 };
