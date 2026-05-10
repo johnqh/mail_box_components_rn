@@ -165,7 +165,7 @@ export const Select: React.FC<SelectProps> = ({
           accessibilityRole='combobox'
           accessibilityState={{ disabled, expanded: isOpen }}
         >
-          <View style={{ flexDirection: 'row', flex: 1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
             <Text
               className={cn(
                 typography.size.base,
