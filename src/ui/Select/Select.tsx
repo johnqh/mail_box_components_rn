@@ -165,32 +165,33 @@ export const Select: React.FC<SelectProps> = ({
           accessibilityRole='combobox'
           accessibilityState={{ disabled, expanded: isOpen }}
         >
-          <Text
-            className={cn(
-              typography.size.base,
-              'flex-1',
-              selectedOption
-                ? 'text-gray-900 dark:text-gray-100'
-                : 'text-gray-400 dark:text-gray-500'
-            )}
-            numberOfLines={1}
-          >
-            {selectedOption?.label || placeholder}
-          </Text>
-          <Svg
-            width={16}
-            height={16}
-            viewBox='0 0 20 20'
-            fill='currentColor'
-            style={{ opacity: 0.5, marginLeft: 8, flexShrink: 0 }}
-          >
-            <Path
-              fillRule='evenodd'
-              d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
-              clipRule='evenodd'
-              fill='#9ca3af'
-            />
-          </Svg>
+          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+            <Text
+              className={cn(
+                typography.size.base,
+                'flex-1',
+                selectedOption
+                  ? 'text-gray-900 dark:text-gray-100'
+                  : 'text-gray-400 dark:text-gray-500'
+              )}
+              numberOfLines={1}
+            >
+              {selectedOption?.label || placeholder}
+            </Text>
+            <Svg
+              width={16}
+              height={16}
+              viewBox='0 0 20 20'
+              style={{ opacity: 0.5, marginLeft: 8 }}
+            >
+              <Path
+                fillRule='evenodd'
+                d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
+                clipRule='evenodd'
+                fill='#9ca3af'
+              />
+            </Svg>
+          </View>
         </Pressable>
       </View>
 
