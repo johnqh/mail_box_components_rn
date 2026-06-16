@@ -17,6 +17,7 @@ export * from './ui/ActionButton';
 
 // UI Components - Layout
 export * from './ui/Box';
+export * from './ui/BottomActionBar';
 export * from './ui/Flex';
 export * from './ui/Stack';
 export * from './ui/Divider';
