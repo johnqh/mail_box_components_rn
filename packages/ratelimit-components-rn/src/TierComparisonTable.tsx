@@ -62,9 +62,7 @@ function TierCard({
       {/* Header */}
       <View className='flex-row justify-between items-start mb-3'>
         <View>
-          <Text className='text-lg font-bold text-foreground'>
-            {name}
-          </Text>
+          <Text className='text-lg font-bold text-foreground'>{name}</Text>
           {(isCurrent || isRecommended) && (
             <View
               className={cn(
@@ -79,9 +77,7 @@ function TierCard({
           )}
         </View>
         {showPrice && price && (
-          <Text className='text-xl font-bold text-foreground'>
-            {price}
-          </Text>
+          <Text className='text-xl font-bold text-foreground'>{price}</Text>
         )}
       </View>
 
@@ -95,25 +91,19 @@ function TierCard({
       {/* Limits */}
       <View className='space-y-2'>
         <View className='flex-row justify-between py-2 border-b border-border'>
-          <Text className='text-sm text-muted-foreground'>
-            Hourly
-          </Text>
+          <Text className='text-sm text-muted-foreground'>Hourly</Text>
           <Text className='text-sm font-semibold text-foreground'>
             {formatLimit(hourlyLimit)}
           </Text>
         </View>
         <View className='flex-row justify-between py-2 border-b border-border'>
-          <Text className='text-sm text-muted-foreground'>
-            Daily
-          </Text>
+          <Text className='text-sm text-muted-foreground'>Daily</Text>
           <Text className='text-sm font-semibold text-foreground'>
             {formatLimit(dailyLimit)}
           </Text>
         </View>
         <View className='flex-row justify-between py-2'>
-          <Text className='text-sm text-muted-foreground'>
-            Monthly
-          </Text>
+          <Text className='text-sm text-muted-foreground'>Monthly</Text>
           <Text className='text-sm font-semibold text-foreground'>
             {formatLimit(monthlyLimit)}
           </Text>
@@ -126,9 +116,7 @@ function TierCard({
           {features.map((feature, index) => (
             <View key={index} className='flex-row items-center mb-2'>
               <Text className='text-success mr-2'>✓</Text>
-              <Text className='text-sm text-muted-foreground'>
-                {feature}
-              </Text>
+              <Text className='text-sm text-muted-foreground'>{feature}</Text>
             </View>
           ))}
         </View>
@@ -187,9 +175,7 @@ export function TierComparisonTable({
     >
       {/* Header */}
       {title && (
-        <Text className='text-xl font-bold text-foreground mb-4'>
-          {title}
-        </Text>
+        <Text className='text-xl font-bold text-foreground mb-4'>{title}</Text>
       )}
 
       {/* Tier cards */}
@@ -208,9 +194,7 @@ export function TierComparisonTable({
       {/* Empty state */}
       {tiers.length === 0 && (
         <View className='py-8 items-center bg-card rounded-xl'>
-          <Text className='text-muted-foreground'>
-            No tiers available
-          </Text>
+          <Text className='text-muted-foreground'>No tiers available</Text>
         </View>
       )}
     </View>

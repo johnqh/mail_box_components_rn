@@ -58,9 +58,7 @@ const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase }) => {
         {useCase.title}
       </Text>
 
-      <Text className='text-muted-foreground mb-4'>
-        {useCase.description}
-      </Text>
+      <Text className='text-muted-foreground mb-4'>{useCase.description}</Text>
 
       {useCase.examples && useCase.examples.length > 0 && (
         <View>

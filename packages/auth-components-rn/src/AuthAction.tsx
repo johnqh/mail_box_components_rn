@@ -80,9 +80,7 @@ export const AuthAction: React.FC<AuthActionProps> = ({
             {user.displayName || user.email}
           </Text>
           {user.displayName && user.email && (
-            <Text className={textVariants.caption.default()}>
-              {user.email}
-            </Text>
+            <Text className={textVariants.caption.default()}>{user.email}</Text>
           )}
         </View>
       )}
@@ -103,9 +101,7 @@ export const AuthAction: React.FC<AuthActionProps> = ({
         accessibilityRole='button'
         accessibilityLabel={texts.logout}
       >
-        <Text className={textVariants.body.sm()}>
-          {texts.logout}
-        </Text>
+        <Text className={textVariants.body.sm()}>{texts.logout}</Text>
       </Pressable>
     </View>
   );

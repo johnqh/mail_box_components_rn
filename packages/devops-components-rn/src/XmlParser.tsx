@@ -24,8 +24,6 @@ export const XmlParser: React.FC<XmlParserProps> = ({
     accessibilityLabel='XML Parser'
     {...props}
   >
-    {children || (
-      <Text className='text-foreground'>XmlParser Component</Text>
-    )}
+    {children || <Text className='text-foreground'>XmlParser Component</Text>}
   </View>
 );

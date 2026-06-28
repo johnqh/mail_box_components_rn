@@ -53,7 +53,9 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
                     {metric.value}
                   </Text>
                   {metric.unit && (
-                    <Text className={cn(textVariants.caption.default(), 'ml-1')}>
+                    <Text
+                      className={cn(textVariants.caption.default(), 'ml-1')}
+                    >
                       {metric.unit}
                     </Text>
                   )}

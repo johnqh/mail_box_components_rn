@@ -44,9 +44,7 @@ export const EmailInputField: React.FC<EmailInputFieldProps> = ({
         )}
       />
       {error && (
-        <Text className={cn(textVariants.label.error(), 'mt-1')}>
-          {error}
-        </Text>
+        <Text className={cn(textVariants.label.error(), 'mt-1')}>{error}</Text>
       )}
     </View>
   );

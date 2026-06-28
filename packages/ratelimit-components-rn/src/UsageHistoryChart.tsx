@@ -280,10 +280,7 @@ export function UsageHistoryChart({
 
   return (
     <View
-      className={cn(
-        'bg-card rounded-xl p-4 shadow-sm',
-        className
-      )}
+      className={cn('bg-card rounded-xl p-4 shadow-sm', className)}
       accessibilityRole='none'
       accessibilityLabel={title || 'Usage History Chart'}
     >
@@ -297,17 +294,13 @@ export function UsageHistoryChart({
       {/* Stats row */}
       <View className='flex-row justify-between mb-4 pb-3 border-b border-border'>
         <View className='items-center'>
-          <Text className='text-xs text-muted-foreground'>
-            Total
-          </Text>
+          <Text className='text-xs text-muted-foreground'>Total</Text>
           <Text className='text-sm font-semibold text-foreground'>
             {totalUsage.toLocaleString()}
           </Text>
         </View>
         <View className='items-center'>
-          <Text className='text-xs text-muted-foreground'>
-            Average
-          </Text>
+          <Text className='text-xs text-muted-foreground'>Average</Text>
           <Text className='text-sm font-semibold text-foreground'>
             {avgUsage.toLocaleString()}
           </Text>
@@ -353,9 +346,7 @@ export function UsageHistoryChart({
       {showLimit && data.some(d => d.limit) && (
         <View className='flex-row items-center justify-center mt-3 pt-2 border-t border-border'>
           <View className='w-4 h-0.5 bg-destructive mr-2' />
-          <Text className='text-xs text-muted-foreground'>
-            Limit
-          </Text>
+          <Text className='text-xs text-muted-foreground'>Limit</Text>
         </View>
       )}
     </View>

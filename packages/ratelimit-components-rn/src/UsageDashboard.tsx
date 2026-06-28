@@ -80,13 +80,9 @@ function UsageBar({
       {/* Header row */}
       <View className='flex-row justify-between items-center mb-2'>
         <View className='flex-1'>
-          <Text className='text-sm font-medium text-foreground'>
-            {label}
-          </Text>
+          <Text className='text-sm font-medium text-foreground'>{label}</Text>
           {subtitle && (
-            <Text className='text-xs text-muted-foreground'>
-              {subtitle}
-            </Text>
+            <Text className='text-xs text-muted-foreground'>{subtitle}</Text>
           )}
         </View>
         <View className='flex-row items-center gap-2'>
@@ -150,10 +146,7 @@ export function UsageDashboard({
 }: UsageDashboardProps) {
   return (
     <View
-      className={cn(
-        'bg-card rounded-xl p-4 shadow-sm',
-        className
-      )}
+      className={cn('bg-card rounded-xl p-4 shadow-sm', className)}
       accessibilityRole='none'
       accessibilityLabel={title || 'Usage Dashboard'}
     >
@@ -189,9 +182,7 @@ export function UsageDashboard({
       {/* Empty state */}
       {bars.length === 0 && (
         <View className='py-8 items-center'>
-          <Text className='text-muted-foreground'>
-            No usage data available
-          </Text>
+          <Text className='text-muted-foreground'>No usage data available</Text>
         </View>
       )}
     </View>

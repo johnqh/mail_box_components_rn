@@ -32,24 +32,27 @@ export const ContactCard: React.FC<ContactCardProps> = ({
           accessibilityLabel={`${name}'s avatar`}
         />
       ) : (
-        <View className={cn('w-12 h-12 rounded-full items-center justify-center', colors.component.badge.primary.base, colors.component.badge.primary.dark)}>
-          <Text className={cn(colors.component.alert.info.icon, 'text-lg font-semibold')}>
+        <View
+          className={cn(
+            'w-12 h-12 rounded-full items-center justify-center',
+            colors.component.badge.primary.base,
+            colors.component.badge.primary.dark
+          )}
+        >
+          <Text
+            className={cn(
+              colors.component.alert.info.icon,
+              'text-lg font-semibold'
+            )}
+          >
             {name.charAt(0).toUpperCase()}
           </Text>
         </View>
       )}
       <View className='flex-1'>
-        <Text className={textVariants.body.strong.md()}>
-          {name}
-        </Text>
-        <Text className={textVariants.body.sm()}>
-          {email}
-        </Text>
-        {role && (
-          <Text className={textVariants.caption.default()}>
-            {role}
-          </Text>
-        )}
+        <Text className={textVariants.body.strong.md()}>{name}</Text>
+        <Text className={textVariants.body.sm()}>{email}</Text>
+        {role && <Text className={textVariants.caption.default()}>{role}</Text>}
       </View>
     </View>
   );

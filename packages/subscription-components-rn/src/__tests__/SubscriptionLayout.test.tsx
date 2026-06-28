@@ -10,7 +10,7 @@ import {
 describe('SubscriptionLayout', () => {
   it('renders title and children', () => {
     render(
-      <SubscriptionLayout title="Choose a Plan">
+      <SubscriptionLayout title='Choose a Plan'>
         <Text>Child content</Text>
       </SubscriptionLayout>
     );
@@ -21,7 +21,7 @@ describe('SubscriptionLayout', () => {
 
   it('displays error message when error prop is provided', () => {
     render(
-      <SubscriptionLayout title="Plans" error="Something went wrong">
+      <SubscriptionLayout title='Plans' error='Something went wrong'>
         <Text>Content</Text>
       </SubscriptionLayout>
     );
@@ -31,7 +31,7 @@ describe('SubscriptionLayout', () => {
 
   it('does not display error section when error is null', () => {
     render(
-      <SubscriptionLayout title="Plans" error={null}>
+      <SubscriptionLayout title='Plans' error={null}>
         <Text>Content</Text>
       </SubscriptionLayout>
     );
@@ -44,8 +44,8 @@ describe('SubscriptionLayout', () => {
     const onSecondary = jest.fn();
     render(
       <SubscriptionLayout
-        title="Plans"
-        variant="selection"
+        title='Plans'
+        variant='selection'
         primaryAction={{ label: 'Subscribe Now', onPress: onPrimary }}
         secondaryAction={{ label: 'Restore', onPress: onSecondary }}
       >
@@ -67,8 +67,8 @@ describe('SubscriptionLayout', () => {
     const onPrimary = jest.fn();
     render(
       <SubscriptionLayout
-        title="Plans"
-        variant="cta"
+        title='Plans'
+        variant='cta'
         primaryAction={{ label: 'Subscribe Now', onPress: onPrimary }}
       >
         <Text>Content</Text>
@@ -81,7 +81,7 @@ describe('SubscriptionLayout', () => {
   it('renders active subscription status', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
+        title='Plans'
         currentStatus={{
           isActive: true,
           activeContent: {
@@ -107,7 +107,7 @@ describe('SubscriptionLayout', () => {
   it('renders inactive subscription status', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
+        title='Plans'
         currentStatus={{
           isActive: false,
           inactiveContent: {
@@ -127,9 +127,9 @@ describe('SubscriptionLayout', () => {
   it('renders custom currentStatusLabel', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
+        title='Plans'
         currentStatus={{ isActive: false }}
-        currentStatusLabel="Your Status"
+        currentStatusLabel='Your Status'
       >
         <Text>Content</Text>
       </SubscriptionLayout>
@@ -141,8 +141,8 @@ describe('SubscriptionLayout', () => {
   it('renders free tile in cta variant when freeTileConfig is provided', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
-        variant="cta"
+        title='Plans'
+        variant='cta'
         freeTileConfig={{
           title: 'Free',
           price: '$0',
@@ -163,8 +163,8 @@ describe('SubscriptionLayout', () => {
   it('does not render free tile in selection variant', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
-        variant="selection"
+        title='Plans'
+        variant='selection'
         freeTileConfig={{
           title: 'Free',
           price: '$0',
@@ -184,7 +184,7 @@ describe('SubscriptionLayout', () => {
   it('renders header and footer content', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
+        title='Plans'
         headerContent={<Text>Header info</Text>}
         footerContent={<Text>Footer info</Text>}
       >
@@ -199,7 +199,7 @@ describe('SubscriptionLayout', () => {
   it('renders aboveProducts content', () => {
     render(
       <SubscriptionLayout
-        title="Plans"
+        title='Plans'
         aboveProducts={<Text>Billing period selector</Text>}
       >
         <Text>Content</Text>
@@ -213,11 +213,11 @@ describe('SubscriptionLayout', () => {
     const onTrack = jest.fn();
     render(
       <SubscriptionLayout
-        title="Plans"
-        variant="selection"
+        title='Plans'
+        variant='selection'
         primaryAction={{ label: 'Go', onPress: jest.fn() }}
         onTrack={onTrack}
-        trackingLabel="sub_layout"
+        trackingLabel='sub_layout'
       >
         <Text>Content</Text>
       </SubscriptionLayout>
@@ -239,7 +239,7 @@ describe('SubscriptionDivider', () => {
   });
 
   it('renders with label text', () => {
-    render(<SubscriptionDivider label="or" />);
+    render(<SubscriptionDivider label='or' />);
     expect(screen.getByText('or')).toBeTruthy();
   });
 });
@@ -262,9 +262,9 @@ describe('SubscriptionFooter', () => {
   it('renders custom link text', () => {
     render(
       <SubscriptionFooter
-        restoreText="Restaurer"
-        termsText="Conditions"
-        privacyText="Confidentialite"
+        restoreText='Restaurer'
+        termsText='Conditions'
+        privacyText='Confidentialite'
         onRestore={jest.fn()}
         onTermsPress={jest.fn()}
         onPrivacyPress={jest.fn()}

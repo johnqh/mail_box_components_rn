@@ -1,5 +1,10 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react-native';
 import { InvitationForm } from '../InvitationForm';
 
 describe('InvitationForm', () => {
@@ -61,9 +66,7 @@ describe('InvitationForm', () => {
       screen.getByLabelText('Email address input'),
       'new-text'
     );
-    expect(
-      screen.queryByText('Please enter a valid email address')
-    ).toBeNull();
+    expect(screen.queryByText('Please enter a valid email address')).toBeNull();
   });
 
   it('calls onSubmit with email and default role on valid submission', async () => {

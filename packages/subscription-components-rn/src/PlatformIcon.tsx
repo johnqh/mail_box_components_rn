@@ -22,11 +22,7 @@ const PLATFORM_DISPLAY_NAMES: Record<PlatformType, string> = {
 };
 
 export function PlatformIcon({ platform, className }: PlatformIconProps) {
-  return (
-    <Text className={className}>
-      {PLATFORM_ICONS[platform]}
-    </Text>
-  );
+  return <Text className={className}>{PLATFORM_ICONS[platform]}</Text>;
 }
 
 export function platformDisplayName(platform: PlatformType): string {

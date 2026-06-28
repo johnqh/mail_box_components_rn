@@ -37,9 +37,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          EmailTemplate Component
-        </Text>
+        <Text className='text-foreground'>EmailTemplate Component</Text>
       )}
     </Pressable>
   );

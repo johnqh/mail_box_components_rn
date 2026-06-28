@@ -30,9 +30,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        CodePlayground Component
-      </Text>
+      <Text className='text-foreground'>CodePlayground Component</Text>
     )}
   </Pressable>
 );

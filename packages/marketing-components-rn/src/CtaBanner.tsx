@@ -36,11 +36,7 @@ export const CtaBanner: React.FC<CtaBannerProps> = ({
       )}
       {...props}
     >
-      {children || (
-        <Text className='text-foreground'>
-          CtaBanner Component
-        </Text>
-      )}
+      {children || <Text className='text-foreground'>CtaBanner Component</Text>}
     </Pressable>
   );
 };

@@ -42,11 +42,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
     return (
       <View className='gap-4'>
         <View
-          className={cn(
-            alertSuccess.base,
-            alertSuccess.dark,
-            'p-4 rounded-lg'
-          )}
+          className={cn(alertSuccess.base, alertSuccess.dark, 'p-4 rounded-lg')}
         >
           <Text className={textVariants.label.success()}>
             {texts.resetEmailSent}
@@ -65,10 +61,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
             });
             onSwitchToSignIn();
           }}
-          className={cn(
-            v.button.primary.default(),
-            'py-3 px-4 rounded-lg'
-          )}
+          className={cn(v.button.primary.default(), 'py-3 px-4 rounded-lg')}
           accessibilityRole='button'
         >
           <Text className='font-medium text-white'>{texts.backToSignIn}</Text>
@@ -85,9 +78,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
       </Text>
 
       <View className='gap-2'>
-        <Text className={textVariants.label.default()}>
-          {texts.email}
-        </Text>
+        <Text className={textVariants.label.default()}>{texts.email}</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
@@ -100,9 +91,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         />
       </View>
 
-      {error && (
-        <Text className={textVariants.label.error()}>{error}</Text>
-      )}
+      {error && <Text className={textVariants.label.error()}>{error}</Text>}
 
       <Pressable
         onPress={handleSubmit}
@@ -132,9 +121,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         className='items-center py-2'
         accessibilityRole='button'
       >
-        <Text className={textVariants.link.subtle()}>
-          {texts.backToSignIn}
-        </Text>
+        <Text className={textVariants.link.subtle()}>{texts.backToSignIn}</Text>
       </Pressable>
     </View>
   );

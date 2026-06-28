@@ -30,9 +30,7 @@ export const AbTestEmail: React.FC<AbTestEmailProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          AbTestEmail Component
-        </Text>
+        <Text className='text-foreground'>AbTestEmail Component</Text>
       )}
     </View>
   );

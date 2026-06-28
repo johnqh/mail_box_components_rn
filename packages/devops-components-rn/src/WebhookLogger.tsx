@@ -25,9 +25,7 @@ export const WebhookLogger: React.FC<WebhookLoggerProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        WebhookLogger Component
-      </Text>
+      <Text className='text-foreground'>WebhookLogger Component</Text>
     )}
   </View>
 );

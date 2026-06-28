@@ -37,9 +37,7 @@ describe('SubscriptionTile', () => {
 
   it('does not call onSelect when disabled', () => {
     const onSelect = jest.fn();
-    render(
-      <SubscriptionTile {...baseProps} onSelect={onSelect} disabled />
-    );
+    render(<SubscriptionTile {...baseProps} onSelect={onSelect} disabled />);
 
     fireEvent.press(screen.getByRole('radio'));
     expect(onSelect).not.toHaveBeenCalled();
@@ -64,14 +62,14 @@ describe('SubscriptionTile', () => {
     const { rerender } = render(
       <SubscriptionTile {...baseProps} isSelected={false} />
     );
-    expect(
-      screen.getByRole('radio').props.accessibilityState.checked
-    ).toBe(false);
+    expect(screen.getByRole('radio').props.accessibilityState.checked).toBe(
+      false
+    );
 
     rerender(<SubscriptionTile {...baseProps} isSelected={true} />);
-    expect(
-      screen.getByRole('radio').props.accessibilityState.checked
-    ).toBe(true);
+    expect(screen.getByRole('radio').props.accessibilityState.checked).toBe(
+      true
+    );
   });
 
   it('renders top badge when provided', () => {
@@ -87,10 +85,7 @@ describe('SubscriptionTile', () => {
 
   it('renders discount badge when provided', () => {
     render(
-      <SubscriptionTile
-        {...baseProps}
-        discountBadge={{ text: 'Save 40%' }}
-      />
+      <SubscriptionTile {...baseProps} discountBadge={{ text: 'Save 40%' }} />
     );
 
     expect(screen.getByText('Save 40%')).toBeTruthy();
@@ -98,10 +93,7 @@ describe('SubscriptionTile', () => {
 
   it('renders bottom note when provided', () => {
     render(
-      <SubscriptionTile
-        {...baseProps}
-        bottomNote="Renews on Jan 1, 2027"
-      />
+      <SubscriptionTile {...baseProps} bottomNote='Renews on Jan 1, 2027' />
     );
 
     expect(screen.getByText('Renews on Jan 1, 2027')).toBeTruthy();
@@ -109,10 +101,7 @@ describe('SubscriptionTile', () => {
 
   it('renders intro price note when provided', () => {
     render(
-      <SubscriptionTile
-        {...baseProps}
-        introPriceNote="First month free!"
-      />
+      <SubscriptionTile {...baseProps} introPriceNote='First month free!' />
     );
 
     expect(screen.getByText('First month free!')).toBeTruthy();
@@ -183,7 +172,7 @@ describe('SubscriptionTile', () => {
         {...baseProps}
         onSelect={onSelect}
         onTrack={onTrack}
-        trackingLabel="pro_plan"
+        trackingLabel='pro_plan'
       />
     );
 
@@ -202,7 +191,7 @@ describe('SubscriptionTile', () => {
         {...baseProps}
         ctaButton={{ label: 'Buy', onPress: jest.fn() }}
         onTrack={onTrack}
-        trackingLabel="pro_cta"
+        trackingLabel='pro_cta'
       />
     );
 
@@ -236,7 +225,7 @@ describe('SubscriptionTile', () => {
     render(
       <SubscriptionTile
         {...baseProps}
-        accessibilityLabel="Pro plan nine ninety nine per month"
+        accessibilityLabel='Pro plan nine ninety nine per month'
       />
     );
 

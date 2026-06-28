@@ -18,9 +18,7 @@ describe('MemberRoleSelector', () => {
         showDescriptions
       />
     );
-    expect(
-      screen.getByText('Can manage members and settings')
-    ).toBeTruthy();
+    expect(screen.getByText('Can manage members and settings')).toBeTruthy();
   });
 
   it('has correct accessibility label for trigger', () => {

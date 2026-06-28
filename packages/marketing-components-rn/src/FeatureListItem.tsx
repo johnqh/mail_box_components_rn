@@ -29,14 +29,18 @@ export const FeatureListItem: React.FC<FeatureListItemProps> = ({
       {icon ? (
         <View className={cn('w-6 h-6', iconColor)}>{icon}</View>
       ) : (
-        <View className={cn('w-6 h-6 rounded-full items-center justify-center', colors.component.badge.primary.base, colors.component.badge.primary.dark)}>
+        <View
+          className={cn(
+            'w-6 h-6 rounded-full items-center justify-center',
+            colors.component.badge.primary.base,
+            colors.component.badge.primary.dark
+          )}
+        >
           <Text className={colors.component.alert.info.icon}>✓</Text>
         </View>
       )}
       <View className='flex-1'>
-        <Text className={textVariants.body.strong.md()}>
-          {title}
-        </Text>
+        <Text className={textVariants.body.strong.md()}>{title}</Text>
         {description && (
           <Text className={cn(textVariants.body.sm(), 'mt-1')}>
             {description}

@@ -68,7 +68,8 @@ const statusConfig: Record<
   },
   skipped: {
     color: 'text-muted-foreground',
-    badge: 'bg-muted text-muted-foreground dark:bg-popover dark:text-muted-foreground',
+    badge:
+      'bg-muted text-muted-foreground dark:bg-popover dark:text-muted-foreground',
     borderColor: 'border-border',
     icon: '◌',
   },
@@ -123,12 +124,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                 </Text>
               )}
             </View>
-            <View
-              className={cn(
-                'px-2 py-1 rounded-full',
-                overallConfig.badge
-              )}
-            >
+            <View className={cn('px-2 py-1 rounded-full', overallConfig.badge)}>
               <Text className={cn('text-xs font-medium', overallConfig.color)}>
                 {overallConfig.icon}{' '}
                 {overallStatus.charAt(0).toUpperCase() + overallStatus.slice(1)}

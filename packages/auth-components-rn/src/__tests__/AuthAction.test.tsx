@@ -15,7 +15,11 @@ jest.mock('@sudobility/components-rn', () => ({
     var R = require('react');
     return R.createElement(
       RN.Pressable,
-      { onPress: props.onPress, disabled: props.disabled, accessibilityRole: 'button' },
+      {
+        onPress: props.onPress,
+        disabled: props.disabled,
+        accessibilityRole: 'button',
+      },
       typeof props.children === 'string'
         ? R.createElement(RN.Text, null, props.children)
         : props.children
@@ -96,9 +100,7 @@ describe('AuthAction', () => {
     });
 
     it('shows custom login button content', async () => {
-      renderWithProvider(
-        <AuthAction loginButtonContent="Get Started" />
-      );
+      renderWithProvider(<AuthAction loginButtonContent='Get Started' />);
 
       await act(async () => {});
 
@@ -118,7 +120,7 @@ describe('AuthAction', () => {
     it('fires tracking event on login press', async () => {
       var onTrack = jest.fn();
       renderWithProvider(
-        <AuthAction onTrack={onTrack} trackingLabel="header" />
+        <AuthAction onTrack={onTrack} trackingLabel='header' />
       );
 
       await act(async () => {});
@@ -138,10 +140,7 @@ describe('AuthAction', () => {
     beforeEach(() => {
       mockSignOut = jest.fn().mockResolvedValue(undefined);
 
-      jest.spyOn(
-        require('../AuthProvider'),
-        'useAuthStatus'
-      ).mockReturnValue({
+      jest.spyOn(require('../AuthProvider'), 'useAuthStatus').mockReturnValue({
         user: mockUser,
         loading: false,
         error: null,
@@ -197,7 +196,7 @@ describe('AuthAction', () => {
     it('fires tracking event on logout press', async () => {
       var onTrack = jest.fn();
       renderWithProvider(
-        <AuthAction onTrack={onTrack} trackingLabel="header" />
+        <AuthAction onTrack={onTrack} trackingLabel='header' />
       );
 
       await act(async () => {
@@ -219,10 +218,7 @@ describe('AuthAction', () => {
     });
 
     it('shows email as primary text when displayName is null', () => {
-      jest.spyOn(
-        require('../AuthProvider'),
-        'useAuthStatus'
-      ).mockReturnValue({
+      jest.spyOn(require('../AuthProvider'), 'useAuthStatus').mockReturnValue({
         user: Object.assign({}, mockUser, { displayName: null }),
         loading: false,
         error: null,
@@ -249,7 +245,7 @@ describe('AuthAction', () => {
       renderWithProvider(
         <AuthAction
           renderAvatar={function (user) {
-            return <Text testID="custom-avatar">{user.uid}</Text>;
+            return <Text testID='custom-avatar'>{user.uid}</Text>;
           }}
         />
       );

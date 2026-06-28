@@ -14,23 +14,21 @@ export interface SystemStatusIndicatorProps {
   className?: string;
 }
 
-const statusConfig: Record<
-  SystemStatus,
-  { dotColor: string; label: string }
-> = {
-  operational: {
-    dotColor: getStatusIndicatorColor('success'),
-    label: 'Operational',
-  },
-  degraded: {
-    dotColor: getStatusIndicatorColor('warning'),
-    label: 'Degraded',
-  },
-  'major-outage': {
-    dotColor: getStatusIndicatorColor('error'),
-    label: 'Major Outage',
-  },
-};
+const statusConfig: Record<SystemStatus, { dotColor: string; label: string }> =
+  {
+    operational: {
+      dotColor: getStatusIndicatorColor('success'),
+      label: 'Operational',
+    },
+    degraded: {
+      dotColor: getStatusIndicatorColor('warning'),
+      label: 'Degraded',
+    },
+    'major-outage': {
+      dotColor: getStatusIndicatorColor('error'),
+      label: 'Major Outage',
+    },
+  };
 
 export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
   status,
@@ -45,16 +43,9 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
   const content = (
     <Card className={cn('p-4', className)}>
       <View className='flex-row items-center'>
-        <View
-          className={cn(
-            'w-3 h-3 rounded-full mr-3',
-            config.dotColor
-          )}
-        />
+        <View className={cn('w-3 h-3 rounded-full mr-3', config.dotColor)} />
         <View className='flex-1'>
-          <Text className={textVariants.body.strong.md()}>
-            {systemName}
-          </Text>
+          <Text className={textVariants.body.strong.md()}>{systemName}</Text>
           <Text
             className={cn(
               'text-sm',

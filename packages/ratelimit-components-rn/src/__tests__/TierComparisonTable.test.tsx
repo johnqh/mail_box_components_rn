@@ -44,7 +44,7 @@ describe('TierComparisonTable', () => {
   });
 
   it('renders title when provided', () => {
-    render(<TierComparisonTable tiers={sampleTiers} title="Choose a Plan" />);
+    render(<TierComparisonTable tiers={sampleTiers} title='Choose a Plan' />);
     expect(screen.getByText('Choose a Plan')).toBeTruthy();
   });
 
@@ -94,7 +94,9 @@ describe('TierComparisonTable', () => {
 
   it('calls onTierSelect when a non-current tier is pressed', () => {
     const onTierSelect = jest.fn();
-    render(<TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />);
+    render(
+      <TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />
+    );
 
     // Non-current tiers should have select buttons
     const buttons = screen.getAllByRole('button');
@@ -105,7 +107,9 @@ describe('TierComparisonTable', () => {
 
   it('does not render select button for current tier', () => {
     const onTierSelect = jest.fn();
-    render(<TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />);
+    render(
+      <TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />
+    );
 
     // Current tier (Free) should not have a select button.
     // Non-current tiers (Pro, Enterprise) should have buttons.
@@ -115,13 +119,17 @@ describe('TierComparisonTable', () => {
 
   it('shows Upgrade Now text for recommended tier', () => {
     const onTierSelect = jest.fn();
-    render(<TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />);
+    render(
+      <TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />
+    );
     expect(screen.getByText('Upgrade Now')).toBeTruthy();
   });
 
   it('shows Select Plan text for non-recommended, non-current tier', () => {
     const onTierSelect = jest.fn();
-    render(<TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />);
+    render(
+      <TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />
+    );
     expect(screen.getByText('Select Plan')).toBeTruthy();
   });
 
@@ -132,7 +140,9 @@ describe('TierComparisonTable', () => {
 
   it('passes selected tier data to onTierSelect', () => {
     const onTierSelect = jest.fn();
-    render(<TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />);
+    render(
+      <TierComparisonTable tiers={sampleTiers} onTierSelect={onTierSelect} />
+    );
 
     // Press the Pro tier (recommended) button -- first button
     const buttons = screen.getAllByRole('button');

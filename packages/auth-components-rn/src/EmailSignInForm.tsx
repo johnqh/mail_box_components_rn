@@ -40,9 +40,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
   return (
     <View className='gap-4'>
       <View className='gap-2'>
-        <Text className={textVariants.label.default()}>
-          {texts.email}
-        </Text>
+        <Text className={textVariants.label.default()}>{texts.email}</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
@@ -56,9 +54,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
       </View>
 
       <View className='gap-2'>
-        <Text className={textVariants.label.default()}>
-          {texts.password}
-        </Text>
+        <Text className={textVariants.label.default()}>{texts.password}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
@@ -69,9 +65,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
         />
       </View>
 
-      {error && (
-        <Text className={textVariants.label.error()}>{error}</Text>
-      )}
+      {error && <Text className={textVariants.label.error()}>{error}</Text>}
 
       <Pressable
         onPress={handleSubmit}
@@ -107,9 +101,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
       </Pressable>
 
       <View className='flex-row items-center justify-center gap-1'>
-        <Text className={textVariants.body.sm()}>
-          {texts.noAccount}
-        </Text>
+        <Text className={textVariants.body.sm()}>{texts.noAccount}</Text>
         <Pressable
           onPress={() => {
             onTrack?.({
@@ -121,9 +113,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
           }}
           accessibilityRole='button'
         >
-          <Text className={textVariants.link.subtle()}>
-            {texts.signUp}
-          </Text>
+          <Text className={textVariants.link.subtle()}>{texts.signUp}</Text>
         </Pressable>
       </View>
     </View>

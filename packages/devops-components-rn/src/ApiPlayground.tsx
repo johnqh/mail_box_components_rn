@@ -30,9 +30,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        ApiPlayground Component
-      </Text>
+      <Text className='text-foreground'>ApiPlayground Component</Text>
     )}
   </Pressable>
 );

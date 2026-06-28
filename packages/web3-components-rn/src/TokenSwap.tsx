@@ -37,9 +37,7 @@ export const TokenSwap: React.FC<TokenSwapProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          Token Swap Component
-        </Text>
+        <Text className='text-foreground'>Token Swap Component</Text>
       )}
     </Pressable>
   );

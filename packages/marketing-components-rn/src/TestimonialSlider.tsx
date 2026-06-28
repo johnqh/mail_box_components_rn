@@ -37,9 +37,7 @@ export const TestimonialSlider: React.FC<TestimonialSliderProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          TestimonialSlider Component
-        </Text>
+        <Text className='text-foreground'>TestimonialSlider Component</Text>
       )}
     </Pressable>
   );

@@ -11,7 +11,7 @@ describe('SegmentedControl', () => {
   it('renders all options', () => {
     const onChange = jest.fn();
     render(
-      <SegmentedControl options={options} value="monthly" onChange={onChange} />
+      <SegmentedControl options={options} value='monthly' onChange={onChange} />
     );
 
     expect(screen.getByText('Monthly')).toBeTruthy();
@@ -21,7 +21,7 @@ describe('SegmentedControl', () => {
   it('marks the selected option with accessibilityState.selected', () => {
     const onChange = jest.fn();
     render(
-      <SegmentedControl options={options} value="monthly" onChange={onChange} />
+      <SegmentedControl options={options} value='monthly' onChange={onChange} />
     );
 
     const tabs = screen.getAllByRole('tab');
@@ -32,7 +32,7 @@ describe('SegmentedControl', () => {
   it('calls onChange when an unselected option is pressed', () => {
     const onChange = jest.fn();
     render(
-      <SegmentedControl options={options} value="monthly" onChange={onChange} />
+      <SegmentedControl options={options} value='monthly' onChange={onChange} />
     );
 
     fireEvent.press(screen.getByText('Yearly'));
@@ -44,7 +44,7 @@ describe('SegmentedControl', () => {
     render(
       <SegmentedControl
         options={options}
-        value="monthly"
+        value='monthly'
         onChange={onChange}
         disabled
       />
@@ -63,7 +63,7 @@ describe('SegmentedControl', () => {
     render(
       <SegmentedControl
         options={optionsWithDisabled}
-        value="a"
+        value='a'
         onChange={onChange}
       />
     );
@@ -81,7 +81,7 @@ describe('SegmentedControl', () => {
     render(
       <SegmentedControl
         options={optionsWithBadge}
-        value="monthly"
+        value='monthly'
         onChange={onChange}
       />
     );
@@ -98,7 +98,7 @@ describe('SegmentedControl', () => {
     render(
       <SegmentedControl
         options={optionsWithBadge}
-        value="monthly"
+        value='monthly'
         onChange={onChange}
       />
     );
@@ -112,9 +112,9 @@ describe('SegmentedControl', () => {
     render(
       <SegmentedControl
         options={options}
-        value="monthly"
+        value='monthly'
         onChange={onChange}
-        accessibilityLabel="Period picker"
+        accessibilityLabel='Period picker'
       />
     );
 
@@ -125,9 +125,7 @@ describe('SegmentedControl', () => {
 describe('PeriodSelector', () => {
   it('renders Monthly and Yearly options with default labels', () => {
     const onPeriodChange = jest.fn();
-    render(
-      <PeriodSelector period="monthly" onPeriodChange={onPeriodChange} />
-    );
+    render(<PeriodSelector period='monthly' onPeriodChange={onPeriodChange} />);
 
     expect(screen.getByText('Monthly')).toBeTruthy();
     expect(screen.getByText('Yearly')).toBeTruthy();
@@ -137,10 +135,10 @@ describe('PeriodSelector', () => {
     const onPeriodChange = jest.fn();
     render(
       <PeriodSelector
-        period="monthly"
+        period='monthly'
         onPeriodChange={onPeriodChange}
-        monthlyLabel="Mensuel"
-        yearlyLabel="Annuel"
+        monthlyLabel='Mensuel'
+        yearlyLabel='Annuel'
       />
     );
 
@@ -150,9 +148,7 @@ describe('PeriodSelector', () => {
 
   it('calls onPeriodChange when switching period', () => {
     const onPeriodChange = jest.fn();
-    render(
-      <PeriodSelector period="monthly" onPeriodChange={onPeriodChange} />
-    );
+    render(<PeriodSelector period='monthly' onPeriodChange={onPeriodChange} />);
 
     fireEvent.press(screen.getByText('Yearly'));
     expect(onPeriodChange).toHaveBeenCalledWith('yearly');
@@ -162,9 +158,9 @@ describe('PeriodSelector', () => {
     const onPeriodChange = jest.fn();
     render(
       <PeriodSelector
-        period="monthly"
+        period='monthly'
         onPeriodChange={onPeriodChange}
-        yearlySavings="Save 20%"
+        yearlySavings='Save 20%'
       />
     );
 
@@ -173,9 +169,7 @@ describe('PeriodSelector', () => {
 
   it('has the billing period selector accessibility label', () => {
     const onPeriodChange = jest.fn();
-    render(
-      <PeriodSelector period="monthly" onPeriodChange={onPeriodChange} />
-    );
+    render(<PeriodSelector period='monthly' onPeriodChange={onPeriodChange} />);
 
     expect(screen.getByLabelText('Billing period selector')).toBeTruthy();
   });

@@ -71,15 +71,11 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
       <View className='flex-row items-center gap-3'>
         <WalletIcon provider={getProviderFromName(wallet.name)} size='md' />
         <View>
-          <Text className='font-medium text-foreground'>
-            {wallet.name}
-          </Text>
+          <Text className='font-medium text-foreground'>{wallet.name}</Text>
           <Text
             className={cn(
               'text-xs',
-              wallet.available
-                ? 'text-success'
-                : 'text-destructive'
+              wallet.available ? 'text-success' : 'text-destructive'
             )}
           >
             {wallet.available
@@ -125,11 +121,7 @@ export const WalletTab: React.FC<WalletTabProps> = ({
       accessibilityState={{ selected: active }}
       className={cn(
         'flex-1 py-2 px-4 rounded-md',
-        active
-          ? color === 'blue'
-            ? 'bg-card'
-            : 'bg-card'
-          : 'bg-transparent'
+        active ? (color === 'blue' ? 'bg-card' : 'bg-card') : 'bg-transparent'
       )}
     >
       <View className='flex-row items-center justify-center gap-2'>

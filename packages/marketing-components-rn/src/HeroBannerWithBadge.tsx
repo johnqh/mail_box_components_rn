@@ -96,7 +96,9 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
         )}
 
         {/* Description */}
-        <Text className={cn(textVariants.lead.md(), 'mb-8 text-center max-w-lg')}>
+        <Text
+          className={cn(textVariants.lead.md(), 'mb-8 text-center max-w-lg')}
+        >
           {description}
         </Text>
 

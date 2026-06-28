@@ -24,10 +24,6 @@ export const TestResult: React.FC<TestResultProps> = ({
     accessibilityLabel='Test Result'
     {...props}
   >
-    {children || (
-      <Text className='text-foreground'>
-        TestResult Component
-      </Text>
-    )}
+    {children || <Text className='text-foreground'>TestResult Component</Text>}
   </View>
 );

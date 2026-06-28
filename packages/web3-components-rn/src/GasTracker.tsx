@@ -37,9 +37,7 @@ export const GasTracker: React.FC<GasTrackerProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          Gas Tracker Component
-        </Text>
+        <Text className='text-foreground'>Gas Tracker Component</Text>
       )}
     </Pressable>
   );

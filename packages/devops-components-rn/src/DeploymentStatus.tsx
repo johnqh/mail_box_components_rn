@@ -98,12 +98,7 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
       <View className='flex-row items-start justify-between'>
         <View className='flex-1'>
           <View className='flex-row items-center'>
-            <View
-              className={cn(
-                'px-2 py-1 rounded-md mr-2',
-                config.badge
-              )}
-            >
+            <View className={cn('px-2 py-1 rounded-md mr-2', config.badge)}>
               <Text className={cn('text-xs font-medium', config.color)}>
                 {config.icon} {config.label}
               </Text>

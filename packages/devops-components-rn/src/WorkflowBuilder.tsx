@@ -30,9 +30,7 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        WorkflowBuilder Component
-      </Text>
+      <Text className='text-foreground'>WorkflowBuilder Component</Text>
     )}
   </Pressable>
 );

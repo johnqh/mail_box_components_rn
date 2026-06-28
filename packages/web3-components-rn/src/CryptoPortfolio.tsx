@@ -37,9 +37,7 @@ export const CryptoPortfolio: React.FC<CryptoPortfolioProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          Crypto Portfolio Component
-        </Text>
+        <Text className='text-foreground'>Crypto Portfolio Component</Text>
       )}
     </Pressable>
   );

@@ -25,9 +25,7 @@ export const ApiReference: React.FC<ApiReferenceProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        ApiReference Component
-      </Text>
+      <Text className='text-foreground'>ApiReference Component</Text>
     )}
   </View>
 );

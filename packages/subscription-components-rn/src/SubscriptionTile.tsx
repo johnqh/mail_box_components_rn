@@ -177,9 +177,7 @@ export function SubscriptionTile({
       {/* Main content - flex-1 takes available space above the fixed bottom area */}
       <View className='flex-1'>
         {/* Title and Price - add top margin when there's a topBadge */}
-        <View
-          className={cn('items-center mb-6', topBadge && 'mt-2')}
-        >
+        <View className={cn('items-center mb-6', topBadge && 'mt-2')}>
           <Text
             className={cn(
               'text-xl font-bold mb-2',
@@ -216,17 +214,13 @@ export function SubscriptionTile({
             <View
               className={cn(
                 'px-2 py-1 rounded-full',
-                isSelected
-                  ? 'bg-primary'
-                  : 'bg-success/10 /50'
+                isSelected ? 'bg-primary' : 'bg-success/10 /50'
               )}
             >
               <Text
                 className={cn(
                   'text-sm font-semibold',
-                  isSelected
-                    ? 'text-white'
-                    : 'text-success'
+                  isSelected ? 'text-white' : 'text-success'
                 )}
               >
                 {discountBadge.text}
@@ -254,9 +248,7 @@ export function SubscriptionTile({
                 <Text
                   className={cn(
                     'text-sm flex-1',
-                    isSelected
-                      ? 'text-white'
-                      : 'text-muted-foreground'
+                    isSelected ? 'text-white' : 'text-muted-foreground'
                   )}
                 >
                   {feature.replace(/^✓\s*/, '')}
@@ -271,17 +263,13 @@ export function SubscriptionTile({
           <View
             className={cn(
               'rounded-lg p-4 mb-4',
-              isSelected
-                ? 'bg-primary/30'
-                : 'bg-accent/50'
+              isSelected ? 'bg-primary/30' : 'bg-accent/50'
             )}
           >
             <Text
               className={cn(
                 'font-semibold text-sm mb-2',
-                isSelected
-                  ? 'text-white'
-                  : 'text-accent-foreground'
+                isSelected ? 'text-white' : 'text-accent-foreground'
               )}
             >
               {premiumCallout.title}
@@ -327,9 +315,7 @@ export function SubscriptionTile({
             <Text
               className={cn(
                 'text-sm font-semibold text-center',
-                isSelected
-                  ? 'text-white'
-                  : 'text-warning'
+                isSelected ? 'text-white' : 'text-warning'
               )}
             >
               {introPriceNote}
@@ -367,14 +353,10 @@ export function SubscriptionTile({
           <View
             className={cn(
               'w-5 h-5 rounded-full border-2 items-center justify-center',
-              isSelected
-                ? 'border-white bg-white'
-                : 'border-border'
+              isSelected ? 'border-white bg-white' : 'border-border'
             )}
           >
-            {isSelected && (
-              <View className='w-2 h-2 rounded-full bg-primary' />
-            )}
+            {isSelected && <View className='w-2 h-2 rounded-full bg-primary' />}
           </View>
         )}
       </View>

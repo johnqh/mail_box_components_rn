@@ -51,9 +51,7 @@ export const EntityList: React.FC<EntityListProps> = ({
       return (
         <View className='flex-1 items-center justify-center py-12'>
           <ActivityIndicator size='large' color={colors.raw.blue[500]} />
-          <Text className='text-muted-foreground mt-4'>
-            Loading...
-          </Text>
+          <Text className='text-muted-foreground mt-4'>Loading...</Text>
         </View>
       );
     }

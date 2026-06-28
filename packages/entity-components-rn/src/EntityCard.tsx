@@ -9,13 +9,11 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
  */
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
-    owner:
-      'bg-accent  text-accent-foreground ',
+    owner: 'bg-accent  text-accent-foreground ',
     admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
     member: 'bg-success/10  text-success',
     viewer: 'bg-muted text-foreground',
-    guest:
-      'bg-warning/10  text-warning ',
+    guest: 'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -62,7 +60,7 @@ export const EntityCard: React.FC<EntityCardProps> = ({
         'border border-border',
         selected && 'border-primary dark:border-primary bg-primary/10',
         'active:opacity-80',
-        className,
+        className
       )}
       style={style}
       testID={testID}
@@ -99,7 +97,10 @@ export const EntityCard: React.FC<EntityCardProps> = ({
 
           {showRole && entity.role && (
             <View
-              className={cn('px-2 py-0.5 rounded-full', getRoleBadgeClasses(entity.role))}
+              className={cn(
+                'px-2 py-0.5 rounded-full',
+                getRoleBadgeClasses(entity.role)
+              )}
             >
               <Text className='text-xs font-medium'>
                 {getRoleLabel(entity.role)}

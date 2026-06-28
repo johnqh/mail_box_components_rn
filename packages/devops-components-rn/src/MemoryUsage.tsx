@@ -24,10 +24,6 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
     accessibilityLabel='Memory Usage'
     {...props}
   >
-    {children || (
-      <Text className='text-foreground'>
-        MemoryUsage Component
-      </Text>
-    )}
+    {children || <Text className='text-foreground'>MemoryUsage Component</Text>}
   </View>
 );

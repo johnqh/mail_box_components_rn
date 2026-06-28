@@ -175,7 +175,9 @@ export function SubscriptionLayout({
                         className='text-muted-foreground'
                       />
                       <Text className='font-semibold text-muted-foreground'>
-                        {platformDisplayName(currentStatus.activeContent.platform.value)}
+                        {platformDisplayName(
+                          currentStatus.activeContent.platform.value
+                        )}
                       </Text>
                     </View>
                   </View>
@@ -201,9 +203,7 @@ export function SubscriptionLayout({
         )}
 
         {/* Section Title */}
-        <Text className='text-2xl font-bold text-foreground mb-4'>
-          {title}
-        </Text>
+        <Text className='text-2xl font-bold text-foreground mb-4'>{title}</Text>
 
         {/* Above Products Content (e.g., billing period selector) */}
         {aboveProducts}
@@ -302,17 +302,13 @@ export function SubscriptionDivider({
     return (
       <View className={cn('flex-row items-center gap-4 my-4', className)}>
         <View className='flex-1 h-px bg-muted' />
-        <Text className='text-sm text-muted-foreground'>
-          {label}
-        </Text>
+        <Text className='text-sm text-muted-foreground'>{label}</Text>
         <View className='flex-1 h-px bg-muted' />
       </View>
     );
   }
 
-  return (
-    <View className={cn('h-px bg-muted my-4', className)} />
-  );
+  return <View className={cn('h-px bg-muted my-4', className)} />;
 }
 
 /**

@@ -18,13 +18,11 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
  */
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
-    owner:
-      'bg-accent  text-accent-foreground ',
+    owner: 'bg-accent  text-accent-foreground ',
     admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
     member: 'bg-success/10  text-success',
     viewer: 'bg-muted text-foreground',
-    guest:
-      'bg-warning/10  text-warning ',
+    guest: 'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -120,7 +118,7 @@ export const MemberList: React.FC<MemberListProps> = ({
         'flex-row items-center p-4 rounded-xl mb-3',
         'bg-card',
         'border border-border',
-        'active:opacity-80',
+        'active:opacity-80'
       )}
       accessibilityRole='button'
       accessibilityLabel={`Member: ${item.name}, Role: ${item.role}`}
@@ -142,7 +140,11 @@ export const MemberList: React.FC<MemberListProps> = ({
         )}
         {/* Status indicator */}
         <View
-          className={cn('absolute bottom-0 right-0 w-3 h-3 rounded-full', getStatusColor(item.status), 'border-2 border-background ')}
+          className={cn(
+            'absolute bottom-0 right-0 w-3 h-3 rounded-full',
+            getStatusColor(item.status),
+            'border-2 border-background '
+          )}
         />
       </View>
 
@@ -156,17 +158,17 @@ export const MemberList: React.FC<MemberListProps> = ({
             {item.name}
           </Text>
           <View
-            className={cn('px-2 py-0.5 rounded-full', getRoleBadgeClasses(item.role))}
+            className={cn(
+              'px-2 py-0.5 rounded-full',
+              getRoleBadgeClasses(item.role)
+            )}
           >
             <Text className='text-xs font-medium'>
               {getRoleLabel(item.role)}
             </Text>
           </View>
         </View>
-        <Text
-          className='text-sm text-muted-foreground'
-          numberOfLines={1}
-        >
+        <Text className='text-sm text-muted-foreground' numberOfLines={1}>
           {item.email}
         </Text>
         {item.joinedAt && (
@@ -185,9 +187,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             accessibilityRole='button'
             accessibilityLabel='Edit role'
           >
-            <Text className='text-primary dark:text-primary text-sm'>
-              Edit
-            </Text>
+            <Text className='text-primary dark:text-primary text-sm'>Edit</Text>
           </Pressable>
         )}
         {canRemoveMember(item) && onRemoveMember && (
@@ -197,9 +197,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             accessibilityRole='button'
             accessibilityLabel='Remove member'
           >
-            <Text className='text-destructive  text-sm'>
-              Remove
-            </Text>
+            <Text className='text-destructive  text-sm'>Remove</Text>
           </Pressable>
         )}
       </View>
@@ -211,9 +209,7 @@ export const MemberList: React.FC<MemberListProps> = ({
       return (
         <View className='flex-1 items-center justify-center py-12'>
           <ActivityIndicator size='large' color={colors.raw.blue[500]} />
-          <Text className='text-muted-foreground mt-4'>
-            Loading...
-          </Text>
+          <Text className='text-muted-foreground mt-4'>Loading...</Text>
         </View>
       );
     }

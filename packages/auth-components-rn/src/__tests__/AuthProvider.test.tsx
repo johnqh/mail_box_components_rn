@@ -18,7 +18,11 @@ jest.mock('@sudobility/components-rn', () => ({
     var R = require('react');
     return R.createElement(
       RN.Pressable,
-      { onPress: props.onPress, disabled: props.disabled, accessibilityRole: 'button' },
+      {
+        onPress: props.onPress,
+        disabled: props.disabled,
+        accessibilityRole: 'button',
+      },
       typeof props.children === 'string'
         ? R.createElement(RN.Text, null, props.children)
         : props.children
@@ -91,11 +95,11 @@ function AuthStatusDisplay() {
   var ctx = useAuthStatus();
   return (
     <>
-      <Text testID="loading">{String(ctx.loading)}</Text>
-      <Text testID="error">{ctx.error != null ? ctx.error : 'null'}</Text>
-      <Text testID="isAuthenticated">{String(ctx.isAuthenticated)}</Text>
-      <Text testID="isAnonymous">{String(ctx.isAnonymous)}</Text>
-      <Text testID="user">{ctx.user ? ctx.user.uid : 'null'}</Text>
+      <Text testID='loading'>{String(ctx.loading)}</Text>
+      <Text testID='error'>{ctx.error != null ? ctx.error : 'null'}</Text>
+      <Text testID='isAuthenticated'>{String(ctx.isAuthenticated)}</Text>
+      <Text testID='isAnonymous'>{String(ctx.isAnonymous)}</Text>
+      <Text testID='user'>{ctx.user ? ctx.user.uid : 'null'}</Text>
     </>
   );
 }
@@ -132,7 +136,9 @@ describe('AuthProvider', () => {
 
       expect(screen.getByTestId('loading').props.children).toBe('false');
       expect(screen.getByTestId('user').props.children).toBe('null');
-      expect(screen.getByTestId('isAuthenticated').props.children).toBe('false');
+      expect(screen.getByTestId('isAuthenticated').props.children).toBe(
+        'false'
+      );
       expect(screen.getByTestId('isAnonymous').props.children).toBe('false');
       expect(screen.getByTestId('error').props.children).toBe('null');
     });
@@ -145,7 +151,12 @@ describe('AuthProvider', () => {
       function SignOutTrigger() {
         var ctx = useAuthStatus();
         return (
-          <Text testID="signout" onPress={function () { ctx.signOut(); }}>
+          <Text
+            testID='signout'
+            onPress={function () {
+              ctx.signOut();
+            }}
+          >
             Sign Out
           </Text>
         );
@@ -177,8 +188,10 @@ describe('AuthProvider', () => {
         var ctx = useAuthStatus();
         return (
           <Text
-            testID="signin"
-            onPress={function () { ctx.signInWithEmail('test@test.com', 'pass'); }}
+            testID='signin'
+            onPress={function () {
+              ctx.signInWithEmail('test@test.com', 'pass');
+            }}
           >
             Sign In
           </Text>
@@ -212,7 +225,7 @@ describe('AuthProvider', () => {
         var ctx = useAuthStatus();
         return (
           <Text
-            testID="signup"
+            testID='signup'
             onPress={function () {
               ctx.signUpWithEmail('test@test.com', 'pass123', 'Test User');
             }}
@@ -244,7 +257,12 @@ describe('AuthProvider', () => {
       function GoogleTrigger() {
         var ctx = useAuthStatus();
         return (
-          <Text testID="google" onPress={function () { ctx.signInWithGoogle(); }}>
+          <Text
+            testID='google'
+            onPress={function () {
+              ctx.signInWithGoogle();
+            }}
+          >
             Google
           </Text>
         );
@@ -272,7 +290,12 @@ describe('AuthProvider', () => {
       function AppleTrigger() {
         var ctx = useAuthStatus();
         return (
-          <Text testID="apple" onPress={function () { ctx.signInWithApple(); }}>
+          <Text
+            testID='apple'
+            onPress={function () {
+              ctx.signInWithApple();
+            }}
+          >
             Apple
           </Text>
         );
@@ -300,7 +323,12 @@ describe('AuthProvider', () => {
       function ResetTrigger() {
         var ctx = useAuthStatus();
         return (
-          <Text testID="reset" onPress={function () { ctx.resetPassword('test@test.com'); }}>
+          <Text
+            testID='reset'
+            onPress={function () {
+              ctx.resetPassword('test@test.com');
+            }}
+          >
             Reset
           </Text>
         );
@@ -328,7 +356,12 @@ describe('AuthProvider', () => {
       function AnonTrigger() {
         var ctx = useAuthStatus();
         return (
-          <Text testID="anon" onPress={function () { ctx.signInAnonymously(); }}>
+          <Text
+            testID='anon'
+            onPress={function () {
+              ctx.signInAnonymously();
+            }}
+          >
             Anon
           </Text>
         );
@@ -358,12 +391,19 @@ describe('AuthProvider', () => {
         return (
           <>
             <Text
-              testID="signin"
-              onPress={function () { ctx.signInWithEmail('a@b.com', 'p'); }}
+              testID='signin'
+              onPress={function () {
+                ctx.signInWithEmail('a@b.com', 'p');
+              }}
             >
               Sign In
             </Text>
-            <Text testID="clear" onPress={function () { ctx.clearError(); }}>
+            <Text
+              testID='clear'
+              onPress={function () {
+                ctx.clearError();
+              }}
+            >
               Clear
             </Text>
           </>
@@ -405,8 +445,10 @@ describe('AuthProvider', () => {
         var ctx = useAuthStatus();
         return (
           <Text
-            testID="signin"
-            onPress={function () { ctx.signInWithEmail('a@b.com', 'p'); }}
+            testID='signin'
+            onPress={function () {
+              ctx.signInWithEmail('a@b.com', 'p');
+            }}
           >
             Sign In
           </Text>
@@ -438,8 +480,8 @@ describe('AuthProvider', () => {
         var ctx = useAuthStatus();
         return (
           <>
-            <Text testID="login-text">{ctx.texts.login}</Text>
-            <Text testID="providers">
+            <Text testID='login-text'>{ctx.texts.login}</Text>
+            <Text testID='providers'>
               {ctx.providerConfig.providers.join(',')}
             </Text>
           </>

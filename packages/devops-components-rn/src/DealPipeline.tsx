@@ -25,9 +25,7 @@ export const DealPipeline: React.FC<DealPipelineProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        DealPipeline Component
-      </Text>
+      <Text className='text-foreground'>DealPipeline Component</Text>
     )}
   </View>
 );

@@ -37,9 +37,7 @@ export const SubscriptionPlan: React.FC<SubscriptionPlanProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          SubscriptionPlan Component
-        </Text>
+        <Text className='text-foreground'>SubscriptionPlan Component</Text>
       )}
     </Pressable>
   );

@@ -11,30 +11,30 @@ function TestConsumer() {
   const ctx = useSubscriptionContext();
   return (
     <>
-      <Text testID="loading">{ctx.isLoading ? 'true' : 'false'}</Text>
-      <Text testID="error">{ctx.error ?? 'none'}</Text>
-      <Text testID="subscription">
+      <Text testID='loading'>{ctx.isLoading ? 'true' : 'false'}</Text>
+      <Text testID='error'>{ctx.error ?? 'none'}</Text>
+      <Text testID='subscription'>
         {ctx.currentSubscription ? 'active' : 'none'}
       </Text>
       <Pressable
-        testID="initialize"
+        testID='initialize'
         onPress={() => {
           ctx.initialize();
         }}
       />
       <Pressable
-        testID="purchase"
+        testID='purchase'
         onPress={() => {
           ctx.purchase('test_product');
         }}
       />
       <Pressable
-        testID="restore"
+        testID='restore'
         onPress={() => {
           ctx.restore();
         }}
       />
-      <Pressable testID="clearError" onPress={() => ctx.clearError()} />
+      <Pressable testID='clearError' onPress={() => ctx.clearError()} />
     </>
   );
 }
@@ -58,7 +58,7 @@ describe('SubscriptionProvider', () => {
 
   it('provides initial state with no loading, no error, no subscription', () => {
     render(
-      <SubscriptionProvider apiKey="test_key">
+      <SubscriptionProvider apiKey='test_key'>
         <TestConsumer />
       </SubscriptionProvider>
     );
@@ -71,7 +71,7 @@ describe('SubscriptionProvider', () => {
   it('initializes in development mode (no real API key)', async () => {
     const onError = jest.fn();
     render(
-      <SubscriptionProvider apiKey="" onError={onError}>
+      <SubscriptionProvider apiKey='' onError={onError}>
         <TestConsumer />
       </SubscriptionProvider>
     );
@@ -88,7 +88,7 @@ describe('SubscriptionProvider', () => {
   it('purchase flow sets active subscription in dev mode', async () => {
     const onPurchaseSuccess = jest.fn();
     render(
-      <SubscriptionProvider apiKey="" onPurchaseSuccess={onPurchaseSuccess}>
+      <SubscriptionProvider apiKey='' onPurchaseSuccess={onPurchaseSuccess}>
         <TestConsumer />
       </SubscriptionProvider>
     );
@@ -109,7 +109,7 @@ describe('SubscriptionProvider', () => {
 
   it('restore flow sets error "No previous purchases found" in dev mode', async () => {
     render(
-      <SubscriptionProvider apiKey="">
+      <SubscriptionProvider apiKey=''>
         <TestConsumer />
       </SubscriptionProvider>
     );
@@ -129,7 +129,7 @@ describe('SubscriptionProvider', () => {
 
   it('clearError resets error to null', async () => {
     render(
-      <SubscriptionProvider apiKey="">
+      <SubscriptionProvider apiKey=''>
         <TestConsumer />
       </SubscriptionProvider>
     );
@@ -157,7 +157,7 @@ describe('SubscriptionProvider', () => {
   it('initialize only runs once (idempotent)', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     render(
-      <SubscriptionProvider apiKey="">
+      <SubscriptionProvider apiKey=''>
         <TestConsumer />
       </SubscriptionProvider>
     );

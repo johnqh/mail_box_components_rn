@@ -24,8 +24,6 @@ export const DriverLog: React.FC<DriverLogProps> = ({
     accessibilityLabel='Driver Log'
     {...props}
   >
-    {children || (
-      <Text className='text-foreground'>DriverLog Component</Text>
-    )}
+    {children || <Text className='text-foreground'>DriverLog Component</Text>}
   </View>
 );

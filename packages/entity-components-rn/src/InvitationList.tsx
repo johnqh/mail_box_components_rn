@@ -17,13 +17,11 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
  */
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
-    owner:
-      'bg-accent  text-accent-foreground ',
+    owner: 'bg-accent  text-accent-foreground ',
     admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
     member: 'bg-success/10  text-success',
     viewer: 'bg-muted text-foreground',
-    guest:
-      'bg-warning/10  text-warning ',
+    guest: 'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -41,10 +39,8 @@ const getRoleLabel = (role: EntityRole): string => {
  */
 const getStatusBadgeClasses = (status: Invitation['status']): string => {
   const colorMap: Record<Invitation['status'], string> = {
-    pending:
-      'bg-warning/10  text-warning ',
-    accepted:
-      'bg-success/10  text-success',
+    pending: 'bg-warning/10  text-warning ',
+    accepted: 'bg-success/10  text-success',
     declined: 'bg-destructive/10  text-destructive ',
     expired: 'bg-muted text-foreground',
   };
@@ -107,11 +103,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
 
     return (
       <View
-        className={cn(
-          'p-4 rounded-xl mb-3',
-          'bg-card',
-          'border border-border',
-        )}
+        className={cn('p-4 rounded-xl mb-3', 'bg-card', 'border border-border')}
         accessibilityLabel={`Invitation to ${item.email}, Status: ${item.status}`}
       >
         {/* Header */}
@@ -123,7 +115,10 @@ export const InvitationList: React.FC<InvitationListProps> = ({
             {item.email}
           </Text>
           <View
-            className={cn('px-2 py-0.5 rounded-full', getStatusBadgeClasses(item.status))}
+            className={cn(
+              'px-2 py-0.5 rounded-full',
+              getStatusBadgeClasses(item.status)
+            )}
           >
             <Text className='text-xs font-medium'>
               {getStatusLabel(item.status)}
@@ -134,7 +129,10 @@ export const InvitationList: React.FC<InvitationListProps> = ({
         {/* Role and Time */}
         <View className='flex-row items-center mb-2'>
           <View
-            className={cn('px-2 py-0.5 rounded-full mr-2', getRoleBadgeClasses(item.role))}
+            className={cn(
+              'px-2 py-0.5 rounded-full mr-2',
+              getRoleBadgeClasses(item.role)
+            )}
           >
             <Text className='text-xs font-medium'>
               {getRoleLabel(item.role)}
@@ -197,9 +195,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
       return (
         <View className='flex-1 items-center justify-center py-12'>
           <ActivityIndicator size='large' color={colors.raw.blue[500]} />
-          <Text className='text-muted-foreground mt-4'>
-            Loading...
-          </Text>
+          <Text className='text-muted-foreground mt-4'>Loading...</Text>
         </View>
       );
     }

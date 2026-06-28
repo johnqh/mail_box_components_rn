@@ -71,7 +71,7 @@ export function SegmentedControl<T extends string = string>({
         size === 'md' && styles.containerMd,
         size === 'lg' && styles.containerLg,
       ]}
-      accessibilityRole="tablist"
+      accessibilityRole='tablist'
       accessibilityLabel={accessibilityLabel}
     >
       {options.map(option => {
@@ -83,7 +83,7 @@ export function SegmentedControl<T extends string = string>({
             key={option.value}
             onPress={() => !isDisabled && onChange(option.value)}
             disabled={isDisabled}
-            accessibilityRole="tab"
+            accessibilityRole='tab'
             accessibilityState={{
               selected: isSelected,
               disabled: isDisabled,

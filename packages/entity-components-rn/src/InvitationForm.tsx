@@ -103,15 +103,13 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
             'border',
             error ? 'border-destructive' : 'border-border',
             'text-foreground',
-            isDisabled && 'opacity-50',
+            isDisabled && 'opacity-50'
           )}
           accessibilityLabel='Email address input'
           accessibilityHint='Enter the email address of the person you want to invite'
         />
         {error && (
-          <Text className='text-sm text-destructive  mt-1'>
-            {error}
-          </Text>
+          <Text className='text-sm text-destructive  mt-1'>{error}</Text>
         )}
       </View>
 
@@ -137,7 +135,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           'flex-row items-center justify-center px-6 py-4 rounded-xl',
           canSubmit
             ? 'bg-primary dark:bg-primary active:bg-primary dark:active:bg-primary/90'
-            : 'bg-muted dark:bg-muted',
+            : 'bg-muted dark:bg-muted'
         )}
         accessibilityRole='button'
         accessibilityLabel={submitLabel}
@@ -150,7 +148,10 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           </>
         ) : (
           <Text
-            className={cn('font-semibold', canSubmit ? 'text-white' : 'text-muted-foreground')}
+            className={cn(
+              'font-semibold',
+              canSubmit ? 'text-white' : 'text-muted-foreground'
+            )}
           >
             {submitLabel}
           </Text>

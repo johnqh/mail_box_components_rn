@@ -25,8 +25,8 @@ describe('UsageDashboard', () => {
     render(
       <UsageDashboard
         bars={sampleBars}
-        title="API Usage"
-        subtitle="Current billing period"
+        title='API Usage'
+        subtitle='Current billing period'
       />
     );
     expect(screen.getByText('API Usage')).toBeTruthy();
@@ -34,7 +34,9 @@ describe('UsageDashboard', () => {
   });
 
   it('displays current/limit values', () => {
-    render(<UsageDashboard bars={[{ label: 'Hourly', current: 50, limit: 100 }]} />);
+    render(
+      <UsageDashboard bars={[{ label: 'Hourly', current: 50, limit: 100 }]} />
+    );
     expect(screen.getByText('50 / 100')).toBeTruthy();
   });
 

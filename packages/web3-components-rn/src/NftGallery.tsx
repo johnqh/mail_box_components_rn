@@ -37,9 +37,7 @@ export const NftGallery: React.FC<NftGalleryProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          NFT Gallery Component
-        </Text>
+        <Text className='text-foreground'>NFT Gallery Component</Text>
       )}
     </Pressable>
   );

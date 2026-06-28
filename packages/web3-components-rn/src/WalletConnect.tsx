@@ -37,9 +37,7 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          WalletConnect Component
-        </Text>
+        <Text className='text-foreground'>WalletConnect Component</Text>
       )}
     </Pressable>
   );

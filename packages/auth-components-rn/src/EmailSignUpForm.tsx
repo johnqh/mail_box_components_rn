@@ -72,9 +72,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       </View>
 
       <View className='gap-2'>
-        <Text className={textVariants.label.default()}>
-          {texts.email}
-        </Text>
+        <Text className={textVariants.label.default()}>{texts.email}</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
@@ -88,9 +86,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       </View>
 
       <View className='gap-2'>
-        <Text className={textVariants.label.default()}>
-          {texts.password}
-        </Text>
+        <Text className={textVariants.label.default()}>{texts.password}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
@@ -116,9 +112,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       </View>
 
       {displayError && (
-        <Text className={textVariants.label.error()}>
-          {displayError}
-        </Text>
+        <Text className={textVariants.label.error()}>{displayError}</Text>
       )}
 
       <Pressable
@@ -138,9 +132,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       </Pressable>
 
       <View className='flex-row items-center justify-center gap-1'>
-        <Text className={textVariants.body.sm()}>
-          {texts.haveAccount}
-        </Text>
+        <Text className={textVariants.body.sm()}>{texts.haveAccount}</Text>
         <Pressable
           onPress={() => {
             onTrack?.({
@@ -152,9 +144,7 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
           }}
           accessibilityRole='button'
         >
-          <Text className={textVariants.link.subtle()}>
-            {texts.signIn}
-          </Text>
+          <Text className={textVariants.link.subtle()}>{texts.signIn}</Text>
         </Pressable>
       </View>
     </View>

@@ -157,12 +157,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
       </View>
 
       {showNumber && (
-        <Text
-          className={cn(
-            'font-semibold text-foreground',
-            config.text
-          )}
-        >
+        <Text className={cn('font-semibold text-foreground', config.text)}>
           {value.toFixed(1)}
         </Text>
       )}

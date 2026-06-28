@@ -98,9 +98,7 @@ export const WalletIcon: React.FC<WalletIconProps> = ({
         <Text className={textSizes[size]}>{config.emoji}</Text>
       </View>
       {showLabel && (
-        <Text className='text-foreground font-medium'>
-          {config.label}
-        </Text>
+        <Text className='text-foreground font-medium'>{config.label}</Text>
       )}
     </View>
   );

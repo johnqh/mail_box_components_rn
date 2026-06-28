@@ -30,9 +30,7 @@ export const EmailAnalytics: React.FC<EmailAnalyticsProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          EmailAnalytics Component
-        </Text>
+        <Text className='text-foreground'>EmailAnalytics Component</Text>
       )}
     </View>
   );

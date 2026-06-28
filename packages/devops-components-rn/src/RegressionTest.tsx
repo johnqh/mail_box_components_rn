@@ -25,9 +25,7 @@ export const RegressionTest: React.FC<RegressionTestProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        RegressionTest Component
-      </Text>
+      <Text className='text-foreground'>RegressionTest Component</Text>
     )}
   </View>
 );

@@ -9,13 +9,11 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
  */
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
-    owner:
-      'bg-accent  text-accent-foreground ',
+    owner: 'bg-accent  text-accent-foreground ',
     admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
     member: 'bg-success/10  text-success',
     viewer: 'bg-muted text-foreground',
-    guest:
-      'bg-warning/10  text-warning ',
+    guest: 'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -68,7 +66,7 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
           'bg-card',
           'border border-border',
           disabled && 'opacity-50',
-          'active:opacity-80',
+          'active:opacity-80'
         )}
         accessibilityRole='button'
         accessibilityLabel={`Selected role: ${selectedConfig?.label || selectedRole}`}
@@ -76,7 +74,10 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
       >
         <View className='flex-row items-center'>
           <View
-            className={cn('px-3 py-1 rounded-full mr-2', getRoleBadgeClasses(selectedRole))}
+            className={cn(
+              'px-3 py-1 rounded-full mr-2',
+              getRoleBadgeClasses(selectedRole)
+            )}
           >
             <Text className='text-sm font-medium'>
               {selectedConfig?.label || selectedRole}
@@ -124,7 +125,7 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
                 className={cn(
                   'px-4 py-4 border-b border-border',
                   selectedRole === config.role && 'bg-primary/10',
-                  'active:bg-muted',
+                  'active:bg-muted'
                 )}
                 accessibilityRole='button'
                 accessibilityLabel={`${config.label}: ${config.description}`}
@@ -134,7 +135,10 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
                   <View className='flex-1'>
                     <View className='flex-row items-center'>
                       <View
-                        className={cn('px-3 py-1 rounded-full', getRoleBadgeClasses(config.role))}
+                        className={cn(
+                          'px-3 py-1 rounded-full',
+                          getRoleBadgeClasses(config.role)
+                        )}
                       >
                         <Text className='text-sm font-medium'>
                           {config.label}

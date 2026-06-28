@@ -30,9 +30,7 @@ export const CrmDashboard: React.FC<CrmDashboardProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          CrmDashboard Component
-        </Text>
+        <Text className='text-foreground'>CrmDashboard Component</Text>
       )}
     </View>
   );

@@ -37,9 +37,7 @@ export const FeatureSpotlight: React.FC<FeatureSpotlightProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          FeatureSpotlight Component
-        </Text>
+        <Text className='text-foreground'>FeatureSpotlight Component</Text>
       )}
     </Pressable>
   );

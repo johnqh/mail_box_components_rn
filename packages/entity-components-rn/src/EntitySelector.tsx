@@ -52,11 +52,12 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
 
     return (
       <View
-        className={cn(sizeClasses, 'rounded-full bg-muted dark:bg-muted items-center justify-center')}
+        className={cn(
+          sizeClasses,
+          'rounded-full bg-muted dark:bg-muted items-center justify-center'
+        )}
       >
-        <Text
-          className={cn(textSize, 'font-semibold text-muted-foreground')}
-        >
+        <Text className={cn(textSize, 'font-semibold text-muted-foreground')}>
           {entity.name.charAt(0).toUpperCase()}
         </Text>
       </View>
@@ -69,7 +70,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       className={cn(
         'flex-row items-center px-4 py-3',
         selectedEntity?.id === item.id && 'bg-primary/10',
-        'active:bg-muted',
+        'active:bg-muted'
       )}
       accessibilityRole='button'
       accessibilityLabel={`Select ${item.name}`}
@@ -77,10 +78,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
     >
       {showAvatars && <View className='mr-3'>{renderAvatar(item, 'sm')}</View>}
       <View className='flex-1'>
-        <Text
-          className='text-base text-foreground'
-          numberOfLines={1}
-        >
+        <Text className='text-base text-foreground' numberOfLines={1}>
           {item.name}
         </Text>
         {showRoles && item.role && (
@@ -106,7 +104,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
           'bg-card',
           'border border-border',
           disabled && 'opacity-50',
-          'active:opacity-80',
+          'active:opacity-80'
         )}
         accessibilityRole='button'
         accessibilityLabel={
@@ -138,9 +136,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
             </View>
           </>
         ) : (
-          <Text className='flex-1 text-muted-foreground'>
-            {placeholder}
-          </Text>
+          <Text className='flex-1 text-muted-foreground'>{placeholder}</Text>
         )}
         <Text className='text-muted-foreground text-lg ml-2'>▼</Text>
       </Pressable>

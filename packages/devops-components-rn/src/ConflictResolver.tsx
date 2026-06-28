@@ -30,9 +30,7 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        ConflictResolver Component
-      </Text>
+      <Text className='text-foreground'>ConflictResolver Component</Text>
     )}
   </Pressable>
 );

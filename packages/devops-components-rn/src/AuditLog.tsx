@@ -95,7 +95,8 @@ const actionConfig: Record<
   },
   reject: {
     color: 'text-secondary-foreground dark:text-secondary-foreground',
-    badge: 'bg-secondary text-secondary-foreground  dark:text-secondary-foreground',
+    badge:
+      'bg-secondary text-secondary-foreground  dark:text-secondary-foreground',
     icon: '✗',
   },
   deploy: {
@@ -135,9 +136,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
     <Card className={cn('overflow-hidden', className)}>
       {title && (
         <View className='px-4 py-3 border-b border-border'>
-          <Text className={textVariants.label.default()}>
-            {title}
-          </Text>
+          <Text className={textVariants.label.default()}>{title}</Text>
         </View>
       )}
       <ScrollView style={{ maxHeight }} showsVerticalScrollIndicator={true}>
@@ -147,10 +146,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
 
           const content = (
             <View
-              className={cn(
-                'px-4 py-3',
-                !isLast && 'border-b border-border'
-              )}
+              className={cn('px-4 py-3', !isLast && 'border-b border-border')}
             >
               <View className='flex-row items-start'>
                 <View
@@ -177,10 +173,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
                   </View>
                   <View className='flex-row items-center mt-1'>
                     <View
-                      className={cn(
-                        'px-1.5 py-0.5 rounded mr-2',
-                        config.badge
-                      )}
+                      className={cn('px-1.5 py-0.5 rounded mr-2', config.badge)}
                     >
                       <Text
                         className={cn(

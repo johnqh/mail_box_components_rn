@@ -24,10 +24,6 @@ export const BodyMetrics: React.FC<BodyMetricsProps> = ({
     accessibilityLabel='Body Metrics'
     {...props}
   >
-    {children || (
-      <Text className='text-foreground'>
-        BodyMetrics Component
-      </Text>
-    )}
+    {children || <Text className='text-foreground'>BodyMetrics Component</Text>}
   </View>
 );

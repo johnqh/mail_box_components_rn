@@ -29,10 +29,6 @@ export const TestRunner: React.FC<TestRunnerProps> = ({
     )}
     {...props}
   >
-    {children || (
-      <Text className='text-foreground'>
-        TestRunner Component
-      </Text>
-    )}
+    {children || <Text className='text-foreground'>TestRunner Component</Text>}
   </Pressable>
 );

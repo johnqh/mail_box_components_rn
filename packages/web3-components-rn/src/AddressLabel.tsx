@@ -49,7 +49,11 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
 
   const content = (
     <Text
-      className={cn(textVariants.web3.address(), variantStyles[variant], className)}
+      className={cn(
+        textVariants.web3.address(),
+        variantStyles[variant],
+        className
+      )}
       selectable
     >
       {displayAddress}

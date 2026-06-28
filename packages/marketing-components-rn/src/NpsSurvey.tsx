@@ -36,11 +36,7 @@ export const NpsSurvey: React.FC<NpsSurveyProps> = ({
       )}
       {...props}
     >
-      {children || (
-        <Text className='text-foreground'>
-          NpsSurvey Component
-        </Text>
-      )}
+      {children || <Text className='text-foreground'>NpsSurvey Component</Text>}
     </Pressable>
   );
 };

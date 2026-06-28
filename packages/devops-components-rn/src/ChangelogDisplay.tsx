@@ -25,9 +25,7 @@ export const ChangelogDisplay: React.FC<ChangelogDisplayProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-foreground'>
-        ChangelogDisplay Component
-      </Text>
+      <Text className='text-foreground'>ChangelogDisplay Component</Text>
     )}
   </View>
 );

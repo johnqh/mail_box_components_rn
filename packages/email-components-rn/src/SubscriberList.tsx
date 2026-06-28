@@ -30,9 +30,7 @@ export const SubscriberList: React.FC<SubscriberListProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-foreground'>
-          SubscriberList Component
-        </Text>
+        <Text className='text-foreground'>SubscriberList Component</Text>
       )}
     </View>
   );
