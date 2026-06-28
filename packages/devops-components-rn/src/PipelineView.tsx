@@ -43,39 +43,39 @@ const statusConfig: Record<
   }
 > = {
   pending: {
-    color: 'text-gray-600 dark:text-gray-400',
+    color: 'text-muted-foreground',
     badge: `${colors.component.badge.default.base} ${colors.component.badge.default.dark}`,
-    borderColor: 'border-gray-300 dark:border-gray-600',
+    borderColor: 'border-border',
     icon: '○',
   },
   running: {
     color: `${colors.component.alert.info.icon}`,
     badge: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
-    borderColor: 'border-blue-400 dark:border-blue-500',
+    borderColor: 'border-primary dark:border-primary',
     icon: '◐',
   },
   success: {
     color: `${colors.component.alert.success.icon}`,
     badge: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
-    borderColor: 'border-green-400 dark:border-green-500',
+    borderColor: 'border-success dark:border-success',
     icon: '●',
   },
   failed: {
     color: `${colors.component.alert.error.icon}`,
     badge: `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`,
-    borderColor: 'border-red-400 dark:border-red-500',
+    borderColor: 'border-destructive dark:border-destructive',
     icon: '✗',
   },
   skipped: {
-    color: 'text-gray-400 dark:text-gray-600',
-    badge: 'bg-gray-50 text-gray-600 dark:bg-gray-900 dark:text-gray-400',
-    borderColor: 'border-gray-200 dark:border-gray-700',
+    color: 'text-muted-foreground',
+    badge: 'bg-muted text-muted-foreground dark:bg-popover dark:text-muted-foreground',
+    borderColor: 'border-border',
     icon: '◌',
   },
   cancelled: {
     color: `${colors.component.alert.warning.icon}`,
     badge: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark}`,
-    borderColor: 'border-orange-400 dark:border-orange-500',
+    borderColor: 'border-warning ',
     icon: '⊘',
   },
 };
@@ -109,7 +109,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
   return (
     <Card className={cn('overflow-hidden', className)}>
       {(pipelineName || pipelineId) && (
-        <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+        <View className='px-4 py-3 border-b border-border'>
           <View className='flex-row items-center justify-between'>
             <View>
               {pipelineName && (
@@ -118,7 +118,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                 </Text>
               )}
               {pipelineId && (
-                <Text className='text-xs font-mono text-gray-500 dark:text-gray-500'>
+                <Text className='text-xs font-mono text-muted-foreground'>
                   #{pipelineId}
                 </Text>
               )}
@@ -161,13 +161,13 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                       {config.icon}
                     </Text>
                     <Text
-                      className='text-xs font-medium text-gray-900 dark:text-gray-100 mt-1 text-center'
+                      className='text-xs font-medium text-foreground mt-1 text-center'
                       numberOfLines={2}
                     >
                       {stage.name}
                     </Text>
                     {stage.duration !== undefined && (
-                      <Text className='text-xs text-gray-500 dark:text-gray-500 mt-1'>
+                      <Text className='text-xs text-muted-foreground mt-1'>
                         {formatDuration(stage.duration)}
                       </Text>
                     )}
@@ -175,7 +175,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                 </View>
                 {stage.jobs && stage.jobs.length > 0 && (
                   <View className='mt-2'>
-                    <Text className='text-xs text-gray-500 dark:text-gray-500'>
+                    <Text className='text-xs text-muted-foreground'>
                       {stage.jobs.filter(j => j.status === 'success').length}/
                       {stage.jobs.length} jobs
                     </Text>
@@ -199,8 +199,8 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
                 )}
                 {!isLast && (
                   <View className='mx-2'>
-                    <View className='w-8 h-0.5 bg-gray-300 dark:bg-gray-600' />
-                    <Text className='absolute -top-2 left-2 text-gray-400 dark:text-gray-600'>
+                    <View className='w-8 h-0.5 bg-muted dark:bg-muted' />
+                    <Text className='absolute -top-2 left-2 text-muted-foreground'>
                       →
                     </Text>
                   </View>
@@ -210,7 +210,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
           })}
         </View>
       </ScrollView>
-      <View className='px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700'>
+      <View className='px-4 py-2 bg-muted border-t border-border'>
         <Text className={textVariants.caption.default()}>
           {stages.length} stages |{' '}
           {stages.filter(s => s.status === 'success').length} completed

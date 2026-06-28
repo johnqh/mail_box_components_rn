@@ -140,13 +140,13 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       accessibilityLabel={ariaLabel}
       className={cn(
         'items-center justify-center',
-        'border border-gray-300 dark:border-gray-600',
-        'bg-white dark:bg-gray-800',
+        'border border-border',
+        'bg-card',
         sizeConfig.button,
         (disabled || buttonDisabled) && 'opacity-50'
       )}
     >
-      <Text className={cn('text-gray-700 dark:text-gray-300', sizeConfig.icon)}>
+      <Text className={cn('text-muted-foreground', sizeConfig.icon)}>
         {icon}
       </Text>
     </Pressable>
@@ -170,9 +170,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           placeholder={placeholder}
           className={cn(
             'border-x-0 text-center flex-1',
-            'border-y border-gray-300 dark:border-gray-600',
-            'bg-white dark:bg-gray-800',
-            'text-gray-900 dark:text-gray-100',
+            'border-y border-border',
+            'bg-card',
+            'text-foreground',
             sizeConfig.input,
             disabled && 'opacity-50'
           )}
@@ -200,9 +200,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           placeholder={placeholder}
           className={cn(
             'flex-1 rounded-lg border',
-            'border-gray-300 dark:border-gray-600',
-            'bg-white dark:bg-gray-800',
-            'text-gray-900 dark:text-gray-100',
+            'border-border',
+            'bg-card',
+            'text-foreground',
             sizeConfig.input,
             disabled && 'opacity-50'
           )}
@@ -216,13 +216,13 @@ export const NumberInput: React.FC<NumberInputProps> = ({
             accessibilityLabel='Increment'
             className={cn(
               'flex-1 items-center justify-center',
-              'rounded border border-gray-300 dark:border-gray-600',
-              'bg-white dark:bg-gray-800',
+              'rounded border border-border',
+              'bg-card',
               'px-2',
               (disabled || !canIncrement) && 'opacity-50'
             )}
           >
-            <Text className='text-gray-700 dark:text-gray-300 text-xs'>+</Text>
+            <Text className='text-muted-foreground text-xs'>+</Text>
           </Pressable>
           <Pressable
             onPress={decrement}
@@ -231,13 +231,13 @@ export const NumberInput: React.FC<NumberInputProps> = ({
             accessibilityLabel='Decrement'
             className={cn(
               'flex-1 items-center justify-center',
-              'rounded border border-gray-300 dark:border-gray-600',
-              'bg-white dark:bg-gray-800',
+              'rounded border border-border',
+              'bg-card',
               'px-2',
               (disabled || !canDecrement) && 'opacity-50'
             )}
           >
-            <Text className='text-gray-700 dark:text-gray-300 text-xs'>−</Text>
+            <Text className='text-muted-foreground text-xs'>−</Text>
           </Pressable>
         </View>
       </View>
@@ -254,9 +254,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       placeholder={placeholder}
       className={cn(
         'rounded-lg border',
-        'border-gray-300 dark:border-gray-600',
-        'bg-white dark:bg-gray-800',
-        'text-gray-900 dark:text-gray-100',
+        'border-border',
+        'bg-card',
+        'text-foreground',
         sizeConfig.input,
         disabled && 'opacity-50',
         className

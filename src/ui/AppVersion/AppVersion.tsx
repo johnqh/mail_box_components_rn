@@ -31,10 +31,7 @@ export const AppVersion: React.FC<AppVersionProps> = ({
 }) => {
   return (
     <Text
-      className={cn(
-        'text-sm text-gray-500 dark:text-gray-400 text-center',
-        className
-      )}
+      className={cn('text-sm text-muted-foreground text-center', className)}
     >
       {appName} v{version}
     </Text>

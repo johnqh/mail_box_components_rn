@@ -156,26 +156,24 @@ export const TransferList: React.FC<TransferListProps> = ({
     onSearchChange: (value: string) => void,
     searchPlaceholder: string
   ) => (
-    <View className='flex-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900'>
+    <View className='flex-1 border border-border rounded-md bg-background'>
       {/* Header */}
-      <View className='px-3 py-2 border-b border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800'>
-        <Text className='text-sm font-semibold text-gray-900 dark:text-white'>
-          {title}
-        </Text>
-        <Text className='text-xs text-gray-600 dark:text-gray-400'>
+      <View className='px-3 py-2 border-b border-border bg-card'>
+        <Text className='text-sm font-semibold text-foreground'>{title}</Text>
+        <Text className='text-xs text-muted-foreground'>
           {items.length} item{items.length !== 1 ? 's' : ''}
         </Text>
       </View>
 
       {/* Search */}
       {searchable && (
-        <View className='p-2 border-b border-gray-200 dark:border-gray-700'>
+        <View className='p-2 border-b border-border'>
           <TextInput
             value={searchValue}
             onChangeText={onSearchChange}
             placeholder={searchPlaceholder}
             placeholderTextColor={colors.raw.neutral[400]}
-            className='px-3 py-2 text-sm bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-md'
+            className='px-3 py-2 text-sm bg-card text-foreground border border-border rounded-md'
           />
         </View>
       )}
@@ -184,9 +182,7 @@ export const TransferList: React.FC<TransferListProps> = ({
       <ScrollView style={{ height: searchable ? height - 120 : height - 60 }}>
         {items.length === 0 ? (
           <View className='flex-1 items-center justify-center py-8'>
-            <Text className='text-sm text-gray-500 dark:text-gray-400'>
-              No items
-            </Text>
+            <Text className='text-sm text-muted-foreground'>No items</Text>
           </View>
         ) : (
           items.map(item => {
@@ -199,10 +195,9 @@ export const TransferList: React.FC<TransferListProps> = ({
                 disabled={item.disabled || disabled}
                 className={cn(
                   'mx-2 my-1 px-3 py-2 rounded-md',
-                  'active:bg-gray-100 dark:active:bg-gray-800',
+                  'active:bg-muted',
                   (item.disabled || disabled) && 'opacity-50',
-                  isSelected &&
-                    'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700'
+                  isSelected && 'bg-primary/10 border border-primary/20 '
                 )}
                 accessibilityRole='checkbox'
                 accessibilityState={{
@@ -216,8 +211,8 @@ export const TransferList: React.FC<TransferListProps> = ({
                     className={cn(
                       'w-4 h-4 border-2 rounded items-center justify-center mt-0.5',
                       isSelected
-                        ? 'bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500'
-                        : 'border-gray-300 dark:border-gray-600'
+                        ? 'bg-primary border-primary dark:bg-primary dark:border-primary'
+                        : 'border-border'
                     )}
                   >
                     {isSelected && (
@@ -227,11 +222,11 @@ export const TransferList: React.FC<TransferListProps> = ({
 
                   {/* Content */}
                   <View className='flex-1'>
-                    <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+                    <Text className='text-sm font-medium text-foreground'>
                       {item.label}
                     </Text>
                     {item.description && (
-                      <Text className='text-xs text-gray-600 dark:text-gray-400'>
+                      <Text className='text-xs text-muted-foreground'>
                         {item.description}
                       </Text>
                     )}
@@ -264,64 +259,64 @@ export const TransferList: React.FC<TransferListProps> = ({
           onPress={moveAllToTarget}
           disabled={disabled || source.length === 0}
           className={cn(
-            'px-3 py-2 bg-white dark:bg-gray-900',
-            'border border-gray-300 dark:border-gray-700',
+            'px-3 py-2 bg-background',
+            'border border-border',
             'rounded-md',
-            'active:bg-gray-50 dark:active:bg-gray-800',
+            'active:bg-muted',
             (disabled || source.length === 0) && 'opacity-50'
           )}
           accessibilityRole='button'
           accessibilityLabel='Move all to selected'
         >
-          <Text className='text-gray-700 dark:text-gray-300'>»</Text>
+          <Text className='text-muted-foreground'>»</Text>
         </Pressable>
 
         <Pressable
           onPress={moveToTarget}
           disabled={disabled || sourceSelected.size === 0}
           className={cn(
-            'px-3 py-2 bg-white dark:bg-gray-900',
-            'border border-gray-300 dark:border-gray-700',
+            'px-3 py-2 bg-background',
+            'border border-border',
             'rounded-md',
-            'active:bg-gray-50 dark:active:bg-gray-800',
+            'active:bg-muted',
             (disabled || sourceSelected.size === 0) && 'opacity-50'
           )}
           accessibilityRole='button'
           accessibilityLabel='Move selected to target'
         >
-          <Text className='text-gray-700 dark:text-gray-300'>›</Text>
+          <Text className='text-muted-foreground'>›</Text>
         </Pressable>
 
         <Pressable
           onPress={moveToSource}
           disabled={disabled || targetSelected.size === 0}
           className={cn(
-            'px-3 py-2 bg-white dark:bg-gray-900',
-            'border border-gray-300 dark:border-gray-700',
+            'px-3 py-2 bg-background',
+            'border border-border',
             'rounded-md',
-            'active:bg-gray-50 dark:active:bg-gray-800',
+            'active:bg-muted',
             (disabled || targetSelected.size === 0) && 'opacity-50'
           )}
           accessibilityRole='button'
           accessibilityLabel='Move selected to source'
         >
-          <Text className='text-gray-700 dark:text-gray-300'>‹</Text>
+          <Text className='text-muted-foreground'>‹</Text>
         </Pressable>
 
         <Pressable
           onPress={moveAllToSource}
           disabled={disabled || target.length === 0}
           className={cn(
-            'px-3 py-2 bg-white dark:bg-gray-900',
-            'border border-gray-300 dark:border-gray-700',
+            'px-3 py-2 bg-background',
+            'border border-border',
             'rounded-md',
-            'active:bg-gray-50 dark:active:bg-gray-800',
+            'active:bg-muted',
             (disabled || target.length === 0) && 'opacity-50'
           )}
           accessibilityRole='button'
           accessibilityLabel='Move all to available'
         >
-          <Text className='text-gray-700 dark:text-gray-300'>«</Text>
+          <Text className='text-muted-foreground'>«</Text>
         </Pressable>
       </View>
 

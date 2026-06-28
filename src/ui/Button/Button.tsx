@@ -11,6 +11,7 @@ import { cn } from '../../lib/utils';
 import { variants as v } from '@sudobility/design';
 import {
   ButtonBaseProps,
+  extractTextClasses,
   getButtonVariantClass,
   useButtonState,
 } from './Button.shared';
@@ -99,6 +100,9 @@ export const Button = React.forwardRef<
       size && size !== 'default' && size !== 'icon' ? size : undefined;
 
     const designSystemClass = getButtonVariantClass(variantName, sizeName, v);
+    // RN doesn't inherit text color from the container; apply the variant's
+    // text/font classes directly to the inner Text so it matches the web.
+    const variantTextClass = extractTextClasses(designSystemClass);
 
     return (
       <Pressable
@@ -124,7 +128,13 @@ export const Button = React.forwardRef<
           />
         )}
         {typeof children === 'string' ? (
-          <Text className={cn('text-center font-medium', textClassName)}>
+          <Text
+            className={cn(
+              'text-center font-medium',
+              variantTextClass,
+              textClassName
+            )}
+          >
             {children}
           </Text>
         ) : (

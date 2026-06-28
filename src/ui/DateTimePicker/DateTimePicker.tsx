@@ -135,8 +135,8 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-3 py-2',
-          'bg-white dark:bg-gray-900',
-          'border border-gray-300 dark:border-gray-700',
+          'bg-background',
+          'border border-border',
           'rounded-md',
           disabled && 'opacity-50'
         )}
@@ -144,10 +144,8 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
         accessibilityLabel={placeholder}
         accessibilityState={{ disabled }}
       >
-        <Text className='text-sm text-gray-900 dark:text-white'>
-          {formatDisplay(value)}
-        </Text>
-        <Text className='text-gray-600 dark:text-gray-400'>📅</Text>
+        <Text className='text-sm text-foreground'>{formatDisplay(value)}</Text>
+        <Text className='text-muted-foreground'>📅</Text>
       </Pressable>
 
       {/* Picker Modal */}
@@ -160,10 +158,10 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
         <TouchableWithoutFeedback onPress={handleClose}>
           <View className='flex-1 justify-center px-4 bg-black/50'>
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-lg p-4 shadow-xl'>
+              <View className='bg-background rounded-lg p-4 shadow-xl'>
                 {/* Calendar */}
                 <View className='mb-4'>
-                  <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 mb-2'>
+                  <Text className='text-xs font-medium text-muted-foreground mb-2'>
                     Select Date
                   </Text>
                   <Calendar
@@ -175,11 +173,11 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                 </View>
 
                 {/* Divider */}
-                <View className='h-px bg-gray-200 dark:bg-gray-700 my-3' />
+                <View className='h-px bg-muted my-3' />
 
                 {/* Time picker */}
                 <View>
-                  <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 mb-2'>
+                  <Text className='text-xs font-medium text-muted-foreground mb-2'>
                     Select Time
                   </Text>
                   <TimePicker
@@ -191,19 +189,19 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                 </View>
 
                 {/* Actions */}
-                <View className='flex-row gap-2 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700'>
+                <View className='flex-row gap-2 pt-4 mt-4 border-t border-border'>
                   <Pressable
                     onPress={handleClose}
                     className={cn(
                       'flex-1 items-center py-2',
-                      'bg-gray-100 dark:bg-gray-800',
+                      'bg-muted',
                       'rounded-md',
-                      'active:bg-gray-200 dark:active:bg-gray-700'
+                      'active:bg-muted'
                     )}
                     accessibilityRole='button'
                     accessibilityLabel='Cancel'
                   >
-                    <Text className='text-sm text-gray-700 dark:text-gray-300'>
+                    <Text className='text-sm text-muted-foreground'>
                       Cancel
                     </Text>
                   </Pressable>
@@ -211,9 +209,9 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                     onPress={handleConfirm}
                     className={cn(
                       'flex-1 items-center py-2',
-                      'bg-blue-600 dark:bg-blue-500',
+                      'bg-primary dark:bg-primary',
                       'rounded-md',
-                      'active:bg-blue-700 dark:active:bg-blue-600'
+                      'active:bg-primary/90'
                     )}
                     accessibilityRole='button'
                     accessibilityLabel='Confirm'

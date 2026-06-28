@@ -118,7 +118,7 @@ export const Dialog: React.FC<DialogProps> = ({
           <Pressable onPress={e => e.stopPropagation()}>
             <View
               className={cn(
-                'bg-white dark:bg-gray-900 rounded-xl shadow-xl overflow-hidden',
+                'bg-background rounded-xl shadow-xl overflow-hidden',
                 className
               )}
             >
@@ -130,7 +130,7 @@ export const Dialog: React.FC<DialogProps> = ({
                   accessibilityRole='button'
                   accessibilityLabel='Close dialog'
                 >
-                  <Text className='text-xl text-gray-400'>✕</Text>
+                  <Text className='text-xl text-muted-foreground'>✕</Text>
                 </Pressable>
               )}
 

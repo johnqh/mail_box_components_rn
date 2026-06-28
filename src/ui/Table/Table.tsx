@@ -102,11 +102,7 @@ export function Table<T extends Record<string, unknown>>({
       <View className='flex-1'>
         {/* Header -- using DS table.thead */}
         <View
-          className={cn(
-            'flex-row',
-            ui.table.thead,
-            'border-b border-gray-200 dark:border-gray-700'
-          )}
+          className={cn('flex-row', ui.table.thead, 'border-b border-border')}
         >
           {columns.map(column => (
             <Pressable
@@ -115,8 +111,7 @@ export function Table<T extends Record<string, unknown>>({
               disabled={!column.sortable}
               className={cn(
                 compact ? 'px-3 py-2' : 'px-4 py-3',
-                bordered &&
-                  'border-r border-gray-200 dark:border-gray-700 last:border-r-0'
+                bordered && 'border-r border-border last:border-r-0'
               )}
               style={{ width: column.width }}
               accessibilityRole='button'
@@ -132,7 +127,7 @@ export function Table<T extends Record<string, unknown>>({
                   className={cn(
                     designTokens.typography.size.xs,
                     designTokens.typography.weight.medium,
-                    'text-gray-700 dark:text-gray-300',
+                    'text-muted-foreground',
                     designTokens.typography.transform.uppercase,
                     designTokens.typography.tracking.wider
                   )}
@@ -140,7 +135,7 @@ export function Table<T extends Record<string, unknown>>({
                   {column.label}
                 </Text>
                 {column.sortable && sort?.column === column.key && (
-                  <Text className='text-xs text-gray-500'>
+                  <Text className='text-xs text-muted-foreground'>
                     {sort.direction === 'asc' ? '↑' : '↓'}
                   </Text>
                 )}
@@ -153,7 +148,7 @@ export function Table<T extends Record<string, unknown>>({
         <View className={ui.table.tr}>
           {data.length === 0 ? (
             <View className='px-4 py-8'>
-              <Text className='text-center text-sm text-gray-500 dark:text-gray-400'>
+              <Text className='text-center text-sm text-muted-foreground'>
                 {emptyMessage}
               </Text>
             </View>
@@ -165,7 +160,7 @@ export function Table<T extends Record<string, unknown>>({
                 disabled={!onRowPress}
                 className={cn(
                   'flex-row',
-                  'border-b border-gray-200 dark:border-gray-700',
+                  'border-b border-border',
                   striped && rowIndex % 2 === 1 && ui.table.trAlt
                 )}
                 accessibilityRole='button'
@@ -176,8 +171,7 @@ export function Table<T extends Record<string, unknown>>({
                     className={cn(
                       compact ? 'px-3 py-2' : 'px-4 py-3',
                       alignClasses[column.align || 'left'],
-                      bordered &&
-                        'border-r border-gray-200 dark:border-gray-700 last:border-r-0'
+                      bordered && 'border-r border-border last:border-r-0'
                     )}
                     style={{ width: column.width }}
                   >
@@ -187,7 +181,7 @@ export function Table<T extends Record<string, unknown>>({
                       <Text
                         className={cn(
                           designTokens.typography.size.sm,
-                          'text-gray-900 dark:text-white'
+                          'text-foreground'
                         )}
                       >
                         {String(row[column.key] ?? '')}

@@ -25,21 +25,21 @@ export interface HeroBannerWithBadgeProps extends ViewProps {
 }
 
 const badgeColorClasses: Record<BadgeColor, string> = {
-  blue: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark} border-blue-300 dark:border-blue-700`,
-  green: `${colors.component.badge.success.base} ${colors.component.badge.success.dark} border-green-300 dark:border-green-700`,
-  purple: 'bg-purple-100 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700',
-  orange: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark} border-orange-300 dark:border-orange-700`,
-  pink: 'bg-pink-100 dark:bg-pink-900/30 border-pink-300 dark:border-pink-700',
-  gray: `${colors.component.badge.default.base} ${colors.component.badge.default.dark} border-gray-300 dark:border-gray-700`,
+  blue: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark} border-primary/30`,
+  green: `${colors.component.badge.success.base} ${colors.component.badge.success.dark} border-success/30`,
+  purple: 'bg-accent border-accent',
+  orange: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark} border-warning/30`,
+  pink: 'bg-secondary border-secondary',
+  gray: `${colors.component.badge.default.base} ${colors.component.badge.default.dark} border-border`,
 };
 
 const badgeTextClasses: Record<BadgeColor, string> = {
-  blue: 'text-blue-800 dark:text-blue-200',
-  green: 'text-green-800 dark:text-green-200',
-  purple: 'text-purple-800 dark:text-purple-200',
-  orange: 'text-orange-800 dark:text-orange-200',
-  pink: 'text-pink-800 dark:text-pink-200',
-  gray: 'text-gray-800 dark:text-gray-200',
+  blue: 'text-primary dark:text-primary-foreground',
+  green: 'text-success',
+  purple: 'text-accent-foreground ',
+  orange: 'text-warning ',
+  pink: 'text-secondary-foreground ',
+  gray: 'text-foreground',
 };
 
 /**
@@ -90,7 +90,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
         {typeof title !== 'string' && title}
 
         {subtitle && (
-          <Text className='text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6 text-center'>
+          <Text className='text-2xl font-bold text-primary mb-6 text-center'>
             {subtitle}
           </Text>
         )}
@@ -107,7 +107,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
               <Pressable
                 onPress={() => handleButtonPress(primaryButton)}
                 accessibilityRole='button'
-                className='px-8 py-3 rounded-md bg-blue-600 active:bg-blue-700'
+                className='px-8 py-3 rounded-md bg-primary active:bg-primary/90'
               >
                 <Text className='text-white font-medium'>
                   {primaryButton.text}
@@ -118,9 +118,9 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
               <Pressable
                 onPress={() => handleButtonPress(secondaryButton)}
                 accessibilityRole='button'
-                className='px-8 py-3 rounded-md border-2 border-gray-300 dark:border-gray-600 active:border-gray-400'
+                className='px-8 py-3 rounded-md border-2 border-border active:border-border'
               >
-                <Text className='text-gray-900 dark:text-white font-medium'>
+                <Text className='text-foreground font-medium'>
                   {secondaryButton.text}
                 </Text>
               </Pressable>

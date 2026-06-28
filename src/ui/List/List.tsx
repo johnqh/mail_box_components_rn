@@ -161,7 +161,7 @@ export const ListItem: React.FC<ListItemProps> = ({
       {markerSymbol !== '' && (
         <Text
           className={cn(
-            'mr-2 text-gray-600 dark:text-gray-400',
+            'mr-2 text-muted-foreground',
             sizeClasses[size],
             type === 'ordered' ? 'w-6' : 'w-3'
           )}
@@ -171,7 +171,7 @@ export const ListItem: React.FC<ListItemProps> = ({
       )}
       <Text
         className={cn(
-          'flex-1 text-gray-900 dark:text-gray-100 leading-relaxed',
+          'flex-1 text-foreground leading-relaxed',
           sizeClasses[size]
         )}
       >

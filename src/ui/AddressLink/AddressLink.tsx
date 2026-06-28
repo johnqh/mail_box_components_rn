@@ -143,15 +143,11 @@ export const AddressLink: React.FC<AddressLinkProps> = ({
 
   return (
     <View className={cn('flex-row items-center gap-2', className)}>
-      {label && (
-        <Text className='text-sm text-gray-600 dark:text-gray-400'>
-          {label}:
-        </Text>
-      )}
+      {label && <Text className='text-sm text-muted-foreground'>{label}:</Text>}
 
       <Text
         className={cn(
-          'font-mono text-sm text-gray-900 dark:text-white',
+          'font-mono text-sm text-foreground',
           format === 'full' && 'flex-1'
         )}
         numberOfLines={format === 'full' ? undefined : 1}
@@ -163,11 +159,11 @@ export const AddressLink: React.FC<AddressLinkProps> = ({
         {showCopy && onCopy && (
           <Pressable
             onPress={handleCopy}
-            className='p-1 rounded active:bg-gray-100 dark:active:bg-gray-800'
+            className='p-1 rounded active:bg-muted'
             accessibilityRole='button'
             accessibilityLabel={copied ? 'Copied!' : 'Copy address'}
           >
-            <Text className='text-sm text-gray-500 dark:text-gray-400'>
+            <Text className='text-sm text-muted-foreground'>
               {copied ? '✓' : '📋'}
             </Text>
           </Pressable>
@@ -176,11 +172,11 @@ export const AddressLink: React.FC<AddressLinkProps> = ({
         {showExplorer && explorerLink && (
           <Pressable
             onPress={handleOpenExplorer}
-            className='p-1 rounded active:bg-gray-100 dark:active:bg-gray-800'
+            className='p-1 rounded active:bg-muted'
             accessibilityRole='link'
             accessibilityLabel='View on block explorer'
           >
-            <Text className='text-sm text-blue-600 dark:text-blue-400'>↗</Text>
+            <Text className='text-sm text-primary'>↗</Text>
           </Pressable>
         )}
       </View>

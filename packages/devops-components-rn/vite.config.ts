@@ -21,6 +21,10 @@ export default defineConfig({
       external: [
         'react',
         'react-native',
+        'react-native-safe-area-context',
+        'react-native-svg',
+        'react-native-gesture-handler',
+        'react-native-reanimated',
         'nativewind',
         '@sudobility/components-rn',
         '@sudobility/design',

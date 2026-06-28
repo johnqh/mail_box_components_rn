@@ -112,9 +112,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       {/* Search Icon */}
       {showIcon && (
         <View className='absolute inset-y-0 left-0 flex items-center justify-center pl-3 z-10'>
-          <Text
-            className={cn(sizeConfig.icon, 'text-gray-400 dark:text-gray-500')}
-          >
+          <Text className={cn(sizeConfig.icon, 'text-muted-foreground')}>
             🔍
           </Text>
         </View>
@@ -129,9 +127,9 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         editable={!disabled && !loading}
         className={cn(
           'w-full rounded-lg border',
-          'bg-white dark:bg-gray-800',
-          'text-gray-900 dark:text-gray-100',
-          'border-gray-300 dark:border-gray-600',
+          'bg-card',
+          'text-foreground',
+          'border-border',
           sizeConfig.input,
           sizeConfig.paddingLeft,
           sizeConfig.paddingRight,
@@ -153,7 +151,9 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           accessibilityRole='button'
           accessibilityLabel='Clear search'
         >
-          <Text className={cn(sizeConfig.icon, 'text-gray-400')}>✕</Text>
+          <Text className={cn(sizeConfig.icon, 'text-muted-foreground')}>
+            ✕
+          </Text>
         </Pressable>
       )}
 

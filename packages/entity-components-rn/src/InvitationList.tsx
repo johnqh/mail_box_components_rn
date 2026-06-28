@@ -18,12 +18,12 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
     owner:
-      'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
-    admin: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-    member: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-    viewer: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+      'bg-accent  text-accent-foreground ',
+    admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
+    member: 'bg-success/10  text-success',
+    viewer: 'bg-muted text-foreground',
     guest:
-      'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+      'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -42,11 +42,11 @@ const getRoleLabel = (role: EntityRole): string => {
 const getStatusBadgeClasses = (status: Invitation['status']): string => {
   const colorMap: Record<Invitation['status'], string> = {
     pending:
-      'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+      'bg-warning/10  text-warning ',
     accepted:
-      'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-    declined: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
-    expired: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+      'bg-success/10  text-success',
+    declined: 'bg-destructive/10  text-destructive ',
+    expired: 'bg-muted text-foreground',
   };
   return colorMap[status] || colorMap.pending;
 };
@@ -109,15 +109,15 @@ export const InvitationList: React.FC<InvitationListProps> = ({
       <View
         className={cn(
           'p-4 rounded-xl mb-3',
-          'bg-white dark:bg-gray-800',
-          'border border-gray-200 dark:border-gray-700',
+          'bg-card',
+          'border border-border',
         )}
         accessibilityLabel={`Invitation to ${item.email}, Status: ${item.status}`}
       >
         {/* Header */}
         <View className='flex-row items-center justify-between mb-2'>
           <Text
-            className='text-base font-semibold text-gray-900 dark:text-white flex-1'
+            className='text-base font-semibold text-foreground flex-1'
             numberOfLines={1}
           >
             {item.email}
@@ -140,28 +140,28 @@ export const InvitationList: React.FC<InvitationListProps> = ({
               {getRoleLabel(item.role)}
             </Text>
           </View>
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+          <Text className='text-xs text-muted-foreground'>
             Invited {formatRelativeTime(item.invitedAt)}
           </Text>
         </View>
 
         {/* Invited by */}
         {item.invitedBy && (
-          <Text className='text-xs text-gray-500 dark:text-gray-400 mb-2'>
+          <Text className='text-xs text-muted-foreground mb-2'>
             by {item.invitedBy}
           </Text>
         )}
 
         {/* Expiration warning */}
         {item.expiresAt && isPending && (
-          <Text className='text-xs text-yellow-600 dark:text-yellow-400 mb-2'>
+          <Text className='text-xs text-warning mb-2'>
             Expires: {new Date(item.expiresAt).toLocaleDateString()}
           </Text>
         )}
 
         {/* Actions */}
         {(showResend || showCancel) && (
-          <View className='flex-row items-center mt-2 pt-2 border-t border-gray-100 dark:border-gray-700'>
+          <View className='flex-row items-center mt-2 pt-2 border-t border-border'>
             {showResend && (
               <Pressable
                 onPress={() => onResend(item)}
@@ -169,7 +169,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
                 accessibilityRole='button'
                 accessibilityLabel='Resend invitation'
               >
-                <Text className='text-blue-500 dark:text-blue-400 text-sm font-medium'>
+                <Text className='text-primary dark:text-primary text-sm font-medium'>
                   Resend
                 </Text>
               </Pressable>
@@ -181,7 +181,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
                 accessibilityRole='button'
                 accessibilityLabel='Cancel invitation'
               >
-                <Text className='text-red-500 dark:text-red-400 text-sm font-medium'>
+                <Text className='text-destructive  text-sm font-medium'>
                   Cancel
                 </Text>
               </Pressable>
@@ -197,7 +197,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
       return (
         <View className='flex-1 items-center justify-center py-12'>
           <ActivityIndicator size='large' color={colors.raw.blue[500]} />
-          <Text className='text-gray-500 dark:text-gray-400 mt-4'>
+          <Text className='text-muted-foreground mt-4'>
             Loading...
           </Text>
         </View>
@@ -207,7 +207,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
     return (
       <View className='flex-1 items-center justify-center py-12'>
         {emptyIcon}
-        <Text className='text-gray-500 dark:text-gray-400 text-center mt-2'>
+        <Text className='text-muted-foreground text-center mt-2'>
           {emptyMessage}
         </Text>
       </View>

@@ -21,20 +21,20 @@ export interface UseCaseGridProps extends ViewProps {
 }
 
 const colorClasses: Record<UseCaseColor, string> = {
-  blue: 'text-blue-600 dark:text-blue-400',
-  green: 'text-green-600 dark:text-green-400',
-  purple: 'text-purple-600 dark:text-purple-400',
-  orange: 'text-orange-600 dark:text-orange-400',
-  pink: 'text-pink-600 dark:text-pink-400',
-  gray: 'text-gray-600 dark:text-gray-400',
+  blue: 'text-primary',
+  green: 'text-success',
+  purple: 'text-accent-foreground',
+  orange: 'text-warning',
+  pink: 'text-secondary-foreground',
+  gray: 'text-muted-foreground',
 };
 
 const bulletColors: Record<UseCaseColor, string> = {
   blue: getStatusIndicatorColor('info'),
   green: getStatusIndicatorColor('success'),
-  purple: 'bg-purple-500',
+  purple: 'bg-accent',
   orange: getStatusIndicatorColor('warning'),
-  pink: 'bg-pink-500',
+  pink: 'bg-secondary',
   gray: getStatusIndicatorColor('neutral'),
 };
 
@@ -51,20 +51,20 @@ const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase }) => {
     : bulletColors.blue;
 
   return (
-    <View className='bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 mb-4 mx-2'>
+    <View className='bg-card rounded-xl p-6 border border-border mb-4 mx-2'>
       <View className={cn('mb-4', iconColor)}>{useCase.icon}</View>
 
-      <Text className='text-xl font-semibold text-gray-900 dark:text-white mb-3'>
+      <Text className='text-xl font-semibold text-foreground mb-3'>
         {useCase.title}
       </Text>
 
-      <Text className='text-gray-600 dark:text-gray-300 mb-4'>
+      <Text className='text-muted-foreground mb-4'>
         {useCase.description}
       </Text>
 
       {useCase.examples && useCase.examples.length > 0 && (
         <View>
-          <Text className='text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'>
+          <Text className='text-sm font-semibold text-muted-foreground mb-2'>
             Examples:
           </Text>
           <View className='gap-1'>
@@ -76,7 +76,7 @@ const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase }) => {
                     bulletColor
                   )}
                 />
-                <Text className='text-sm text-gray-600 dark:text-gray-400 flex-1'>
+                <Text className='text-sm text-muted-foreground flex-1'>
                   {example}
                 </Text>
               </View>
@@ -105,12 +105,12 @@ export const UseCaseGrid: React.FC<UseCaseGridProps> = ({
       {(title || description) && (
         <View className='items-center mb-8'>
           {title && (
-            <Text className='text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center'>
+            <Text className='text-2xl font-bold text-foreground mb-4 text-center'>
               {title}
             </Text>
           )}
           {description && (
-            <Text className='text-lg text-gray-600 dark:text-gray-300 text-center max-w-lg'>
+            <Text className='text-lg text-muted-foreground text-center max-w-lg'>
               {description}
             </Text>
           )}

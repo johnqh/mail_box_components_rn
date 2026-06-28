@@ -30,7 +30,7 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>
+      <Text className='text-foreground'>
         WorkflowBuilder Component
       </Text>
     )}

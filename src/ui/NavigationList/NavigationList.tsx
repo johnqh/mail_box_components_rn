@@ -86,15 +86,9 @@ export const NavigationList: React.FC<NavigationListProps> = ({
               'flex-row items-start',
               variant === 'compact'
                 ? 'p-3 rounded-lg'
-                : cn(
-                    'p-4',
-                    !isLast && 'border-b border-gray-200 dark:border-gray-700'
-                  ),
+                : cn('p-4', !isLast && 'border-b border-border'),
               isDisabled && 'opacity-50',
-              !isDisabled &&
-                (isSelected
-                  ? 'bg-blue-50 dark:bg-blue-900/20'
-                  : 'active:bg-gray-50 dark:active:bg-gray-700')
+              !isDisabled && (isSelected ? 'bg-primary/10' : 'active:bg-muted ')
             )}
             accessibilityRole='button'
             accessibilityState={{
@@ -112,20 +106,18 @@ export const NavigationList: React.FC<NavigationListProps> = ({
                 <Text
                   className={cn(
                     typography.weight.medium,
-                    isSelected
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-gray-700 dark:text-gray-300'
+                    isSelected ? 'text-primary' : 'text-muted-foreground'
                   )}
                 >
                   {item.label}
                 </Text>
                 {item.badge !== undefined && item.badge > 0 && (
-                  <View className='ml-2 px-2 py-0.5 bg-blue-100 dark:bg-blue-900 rounded-full'>
+                  <View className='ml-2 px-2 py-0.5 bg-primary/10  rounded-full'>
                     <Text
                       className={cn(
                         typography.size.xs,
                         typography.weight.medium,
-                        'text-blue-800 dark:text-blue-200'
+                        'text-primary dark:text-primary-foreground'
                       )}
                     >
                       {item.badge}
@@ -137,7 +129,7 @@ export const NavigationList: React.FC<NavigationListProps> = ({
                 <Text
                   className={cn(
                     typography.size.xs,
-                    'text-gray-500 dark:text-gray-400 mt-0.5'
+                    'text-muted-foreground mt-0.5'
                   )}
                 >
                   {item.description}

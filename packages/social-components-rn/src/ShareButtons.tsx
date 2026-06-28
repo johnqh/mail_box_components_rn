@@ -130,7 +130,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
   > = {
     native: {
       name: 'Share',
-      color: 'bg-blue-600',
+      color: 'bg-primary',
       icon: '↗',
     },
     twitter: {
@@ -140,27 +140,27 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
     },
     facebook: {
       name: 'Facebook',
-      color: 'bg-blue-600',
+      color: 'bg-primary',
       icon: 'f',
     },
     linkedin: {
       name: 'LinkedIn',
-      color: 'bg-blue-700',
+      color: 'bg-primary',
       icon: 'in',
     },
     reddit: {
       name: 'Reddit',
-      color: 'bg-orange-600',
+      color: 'bg-warning',
       icon: 'r',
     },
     email: {
       name: 'Email',
-      color: 'bg-gray-600',
+      color: 'bg-muted',
       icon: '✉',
     },
     copy: {
       name: copied ? 'Copied!' : 'Copy',
-      color: 'bg-gray-700',
+      color: 'bg-muted',
       icon: copied ? '✓' : '🔗',
     },
   };

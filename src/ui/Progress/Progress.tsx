@@ -72,10 +72,10 @@ function buildProgressColors() {
     default: extractBg(btn.primary.base, btn.primary.dark),
     primary: extractBg(btn.primary.base, btn.primary.dark),
     success: extractBg(btn.success.base, btn.success.dark),
-    warning: 'bg-yellow-600 dark:bg-yellow-500', // DS has no yellow button; local fallback
+    warning: 'bg-warning dark:bg-warning', // DS has no yellow button; local fallback
     danger: extractBg(btn.destructive.base, btn.destructive.dark),
-    purple: 'bg-purple-600 dark:bg-purple-500', // DS has no purple button; local fallback
-    gray: 'bg-gray-600 dark:bg-gray-500', // local fallback
+    purple: 'bg-accent dark:bg-accent', // DS has no purple button; local fallback
+    gray: 'bg-muted ', // local fallback
   } as Record<string, string>;
 }
 
@@ -139,7 +139,7 @@ export const Progress: React.FC<ProgressProps> = ({
     <View className={cn('w-full', className)}>
       <View
         className={cn(
-          'w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden',
+          'w-full bg-muted rounded-full overflow-hidden',
           sizeClasses[size]
         )}
         accessibilityRole='progressbar'
@@ -164,7 +164,7 @@ export const Progress: React.FC<ProgressProps> = ({
       {(showLabel || label) && (
         <View className='mt-1'>
           <Text
-            className={`${designTokens.typography.size.xs} text-gray-600 dark:text-gray-400 text-right`}
+            className={`${designTokens.typography.size.xs} text-muted-foreground text-right`}
           >
             {label || `${Math.round(percentage)}%`}
           </Text>
@@ -242,7 +242,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       <View className='flex flex-row items-center gap-3'>
         <View
           className={cn(
-            'flex-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden',
+            'flex-1 bg-muted dark:bg-muted rounded-full overflow-hidden',
             sizeClasses[size]
           )}
         >
@@ -259,7 +259,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         </View>
         {showLabel && labelPosition === 'outside' && (
           <Text
-            className={`${designTokens.typography.size.sm} ${designTokens.typography.weight.medium} text-gray-600 dark:text-gray-400`}
+            className={`${designTokens.typography.size.sm} ${designTokens.typography.weight.medium} text-muted-foreground`}
           >
             {displayLabel}
           </Text>

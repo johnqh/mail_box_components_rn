@@ -86,12 +86,12 @@ export const Box: React.FC<BoxProps> = ({
   const bgClasses = bg
     ? {
         transparent: 'bg-transparent',
-        white: 'bg-white dark:bg-gray-900',
-        gray: 'bg-gray-100 dark:bg-gray-800',
-        primary: 'bg-blue-50 dark:bg-blue-900/20',
-        success: 'bg-green-50 dark:bg-green-900/20',
-        warning: 'bg-yellow-50 dark:bg-yellow-900/20',
-        danger: 'bg-red-50 dark:bg-red-900/20',
+        white: 'bg-background',
+        gray: 'bg-muted',
+        primary: 'bg-primary/10',
+        success: 'bg-success/10',
+        warning: 'bg-warning/10',
+        danger: 'bg-destructive/10',
       }[bg]
     : '';
 
@@ -152,7 +152,7 @@ export const Box: React.FC<BoxProps> = ({
         ...paddingClasses,
         ...marginClasses,
         bgClasses,
-        border && 'border border-gray-200 dark:border-gray-700',
+        border && 'border border-border',
         roundedClasses,
         shadowClasses,
         wClasses,

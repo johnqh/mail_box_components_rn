@@ -104,8 +104,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-3 py-2',
-          'bg-white dark:bg-gray-900',
-          'border border-gray-300 dark:border-gray-700',
+          'bg-background',
+          'border border-border',
           'rounded-md',
           disabled && 'opacity-50'
         )}
@@ -116,15 +116,13 @@ export const Combobox: React.FC<ComboboxProps> = ({
         <Text
           className={cn(
             'flex-1 text-sm',
-            selectedOption
-              ? 'text-gray-900 dark:text-white'
-              : 'text-gray-500 dark:text-gray-400'
+            selectedOption ? 'text-foreground' : 'text-muted-foreground'
           )}
           numberOfLines={1}
         >
           {selectedOption ? selectedOption.label : placeholder}
         </Text>
-        <Text className='text-gray-600 dark:text-gray-400 ml-2'>▼</Text>
+        <Text className='text-muted-foreground ml-2'>▼</Text>
       </Pressable>
 
       {/* Dropdown Modal */}
@@ -137,16 +135,16 @@ export const Combobox: React.FC<ComboboxProps> = ({
         <TouchableWithoutFeedback onPress={handleClose}>
           <View className='flex-1 justify-center px-4 bg-black/50'>
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-lg max-h-[70%] shadow-xl'>
+              <View className='bg-background rounded-lg max-h-[70%] shadow-xl'>
                 {/* Search Input */}
-                <View className='p-3 border-b border-gray-200 dark:border-gray-700'>
+                <View className='p-3 border-b border-border'>
                   <TextInput
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                     placeholder={searchPlaceholder}
                     placeholderTextColor={colors.raw.neutral[400]}
                     autoFocus
-                    className='px-3 py-2 text-sm bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-md'
+                    className='px-3 py-2 text-sm bg-card text-foreground rounded-md'
                   />
                 </View>
 
@@ -154,7 +152,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 <ScrollView className='max-h-80'>
                   {filteredOptions.length === 0 ? (
                     <View className='px-3 py-4 items-center'>
-                      <Text className='text-sm text-gray-500 dark:text-gray-400'>
+                      <Text className='text-sm text-muted-foreground'>
                         {emptyMessage}
                       </Text>
                     </View>
@@ -168,10 +166,9 @@ export const Combobox: React.FC<ComboboxProps> = ({
                         disabled={option.disabled}
                         className={cn(
                           'px-4 py-3',
-                          'active:bg-gray-100 dark:active:bg-gray-800',
+                          'active:bg-muted',
                           option.disabled && 'opacity-50',
-                          option.value === value &&
-                            'bg-blue-50 dark:bg-blue-900/30'
+                          option.value === value && 'bg-primary/10'
                         )}
                         accessibilityRole='button'
                         accessibilityState={{
@@ -183,8 +180,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
                           className={cn(
                             'text-sm',
                             option.value === value
-                              ? 'text-blue-700 dark:text-blue-300 font-medium'
-                              : 'text-gray-900 dark:text-white'
+                              ? 'text-primary font-medium'
+                              : 'text-foreground'
                           )}
                         >
                           {option.label}
@@ -195,14 +192,14 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 </ScrollView>
 
                 {/* Close button */}
-                <View className='p-3 border-t border-gray-200 dark:border-gray-700'>
+                <View className='p-3 border-t border-border'>
                   <Pressable
                     onPress={handleClose}
                     className='items-center py-2'
                     accessibilityRole='button'
                     accessibilityLabel='Close'
                   >
-                    <Text className='text-sm font-medium text-gray-600 dark:text-gray-400'>
+                    <Text className='text-sm font-medium text-muted-foreground'>
                       Cancel
                     </Text>
                   </Pressable>

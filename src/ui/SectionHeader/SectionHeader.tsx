@@ -43,16 +43,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   className,
 }) => {
   return (
-    <View
-      className={cn(
-        'p-4 border-b border-gray-200 dark:border-gray-700',
-        className
-      )}
-    >
+    <View className={cn('p-4 border-b border-border', className)}>
       <View className='flex-row items-center justify-between'>
-        <Text className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
-          {title}
-        </Text>
+        <Text className='text-lg font-semibold text-foreground'>{title}</Text>
         <View className='flex-row items-center gap-2'>
           {loading && (
             <ActivityIndicator size='small' color={colors.raw.blue[600]} />
@@ -61,13 +54,11 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           {onAdd && (
             <Pressable
               onPress={onAdd}
-              className='p-2 rounded active:bg-gray-200 dark:active:bg-gray-700'
+              className='p-2 rounded active:bg-muted'
               accessibilityRole='button'
               accessibilityLabel={addButtonLabel}
             >
-              <Text className='text-xl text-gray-600 dark:text-gray-400'>
-                +
-              </Text>
+              <Text className='text-xl text-muted-foreground'>+</Text>
             </Pressable>
           )}
         </View>

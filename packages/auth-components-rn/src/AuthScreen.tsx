@@ -98,7 +98,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   };
 
   return (
-    <SafeAreaView className={cn('flex-1 bg-white dark:bg-gray-900', className)}>
+    <SafeAreaView className={cn('flex-1 bg-background', className)}>
       <ScrollView
         className='flex-1'
         contentContainerClassName='flex-grow justify-center px-6 py-8'

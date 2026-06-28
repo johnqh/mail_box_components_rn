@@ -42,9 +42,9 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
   };
 
   const variantStyles = {
-    default: 'text-gray-900 dark:text-gray-100',
-    badge: 'bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md',
-    link: 'text-blue-600 dark:text-blue-400 underline',
+    default: 'text-foreground',
+    badge: 'bg-muted px-2 py-1 rounded-md',
+    link: 'text-primary underline',
   };
 
   const content = (
@@ -66,7 +66,7 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
         {...props}
       >
         {content}
-        <Text className='text-gray-400'>📋</Text>
+        <Text className='text-muted-foreground'>📋</Text>
       </Pressable>
     );
   }

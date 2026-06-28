@@ -9,6 +9,10 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
+// RN StyleSheet/color props (placeholderTextColor, ActivityIndicator color, SVG
+// fill) can't use NativeWind classNames, so they reference the design system's
+// raw palette — the lib-wide convention for RN-only color props.
+import { colors } from '@sudobility/design';
 import { getSortedLanguages, type LanguageConfig } from './languages';
 
 interface LanguageSelectorModalProps {
@@ -75,7 +79,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 
         {loading && (
           <View style={styles.loadingOverlay}>
-            <ActivityIndicator size='large' color='#3b82f6' />
+            <ActivityIndicator size='large' color={colors.raw.blue[500]} />
           </View>
         )}
       </SafeAreaView>
@@ -86,7 +90,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.raw.neutral[50],
   },
   header: {
     flexDirection: 'row',
@@ -95,12 +99,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
+    borderBottomColor: colors.raw.neutral[200],
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#1f2937',
+    color: colors.raw.neutral[800],
   },
   closeButton: {
     paddingVertical: 8,
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#3b82f6',
+    color: colors.raw.blue[500],
   },
   listContent: {
     paddingVertical: 8,
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   selectedItem: {
-    backgroundColor: '#f0f9ff',
+    backgroundColor: colors.raw.blue[50],
   },
   flag: {
     fontSize: 24,
@@ -130,20 +134,20 @@ const styles = StyleSheet.create({
   languageName: {
     flex: 1,
     fontSize: 17,
-    color: '#1f2937',
+    color: colors.raw.neutral[800],
   },
   selectedText: {
     fontWeight: '600',
-    color: '#3b82f6',
+    color: colors.raw.blue[500],
   },
   checkmark: {
     fontSize: 18,
-    color: '#3b82f6',
+    color: colors.raw.blue[500],
     fontWeight: '600',
   },
   separator: {
     height: 1,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: colors.raw.neutral[100],
     marginStart: 60,
   },
   loadingOverlay: {

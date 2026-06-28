@@ -25,7 +25,7 @@ export const ChangelogDisplay: React.FC<ChangelogDisplayProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>
+      <Text className='text-foreground'>
         ChangelogDisplay Component
       </Text>
     )}

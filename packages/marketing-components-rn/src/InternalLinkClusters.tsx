@@ -14,7 +14,7 @@ export interface InternalLinkProps {
 const linkVariants = {
   primary: `${colors.component.alert.info.icon}`,
   secondary: `${colors.component.alert.success.icon}`,
-  subtle: 'text-gray-600 dark:text-gray-400',
+  subtle: 'text-muted-foreground',
 };
 
 export const InternalLink: React.FC<InternalLinkProps> = ({
@@ -116,7 +116,7 @@ export const TopicClusterLinks: React.FC<TopicClusterLinksProps> = ({
             {texts[key]}
           </InternalLink>
           {index < Object.keys(links).length - 1 && (
-            <Text className='text-gray-400'> • </Text>
+            <Text className='text-muted-foreground'> • </Text>
           )}
         </React.Fragment>
       ))}
@@ -150,7 +150,7 @@ export const RelatedLinks: React.FC<RelatedLinksProps> = ({
     {...props}
   >
     <View className='flex-row flex-wrap items-center gap-2'>
-      <Text className='text-sm font-medium text-blue-900 dark:text-blue-200'>
+      <Text className='text-sm font-medium text-primary dark:text-primary-foreground'>
         {title}
       </Text>
       {links.map((link, index) => (
@@ -163,7 +163,7 @@ export const RelatedLinks: React.FC<RelatedLinksProps> = ({
             {link.text}
           </InternalLink>
           {index < links.length - 1 && (
-            <Text className='text-gray-400'> • </Text>
+            <Text className='text-muted-foreground'> • </Text>
           )}
         </React.Fragment>
       ))}

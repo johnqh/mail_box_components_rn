@@ -55,7 +55,7 @@ export const StepList: React.FC<StepListProps> = ({
     if (type === 'ordered') {
       if (variant === 'enhanced') {
         return (
-          <View className='w-6 h-6 bg-blue-600 rounded-full items-center justify-center mr-3'>
+          <View className='w-6 h-6 bg-primary rounded-full items-center justify-center mr-3'>
             <Text
               className={cn(
                 'text-white',
@@ -70,10 +70,10 @@ export const StepList: React.FC<StepListProps> = ({
       }
       if (variant === 'minimal') {
         return (
-          <View className='w-6 h-6 bg-blue-100 dark:bg-blue-900/20 rounded-full items-center justify-center mr-3'>
+          <View className='w-6 h-6 bg-primary/10 rounded-full items-center justify-center mr-3'>
             <Text
               className={cn(
-                'text-blue-600 dark:text-blue-400',
+                'text-primary',
                 typography.size.sm,
                 typography.weight.medium
               )}
@@ -83,18 +83,14 @@ export const StepList: React.FC<StepListProps> = ({
           </View>
         );
       }
-      return (
-        <Text className='text-gray-600 dark:text-gray-400 mr-2'>
-          {index + 1}.
-        </Text>
-      );
+      return <Text className='text-muted-foreground mr-2'>{index + 1}.</Text>;
     }
 
     // Unordered
     if (variant === 'minimal') {
-      return <View className='w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2' />;
+      return <View className='w-2 h-2 bg-primary rounded-full mr-3 mt-2' />;
     }
-    return <Text className='text-gray-600 dark:text-gray-400 mr-2'>•</Text>;
+    return <Text className='text-muted-foreground mr-2'>•</Text>;
   };
 
   const renderItem = (item: string | StepListItem, index: number) => {
@@ -110,7 +106,7 @@ export const StepList: React.FC<StepListProps> = ({
           variant === 'enhanced' && 'pb-4',
           variant === 'enhanced' &&
             index < items.length - 1 &&
-            'border-l-2 border-gray-200 dark:border-gray-700 ml-3 pl-6',
+            'border-l-2 border-border ml-3 pl-6',
           itemClassName
         )}
       >
@@ -124,7 +120,7 @@ export const StepList: React.FC<StepListProps> = ({
         {/* Content */}
         <View className='flex-1'>
           {typeof content === 'string' ? (
-            <Text className='text-gray-600 dark:text-gray-400'>{content}</Text>
+            <Text className='text-muted-foreground'>{content}</Text>
           ) : (
             content
           )}
@@ -134,14 +130,12 @@ export const StepList: React.FC<StepListProps> = ({
             <View className='mt-2 ml-4 gap-1'>
               {subItems.map((subItem, subIndex) => (
                 <View key={subIndex} className='flex-row'>
-                  <Text className='text-gray-500 dark:text-gray-500 mr-2'>
-                    •
-                  </Text>
+                  <Text className='text-muted-foreground mr-2'>•</Text>
                   {typeof subItem === 'string' ? (
                     <Text
                       className={cn(
                         typography.size.sm,
-                        'text-gray-500 dark:text-gray-500 flex-1'
+                        'text-muted-foreground flex-1'
                       )}
                     >
                       {subItem}

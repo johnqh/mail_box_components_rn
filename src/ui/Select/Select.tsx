@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
-import { designTokens } from '@sudobility/design';
+import { colors, designTokens } from '@sudobility/design';
 
 const { typography } = designTokens;
 
@@ -118,8 +118,8 @@ export const Select: React.FC<SelectProps> = ({
       onPress={() => !item.disabled && handleSelect(item.value)}
       disabled={item.disabled}
       className={cn(
-        'px-4 py-3 border-b border-gray-200 dark:border-gray-700',
-        item.value === value && 'bg-blue-50 dark:bg-blue-900/30',
+        'px-4 py-3 border-b border-border',
+        item.value === value && 'bg-primary/10',
         item.disabled && 'opacity-50'
       )}
       accessibilityRole='button'
@@ -133,15 +133,13 @@ export const Select: React.FC<SelectProps> = ({
           className={cn(
             typography.size.base,
             item.value === value
-              ? `text-blue-600 dark:text-blue-400 ${typography.weight.medium}`
-              : 'text-gray-900 dark:text-gray-100'
+              ? `text-primary ${typography.weight.medium}`
+              : 'text-foreground'
           )}
         >
           {item.label}
         </Text>
-        {item.value === value && (
-          <Text className='text-blue-600 dark:text-blue-400'>✓</Text>
-        )}
+        {item.value === value && <Text className='text-primary'>✓</Text>}
       </View>
     </Pressable>
   );
@@ -155,11 +153,7 @@ export const Select: React.FC<SelectProps> = ({
             isDesktop ? handleDesktopPress : () => !disabled && setIsOpen(true)
           }
           disabled={disabled}
-          className={cn(
-            'bg-white dark:bg-gray-800',
-            disabled && 'opacity-50',
-            className
-          )}
+          className={cn('bg-card', disabled && 'opacity-50', className)}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -167,7 +161,7 @@ export const Select: React.FC<SelectProps> = ({
             paddingHorizontal: 12,
             paddingVertical: 6,
             borderWidth: 1,
-            borderColor: '#d1d5db',
+            borderColor: colors.raw.neutral[300],
             borderRadius: 6,
           }}
           accessibilityRole='combobox'
@@ -176,9 +170,7 @@ export const Select: React.FC<SelectProps> = ({
           <Text
             className={cn(
               typography.size.base,
-              selectedOption
-                ? 'text-gray-900 dark:text-gray-100'
-                : 'text-gray-400 dark:text-gray-500'
+              selectedOption ? 'text-foreground' : 'text-muted-foreground'
             )}
             numberOfLines={1}
             style={{ flex: 1 }}
@@ -195,7 +187,7 @@ export const Select: React.FC<SelectProps> = ({
               fillRule='evenodd'
               d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
               clipRule='evenodd'
-              fill='#6b7280'
+              fill={colors.raw.neutral[500]}
             />
           </Svg>
         </Pressable>
@@ -210,16 +202,11 @@ export const Select: React.FC<SelectProps> = ({
           onRequestClose={() => setIsOpen(false)}
         >
           <View className='flex-1 justify-end bg-black/50'>
-            <SafeAreaView className='bg-white dark:bg-gray-800 rounded-t-xl'>
+            <SafeAreaView className='bg-card rounded-t-xl'>
               {/* Header */}
-              <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+              <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-border'>
                 <Pressable onPress={() => setIsOpen(false)}>
-                  <Text
-                    className={cn(
-                      'text-blue-600 dark:text-blue-400',
-                      typography.size.base
-                    )}
-                  >
+                  <Text className={cn('text-primary', typography.size.base)}>
                     Cancel
                   </Text>
                 </Pressable>
@@ -227,7 +214,7 @@ export const Select: React.FC<SelectProps> = ({
                   className={cn(
                     typography.size.base,
                     typography.weight.semibold,
-                    'text-gray-900 dark:text-white'
+                    'text-foreground'
                   )}
                 >
                   {title}
@@ -260,4 +247,4 @@ export const SelectTrigger = Select;
  */
 export const SelectValue: React.FC<{ placeholder?: string }> = ({
   placeholder = 'Select...',
-}) => <Text className='text-gray-400 dark:text-gray-500'>{placeholder}</Text>;
+}) => <Text className='text-muted-foreground'>{placeholder}</Text>;

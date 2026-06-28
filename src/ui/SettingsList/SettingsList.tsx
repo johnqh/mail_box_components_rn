@@ -76,9 +76,7 @@ export const SettingsList: React.FC<SettingsListProps> = ({
             onPress={() => onSettingSelect(setting.id)}
             className={cn(
               'flex-row items-center px-3 py-2.5 rounded-lg min-h-[44px]',
-              isSelected
-                ? 'bg-orange-100 dark:bg-orange-900/30'
-                : 'active:bg-gray-100 dark:active:bg-gray-700'
+              isSelected ? 'bg-warning/10 ' : 'active:bg-muted'
             )}
             accessibilityRole='button'
             accessibilityState={{ selected: isSelected }}
@@ -92,9 +90,7 @@ export const SettingsList: React.FC<SettingsListProps> = ({
               <Text
                 className={cn(
                   typography.size.sm,
-                  isSelected
-                    ? 'text-orange-700 dark:text-orange-300'
-                    : 'text-gray-700 dark:text-gray-300'
+                  isSelected ? 'text-warning ' : 'text-muted-foreground'
                 )}
                 numberOfLines={1}
               >

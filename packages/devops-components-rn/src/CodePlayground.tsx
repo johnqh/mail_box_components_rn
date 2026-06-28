@@ -30,7 +30,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>
+      <Text className='text-foreground'>
         CodePlayground Component
       </Text>
     )}

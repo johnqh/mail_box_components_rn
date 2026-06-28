@@ -59,28 +59,28 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   // Variant styles aligned with DS button colors (colors.component.button)
   const variantStyles = {
     default: {
-      bg: 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700',
-      bgActive: 'active:bg-gray-50 dark:active:bg-gray-800',
-      text: 'text-gray-900 dark:text-white',
+      bg: 'bg-background border-border',
+      bgActive: 'active:bg-muted',
+      text: 'text-foreground',
     },
     primary: {
-      bg: 'bg-blue-600 border-blue-600',
-      bgActive: 'active:bg-blue-800',
+      bg: 'bg-primary border-primary',
+      bgActive: 'active:bg-primary',
       text: 'text-white',
     },
     success: {
-      bg: 'bg-green-600 border-green-600',
-      bgActive: 'active:bg-green-800',
+      bg: 'bg-success border-success',
+      bgActive: 'active:bg-success',
       text: 'text-white',
     },
     warning: {
-      bg: 'bg-orange-600 border-orange-600',
-      bgActive: 'active:bg-orange-800',
+      bg: 'bg-warning border-warning',
+      bgActive: 'active:bg-warning',
       text: 'text-white',
     },
     danger: {
-      bg: 'bg-red-600 border-red-600',
-      bgActive: 'active:bg-red-800',
+      bg: 'bg-destructive border-destructive',
+      bgActive: 'active:bg-destructive',
       text: 'text-white',
     },
   };

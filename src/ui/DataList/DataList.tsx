@@ -76,11 +76,7 @@ export function DataList<T extends Record<string, unknown>>({
 
     return (
       <View
-        className={cn(
-          'flex-row',
-          ui.table.thead,
-          'border-b border-gray-200 dark:border-gray-700'
-        )}
+        className={cn('flex-row', ui.table.thead, 'border-b border-border')}
       >
         {columns.map(column => (
           <View
@@ -95,7 +91,7 @@ export function DataList<T extends Record<string, unknown>>({
               className={cn(
                 designTokens.typography.size.xs,
                 designTokens.typography.weight.medium,
-                'text-gray-700 dark:text-gray-300',
+                'text-muted-foreground',
                 designTokens.typography.transform.uppercase,
                 designTokens.typography.tracking.wider
               )}
@@ -115,9 +111,9 @@ export function DataList<T extends Record<string, unknown>>({
       <Pressable
         onPress={() => onRowPress?.(item, index)}
         className={cn(
-          'flex-row border-b border-gray-200 dark:border-gray-700',
+          'flex-row border-b border-border',
           isOdd && ui.table.trAlt,
-          onRowPress && 'active:bg-gray-100 dark:active:bg-gray-800'
+          onRowPress && 'active:bg-muted'
         )}
         disabled={!onRowPress}
         accessibilityRole={onRowPress ? 'button' : 'none'}
@@ -138,7 +134,7 @@ export function DataList<T extends Record<string, unknown>>({
               <Text
                 className={cn(
                   designTokens.typography.size.sm,
-                  'text-gray-900 dark:text-white'
+                  'text-foreground'
                 )}
                 numberOfLines={1}
               >
@@ -153,9 +149,7 @@ export function DataList<T extends Record<string, unknown>>({
 
   const renderEmpty = () => (
     <View className='py-8 items-center'>
-      <Text className='text-sm text-gray-500 dark:text-gray-400'>
-        {emptyMessage}
-      </Text>
+      <Text className='text-sm text-muted-foreground'>{emptyMessage}</Text>
     </View>
   );
 

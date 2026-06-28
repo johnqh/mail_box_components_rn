@@ -20,7 +20,7 @@ export interface StandardPageLayoutProps {
  * @example
  * ```tsx
  * <StandardPageLayout
- *   backgroundClassName="bg-gray-100 dark:bg-gray-900"
+ *   backgroundClassName="bg-muted"
  *   contentClassName="p-4"
  * >
  *   <YourPageContent />

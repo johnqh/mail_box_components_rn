@@ -89,7 +89,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
       return (
         <Text
           style={{ fontSize: starSize, lineHeight: starSize * 1.2 }}
-          className='text-yellow-400'
+          className='text-warning'
         >
           ★
         </Text>
@@ -105,14 +105,14 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
               lineHeight: starSize * 1.2,
               position: 'absolute',
             }}
-            className='text-gray-300 dark:text-gray-600'
+            className='text-muted-foreground '
           >
             ★
           </Text>
           <View style={{ overflow: 'hidden', width: starSize / 2 }}>
             <Text
               style={{ fontSize: starSize, lineHeight: starSize * 1.2 }}
-              className='text-yellow-400'
+              className='text-warning'
             >
               ★
             </Text>
@@ -124,7 +124,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
     return (
       <Text
         style={{ fontSize: starSize, lineHeight: starSize * 1.2 }}
-        className='text-gray-300 dark:text-gray-600'
+        className='text-muted-foreground '
       >
         ★
       </Text>
@@ -159,7 +159,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
       {showNumber && (
         <Text
           className={cn(
-            'font-semibold text-gray-900 dark:text-white',
+            'font-semibold text-foreground',
             config.text
           )}
         >

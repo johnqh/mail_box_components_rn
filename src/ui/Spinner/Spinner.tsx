@@ -26,7 +26,9 @@ const sizeMap = {
   extraLarge: 'large' as const,
 };
 
-// Spinner colors from design system raw palette
+// TODO: theme-aware color — ActivityIndicator's `color` prop cannot be set via
+// a semantic className, so these raw values do not flip with light/dark theme.
+// The `default` variant uses the brand blue and stays legible in both schemes.
 const colorMap = {
   default: colors.raw.blue[600],
   white: colors.raw.neutral[0],

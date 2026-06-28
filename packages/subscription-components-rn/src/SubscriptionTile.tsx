@@ -65,11 +65,11 @@ export interface SubscriptionTileProps {
 }
 
 const BADGE_COLORS: Record<BadgeConfig['color'], string> = {
-  purple: 'bg-purple-500',
-  green: 'bg-green-500',
-  blue: 'bg-blue-500',
-  yellow: 'bg-yellow-400',
-  red: 'bg-red-500',
+  purple: 'bg-accent',
+  green: 'bg-success',
+  blue: 'bg-primary',
+  yellow: 'bg-warning',
+  red: 'bg-destructive',
 };
 
 /**
@@ -123,12 +123,12 @@ export function SubscriptionTile({
   const containerClasses = cn(
     'relative rounded-2xl p-6',
     isSelected
-      ? 'bg-blue-600 border-2 border-blue-600'
+      ? 'bg-primary border-2 border-primary'
       : isCurrentPlan
-        ? 'bg-gray-100 dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400'
+        ? 'bg-muted border-2 border-primary dark:border-primary'
         : !enabled
-          ? 'bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50'
-          : 'bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700',
+          ? 'bg-muted border-2 border-border opacity-50'
+          : 'bg-muted border-2 border-border',
     className
   );
 
@@ -183,7 +183,7 @@ export function SubscriptionTile({
           <Text
             className={cn(
               'text-xl font-bold mb-2',
-              isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+              isSelected ? 'text-white' : 'text-foreground'
             )}
           >
             {title}
@@ -192,7 +192,7 @@ export function SubscriptionTile({
             <Text
               className={cn(
                 'text-4xl font-bold',
-                isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+                isSelected ? 'text-white' : 'text-foreground'
               )}
             >
               {price}
@@ -202,8 +202,8 @@ export function SubscriptionTile({
                 className={cn(
                   'text-lg',
                   isSelected
-                    ? 'text-blue-100'
-                    : 'text-gray-500 dark:text-gray-400'
+                    ? 'text-primary-foreground'
+                    : 'text-muted-foreground'
                 )}
               >
                 {periodLabel}
@@ -217,8 +217,8 @@ export function SubscriptionTile({
               className={cn(
                 'px-2 py-1 rounded-full',
                 isSelected
-                  ? 'bg-blue-500'
-                  : 'bg-green-100 dark:bg-green-900/50'
+                  ? 'bg-primary'
+                  : 'bg-success/10 /50'
               )}
             >
               <Text
@@ -226,7 +226,7 @@ export function SubscriptionTile({
                   'text-sm font-semibold',
                   isSelected
                     ? 'text-white'
-                    : 'text-green-700 dark:text-green-300'
+                    : 'text-success'
                 )}
               >
                 {discountBadge.text}
@@ -246,7 +246,7 @@ export function SubscriptionTile({
                 <Text
                   className={cn(
                     'mr-3',
-                    isSelected ? 'text-blue-200' : 'text-green-500'
+                    isSelected ? 'text-primary-foreground' : 'text-success'
                   )}
                 >
                   ✓
@@ -256,7 +256,7 @@ export function SubscriptionTile({
                     'text-sm flex-1',
                     isSelected
                       ? 'text-white'
-                      : 'text-gray-700 dark:text-gray-300'
+                      : 'text-muted-foreground'
                   )}
                 >
                   {feature.replace(/^✓\s*/, '')}
@@ -272,8 +272,8 @@ export function SubscriptionTile({
             className={cn(
               'rounded-lg p-4 mb-4',
               isSelected
-                ? 'bg-blue-500/30'
-                : 'bg-purple-50 dark:bg-purple-900/20'
+                ? 'bg-primary/30'
+                : 'bg-accent/50'
             )}
           >
             <Text
@@ -281,7 +281,7 @@ export function SubscriptionTile({
                 'font-semibold text-sm mb-2',
                 isSelected
                   ? 'text-white'
-                  : 'text-purple-600 dark:text-purple-400'
+                  : 'text-accent-foreground'
               )}
             >
               {premiumCallout.title}
@@ -292,8 +292,8 @@ export function SubscriptionTile({
                 className={cn(
                   'text-xs',
                   isSelected
-                    ? 'text-blue-100'
-                    : 'text-gray-600 dark:text-gray-400'
+                    ? 'text-primary-foreground'
+                    : 'text-muted-foreground'
                 )}
               >
                 • {feat}
@@ -307,7 +307,7 @@ export function SubscriptionTile({
           <Text
             className={cn(
               'text-center text-sm font-medium mb-4',
-              isSelected ? 'text-blue-100' : 'text-blue-600 dark:text-blue-400'
+              isSelected ? 'text-primary-foreground' : 'text-primary'
             )}
           >
             {bottomNote}
@@ -320,8 +320,8 @@ export function SubscriptionTile({
             className={cn(
               'p-3 rounded-lg',
               isSelected
-                ? 'bg-blue-500/30'
-                : 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800'
+                ? 'bg-primary/30'
+                : 'bg-warning/10 border border-warning/20'
             )}
           >
             <Text
@@ -329,7 +329,7 @@ export function SubscriptionTile({
                 'text-sm font-semibold text-center',
                 isSelected
                   ? 'text-white'
-                  : 'text-yellow-700 dark:text-yellow-300'
+                  : 'text-warning'
               )}
             >
               {introPriceNote}
@@ -347,14 +347,14 @@ export function SubscriptionTile({
             disabled={disabled}
             className={cn(
               'w-full py-3 rounded-lg items-center',
-              isSelected ? 'bg-white' : 'bg-blue-600',
+              isSelected ? 'bg-white' : 'bg-primary',
               disabled && 'opacity-50'
             )}
           >
             <Text
               className={cn(
                 'font-semibold',
-                isSelected ? 'text-blue-600' : 'text-white'
+                isSelected ? 'text-primary' : 'text-white'
               )}
             >
               {ctaButton.label}
@@ -369,11 +369,11 @@ export function SubscriptionTile({
               'w-5 h-5 rounded-full border-2 items-center justify-center',
               isSelected
                 ? 'border-white bg-white'
-                : 'border-gray-300 dark:border-gray-600'
+                : 'border-border'
             )}
           >
             {isSelected && (
-              <View className='w-2 h-2 rounded-full bg-blue-600' />
+              <View className='w-2 h-2 rounded-full bg-primary' />
             )}
           </View>
         )}

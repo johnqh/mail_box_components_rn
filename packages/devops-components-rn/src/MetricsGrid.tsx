@@ -73,7 +73,7 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
                       </Text>
                     </View>
                     {metric.changeLabel && (
-                      <Text className='text-xs text-gray-500 dark:text-gray-500 ml-2'>
+                      <Text className='text-xs text-muted-foreground ml-2'>
                         {metric.changeLabel}
                       </Text>
                     )}

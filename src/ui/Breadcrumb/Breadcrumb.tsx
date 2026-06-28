@@ -101,7 +101,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           <Text
             className={cn(
               sizeClasses[size],
-              `text-gray-900 dark:text-white ${typography.weight.medium}`
+              `text-foreground ${typography.weight.medium}`
             )}
             accessibilityRole='text'
           >
@@ -120,12 +120,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           accessibilityRole='link'
         >
           {item.icon && <View className='flex-shrink-0'>{item.icon}</View>}
-          <Text
-            className={cn(
-              sizeClasses[size],
-              'text-gray-600 dark:text-gray-400'
-            )}
-          >
+          <Text className={cn(sizeClasses[size], 'text-muted-foreground')}>
             {item.label}
           </Text>
         </Pressable>
@@ -139,8 +134,8 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           className={cn(
             sizeClasses[size],
             isCurrent
-              ? `text-gray-900 dark:text-white ${typography.weight.medium}`
-              : 'text-gray-600 dark:text-gray-400'
+              ? `text-foreground ${typography.weight.medium}`
+              : 'text-muted-foreground'
           )}
         >
           {item.label}
@@ -151,11 +146,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   const renderSeparator = () => {
     if (typeof separator === 'string') {
-      return (
-        <Text className='text-gray-400 dark:text-gray-600 mx-2'>
-          {separator}
-        </Text>
-      );
+      return <Text className='text-muted-foreground mx-2'>{separator}</Text>;
     }
     return <View className='mx-2'>{separator}</View>;
   };
@@ -180,7 +171,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
                 accessibilityRole='button'
                 accessibilityLabel='Show all breadcrumb items'
               >
-                <Text className='text-gray-600 dark:text-gray-400'>...</Text>
+                <Text className='text-muted-foreground'>...</Text>
               </Pressable>
               {renderSeparator()}
             </View>

@@ -5,16 +5,17 @@ import { designTokens } from '@sudobility/design';
 
 const { typography } = designTokens;
 
-// Semantic text colors aligned with the design system color architecture.
-// The DS provides these as hex values via colors.semantic; here they are
-// expressed as Tailwind classes for NativeWind consumption.
+// Semantic text colors mapped to the design system's theme tokens. These resolve
+// to CSS variables (hsl(var(--foreground)), ...) so they reflect the active
+// design style AND flip automatically between light and dark — no `dark:`
+// variants needed.
 const colorClasses = {
-  default: 'text-gray-900 dark:text-gray-100',
-  muted: 'text-gray-600 dark:text-gray-400',
-  primary: 'text-blue-600 dark:text-blue-400',
-  success: 'text-green-600 dark:text-green-400',
-  warning: 'text-yellow-600 dark:text-yellow-400',
-  danger: 'text-red-600 dark:text-red-400',
+  default: 'text-foreground',
+  muted: 'text-muted-foreground',
+  primary: 'text-primary',
+  success: 'text-success',
+  warning: 'text-warning',
+  danger: 'text-destructive',
 } as const;
 
 export interface TextProps {

@@ -7,9 +7,15 @@ const SPACING = 16;
 export interface BottomActionBarProps {
   /** Button(s) to pin to the bottom of the screen. */
   children: React.ReactNode;
-  /** Surface background color; should match the screen background. */
+  /**
+   * Surface background color override. When omitted, the bar uses the
+   * theme-aware `bg-card` token so it flips with light/dark automatically.
+   */
   backgroundColor?: string;
-  /** Top hairline border color. */
+  /**
+   * Top hairline border color override. When omitted, the bar uses the
+   * theme-aware `border-border` token.
+   */
   borderColor?: string;
   /**
    * Height of a bottom tab/tool bar directly beneath this bar, if any.
@@ -29,19 +35,24 @@ export interface BottomActionBarProps {
  */
 export function BottomActionBar({
   children,
-  backgroundColor = '#ffffff',
-  borderColor = 'rgba(0,0,0,0.1)',
+  backgroundColor,
+  borderColor,
   tabBarHeight,
   style,
 }: BottomActionBarProps) {
   const insets = useSafeAreaInsets();
   const hasTabBar = (tabBarHeight ?? 0) > 0;
   const paddingBottom = hasTabBar ? SPACING : insets.bottom + SPACING;
+  // Default to semantic theme tokens; explicit color props still win because
+  // inline style overrides the className-provided colors.
   return (
     <View
+      className='bg-card border-border'
       style={[
         styles.bar,
-        { backgroundColor, borderTopColor: borderColor, paddingBottom },
+        { paddingBottom },
+        backgroundColor != null && { backgroundColor },
+        borderColor != null && { borderTopColor: borderColor },
         style,
       ]}
     >

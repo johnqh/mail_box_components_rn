@@ -85,7 +85,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           className={cn(
             'items-center justify-center',
             config.iconContainer,
-            'text-gray-400 dark:text-gray-500'
+            'text-muted-foreground'
           )}
         >
           {icon}
@@ -94,7 +94,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
       <Text
         className={cn(
-          'font-semibold text-gray-900 dark:text-white text-center',
+          'font-semibold text-foreground text-center',
           config.title
         )}
       >
@@ -104,7 +104,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {description && (
         <Text
           className={cn(
-            'text-gray-500 dark:text-gray-400 text-center mt-2 max-w-xs',
+            'text-muted-foreground text-center mt-2 max-w-xs',
             config.description
           )}
         >

@@ -88,19 +88,12 @@ export const PageSectionHeader: React.FC<PageSectionHeaderProps> = ({
     >
       <View className='flex-1'>
         <View className='flex-row items-center gap-3 flex-wrap'>
-          <Text
-            className={cn(sizeConfig.title, 'text-gray-900 dark:text-gray-100')}
-          >
+          <Text className={cn(sizeConfig.title, 'text-foreground')}>
             {title}
           </Text>
 
           {count !== undefined && (
-            <Text
-              className={cn(
-                sizeConfig.count,
-                'text-gray-500 dark:text-gray-400'
-              )}
-            >
+            <Text className={cn(sizeConfig.count, 'text-muted-foreground')}>
               ({count}
               {countLabel && ` ${countLabel}`})
             </Text>
@@ -109,12 +102,7 @@ export const PageSectionHeader: React.FC<PageSectionHeaderProps> = ({
           {loading && (
             <View className='flex-row items-center gap-2'>
               <ActivityIndicator size='small' color={colors.raw.blue[500]} />
-              <Text
-                className={cn(
-                  sizeConfig.count,
-                  'text-gray-500 dark:text-gray-400'
-                )}
-              >
+              <Text className={cn(sizeConfig.count, 'text-muted-foreground')}>
                 {loadingText}
               </Text>
             </View>
@@ -123,10 +111,7 @@ export const PageSectionHeader: React.FC<PageSectionHeaderProps> = ({
 
         {description && (
           <Text
-            className={cn(
-              sizeConfig.description,
-              'mt-1 text-gray-600 dark:text-gray-400'
-            )}
+            className={cn(sizeConfig.description, 'mt-1 text-muted-foreground')}
           >
             {description}
           </Text>

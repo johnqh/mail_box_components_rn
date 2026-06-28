@@ -52,8 +52,8 @@ export const PageContainer: React.FC<PageContainerProps> = ({
   className,
 }) => {
   const backgroundClasses = {
-    default: 'bg-gray-50 dark:bg-gray-900',
-    surface: 'bg-white dark:bg-gray-800',
+    default: 'bg-muted',
+    surface: 'bg-card',
     transparent: 'bg-transparent',
   };
 

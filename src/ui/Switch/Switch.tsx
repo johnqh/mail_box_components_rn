@@ -114,9 +114,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
         className={cn(
           'rounded-full items-center justify-start flex-row',
           config.track,
-          checked
-            ? 'bg-blue-600 dark:bg-blue-500'
-            : 'bg-gray-200 dark:bg-gray-700',
+          checked ? 'bg-primary' : 'bg-muted',
           disabled && 'opacity-50',
           className
         )}

@@ -138,13 +138,13 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           >
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-lg shadow-xl'>
+              <View className='bg-background rounded-lg shadow-xl'>
                 {/* Content */}
                 <View className='p-4'>
-                  <Text className='text-lg font-semibold text-gray-900 dark:text-white'>
+                  <Text className='text-lg font-semibold text-foreground'>
                     {title}
                   </Text>
-                  <Text className='text-sm text-gray-600 dark:text-gray-400 mt-2 mb-4'>
+                  <Text className='text-sm text-muted-foreground mt-2 mb-4'>
                     {description}
                   </Text>
 
@@ -158,19 +158,17 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     autoFocus
                     className={cn(
                       'px-3 py-2 text-sm',
-                      'bg-gray-50 dark:bg-gray-800',
-                      'text-gray-900 dark:text-white',
+                      'bg-card',
+                      'text-foreground',
                       'border rounded-md',
-                      error
-                        ? 'border-red-500 dark:border-red-400'
-                        : 'border-gray-300 dark:border-gray-600'
+                      error ? 'border-destructive ' : 'border-border'
                     )}
                     accessibilityLabel={placeholder || title}
                   />
 
                   {error && (
                     <Text
-                      className='text-xs text-red-600 dark:text-red-400 mt-2'
+                      className='text-xs text-destructive mt-2'
                       accessibilityRole='alert'
                     >
                       {error}
@@ -179,21 +177,21 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                 </View>
 
                 {/* Footer */}
-                <View className='flex-row gap-2 p-4 border-t border-gray-200 dark:border-gray-700'>
+                <View className='flex-row gap-2 p-4 border-t border-border'>
                   <Pressable
                     onPress={handleCancel}
                     disabled={isLoading}
                     className={cn(
                       'flex-1 items-center py-2',
-                      'bg-gray-100 dark:bg-gray-800',
+                      'bg-muted',
                       'rounded-md',
-                      'active:bg-gray-200 dark:active:bg-gray-700',
+                      'active:bg-muted',
                       isLoading && 'opacity-50'
                     )}
                     accessibilityRole='button'
                     accessibilityLabel={cancelText}
                   >
-                    <Text className='text-sm text-gray-700 dark:text-gray-300'>
+                    <Text className='text-sm text-muted-foreground'>
                       {cancelText}
                     </Text>
                   </Pressable>
@@ -203,9 +201,9 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     disabled={!canSubmit || isLoading}
                     className={cn(
                       'flex-1 items-center py-2',
-                      'bg-blue-600 dark:bg-blue-500',
+                      'bg-primary dark:bg-primary',
                       'rounded-md',
-                      'active:bg-blue-700 dark:active:bg-blue-600',
+                      'active:bg-primary/90',
                       (!canSubmit || isLoading) && 'opacity-50'
                     )}
                     accessibilityRole='button'

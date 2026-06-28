@@ -30,7 +30,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>
+      <Text className='text-foreground'>
         ApiPlayground Component
       </Text>
     )}

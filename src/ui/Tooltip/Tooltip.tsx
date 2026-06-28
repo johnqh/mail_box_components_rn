@@ -70,10 +70,10 @@ function getTooltipColors() {
       return `${bg} ${darkBg}`;
     }
     _tooltipColors = {
-      default: 'bg-gray-900 dark:bg-gray-700',
+      default: 'bg-popover dark:bg-muted',
       info: extractBg(btn.primary.base, btn.primary.dark),
       success: extractBg(btn.success.base, btn.success.dark),
-      warning: 'bg-yellow-600 dark:bg-yellow-500', // DS has no yellow button; local fallback
+      warning: 'bg-warning dark:bg-warning', // DS has no yellow button; local fallback
       error: extractBg(btn.destructive.base, btn.destructive.dark),
     };
   }

@@ -64,7 +64,7 @@ function getCheckboxColors() {
 }
 function buildCheckboxColors() {
   // Extract solid bg colors from DS button variants for checked states
-  // DS button.primary.base contains "bg-blue-600 ... text-white"
+  // DS button.primary.base contains "bg-primary ... text-white"
   // We only need the bg-* and border-* portions for checkbox checked state
   function extractCheckedColor(base: string) {
     const parts = base.split(' ');
@@ -80,7 +80,7 @@ function buildCheckboxColors() {
   return {
     primary: extractCheckedColor(btn.primary.base),
     success: extractCheckedColor(btn.success.base),
-    warning: 'bg-yellow-600 border-yellow-600', // DS has no yellow button; local fallback
+    warning: 'bg-warning border-warning', // DS has no yellow button; local fallback
     error: extractCheckedColor(btn.destructive.base),
   } as Record<string, string>;
 }
@@ -133,10 +133,10 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     if (error) {
       return checked
         ? checkedColors.error
-        : 'border-red-600 dark:border-red-500';
+        : 'border-destructive dark:border-destructive';
     }
 
-    const unchecked = 'border-gray-300 dark:border-gray-600';
+    const unchecked = 'border-border';
     const variantClasses = {
       primary: checked ? checkedColors.primary : unchecked,
       success: checked ? checkedColors.success : unchecked,
@@ -181,34 +181,36 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         <View className='relative flex items-center justify-center'>
           <View
             className={cn(
-              'rounded border-2 flex items-center justify-center bg-white dark:bg-gray-900',
+              'rounded border-2 flex items-center justify-center bg-background',
               config.box,
               getVariantClasses()
             )}
           >
             {indeterminate ? (
               <View
-                className={cn('bg-white rounded-sm', config.check, 'h-0.5')}
+                className={cn(
+                  'bg-primary-foreground rounded-sm',
+                  config.check,
+                  'h-0.5'
+                )}
               />
             ) : checked ? (
-              <View className={cn('bg-white rounded-sm', config.check)} />
+              <View
+                className={cn('bg-primary-foreground rounded-sm', config.check)}
+              />
             ) : null}
           </View>
         </View>
         {(label || description) && (
           <View className='flex flex-col flex-1'>
             {label && (
-              <Text
-                className={cn('text-gray-900 dark:text-white', config.text)}
-              >
+              <Text className={cn('text-foreground', config.text)}>
                 {label}
-                {required && <Text className='text-red-500 ml-1'>*</Text>}
+                {required && <Text className='text-destructive ml-1'>*</Text>}
               </Text>
             )}
             {description && (
-              <Text
-                className={cn('text-gray-600 dark:text-gray-400', config.desc)}
-              >
+              <Text className={cn('text-muted-foreground', config.desc)}>
                 {description}
               </Text>
             )}
@@ -217,7 +219,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       </Pressable>
       {errorMessage && (
         <Text
-          className={`mt-1 ${designTokens.typography.size.sm} text-red-600 dark:text-red-400`}
+          className={`mt-1 ${designTokens.typography.size.sm} text-destructive`}
         >
           {errorMessage}
         </Text>

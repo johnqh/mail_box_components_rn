@@ -116,7 +116,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
       <View className='flex-row items-center'>
         {/* Selection overlay */}
         {isSelected && !selectedSubsection && (
-          <View className='absolute top-1 bottom-1 left-1 right-10 bg-blue-500/20 dark:bg-blue-400/20 rounded-lg' />
+          <View className='absolute top-1 bottom-1 left-1 right-10 bg-primary/20  rounded-lg' />
         )}
 
         {/* Title button */}
@@ -132,8 +132,8 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               typography.size.base,
               typography.weight.medium,
               isSelected && !selectedSubsection
-                ? 'text-blue-700 dark:text-blue-300'
-                : 'text-gray-700 dark:text-gray-300'
+                ? 'text-primary'
+                : 'text-muted-foreground'
             )}
           >
             {title}
@@ -149,7 +149,9 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             accessibilityLabel={isExpanded ? 'Collapse' : 'Expand'}
           >
             <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-              <Text className={cn('text-gray-500', typography.size.lg)}>›</Text>
+              <Text className={cn('text-muted-foreground', typography.size.lg)}>
+                ›
+              </Text>
             </Animated.View>
           </Pressable>
         )}
@@ -162,7 +164,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             <View key={subsection.id} className='relative'>
               {/* Selection overlay */}
               {selectedSubsection === subsection.id && (
-                <View className='absolute top-0.5 bottom-0.5 left-0 right-8 bg-blue-500/20 dark:bg-blue-400/20 rounded-lg' />
+                <View className='absolute top-0.5 bottom-0.5 left-0 right-8 bg-primary/20  rounded-lg' />
               )}
 
               <Pressable
@@ -178,8 +180,8 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                   className={cn(
                     typography.size.sm,
                     selectedSubsection === subsection.id
-                      ? 'text-blue-700 dark:text-blue-300'
-                      : 'text-gray-600 dark:text-gray-400'
+                      ? 'text-primary'
+                      : 'text-muted-foreground'
                   )}
                 >
                   {subsection.title}

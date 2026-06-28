@@ -50,7 +50,7 @@ export const Avatar: React.FC<AvatarProps & ViewProps> = ({
     <Image
       source={{ uri: user.photoURL! }}
       style={sizeStyle}
-      className='bg-gray-200 dark:bg-gray-700'
+      className='bg-muted'
       onError={() => setImageError(true)}
       accessibilityLabel={user.displayName || 'User avatar'}
     />

@@ -112,7 +112,7 @@ export function VirtualList<T>({
       <View
         className={cn(
           horizontal ? 'w-px h-full' : 'h-px w-full',
-          'bg-gray-200 dark:bg-gray-700',
+          'bg-muted',
           separatorClassName
         )}
       />

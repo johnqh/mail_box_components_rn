@@ -151,8 +151,8 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           disabled={disabled}
           className={cn(
             'flex-row items-center gap-2 px-3 py-2 min-w-[120px]',
-            'bg-white dark:bg-gray-900',
-            'border border-gray-300 dark:border-gray-700',
+            'bg-background',
+            'border border-border',
             'rounded-md',
             disabled && 'opacity-50'
           )}
@@ -160,10 +160,10 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           accessibilityLabel='Select country'
         >
           <Text className='text-xl'>{selectedCountry?.flag}</Text>
-          <Text className='text-sm font-medium text-gray-900 dark:text-white'>
+          <Text className='text-sm font-medium text-foreground'>
             {selectedCountry?.dialCode}
           </Text>
-          <Text className='text-gray-600 dark:text-gray-400'>▼</Text>
+          <Text className='text-muted-foreground'>▼</Text>
         </Pressable>
 
         {/* Phone number input */}
@@ -176,8 +176,8 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           editable={!disabled}
           className={cn(
             'flex-1 px-3 py-2 text-sm',
-            'bg-white dark:bg-gray-900 text-gray-900 dark:text-white',
-            'border border-gray-300 dark:border-gray-700',
+            'bg-background text-foreground',
+            'border border-border',
             'rounded-md',
             disabled && 'opacity-50'
           )}
@@ -186,7 +186,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
 
       {/* Full number display */}
       {value && selectedCountry && (
-        <Text className='mt-1.5 text-xs text-gray-600 dark:text-gray-400'>
+        <Text className='mt-1.5 text-xs text-muted-foreground'>
           Full number: {selectedCountry.dialCode} {value}
         </Text>
       )}
@@ -201,15 +201,15 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
           <View className='flex-1 justify-end bg-black/50'>
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-t-xl max-h-[70%]'>
+              <View className='bg-background rounded-t-xl max-h-[70%]'>
                 {/* Search */}
-                <View className='p-3 border-b border-gray-200 dark:border-gray-700'>
+                <View className='p-3 border-b border-border'>
                   <TextInput
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                     placeholder='Search countries...'
                     placeholderTextColor={colors.raw.neutral[400]}
-                    className='px-3 py-2 text-sm bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-md'
+                    className='px-3 py-2 text-sm bg-card text-foreground rounded-md'
                   />
                 </View>
 
@@ -217,7 +217,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                 <ScrollView className='max-h-80'>
                   {filteredCountries.length === 0 ? (
                     <View className='px-3 py-4 items-center'>
-                      <Text className='text-sm text-gray-500 dark:text-gray-400'>
+                      <Text className='text-sm text-muted-foreground'>
                         No countries found
                       </Text>
                     </View>
@@ -228,17 +228,17 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                         onPress={() => handleCountrySelect(country.code)}
                         className={cn(
                           'flex-row items-center gap-3 px-4 py-3',
-                          'active:bg-gray-100 dark:active:bg-gray-800',
+                          'active:bg-muted',
                           country.code === selectedCountryCode &&
-                            'bg-blue-50 dark:bg-blue-900/30'
+                            'bg-primary/10'
                         )}
                         accessibilityRole='button'
                       >
                         <Text className='text-xl'>{country.flag}</Text>
-                        <Text className='flex-1 text-sm text-gray-900 dark:text-white'>
+                        <Text className='flex-1 text-sm text-foreground'>
                           {country.name}
                         </Text>
-                        <Text className='text-sm text-gray-600 dark:text-gray-400'>
+                        <Text className='text-sm text-muted-foreground'>
                           {country.dialCode}
                         </Text>
                       </Pressable>
@@ -247,13 +247,13 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                 </ScrollView>
 
                 {/* Done button */}
-                <View className='p-3 border-t border-gray-200 dark:border-gray-700'>
+                <View className='p-3 border-t border-border'>
                   <Pressable
                     onPress={() => setIsOpen(false)}
                     className='items-center py-3'
                     accessibilityRole='button'
                   >
-                    <Text className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+                    <Text className='text-sm font-medium text-primary'>
                       Done
                     </Text>
                   </Pressable>

@@ -28,32 +28,32 @@ const levelConfig: Record<
 > = {
   info: {
     color: `${colors.component.alert.info.icon}`,
-    bgColor: 'bg-blue-50',
-    darkBgColor: 'dark:bg-blue-950',
+    bgColor: 'bg-primary/10',
+    darkBgColor: '',
     prefix: 'INFO',
   },
   warn: {
-    color: 'text-yellow-600 dark:text-yellow-400',
-    bgColor: 'bg-yellow-50',
-    darkBgColor: 'dark:bg-yellow-950',
+    color: 'text-warning',
+    bgColor: 'bg-warning/10',
+    darkBgColor: '',
     prefix: 'WARN',
   },
   error: {
     color: `${colors.component.alert.error.icon}`,
-    bgColor: 'bg-red-50',
-    darkBgColor: 'dark:bg-red-950',
+    bgColor: 'bg-destructive/10',
+    darkBgColor: '',
     prefix: 'ERROR',
   },
   debug: {
-    color: 'text-gray-600 dark:text-gray-400',
-    bgColor: 'bg-gray-50',
-    darkBgColor: 'dark:bg-gray-900',
+    color: 'text-muted-foreground',
+    bgColor: 'bg-muted',
+    darkBgColor: 'dark:bg-popover',
     prefix: 'DEBUG',
   },
   success: {
     color: `${colors.component.alert.success.icon}`,
-    bgColor: 'bg-green-50',
-    darkBgColor: 'dark:bg-green-950',
+    bgColor: 'bg-success/10',
+    darkBgColor: '',
     prefix: 'SUCCESS',
   },
 };
@@ -78,7 +78,7 @@ export const BuildLog: React.FC<BuildLogProps> = ({
   return (
     <Card className={cn('overflow-hidden', className)}>
       {title && (
-        <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+        <View className='px-4 py-3 border-b border-border'>
           <Text className={textVariants.label.default()}>
             {title}
           </Text>
@@ -86,7 +86,7 @@ export const BuildLog: React.FC<BuildLogProps> = ({
       )}
       <ScrollView
         style={{ maxHeight }}
-        className='bg-gray-900 dark:bg-black'
+        className='bg-popover '
         showsVerticalScrollIndicator={true}
       >
         <View className='p-3'>
@@ -102,7 +102,7 @@ export const BuildLog: React.FC<BuildLogProps> = ({
                 )}
               >
                 {showTimestamp && (
-                  <Text className='font-mono text-xs text-gray-500 dark:text-gray-500 mr-2'>
+                  <Text className='font-mono text-xs text-muted-foreground mr-2'>
                     [{formatTime(entry.timestamp)}]
                   </Text>
                 )}
@@ -115,11 +115,11 @@ export const BuildLog: React.FC<BuildLogProps> = ({
                   [{config.prefix}]
                 </Text>
                 {showSource && entry.source && (
-                  <Text className='font-mono text-xs text-gray-400 dark:text-gray-600 mr-2'>
+                  <Text className='font-mono text-xs text-muted-foreground mr-2'>
                     [{entry.source}]
                   </Text>
                 )}
-                <Text className='font-mono text-xs text-gray-200 dark:text-gray-300 flex-1'>
+                <Text className='font-mono text-xs text-muted-foreground dark:text-muted-foreground flex-1'>
                   {entry.message}
                 </Text>
               </View>
@@ -127,7 +127,7 @@ export const BuildLog: React.FC<BuildLogProps> = ({
           })}
         </View>
       </ScrollView>
-      <View className='px-4 py-2 bg-gray-800 dark:bg-gray-950 border-t border-gray-700'>
+      <View className='px-4 py-2 bg-muted  border-t border-border'>
         <Text className={textVariants.caption.default()}>
           {entries.length} log entries
         </Text>

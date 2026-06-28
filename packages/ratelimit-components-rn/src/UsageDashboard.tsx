@@ -19,18 +19,18 @@ function getUsageColor(
 } {
   if (colorOverride) {
     const colorMap: Record<UsageBarColor, { bg: string; text: string }> = {
-      green: { bg: 'bg-green-500', text: 'text-green-600 dark:text-green-400' },
+      green: { bg: 'bg-success', text: 'text-success' },
       yellow: {
-        bg: 'bg-yellow-500',
-        text: 'text-yellow-600 dark:text-yellow-400',
+        bg: 'bg-warning',
+        text: 'text-warning',
       },
       orange: {
-        bg: 'bg-orange-500',
-        text: 'text-orange-600 dark:text-orange-400',
+        bg: 'bg-warning',
+        text: 'text-warning',
       },
-      red: { bg: 'bg-red-500', text: 'text-red-600 dark:text-red-400' },
-      blue: { bg: 'bg-blue-500', text: 'text-blue-600 dark:text-blue-400' },
-      gray: { bg: 'bg-gray-500', text: 'text-gray-600 dark:text-gray-400' },
+      red: { bg: 'bg-destructive', text: 'text-destructive' },
+      blue: { bg: 'bg-primary', text: 'text-primary' },
+      gray: { bg: 'bg-muted', text: 'text-muted-foreground' },
     };
     return colorMap[colorOverride];
   }
@@ -38,19 +38,19 @@ function getUsageColor(
   const percentage = limit > 0 ? (current / limit) * 100 : 0;
 
   if (percentage >= 90) {
-    return { bg: 'bg-red-500', text: 'text-red-600 dark:text-red-400' };
+    return { bg: 'bg-destructive', text: 'text-destructive' };
   } else if (percentage >= 75) {
     return {
-      bg: 'bg-orange-500',
-      text: 'text-orange-600 dark:text-orange-400',
+      bg: 'bg-warning',
+      text: 'text-warning',
     };
   } else if (percentage >= 50) {
     return {
-      bg: 'bg-yellow-500',
-      text: 'text-yellow-600 dark:text-yellow-400',
+      bg: 'bg-warning',
+      text: 'text-warning',
     };
   } else {
-    return { bg: 'bg-green-500', text: 'text-green-600 dark:text-green-400' };
+    return { bg: 'bg-success', text: 'text-success' };
   }
 }
 
@@ -80,18 +80,18 @@ function UsageBar({
       {/* Header row */}
       <View className='flex-row justify-between items-center mb-2'>
         <View className='flex-1'>
-          <Text className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+          <Text className='text-sm font-medium text-foreground'>
             {label}
           </Text>
           {subtitle && (
-            <Text className='text-xs text-gray-500 dark:text-gray-400'>
+            <Text className='text-xs text-muted-foreground'>
               {subtitle}
             </Text>
           )}
         </View>
         <View className='flex-row items-center gap-2'>
           {showRemaining && (
-            <Text className='text-xs text-gray-500 dark:text-gray-400'>
+            <Text className='text-xs text-muted-foreground'>
               {remaining.toLocaleString()} remaining
             </Text>
           )}
@@ -102,7 +102,7 @@ function UsageBar({
       </View>
 
       {/* Progress bar */}
-      <View className='h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden'>
+      <View className='h-2.5 bg-muted rounded-full overflow-hidden'>
         <View
           className={cn('h-full rounded-full', colors.bg)}
           style={{ width: `${percentage}%` }}
@@ -151,7 +151,7 @@ export function UsageDashboard({
   return (
     <View
       className={cn(
-        'bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm',
+        'bg-card rounded-xl p-4 shadow-sm',
         className
       )}
       accessibilityRole='none'
@@ -161,12 +161,12 @@ export function UsageDashboard({
       {(title || subtitle) && (
         <View className='mb-4'>
           {title && (
-            <Text className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
+            <Text className='text-lg font-semibold text-foreground'>
               {title}
             </Text>
           )}
           {subtitle && (
-            <Text className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+            <Text className='text-sm text-muted-foreground mt-1'>
               {subtitle}
             </Text>
           )}
@@ -189,7 +189,7 @@ export function UsageDashboard({
       {/* Empty state */}
       {bars.length === 0 && (
         <View className='py-8 items-center'>
-          <Text className='text-gray-500 dark:text-gray-400'>
+          <Text className='text-muted-foreground'>
             No usage data available
           </Text>
         </View>

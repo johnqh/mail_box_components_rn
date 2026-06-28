@@ -109,23 +109,21 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         <View
           className={cn(
             'items-center justify-center rounded-2xl mb-4',
-            'bg-blue-100 dark:bg-blue-900/30',
+            'bg-primary/10',
             iconSizeClasses[iconSize]
           )}
         >
-          <View className='text-blue-600 dark:text-blue-400'>
-            {feature.icon}
-          </View>
+          <View className='text-primary'>{feature.icon}</View>
         </View>
 
         {/* Title */}
-        <Text className='text-lg font-bold text-gray-900 dark:text-white mb-2 text-center'>
+        <Text className='text-lg font-bold text-foreground mb-2 text-center'>
           {feature.title}
         </Text>
 
         {/* Description */}
         {typeof feature.description === 'string' ? (
-          <Text className='text-gray-600 dark:text-gray-300 text-center leading-relaxed'>
+          <Text className='text-muted-foreground text-center leading-relaxed'>
             {feature.description}
           </Text>
         ) : (

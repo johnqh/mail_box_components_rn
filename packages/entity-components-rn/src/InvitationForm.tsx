@@ -84,7 +84,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
     <View className={cn(className)} style={style} testID={testID}>
       {/* Email Input */}
       <View className='mb-4'>
-        <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+        <Text className='text-sm font-medium text-muted-foreground mb-2'>
           Email Address
         </Text>
         <TextInput
@@ -99,17 +99,17 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           editable={!isDisabled}
           className={cn(
             'px-4 py-3 rounded-xl',
-            'bg-white dark:bg-gray-800',
+            'bg-card',
             'border',
-            error ? 'border-red-500' : 'border-gray-200 dark:border-gray-700',
-            'text-gray-900 dark:text-white',
+            error ? 'border-destructive' : 'border-border',
+            'text-foreground',
             isDisabled && 'opacity-50',
           )}
           accessibilityLabel='Email address input'
           accessibilityHint='Enter the email address of the person you want to invite'
         />
         {error && (
-          <Text className='text-sm text-red-500 dark:text-red-400 mt-1'>
+          <Text className='text-sm text-destructive  mt-1'>
             {error}
           </Text>
         )}
@@ -117,7 +117,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
 
       {/* Role Selector */}
       <View className='mb-4'>
-        <Text className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+        <Text className='text-sm font-medium text-muted-foreground mb-2'>
           Role
         </Text>
         <MemberRoleSelector
@@ -136,8 +136,8 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
         className={cn(
           'flex-row items-center justify-center px-6 py-4 rounded-xl',
           canSubmit
-            ? 'bg-blue-500 dark:bg-blue-600 active:bg-blue-600 dark:active:bg-blue-700'
-            : 'bg-gray-300 dark:bg-gray-600',
+            ? 'bg-primary dark:bg-primary active:bg-primary dark:active:bg-primary/90'
+            : 'bg-muted dark:bg-muted',
         )}
         accessibilityRole='button'
         accessibilityLabel={submitLabel}
@@ -150,7 +150,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           </>
         ) : (
           <Text
-            className={cn('font-semibold', canSubmit ? 'text-white' : 'text-gray-500 dark:text-gray-400')}
+            className={cn('font-semibold', canSubmit ? 'text-white' : 'text-muted-foreground')}
           >
             {submitLabel}
           </Text>
@@ -158,7 +158,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
       </Pressable>
 
       {/* Help Text */}
-      <Text className='text-xs text-gray-500 dark:text-gray-400 mt-3 text-center'>
+      <Text className='text-xs text-muted-foreground mt-3 text-center'>
         The invitee will receive an email with instructions to join.
       </Text>
     </View>

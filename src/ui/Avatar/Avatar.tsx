@@ -79,10 +79,10 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   // Status indicator configurations using DS statusIndicatorColors
   const statusClasses = {
-    online: statusIndicatorColors.success, // bg-green-500
-    offline: statusIndicatorColors.neutral, // bg-gray-500
-    away: 'bg-yellow-500', // local fallback, no DS yellow status
-    busy: statusIndicatorColors.error, // bg-red-500
+    online: statusIndicatorColors.success, // bg-success
+    offline: statusIndicatorColors.neutral, // bg-muted
+    away: 'bg-warning', // local fallback, no DS yellow status
+    busy: statusIndicatorColors.error, // bg-destructive
   };
 
   // Generate initials from name
@@ -111,7 +111,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         className={cn(
           'flex items-center justify-center overflow-hidden rounded-full',
           sizeClasses[size],
-          !showImage && 'bg-gray-300 dark:bg-gray-600',
+          !showImage && 'bg-muted dark:bg-muted',
           className
         )}
       >
@@ -125,7 +125,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         ) : (
           <Text
             className={cn(
-              'font-semibold text-gray-700 dark:text-gray-200',
+              'font-semibold text-foreground',
               textSizeClasses[size]
             )}
           >
@@ -136,7 +136,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       {status && (
         <View
           className={cn(
-            'absolute bottom-0 right-0 rounded-full border-2 border-white dark:border-gray-800',
+            'absolute bottom-0 right-0 rounded-full border-2 border-background ',
             statusClasses[status],
             statusSizeClasses[size]
           )}
@@ -213,7 +213,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
         <View
           className={cn(
             overlapClasses[size],
-            'flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-600',
+            'flex items-center justify-center rounded-full bg-muted dark:bg-muted',
             {
               xs: 'w-6 h-6',
               sm: 'w-8 h-8',
@@ -225,7 +225,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
         >
           <Text
             className={cn(
-              'font-medium text-gray-700 dark:text-gray-200',
+              'font-medium text-foreground',
               {
                 xs: 'text-xs',
                 sm: 'text-xs',

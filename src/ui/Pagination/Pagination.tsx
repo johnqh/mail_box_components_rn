@@ -145,7 +145,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   const buttonBaseClasses = cn(
-    'items-center justify-center rounded-md border border-gray-300 dark:border-gray-600'
+    'items-center justify-center rounded-md border border-border'
   );
 
   const pageButtonClasses = (isActive: boolean) =>
@@ -153,17 +153,12 @@ export const Pagination: React.FC<PaginationProps> = ({
       buttonBaseClasses,
       config.button,
       isActive
-        ? 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500'
-        : 'bg-white dark:bg-gray-800'
+        ? 'bg-primary dark:bg-primary border-primary dark:border-primary'
+        : 'bg-card'
     );
 
   const navButtonClasses = (disabled: boolean) =>
-    cn(
-      buttonBaseClasses,
-      config.button,
-      'bg-white dark:bg-gray-800',
-      disabled && 'opacity-50'
-    );
+    cn(buttonBaseClasses, config.button, 'bg-card', disabled && 'opacity-50');
 
   return (
     <View
@@ -181,7 +176,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           accessibilityLabel='Go to first page'
           accessibilityState={{ disabled: currentPage === 1 }}
         >
-          <Text className={cn(config.text, 'text-gray-700 dark:text-gray-300')}>
+          <Text className={cn(config.text, 'text-muted-foreground')}>
             First
           </Text>
         </Pressable>
@@ -197,9 +192,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         accessibilityState={{ disabled: currentPage === 1 }}
       >
         {prevIcon || (
-          <Text className={cn(config.icon, 'text-gray-700 dark:text-gray-300')}>
-            ‹
-          </Text>
+          <Text className={cn(config.icon, 'text-muted-foreground')}>‹</Text>
         )}
       </Pressable>
 
@@ -211,7 +204,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               key={`ellipsis-${index}`}
               className={cn('items-center justify-center', config.button)}
             >
-              <Text className='text-gray-400 dark:text-gray-500'>...</Text>
+              <Text className='text-muted-foreground'>...</Text>
             </View>
           );
         }
@@ -229,7 +222,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <Text
               className={cn(
                 config.text,
-                isActive ? 'text-white' : 'text-gray-700 dark:text-gray-300'
+                isActive ? 'text-white' : 'text-muted-foreground'
               )}
             >
               {page}
@@ -248,9 +241,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         accessibilityState={{ disabled: currentPage === totalPages }}
       >
         {nextIcon || (
-          <Text className={cn(config.icon, 'text-gray-700 dark:text-gray-300')}>
-            ›
-          </Text>
+          <Text className={cn(config.icon, 'text-muted-foreground')}>›</Text>
         )}
       </Pressable>
 
@@ -264,9 +255,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           accessibilityLabel='Go to last page'
           accessibilityState={{ disabled: currentPage === totalPages }}
         >
-          <Text className={cn(config.text, 'text-gray-700 dark:text-gray-300')}>
-            Last
-          </Text>
+          <Text className={cn(config.text, 'text-muted-foreground')}>Last</Text>
         </Pressable>
       )}
     </View>

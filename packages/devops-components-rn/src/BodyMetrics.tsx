@@ -25,7 +25,7 @@ export const BodyMetrics: React.FC<BodyMetricsProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>
+      <Text className='text-foreground'>
         BodyMetrics Component
       </Text>
     )}

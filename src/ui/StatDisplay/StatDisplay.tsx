@@ -47,23 +47,23 @@ function buildStatColors() {
   return {
     primary: {
       value: `${alert.info.icon}`,
-      label: 'text-blue-600/70 dark:text-blue-400/70',
+      label: 'text-primary/70 dark:text-primary/70',
     },
     success: {
       value: `${alert.success.icon}`,
-      label: 'text-green-600/70 dark:text-green-400/70',
+      label: 'text-success/70 /70',
     },
     warning: {
       value: `${alert.warning.icon}`,
-      label: 'text-orange-600/70 dark:text-orange-400/70',
+      label: 'text-warning/70 /70',
     },
     danger: {
       value: `${alert.error.icon}`,
-      label: 'text-red-600/70 dark:text-red-400/70',
+      label: 'text-destructive/70 ',
     },
     neutral: {
-      value: 'text-gray-900 dark:text-gray-100',
-      label: 'text-gray-600 dark:text-gray-400',
+      value: 'text-foreground',
+      label: 'text-muted-foreground',
     },
     white: {
       value: 'text-white',

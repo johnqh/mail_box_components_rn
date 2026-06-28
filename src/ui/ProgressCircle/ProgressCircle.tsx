@@ -55,7 +55,9 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
   // Clamp value between 0 and 100
   const progress = Math.min(100, Math.max(0, value));
 
-  // Color variants from design system raw palette
+  // TODO: theme-aware color — these arc/track colors feed RN border style
+  // props (not className), so they cannot use semantic tokens. The raw palette
+  // values below do not flip with light/dark theme.
   const variantColors = {
     primary: colors.raw.blue[600],
     success: colors.raw.green[600],
@@ -115,7 +117,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
           <View className='items-center justify-center'>
             {showValue && !label && (
               <Text
-                className='font-bold text-gray-900 dark:text-white'
+                className='font-bold text-foreground'
                 style={{ fontSize: size * 0.2 }}
               >
                 {Math.round(progress)}%
@@ -123,7 +125,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
             )}
             {label && (
               <Text
-                className='font-medium text-gray-900 dark:text-white text-center px-2'
+                className='font-medium text-foreground text-center px-2'
                 style={{ fontSize: size * 0.15 }}
               >
                 {label}

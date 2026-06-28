@@ -62,30 +62,28 @@ export const FloatingPanel: React.FC<FloatingPanelProps> = ({
     <View
       style={[styles.container, positionStyles[position]]}
       className={cn(
-        'w-80 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-2xl',
+        'w-80 bg-background border border-border rounded-lg shadow-2xl',
         className
       )}
     >
       {/* Header */}
       {(title || collapsible || closeable) && (
-        <View className='flex-row items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700'>
+        <View className='flex-row items-center justify-between p-4 border-b border-border'>
           {title && (
-            <Text className='font-semibold text-gray-900 dark:text-white'>
-              {title}
-            </Text>
+            <Text className='font-semibold text-foreground'>{title}</Text>
           )}
 
           <View className='flex-row items-center gap-2'>
             {collapsible && (
               <Pressable
                 onPress={() => setIsCollapsed(!isCollapsed)}
-                className='p-1 active:bg-gray-100 dark:active:bg-gray-800 rounded'
+                className='p-1 active:bg-muted rounded'
                 accessibilityRole='button'
                 accessibilityLabel={isCollapsed ? 'Expand' : 'Collapse'}
               >
                 <Text
                   className={cn(
-                    'text-gray-600 dark:text-gray-400',
+                    'text-muted-foreground',
                     isCollapsed && 'rotate-180'
                   )}
                 >
@@ -97,11 +95,11 @@ export const FloatingPanel: React.FC<FloatingPanelProps> = ({
             {closeable && (
               <Pressable
                 onPress={onClose}
-                className='p-1 active:bg-gray-100 dark:active:bg-gray-800 rounded'
+                className='p-1 active:bg-muted rounded'
                 accessibilityRole='button'
                 accessibilityLabel='Close'
               >
-                <Text className='text-gray-600 dark:text-gray-400'>✕</Text>
+                <Text className='text-muted-foreground'>✕</Text>
               </Pressable>
             )}
           </View>

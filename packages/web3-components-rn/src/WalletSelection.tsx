@@ -60,9 +60,9 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
       accessibilityState={{ disabled: isDisabled }}
       className={cn(
         'w-full flex-row items-center justify-between p-4',
-        'border border-gray-200 dark:border-gray-700 rounded-lg',
-        'bg-white dark:bg-gray-900',
-        'active:bg-gray-50 dark:active:bg-gray-700',
+        'border border-border rounded-lg',
+        'bg-background',
+        'active:bg-muted ',
         isDisabled && 'opacity-50',
         className
       )}
@@ -71,15 +71,15 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
       <View className='flex-row items-center gap-3'>
         <WalletIcon provider={getProviderFromName(wallet.name)} size='md' />
         <View>
-          <Text className='font-medium text-gray-900 dark:text-white'>
+          <Text className='font-medium text-foreground'>
             {wallet.name}
           </Text>
           <Text
             className={cn(
               'text-xs',
               wallet.available
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-red-600 dark:text-red-400'
+                ? 'text-success'
+                : 'text-destructive'
             )}
           >
             {wallet.available
@@ -127,8 +127,8 @@ export const WalletTab: React.FC<WalletTabProps> = ({
         'flex-1 py-2 px-4 rounded-md',
         active
           ? color === 'blue'
-            ? 'bg-white dark:bg-gray-800'
-            : 'bg-white dark:bg-gray-800'
+            ? 'bg-card'
+            : 'bg-card'
           : 'bg-transparent'
       )}
     >
@@ -138,9 +138,9 @@ export const WalletTab: React.FC<WalletTabProps> = ({
             'text-base',
             active
               ? color === 'blue'
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-purple-600 dark:text-purple-400'
-              : 'text-gray-600 dark:text-gray-400'
+                ? 'text-primary'
+                : 'text-accent-foreground'
+              : 'text-muted-foreground'
           )}
         >
           {icon}
@@ -150,9 +150,9 @@ export const WalletTab: React.FC<WalletTabProps> = ({
             'font-medium',
             active
               ? color === 'blue'
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-purple-600 dark:text-purple-400'
-              : 'text-gray-600 dark:text-gray-400'
+                ? 'text-primary'
+                : 'text-accent-foreground'
+              : 'text-muted-foreground'
           )}
         >
           {label}
@@ -213,7 +213,7 @@ export const WalletSelectionGrid: React.FC<WalletSelectionGridProps> = ({
   return (
     <View className={cn('gap-6', className)} {...props}>
       {/* Tab Navigation */}
-      <View className='flex-row gap-1 p-1 bg-gray-100 dark:bg-gray-700 rounded-lg'>
+      <View className='flex-row gap-1 p-1 bg-muted rounded-lg'>
         <WalletTab
           active={activeTab === 'ethereum'}
           onPress={() => onTabChange('ethereum')}
@@ -250,7 +250,7 @@ export const WalletSelectionGrid: React.FC<WalletSelectionGridProps> = ({
 
       {/* Help Text */}
       <View className='items-center pt-2'>
-        <Text className='text-sm text-gray-600 dark:text-gray-400'>
+        <Text className='text-sm text-muted-foreground'>
           {finalLabels.noWalletText}{' '}
         </Text>
         <Pressable onPress={handleInstallPress} accessibilityRole='link'>
@@ -258,8 +258,8 @@ export const WalletSelectionGrid: React.FC<WalletSelectionGridProps> = ({
             className={cn(
               'text-sm font-medium',
               activeTab === 'ethereum'
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-purple-600 dark:text-purple-400'
+                ? 'text-primary'
+                : 'text-accent-foreground'
             )}
           >
             {activeTab === 'ethereum'

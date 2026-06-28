@@ -57,10 +57,10 @@ export const CTASection: React.FC<CTASectionProps> = ({
   className,
 }) => {
   const gradientClasses = {
-    'blue-purple': 'bg-blue-600 dark:bg-blue-700',
-    'green-blue': 'bg-green-600 dark:bg-green-700',
-    'orange-red': 'bg-orange-600 dark:bg-orange-700',
-    'purple-pink': 'bg-purple-600 dark:bg-purple-700',
+    'blue-purple': 'bg-primary dark:bg-primary',
+    'green-blue': 'bg-success ',
+    'orange-red': 'bg-warning ',
+    'purple-pink': 'bg-accent ',
   };
 
   const sizeClasses = {
@@ -82,7 +82,8 @@ export const CTASection: React.FC<CTASectionProps> = ({
     lg: designTokens.typography.size.xl,
   };
 
-  const textColorClass = textColor === 'light' ? 'text-white' : 'text-gray-900';
+  const textColorClass =
+    textColor === 'light' ? 'text-white' : 'text-foreground';
 
   const renderButton = (button: CTAButton, isPrimary: boolean) => (
     <Pressable
@@ -97,7 +98,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
       <Text
         className={cn(
           'text-base font-semibold text-center',
-          isPrimary ? 'text-blue-600' : 'text-white'
+          isPrimary ? 'text-primary' : 'text-white'
         )}
       >
         {button.label}

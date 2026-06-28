@@ -52,19 +52,14 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
       {items.map((item, index) => (
         <React.Fragment key={index}>
           {index > 0 && (
-            <Text
-              className={cn(
-                'text-gray-400 dark:text-gray-600',
-                typography.size.sm
-              )}
-            >
+            <Text className={cn('text-muted-foreground', typography.size.sm)}>
               {typeof separator === 'string' ? separator : separator}
             </Text>
           )}
           {index === items.length - 1 ? (
             <Text
               className={cn(
-                'text-gray-900 dark:text-white',
+                'text-foreground',
                 typography.weight.medium,
                 typography.size.sm
               )}
@@ -77,12 +72,7 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
               accessibilityRole='link'
               accessibilityLabel={item.label}
             >
-              <Text
-                className={cn(
-                  'text-blue-600 dark:text-blue-400',
-                  typography.size.sm
-                )}
-              >
+              <Text className={cn('text-primary', typography.size.sm)}>
                 {item.label}
               </Text>
             </Pressable>

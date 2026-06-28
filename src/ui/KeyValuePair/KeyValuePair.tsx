@@ -81,16 +81,16 @@ export const KeyValuePair: React.FC<KeyValuePairProps> = ({
   };
 
   const labelVariantClasses = {
-    default: 'text-gray-700 dark:text-gray-300',
-    muted: 'text-gray-600 dark:text-gray-400',
-    strong: `text-gray-900 dark:text-gray-100 ${typography.weight.semibold}`,
+    default: 'text-muted-foreground',
+    muted: 'text-muted-foreground',
+    strong: `text-foreground ${typography.weight.semibold}`,
   };
 
   const valueVariantClasses = {
-    default: 'text-gray-900 dark:text-gray-100',
-    muted: 'text-gray-600 dark:text-gray-400',
-    strong: `text-gray-900 dark:text-gray-100 ${typography.weight.semibold}`,
-    primary: 'text-blue-600 dark:text-blue-400',
+    default: 'text-foreground',
+    muted: 'text-muted-foreground',
+    strong: `text-foreground ${typography.weight.semibold}`,
+    primary: 'text-primary',
   };
 
   const sizeConfig = sizeClasses[size];
@@ -101,7 +101,7 @@ export const KeyValuePair: React.FC<KeyValuePairProps> = ({
         orientation === 'horizontal' ? 'flex-row items-center' : 'flex-col',
         orientation === 'horizontal' && alignClasses[align],
         sizeConfig.gap,
-        separator && 'pb-3 mb-3 border-b border-gray-200 dark:border-gray-700',
+        separator && 'pb-3 mb-3 border-b border-border',
         className
       )}
     >

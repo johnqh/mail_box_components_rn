@@ -56,10 +56,10 @@ export const SmartLink: React.FC<SmartLinkProps> = ({
   const destination = to || href;
 
   const variantClasses = {
-    subtle: 'text-gray-700 dark:text-gray-300',
-    default: 'text-blue-600 dark:text-blue-400 underline',
-    muted: 'text-gray-500 dark:text-gray-500',
-    external: 'text-blue-600 dark:text-blue-400 underline',
+    subtle: 'text-muted-foreground',
+    default: 'text-primary underline',
+    muted: 'text-muted-foreground',
+    external: 'text-primary underline',
     inherit: 'text-inherit',
   };
 
@@ -225,7 +225,7 @@ export const SmartContent: React.FC<SmartContentProps> = ({
   const { parts, links } = processedContent;
 
   return (
-    <Text className={cn('text-gray-900 dark:text-gray-100', className)}>
+    <Text className={cn('text-foreground', className)}>
       {parts.map((part, index) => {
         const linkMatch = part.match(/__LINK_(\d+)__/);
         if (linkMatch) {

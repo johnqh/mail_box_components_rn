@@ -127,7 +127,7 @@ export const Stack: React.FC<StackProps> = ({
               {index < React.Children.count(children) - 1 && (
                 <View
                   className={cn(
-                    'bg-gray-200 dark:bg-gray-700',
+                    'bg-muted',
                     isVertical ? 'h-px w-full' : 'w-px h-full'
                   )}
                 />

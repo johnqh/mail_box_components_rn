@@ -25,7 +25,7 @@ export const XmlParser: React.FC<XmlParserProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>XmlParser Component</Text>
+      <Text className='text-foreground'>XmlParser Component</Text>
     )}
   </View>
 );

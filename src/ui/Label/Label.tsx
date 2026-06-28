@@ -45,9 +45,7 @@ export const Label = React.forwardRef<Text, LabelProps>(
         {...props}
       >
         {children}
-        {required && (
-          <Text className='text-red-600 dark:text-red-400 ml-1'>*</Text>
-        )}
+        {required && <Text className='text-destructive ml-1'>*</Text>}
       </Text>
     );
   }

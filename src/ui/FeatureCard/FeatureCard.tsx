@@ -73,16 +73,16 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   // Color configurations -- derived from colors.raw.* palette
   // Each Tailwind class maps to a colors.raw hex value at the same shade
   const colorClasses: Record<FeatureCardColor, string> = {
-    blue: 'text-blue-600 dark:text-blue-400', // colors.raw.blue[600] / [400]
-    green: 'text-green-600 dark:text-green-400', // colors.raw.green[600] / [400]
-    purple: 'text-purple-600 dark:text-purple-400',
-    orange: 'text-orange-600 dark:text-orange-400', // colors.raw.orange[600] / [400]
-    pink: 'text-pink-600 dark:text-pink-400',
-    gray: 'text-gray-600 dark:text-gray-400', // colors.raw.neutral[600] / [400]
-    red: 'text-red-600 dark:text-red-400', // colors.raw.red[600] / [400]
-    indigo: 'text-indigo-600 dark:text-indigo-400',
-    cyan: 'text-cyan-600 dark:text-cyan-400',
-    emerald: 'text-emerald-600 dark:text-emerald-400',
+    blue: 'text-primary', // colors.raw.blue[600] / [400]
+    green: 'text-success', // colors.raw.green[600] / [400]
+    purple: 'text-accent-foreground',
+    orange: 'text-warning', // colors.raw.orange[600] / [400]
+    pink: 'text-secondary-foreground',
+    gray: 'text-muted-foreground', // colors.raw.neutral[600] / [400]
+    red: 'text-destructive', // colors.raw.red[600] / [400]
+    indigo: 'text-primary ',
+    cyan: 'text-info ',
+    emerald: 'text-success ',
   };
 
   const borderColorClasses: Record<FeatureCardColor, string> = {
@@ -99,29 +99,29 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   };
 
   const iconBackgroundClasses: Record<FeatureCardColor, string> = {
-    green: 'bg-green-100 dark:bg-green-900/20', // colors.raw.green[100] / [900]
-    blue: 'bg-blue-100 dark:bg-blue-900/20', // colors.raw.blue[100] / [900]
-    purple: 'bg-purple-100 dark:bg-purple-900/20', // colors.raw.purple[100] / [900]
-    orange: 'bg-orange-100 dark:bg-orange-900/20', // colors.raw.orange[100] / [900]
-    red: 'bg-red-100 dark:bg-red-900/20', // colors.raw.red[100] / [900]
-    indigo: 'bg-indigo-100 dark:bg-indigo-900/20',
-    cyan: 'bg-cyan-100 dark:bg-cyan-900/20',
-    emerald: 'bg-emerald-100 dark:bg-emerald-900/20',
-    pink: 'bg-pink-100 dark:bg-pink-900/20',
-    gray: 'bg-gray-100 dark:bg-gray-900/20', // colors.raw.neutral[100] / [900]
+    green: 'bg-success/10 ', // colors.raw.green[100] / [900]
+    blue: 'bg-primary/10', // colors.raw.blue[100] / [900]
+    purple: 'bg-accent ', // colors.raw.purple[100] / [900]
+    orange: 'bg-warning/10 ', // colors.raw.orange[100] / [900]
+    red: 'bg-destructive/10 ', // colors.raw.red[100] / [900]
+    indigo: 'bg-primary/10 dark:bg-primary/10',
+    cyan: 'bg-info/10 ',
+    emerald: 'bg-success/10 ',
+    pink: 'bg-secondary ',
+    gray: 'bg-muted/20', // colors.raw.neutral[100] / [900]
   };
 
   const bulletColorClasses: Record<FeatureCardColor, string> = {
-    green: 'bg-green-500', // colors.raw.green[500]
-    blue: 'bg-blue-500', // colors.raw.blue[500]
-    purple: 'bg-purple-500', // colors.raw.purple[500]
-    orange: 'bg-orange-500', // colors.raw.orange[500]
-    red: 'bg-red-500', // colors.raw.red[500]
-    indigo: 'bg-indigo-500',
-    cyan: 'bg-cyan-500',
-    emerald: 'bg-emerald-500',
-    pink: 'bg-pink-500',
-    gray: 'bg-gray-500', // colors.raw.neutral[500]
+    green: 'bg-success', // colors.raw.green[500]
+    blue: 'bg-primary', // colors.raw.blue[500]
+    purple: 'bg-accent', // colors.raw.purple[500]
+    orange: 'bg-warning', // colors.raw.orange[500]
+    red: 'bg-destructive', // colors.raw.red[500]
+    indigo: 'bg-primary/100',
+    cyan: 'bg-info',
+    emerald: 'bg-success',
+    pink: 'bg-secondary',
+    gray: 'bg-muted', // colors.raw.neutral[500]
   };
 
   const CardContent = () => (
@@ -145,7 +145,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
         className={cn(
           designTokens.typography.size.xl,
           designTokens.typography.weight.semibold,
-          'text-gray-900 dark:text-white mb-3'
+          'text-foreground mb-3'
         )}
       >
         {title}
@@ -156,7 +156,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
         className={cn(
           designTokens.typography.size.base,
           designTokens.typography.leading.relaxed,
-          'text-gray-600 dark:text-gray-300 mb-4'
+          'text-muted-foreground mb-4'
         )}
       >
         {description}
@@ -180,7 +180,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
                 className={cn(
                   'flex-1',
                   designTokens.typography.size.sm,
-                  'text-gray-600 dark:text-gray-400'
+                  'text-muted-foreground'
                 )}
               >
                 {benefit}
@@ -196,7 +196,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
           {Object.entries(metrics).map(([key, value], index) => (
             <View
               key={index}
-              className='flex-1 min-w-[80px] items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg'
+              className='flex-1 min-w-[80px] items-center p-3 bg-muted dark:bg-muted/50 rounded-lg'
             >
               <Text
                 className={cn(
@@ -210,7 +210,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
               <Text
                 className={cn(
                   designTokens.typography.size.xs,
-                  'text-gray-500 dark:text-gray-400 mt-1'
+                  'text-muted-foreground mt-1'
                 )}
               >
                 {key}
@@ -226,8 +226,8 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
     'p-6 rounded-xl',
     borderColor && borderColorClasses[color],
     isHighlight
-      ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
-      : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700',
+      ? 'bg-primary/10 border border-primary/20'
+      : 'bg-card border border-border',
     className
   );
 

@@ -87,12 +87,7 @@ export const Logo: React.FC<LogoProps> = ({
         />
       )}
       {showText && (
-        <Text
-          className={cn(
-            'font-bold text-gray-900 dark:text-gray-100',
-            config.text
-          )}
-        >
+        <Text className={cn('font-bold text-foreground', config.text)}>
           {logoText}
         </Text>
       )}

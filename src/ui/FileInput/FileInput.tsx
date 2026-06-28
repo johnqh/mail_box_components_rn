@@ -88,8 +88,8 @@ export const FileInput: React.FC<FileInputProps> = ({
           disabled={disabled}
           className={cn(
             'border-2 border-dashed rounded-lg p-8',
-            'border-gray-300 dark:border-gray-600',
-            'active:border-blue-500 active:bg-blue-50 dark:active:bg-blue-900/10',
+            'border-border',
+            'active:border-primary active:bg-primary/10 ',
             disabled && 'opacity-50'
           )}
           accessibilityRole='button'
@@ -97,14 +97,12 @@ export const FileInput: React.FC<FileInputProps> = ({
           accessibilityState={{ disabled }}
         >
           <View className='items-center justify-center gap-3'>
-            <Text className='text-4xl text-gray-400 dark:text-gray-500'>
-              📁
-            </Text>
-            <Text className='text-sm text-gray-600 dark:text-gray-400 text-center'>
+            <Text className='text-4xl text-muted-foreground'>📁</Text>
+            <Text className='text-sm text-muted-foreground text-center'>
               {dropZoneText}
             </Text>
             {maxSize && (
-              <Text className='text-xs text-gray-500 dark:text-gray-500'>
+              <Text className='text-xs text-muted-foreground'>
                 Max file size: {formatFileSize(maxSize)}
               </Text>
             )}
@@ -112,9 +110,7 @@ export const FileInput: React.FC<FileInputProps> = ({
         </Pressable>
 
         {error && (
-          <Text className='mt-2 text-sm text-red-600 dark:text-red-400'>
-            {error}
-          </Text>
+          <Text className='mt-2 text-sm text-destructive'>{error}</Text>
         )}
 
         {showFileList && files.length > 0 && (
@@ -136,10 +132,10 @@ export const FileInput: React.FC<FileInputProps> = ({
         disabled={disabled}
         className={cn(
           'flex-row items-center px-4 py-2',
-          'border border-gray-300 dark:border-gray-600',
+          'border border-border',
           'rounded-lg',
-          'bg-white dark:bg-gray-800',
-          'active:bg-gray-50 dark:active:bg-gray-700',
+          'bg-card',
+          'active:bg-muted ',
           disabled && 'opacity-50'
         )}
         accessibilityRole='button'
@@ -147,16 +143,12 @@ export const FileInput: React.FC<FileInputProps> = ({
         accessibilityState={{ disabled }}
       >
         <Text className='text-lg mr-2'>📄</Text>
-        <Text className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+        <Text className='text-sm font-medium text-muted-foreground'>
           {buttonText}
         </Text>
       </Pressable>
 
-      {error && (
-        <Text className='mt-2 text-sm text-red-600 dark:text-red-400'>
-          {error}
-        </Text>
-      )}
+      {error && <Text className='mt-2 text-sm text-destructive'>{error}</Text>}
 
       {showFileList && files.length > 0 && (
         <FileList
@@ -182,18 +174,18 @@ const FileList: React.FC<{
       {files.map((file, index) => (
         <View
           key={`${file.name}-${index}`}
-          className='flex-row items-center justify-between p-2 mb-2 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700'
+          className='flex-row items-center justify-between p-2 mb-2 bg-card rounded-lg border border-border'
         >
           <View className='flex-row items-center flex-1 mr-2'>
             <Text className='text-lg mr-2'>📄</Text>
             <View className='flex-1'>
               <Text
-                className='text-sm font-medium text-gray-900 dark:text-gray-100'
+                className='text-sm font-medium text-foreground'
                 numberOfLines={1}
               >
                 {file.name}
               </Text>
-              <Text className='text-xs text-gray-500 dark:text-gray-400'>
+              <Text className='text-xs text-muted-foreground'>
                 {formatFileSize(file.size)}
               </Text>
             </View>
@@ -202,11 +194,11 @@ const FileList: React.FC<{
           {onRemove && (
             <Pressable
               onPress={() => onRemove(index)}
-              className='p-1 active:bg-red-100 dark:active:bg-red-900/20 rounded'
+              className='p-1 active:bg-destructive/10  rounded'
               accessibilityRole='button'
               accessibilityLabel='Remove file'
             >
-              <Text className='text-red-500 dark:text-red-400'>✕</Text>
+              <Text className='text-destructive '>✕</Text>
             </Pressable>
           )}
         </View>

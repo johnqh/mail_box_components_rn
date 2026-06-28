@@ -94,10 +94,10 @@ export const InfoBox: React.FC<InfoBoxProps> = ({
       text: dsError.text,
     },
     neutral: {
-      bg: 'bg-gray-50 dark:bg-gray-800',
-      border: 'border-gray-200 dark:border-gray-700',
-      title: 'text-gray-900 dark:text-gray-100',
-      text: 'text-gray-700 dark:text-gray-300',
+      bg: 'bg-card',
+      border: 'border-border',
+      title: 'text-foreground',
+      text: 'text-muted-foreground',
     },
   };
 

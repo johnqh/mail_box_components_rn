@@ -25,7 +25,7 @@ export const EmailInputField: React.FC<EmailInputFieldProps> = ({
   return (
     <View className={className}>
       <Text className={cn(textVariants.label.default(), 'mb-1')}>
-        {label} {required && <Text className='text-red-500'>*</Text>}
+        {label} {required && <Text className='text-destructive'>*</Text>}
       </Text>
       <TextInput
         value={value}

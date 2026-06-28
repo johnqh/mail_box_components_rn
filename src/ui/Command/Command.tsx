@@ -143,17 +143,17 @@ export const Command: React.FC<CommandProps> = ({
           {/* Command Palette */}
           <Pressable
             className={cn(
-              'mx-4 bg-white dark:bg-gray-900 rounded-xl overflow-hidden',
+              'mx-4 bg-background rounded-xl overflow-hidden',
               'shadow-xl',
               className
             )}
             onPress={e => e.stopPropagation()}
           >
             {/* Search Input */}
-            <View className='border-b border-gray-200 dark:border-gray-700 p-4'>
+            <View className='border-b border-border p-4'>
               <View className='flex-row items-center gap-3'>
                 <View className='w-5 h-5 items-center justify-center'>
-                  <Text className='text-gray-400'>🔍</Text>
+                  <Text className='text-muted-foreground'>🔍</Text>
                 </View>
                 <TextInput
                   ref={inputRef}
@@ -161,7 +161,7 @@ export const Command: React.FC<CommandProps> = ({
                   onChangeText={setSearchQuery}
                   placeholder={placeholder}
                   placeholderTextColor={colors.raw.neutral[400]}
-                  className='flex-1 text-gray-900 dark:text-white text-base'
+                  className='flex-1 text-foreground text-base'
                   autoCapitalize='none'
                   autoCorrect={false}
                   returnKeyType='search'
@@ -177,7 +177,7 @@ export const Command: React.FC<CommandProps> = ({
               <View className='p-2'>
                 {Object.keys(groupedItems).length === 0 ? (
                   <View className='px-4 py-8'>
-                    <Text className='text-sm text-gray-500 dark:text-gray-400 text-center'>
+                    <Text className='text-sm text-muted-foreground text-center'>
                       {emptyMessage}
                     </Text>
                   </View>
@@ -186,7 +186,7 @@ export const Command: React.FC<CommandProps> = ({
                     ([groupName, groupItems]) => (
                       <View key={groupName} className='mb-4'>
                         {/* Group Header */}
-                        <Text className='px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider'>
+                        <Text className='px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
                           {groupName}
                         </Text>
 
@@ -203,8 +203,8 @@ export const Command: React.FC<CommandProps> = ({
                                 className={cn(
                                   'flex-row items-center gap-3 px-3 py-2 rounded-md',
                                   isSelected
-                                    ? 'bg-blue-50 dark:bg-blue-900/30'
-                                    : 'active:bg-gray-100 dark:active:bg-gray-800'
+                                    ? 'bg-primary/10'
+                                    : 'active:bg-muted'
                                 )}
                                 accessibilityRole='button'
                                 accessibilityLabel={item.label}
@@ -216,15 +216,15 @@ export const Command: React.FC<CommandProps> = ({
                                   className={cn(
                                     'flex-1 text-sm',
                                     isSelected
-                                      ? 'text-blue-700 dark:text-blue-300'
-                                      : 'text-gray-900 dark:text-white'
+                                      ? 'text-primary'
+                                      : 'text-foreground'
                                   )}
                                   numberOfLines={1}
                                 >
                                   {item.label}
                                 </Text>
                                 {item.shortcut && (
-                                  <Text className='text-xs text-gray-500 dark:text-gray-400 font-mono'>
+                                  <Text className='text-xs text-muted-foreground font-mono'>
                                     {item.shortcut}
                                   </Text>
                                 )}
@@ -240,8 +240,8 @@ export const Command: React.FC<CommandProps> = ({
             </ScrollView>
 
             {/* Footer */}
-            <View className='border-t border-gray-200 dark:border-gray-700 px-4 py-2'>
-              <Text className='text-xs text-gray-500 dark:text-gray-400 text-center'>
+            <View className='border-t border-border px-4 py-2'>
+              <Text className='text-xs text-muted-foreground text-center'>
                 Tap an item to select
               </Text>
             </View>

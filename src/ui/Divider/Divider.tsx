@@ -3,11 +3,11 @@ import { View, Text, ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textVariants } from '@sudobility/design';
 
-// Divider line colors aligned with DS border tokens (colors.semantic.border)
+// Divider line colors aligned with DS semantic border tokens.
 const lineVariantClasses = {
-  light: 'bg-gray-200 dark:bg-gray-700',
-  medium: 'bg-gray-300 dark:bg-gray-600',
-  dark: 'bg-gray-400 dark:bg-gray-500',
+  light: 'bg-border',
+  medium: 'bg-border',
+  dark: 'bg-muted-foreground',
 } as const;
 
 export interface DividerProps extends ViewProps {

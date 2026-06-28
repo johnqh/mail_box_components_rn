@@ -69,7 +69,7 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
   return (
     <View
       className={cn(
-        'rounded-lg border border-gray-200 dark:border-gray-700 p-6',
+        'rounded-lg border border-border p-6',
         variantClasses[variant],
         className
       )}
@@ -77,18 +77,16 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
       {/* Header */}
       <View className='flex-row items-start justify-between mb-2'>
         <Text
-          className={`${designTokens.typography.size.sm} ${designTokens.typography.weight.medium} text-gray-600 dark:text-gray-400`}
+          className={`${designTokens.typography.size.sm} ${designTokens.typography.weight.medium} text-muted-foreground`}
         >
           {title}
         </Text>
-        {icon && (
-          <View className='text-gray-400 dark:text-gray-600'>{icon}</View>
-        )}
+        {icon && <View className='text-muted-foreground'>{icon}</View>}
       </View>
 
       {/* Value */}
       <Text
-        className={`${designTokens.typography.size['3xl']} ${designTokens.typography.weight.bold} text-gray-900 dark:text-white`}
+        className={`${designTokens.typography.size['3xl']} ${designTokens.typography.weight.bold} text-foreground`}
       >
         {value}
       </Text>
@@ -100,15 +98,13 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
             className={cn(
               designTokens.typography.size.sm,
               designTokens.typography.weight.medium,
-              isPositive
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-red-600 dark:text-red-400'
+              isPositive ? 'text-success' : 'text-destructive'
             )}
           >
             {isPositive ? '↑' : '↓'} {Math.abs(change)}%
           </Text>
           <Text
-            className={`${designTokens.typography.size.xs} text-gray-500 dark:text-gray-400`}
+            className={`${designTokens.typography.size.xs} text-muted-foreground`}
           >
             {changePeriod}
           </Text>

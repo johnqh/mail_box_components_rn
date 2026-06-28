@@ -74,8 +74,8 @@ export const LoadingDots: React.FC<LoadingDotsProps> = ({
   };
 
   const variantClasses = {
-    primary: 'bg-blue-600 dark:bg-blue-500',
-    secondary: 'bg-gray-600 dark:bg-gray-400',
+    primary: 'bg-primary dark:bg-primary',
+    secondary: 'bg-muted ',
     white: 'bg-white',
   };
 

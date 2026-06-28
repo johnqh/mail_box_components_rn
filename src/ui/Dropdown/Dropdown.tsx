@@ -113,8 +113,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       <Pressable
         onPress={handleOpen}
         className={cn(
-          variant === 'bordered' &&
-            'border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2'
+          variant === 'bordered' && 'border border-border rounded-md px-3 py-2'
         )}
         accessibilityRole='button'
         accessibilityLabel='Open menu'
@@ -133,13 +132,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
           <View className='flex-1'>
             <View
               style={menuStyle}
-              className='bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 overflow-hidden'
+              className='bg-card rounded-lg shadow-lg border border-border py-1 overflow-hidden'
             >
               {items.map(item =>
                 item.separator ? (
                   <View
                     key={item.id}
-                    className='my-1 h-px bg-gray-200 dark:bg-gray-700'
+                    className='my-1 h-px bg-muted'
                     accessibilityRole='none'
                   />
                 ) : (
@@ -149,9 +148,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     disabled={item.disabled}
                     className={cn(
                       'flex-row items-center gap-2 px-4 py-2.5',
-                      item.disabled
-                        ? 'opacity-50'
-                        : 'active:bg-gray-100 dark:active:bg-gray-700'
+                      item.disabled ? 'opacity-50' : 'active:bg-muted'
                     )}
                     accessibilityRole='menuitem'
                     accessibilityState={{ disabled: item.disabled }}
@@ -161,8 +158,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
                       className={cn(
                         typography.size.sm,
                         item.disabled
-                          ? 'text-gray-400 dark:text-gray-500'
-                          : 'text-gray-700 dark:text-gray-200'
+                          ? 'text-muted-foreground'
+                          : 'text-foreground'
                       )}
                     >
                       {item.label}

@@ -108,7 +108,7 @@ export const Badge: React.FC<BadgeProps> = ({
     warning: ds.warning.bg,
     danger: ds.error.bg,
     info: ds.primary.bg,
-    purple: 'bg-purple-100 dark:bg-purple-900/30',
+    purple: 'bg-accent',
   };
 
   // Filled badge text colors from design system
@@ -119,28 +119,28 @@ export const Badge: React.FC<BadgeProps> = ({
     warning: ds.warning.text,
     danger: ds.error.text,
     info: ds.primary.text,
-    purple: 'text-purple-800 dark:text-purple-400',
+    purple: 'text-accent-foreground dark:text-accent-foreground',
   };
 
   // Outline badge borders (no direct DS equivalent; aligned with DS color palette)
   const outlineClasses = {
-    default: 'border border-gray-300 dark:border-gray-600',
-    primary: 'border border-blue-600 dark:border-blue-400',
-    success: 'border border-green-600 dark:border-green-400',
-    warning: 'border border-orange-600 dark:border-orange-400',
-    danger: 'border border-red-600 dark:border-red-400',
-    info: 'border border-blue-600 dark:border-blue-400',
-    purple: 'border border-purple-600 dark:border-purple-400',
+    default: 'border border-border',
+    primary: 'border border-primary ',
+    success: 'border border-success ',
+    warning: 'border border-warning ',
+    danger: 'border border-destructive ',
+    info: 'border border-primary ',
+    purple: 'border border-accent ',
   };
 
   const outlineTextClasses = {
-    default: 'text-gray-700 dark:text-gray-300',
-    primary: 'text-blue-600 dark:text-blue-400',
-    success: 'text-green-600 dark:text-green-400',
-    warning: 'text-orange-600 dark:text-orange-400',
-    danger: 'text-red-600 dark:text-red-400',
-    info: 'text-blue-600 dark:text-blue-400',
-    purple: 'text-purple-600 dark:text-purple-400',
+    default: 'text-muted-foreground',
+    primary: 'text-primary',
+    success: 'text-success',
+    warning: 'text-warning',
+    danger: 'text-destructive',
+    info: 'text-primary',
+    purple: 'text-accent-foreground',
   };
 
   // Size configurations
@@ -152,13 +152,13 @@ export const Badge: React.FC<BadgeProps> = ({
 
   // Dot indicator colors aligned with DS palette
   const dotColorClasses = {
-    default: 'bg-gray-600 dark:bg-gray-400',
-    primary: 'bg-blue-600 dark:bg-blue-400',
-    success: 'bg-green-600 dark:bg-green-400',
-    warning: 'bg-orange-600 dark:bg-orange-400',
-    danger: 'bg-red-600 dark:bg-red-400',
-    info: 'bg-blue-600 dark:bg-blue-400',
-    purple: 'bg-purple-600 dark:bg-purple-400',
+    default: 'bg-muted ',
+    primary: 'bg-primary ',
+    success: 'bg-success ',
+    warning: 'bg-warning ',
+    danger: 'bg-destructive ',
+    info: 'bg-primary ',
+    purple: 'bg-accent ',
   };
 
   // Format count display

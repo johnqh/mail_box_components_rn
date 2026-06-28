@@ -97,20 +97,20 @@ export const Modal: React.FC<ModalProps> = ({
           <Pressable
             onPress={e => e.stopPropagation()}
             className={cn(
-              'bg-white dark:bg-gray-800 rounded-xl shadow-xl max-h-[80%]',
+              'bg-card rounded-xl shadow-xl max-h-[80%]',
               sizeClasses[size],
               className
             )}
           >
             {/* Header */}
             {(title || showCloseButton) && (
-              <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+              <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-border'>
                 {title && (
                   <Text
                     className={cn(
                       typography.size.lg,
                       typography.weight.semibold,
-                      'text-gray-900 dark:text-white flex-1'
+                      'text-foreground flex-1'
                     )}
                   >
                     {title}
@@ -126,7 +126,7 @@ export const Modal: React.FC<ModalProps> = ({
                     <Text
                       className={cn(
                         typography.size.xl,
-                        'text-gray-500 dark:text-gray-400'
+                        'text-muted-foreground'
                       )}
                     >
                       ✕
@@ -157,12 +157,7 @@ export const ModalHeader: React.FC<ModalHeaderProps> = ({
   children,
   className,
 }) => (
-  <View
-    className={cn(
-      'px-4 py-3 border-b border-gray-200 dark:border-gray-700',
-      className
-    )}
-  >
+  <View className={cn('px-4 py-3 border-b border-border', className)}>
     {children}
   </View>
 );
@@ -194,7 +189,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({
 }) => (
   <View
     className={cn(
-      'flex flex-row items-center justify-end gap-2 px-4 py-3 border-t border-gray-200 dark:border-gray-700',
+      'flex flex-row items-center justify-end gap-2 px-4 py-3 border-t border-border',
       className
     )}
   >

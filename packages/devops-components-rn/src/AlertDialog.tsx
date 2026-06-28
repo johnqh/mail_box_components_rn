@@ -33,22 +33,22 @@ const variantClasses: Record<
   default: {
     iconBg: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
     icon: `${colors.component.alert.info.icon}`,
-    button: 'bg-blue-600 active:bg-blue-700',
+    button: 'bg-primary active:bg-primary/90',
   },
   danger: {
     iconBg: `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`,
     icon: `${colors.component.alert.error.icon}`,
-    button: 'bg-red-600 active:bg-red-700',
+    button: 'bg-destructive active:bg-destructive',
   },
   warning: {
     iconBg: `${colors.component.badge.attention.base} ${colors.component.badge.attention.dark}`,
     icon: `${colors.component.alert.attention.icon}`,
-    button: 'bg-amber-600 active:bg-amber-700',
+    button: 'bg-warning active:bg-warning',
   },
   success: {
     iconBg: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
     icon: `${colors.component.alert.success.icon}`,
-    button: 'bg-green-600 active:bg-green-700',
+    button: 'bg-success active:bg-success',
   },
 };
 
@@ -96,7 +96,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
       <View className='flex-1 justify-center items-center bg-black/50 p-4'>
         <View
           className={cn(
-            'w-full max-w-md bg-white dark:bg-gray-900 rounded-lg shadow-xl',
+            'w-full max-w-md bg-background rounded-lg shadow-xl',
             className
           )}
           {...props}
@@ -132,7 +132,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
           </View>
 
           {/* Actions */}
-          <View className='flex-row gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg'>
+          <View className='flex-row gap-3 px-6 py-4 bg-card/50 rounded-b-lg'>
             {showCancel && (
               <Pressable
                 onPress={onClose}
@@ -140,12 +140,12 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
                 accessibilityRole='button'
                 className={cn(
                   'flex-1 px-4 py-2 rounded-md border',
-                  'bg-white dark:bg-gray-700',
-                  'border-gray-300 dark:border-gray-600',
+                  'bg-card',
+                  'border-border',
                   loading && 'opacity-50'
                 )}
               >
-                <Text className='text-sm font-medium text-center text-gray-700 dark:text-gray-300'>
+                <Text className='text-sm font-medium text-center text-muted-foreground'>
                   {cancelLabel}
                 </Text>
               </Pressable>

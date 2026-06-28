@@ -110,8 +110,8 @@ export const DateInput: React.FC<DateInputProps> = ({
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between',
-          'bg-white dark:bg-gray-800',
-          'border border-gray-300 dark:border-gray-600',
+          'bg-card',
+          'border border-border',
           'rounded-lg',
           sizeClasses[size],
           disabled && 'opacity-50'
@@ -123,14 +123,12 @@ export const DateInput: React.FC<DateInputProps> = ({
         <Text
           className={cn(
             'flex-1',
-            dateValue
-              ? 'text-gray-900 dark:text-gray-100'
-              : 'text-gray-400 dark:text-gray-500'
+            dateValue ? 'text-foreground' : 'text-muted-foreground'
           )}
         >
           {dateValue ? formatDisplay(dateValue) : placeholder}
         </Text>
-        <Text className='text-gray-400 dark:text-gray-500 ml-2'>📅</Text>
+        <Text className='text-muted-foreground ml-2'>📅</Text>
       </Pressable>
 
       {/* Calendar Modal */}
@@ -143,7 +141,7 @@ export const DateInput: React.FC<DateInputProps> = ({
         <TouchableWithoutFeedback onPress={handleClose}>
           <View className='flex-1 justify-center px-4 bg-black/50'>
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-lg p-4 shadow-xl'>
+              <View className='bg-background rounded-lg p-4 shadow-xl'>
                 <Calendar
                   value={dateValue || new Date()}
                   onChange={handleDateChange}
@@ -152,14 +150,14 @@ export const DateInput: React.FC<DateInputProps> = ({
                 />
 
                 {/* Close button */}
-                <View className='mt-4 pt-4 border-t border-gray-200 dark:border-gray-700'>
+                <View className='mt-4 pt-4 border-t border-border'>
                   <Pressable
                     onPress={handleClose}
                     className='items-center py-2'
                     accessibilityRole='button'
                     accessibilityLabel='Cancel'
                   >
-                    <Text className='text-sm font-medium text-gray-600 dark:text-gray-400'>
+                    <Text className='text-sm font-medium text-muted-foreground'>
                       Cancel
                     </Text>
                   </Pressable>

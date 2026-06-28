@@ -30,7 +30,7 @@ export const EmailCampaign: React.FC<EmailCampaignProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-gray-900 dark:text-white'>
+        <Text className='text-foreground'>
           EmailCampaign Component
         </Text>
       )}

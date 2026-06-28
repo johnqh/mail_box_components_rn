@@ -166,9 +166,9 @@ export const SplitPane: React.FC<SplitPaneProps> = ({
         {...(resizable ? panResponder.panHandlers : {})}
         className={cn(
           'items-center justify-center',
-          'bg-gray-200 dark:bg-gray-700',
-          isDragging && 'bg-blue-500 dark:bg-blue-400',
-          resizable && 'active:bg-blue-500 dark:active:bg-blue-400'
+          'bg-muted',
+          isDragging && 'bg-primary ',
+          resizable && 'active:bg-primary '
         )}
         style={{
           [isHorizontal ? 'width' : 'height']: dividerSize,
@@ -179,8 +179,8 @@ export const SplitPane: React.FC<SplitPaneProps> = ({
           <View
             className={cn(
               'rounded-full',
-              'bg-gray-400 dark:bg-gray-500',
-              isDragging && 'bg-white'
+              'bg-muted ',
+              isDragging && 'bg-primary'
             )}
             style={{
               [isHorizontal ? 'width' : 'height']: 4,

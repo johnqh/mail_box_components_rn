@@ -54,14 +54,14 @@ function buildCodeColors() {
   const error = splitClasses(alert.error.base, alert.error.dark);
   return {
     bg: {
-      default: 'bg-gray-100 dark:bg-gray-800',
+      default: 'bg-muted',
       primary: info.bg,
       success: success.bg,
       warning: warning.bg,
       danger: error.bg,
     } as Record<string, string>,
     text: {
-      default: 'text-gray-900 dark:text-gray-100',
+      default: 'text-foreground',
       primary: info.text,
       success: success.text,
       warning: warning.text,

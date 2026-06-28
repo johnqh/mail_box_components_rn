@@ -19,12 +19,12 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
     owner:
-      'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
-    admin: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-    member: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-    viewer: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+      'bg-accent  text-accent-foreground ',
+    admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
+    member: 'bg-success/10  text-success',
+    viewer: 'bg-muted text-foreground',
     guest:
-      'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+      'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -43,13 +43,13 @@ const getRoleLabel = (role: EntityRole): string => {
 const getStatusColor = (status?: string): string => {
   switch (status) {
     case 'active':
-      return 'bg-green-500';
+      return 'bg-success';
     case 'inactive':
-      return 'bg-gray-400';
+      return 'bg-muted';
     case 'pending':
-      return 'bg-yellow-500';
+      return 'bg-warning';
     default:
-      return 'bg-green-500';
+      return 'bg-success';
   }
 };
 
@@ -118,8 +118,8 @@ export const MemberList: React.FC<MemberListProps> = ({
       disabled={!onMemberPress}
       className={cn(
         'flex-row items-center p-4 rounded-xl mb-3',
-        'bg-white dark:bg-gray-800',
-        'border border-gray-200 dark:border-gray-700',
+        'bg-card',
+        'border border-border',
         'active:opacity-80',
       )}
       accessibilityRole='button'
@@ -130,19 +130,19 @@ export const MemberList: React.FC<MemberListProps> = ({
         {item.avatarUrl ? (
           <Image
             source={{ uri: item.avatarUrl }}
-            className='w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600'
+            className='w-12 h-12 rounded-full bg-muted dark:bg-muted'
             accessibilityIgnoresInvertColors
           />
         ) : (
-          <View className='w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600 items-center justify-center'>
-            <Text className='text-lg font-semibold text-gray-600 dark:text-gray-300'>
+          <View className='w-12 h-12 rounded-full bg-muted dark:bg-muted items-center justify-center'>
+            <Text className='text-lg font-semibold text-muted-foreground'>
               {item.name.charAt(0).toUpperCase()}
             </Text>
           </View>
         )}
         {/* Status indicator */}
         <View
-          className={cn('absolute bottom-0 right-0 w-3 h-3 rounded-full', getStatusColor(item.status), 'border-2 border-white dark:border-gray-800')}
+          className={cn('absolute bottom-0 right-0 w-3 h-3 rounded-full', getStatusColor(item.status), 'border-2 border-background ')}
         />
       </View>
 
@@ -150,7 +150,7 @@ export const MemberList: React.FC<MemberListProps> = ({
       <View className='flex-1'>
         <View className='flex-row items-center flex-wrap'>
           <Text
-            className='text-base font-semibold text-gray-900 dark:text-white mr-2'
+            className='text-base font-semibold text-foreground mr-2'
             numberOfLines={1}
           >
             {item.name}
@@ -164,13 +164,13 @@ export const MemberList: React.FC<MemberListProps> = ({
           </View>
         </View>
         <Text
-          className='text-sm text-gray-600 dark:text-gray-400'
+          className='text-sm text-muted-foreground'
           numberOfLines={1}
         >
           {item.email}
         </Text>
         {item.joinedAt && (
-          <Text className='text-xs text-gray-500 dark:text-gray-500 mt-1'>
+          <Text className='text-xs text-muted-foreground mt-1'>
             Joined {new Date(item.joinedAt).toLocaleDateString()}
           </Text>
         )}
@@ -185,7 +185,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             accessibilityRole='button'
             accessibilityLabel='Edit role'
           >
-            <Text className='text-blue-500 dark:text-blue-400 text-sm'>
+            <Text className='text-primary dark:text-primary text-sm'>
               Edit
             </Text>
           </Pressable>
@@ -197,7 +197,7 @@ export const MemberList: React.FC<MemberListProps> = ({
             accessibilityRole='button'
             accessibilityLabel='Remove member'
           >
-            <Text className='text-red-500 dark:text-red-400 text-sm'>
+            <Text className='text-destructive  text-sm'>
               Remove
             </Text>
           </Pressable>
@@ -211,7 +211,7 @@ export const MemberList: React.FC<MemberListProps> = ({
       return (
         <View className='flex-1 items-center justify-center py-12'>
           <ActivityIndicator size='large' color={colors.raw.blue[500]} />
-          <Text className='text-gray-500 dark:text-gray-400 mt-4'>
+          <Text className='text-muted-foreground mt-4'>
             Loading...
           </Text>
         </View>
@@ -221,7 +221,7 @@ export const MemberList: React.FC<MemberListProps> = ({
     return (
       <View className='flex-1 items-center justify-center py-12'>
         {emptyIcon}
-        <Text className='text-gray-500 dark:text-gray-400 text-center mt-2'>
+        <Text className='text-muted-foreground text-center mt-2'>
           {emptyMessage}
         </Text>
       </View>

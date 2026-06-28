@@ -32,14 +32,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   return (
     <View className={cn('mb-8', className)}>
       {title && (
-        <Text className='text-3xl font-bold text-gray-900 dark:text-white'>
-          {title}
-        </Text>
+        <Text className='text-3xl font-bold text-foreground'>{title}</Text>
       )}
       {description && (
-        <Text className='mt-2 text-gray-600 dark:text-gray-400'>
-          {description}
-        </Text>
+        <Text className='mt-2 text-muted-foreground'>{description}</Text>
       )}
     </View>
   );

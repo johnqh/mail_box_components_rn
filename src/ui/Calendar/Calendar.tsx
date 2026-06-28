@@ -148,21 +148,16 @@ export const Calendar: React.FC<CalendarProps> = ({
   }
 
   return (
-    <View className={cn('bg-white dark:bg-gray-900 rounded-lg p-4', className)}>
+    <View className={cn('bg-background rounded-lg p-4', className)}>
       {/* Header */}
       <View className='flex-row items-center justify-between mb-4'>
         <Pressable
           onPress={goToPreviousMonth}
-          className='p-2 active:bg-gray-100 dark:active:bg-gray-800 rounded-md'
+          className='p-2 active:bg-muted rounded-md'
           accessibilityRole='button'
           accessibilityLabel='Previous month'
         >
-          <Text
-            className={cn(
-              typography.size.lg,
-              'text-gray-700 dark:text-gray-300'
-            )}
-          >
+          <Text className={cn(typography.size.lg, 'text-muted-foreground')}>
             ‹
           </Text>
         </Pressable>
@@ -171,7 +166,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           className={cn(
             typography.size.base,
             typography.weight.semibold,
-            'text-gray-900 dark:text-white'
+            'text-foreground'
           )}
         >
           {monthYear}
@@ -179,16 +174,11 @@ export const Calendar: React.FC<CalendarProps> = ({
 
         <Pressable
           onPress={goToNextMonth}
-          className='p-2 active:bg-gray-100 dark:active:bg-gray-800 rounded-md'
+          className='p-2 active:bg-muted rounded-md'
           accessibilityRole='button'
           accessibilityLabel='Next month'
         >
-          <Text
-            className={cn(
-              typography.size.lg,
-              'text-gray-700 dark:text-gray-300'
-            )}
-          >
+          <Text className={cn(typography.size.lg, 'text-muted-foreground')}>
             ›
           </Text>
         </Pressable>
@@ -202,7 +192,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               className={cn(
                 typography.size.xs,
                 typography.weight.medium,
-                'text-gray-600 dark:text-gray-400'
+                'text-muted-foreground'
               )}
             >
               {day}
@@ -236,12 +226,10 @@ export const Calendar: React.FC<CalendarProps> = ({
                 disabled={isDisabled}
                 className={cn(
                   'flex-1 aspect-square items-center justify-center rounded-md m-0.5',
-                  !isDisabled && 'active:bg-gray-100 dark:active:bg-gray-800',
+                  !isDisabled && 'active:bg-muted',
                   isDisabled && 'opacity-40',
-                  isSelected && 'bg-blue-600 dark:bg-blue-500',
-                  isToday &&
-                    !isSelected &&
-                    'border-2 border-blue-600 dark:border-blue-400'
+                  isSelected && 'bg-primary dark:bg-primary',
+                  isToday && !isSelected && 'border-2 border-primary '
                 )}
                 accessibilityRole='button'
                 accessibilityLabel={date.toLocaleDateString()}
@@ -254,8 +242,8 @@ export const Calendar: React.FC<CalendarProps> = ({
                   className={cn(
                     typography.size.sm,
                     isCurrentMonth
-                      ? 'text-gray-900 dark:text-white'
-                      : 'text-gray-400 dark:text-gray-600',
+                      ? 'text-foreground'
+                      : 'text-muted-foreground',
                     isSelected && `text-white ${typography.weight.semibold}`
                   )}
                 >

@@ -134,15 +134,15 @@ export function SubscriptionLayout({
         {/* Current Status Section */}
         {currentStatus && (
           <View className='mb-6'>
-            <Text className='text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4'>
+            <Text className='text-2xl font-bold text-foreground mb-4'>
               {currentStatusLabel}
             </Text>
 
             {currentStatus.isActive ? (
-              <View className='bg-gray-50 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-lg p-4'>
+              <View className='bg-card/30 border border-border rounded-lg p-4'>
                 <View className='flex-row items-center mb-2'>
-                  <View className='w-3 h-3 bg-green-500 rounded-full mr-3' />
-                  <Text className='font-semibold text-gray-800 dark:text-gray-200'>
+                  <View className='w-3 h-3 bg-success rounded-full mr-3' />
+                  <Text className='font-semibold text-foreground'>
                     {currentStatus.activeContent?.title ||
                       'Active Subscription'}
                   </Text>
@@ -153,10 +153,10 @@ export function SubscriptionLayout({
                       {currentStatus.activeContent.fields.map(
                         (field, index) => (
                           <View key={index}>
-                            <Text className='text-sm text-gray-500 dark:text-gray-400'>
+                            <Text className='text-sm text-muted-foreground'>
                               {field.label}
                             </Text>
-                            <Text className='font-semibold text-gray-700 dark:text-gray-300'>
+                            <Text className='font-semibold text-muted-foreground'>
                               {field.value}
                             </Text>
                           </View>
@@ -166,15 +166,15 @@ export function SubscriptionLayout({
                   )}
                 {currentStatus.activeContent?.platform && (
                   <View className='mt-4'>
-                    <Text className='text-sm text-gray-500 dark:text-gray-400'>
+                    <Text className='text-sm text-muted-foreground'>
                       {currentStatus.activeContent.platform.label}
                     </Text>
                     <View className='flex-row items-center gap-1.5 mt-0.5'>
                       <PlatformIcon
                         platform={currentStatus.activeContent.platform.value}
-                        className='text-gray-600 dark:text-gray-300'
+                        className='text-muted-foreground'
                       />
-                      <Text className='font-semibold text-gray-700 dark:text-gray-300'>
+                      <Text className='font-semibold text-muted-foreground'>
                         {platformDisplayName(currentStatus.activeContent.platform.value)}
                       </Text>
                     </View>
@@ -182,16 +182,16 @@ export function SubscriptionLayout({
                 )}
               </View>
             ) : (
-              <View className='bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4'>
+              <View className='bg-warning/10 border border-warning/20 rounded-lg p-4'>
                 <View className='flex-row items-center mb-2'>
-                  <View className='w-3 h-3 bg-yellow-500 rounded-full mr-3' />
-                  <Text className='font-semibold text-yellow-800 dark:text-yellow-300'>
+                  <View className='w-3 h-3 bg-warning rounded-full mr-3' />
+                  <Text className='font-semibold text-warning'>
                     {currentStatus.inactiveContent?.title ||
                       'No Active Subscription'}
                   </Text>
                 </View>
                 {currentStatus.inactiveContent?.message && (
-                  <Text className='text-yellow-700 dark:text-yellow-400'>
+                  <Text className='text-warning'>
                     {currentStatus.inactiveContent.message}
                   </Text>
                 )}
@@ -201,7 +201,7 @@ export function SubscriptionLayout({
         )}
 
         {/* Section Title */}
-        <Text className='text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4'>
+        <Text className='text-2xl font-bold text-foreground mb-4'>
           {title}
         </Text>
 
@@ -232,8 +232,8 @@ export function SubscriptionLayout({
 
         {/* Error Message */}
         {error && (
-          <View className='bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mt-6'>
-            <Text className='text-red-600 dark:text-red-400'>{error}</Text>
+          <View className='bg-destructive/10 border border-destructive/20 rounded-lg p-4 mt-6'>
+            <Text className='text-destructive'>{error}</Text>
           </View>
         )}
 
@@ -245,7 +245,7 @@ export function SubscriptionLayout({
                 onPress={handleSecondaryPress}
                 disabled={secondaryAction.disabled || secondaryAction.loading}
                 className={cn(
-                  'py-3 rounded-lg border border-gray-300 dark:border-gray-600 items-center',
+                  'py-3 rounded-lg border border-border items-center',
                   (secondaryAction.disabled || secondaryAction.loading) &&
                     'opacity-50'
                 )}
@@ -253,7 +253,7 @@ export function SubscriptionLayout({
                 {secondaryAction.loading ? (
                   <ActivityIndicator size='small' />
                 ) : (
-                  <Text className='font-semibold text-gray-900 dark:text-gray-100'>
+                  <Text className='font-semibold text-foreground'>
                     {secondaryAction.label}
                   </Text>
                 )}
@@ -264,7 +264,7 @@ export function SubscriptionLayout({
               onPress={handlePrimaryPress}
               disabled={primaryAction.disabled || primaryAction.loading}
               className={cn(
-                'py-3 rounded-lg bg-blue-600 items-center',
+                'py-3 rounded-lg bg-primary items-center',
                 (primaryAction.disabled || primaryAction.loading) &&
                   'opacity-50'
               )}
@@ -301,17 +301,17 @@ export function SubscriptionDivider({
   if (label) {
     return (
       <View className={cn('flex-row items-center gap-4 my-4', className)}>
-        <View className='flex-1 h-px bg-gray-200 dark:bg-gray-700' />
-        <Text className='text-sm text-gray-500 dark:text-gray-400'>
+        <View className='flex-1 h-px bg-muted' />
+        <Text className='text-sm text-muted-foreground'>
           {label}
         </Text>
-        <View className='flex-1 h-px bg-gray-200 dark:bg-gray-700' />
+        <View className='flex-1 h-px bg-muted' />
       </View>
     );
   }
 
   return (
-    <View className={cn('h-px bg-gray-200 dark:bg-gray-700 my-4', className)} />
+    <View className={cn('h-px bg-muted my-4', className)} />
   );
 }
 
@@ -349,7 +349,7 @@ export function SubscriptionFooter({
       {/* Restore Button */}
       {onRestore && (
         <Text
-          className='text-sm text-blue-500 dark:text-blue-400 underline'
+          className='text-sm text-primary dark:text-primary underline'
           onPress={onRestore}
           accessibilityRole='button'
         >
@@ -361,7 +361,7 @@ export function SubscriptionFooter({
       <View className='flex-row items-center gap-4'>
         {onTermsPress && (
           <Text
-            className='text-xs text-gray-500 dark:text-gray-400 underline'
+            className='text-xs text-muted-foreground underline'
             onPress={onTermsPress}
             accessibilityRole='link'
           >
@@ -370,7 +370,7 @@ export function SubscriptionFooter({
         )}
         {onPrivacyPress && (
           <Text
-            className='text-xs text-gray-500 dark:text-gray-400 underline'
+            className='text-xs text-muted-foreground underline'
             onPress={onPrivacyPress}
             accessibilityRole='link'
           >
@@ -380,7 +380,7 @@ export function SubscriptionFooter({
       </View>
 
       {/* Disclaimer */}
-      <Text className='text-xs text-gray-400 dark:text-gray-500 text-center px-4'>
+      <Text className='text-xs text-muted-foreground text-center px-4'>
         Subscriptions will automatically renew unless canceled at least 24 hours
         before the end of the current period.
       </Text>

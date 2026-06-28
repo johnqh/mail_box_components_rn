@@ -52,9 +52,7 @@ export const SideNav: React.FC<SideNavProps> = ({ items, className }) => {
           onPress={item.onPress}
           className={cn(
             'flex-row items-center gap-3 px-4 py-3 rounded-lg',
-            item.active
-              ? 'bg-blue-50 dark:bg-blue-900/20'
-              : 'active:bg-gray-100 dark:active:bg-gray-800'
+            item.active ? 'bg-primary/10' : 'active:bg-muted'
           )}
           accessibilityRole='button'
           accessibilityState={{ selected: item.active }}
@@ -65,21 +63,14 @@ export const SideNav: React.FC<SideNavProps> = ({ items, className }) => {
             className={cn(
               'flex-1',
               typography.weight.medium,
-              item.active
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-700 dark:text-gray-300'
+              item.active ? 'text-primary' : 'text-muted-foreground'
             )}
           >
             {item.label}
           </Text>
           {item.badge !== undefined && (
-            <View className='px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded'>
-              <Text
-                className={cn(
-                  typography.size.xs,
-                  'text-gray-700 dark:text-gray-300'
-                )}
-              >
+            <View className='px-2 py-0.5 bg-muted rounded'>
+              <Text className={cn(typography.size.xs, 'text-muted-foreground')}>
                 {item.badge}
               </Text>
             </View>

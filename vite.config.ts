@@ -8,6 +8,14 @@ export default defineConfig({
       insertTypesEntry: true,
     }),
   ],
+  // Route JSX through NativeWind's runtime so `className` props on the compiled
+  // components are processed by react-native-css-interop in consuming RN apps.
+  // Without this the bundle uses React's standard jsx-runtime and className is
+  // inert (components render unstyled).
+  esbuild: {
+    jsx: 'automatic',
+    jsxImportSource: 'nativewind',
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -18,12 +26,15 @@ export default defineConfig({
     rollupOptions: {
       external: [
         'react',
+        // jsx runtimes must stay external so the consumer's NativeWind handles them
+        /^react\/jsx-(dev-)?runtime$/,
+        /^nativewind(\/.*)?$/,
+        /^react-native-css-interop(\/.*)?$/,
         'react-native',
         'react-native-gesture-handler',
         'react-native-reanimated',
         'react-native-safe-area-context',
         'react-native-svg',
-        'nativewind',
         '@sudobility/design',
         'clsx',
         'class-variance-authority',

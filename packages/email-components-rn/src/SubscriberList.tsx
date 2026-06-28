@@ -30,7 +30,7 @@ export const SubscriberList: React.FC<SubscriberListProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-gray-900 dark:text-white'>
+        <Text className='text-foreground'>
           SubscriberList Component
         </Text>
       )}

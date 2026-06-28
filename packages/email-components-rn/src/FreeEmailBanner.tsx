@@ -25,11 +25,11 @@ const getBannerStyle = (variant: BannerVariant) => {
     case 'compact':
       return `${colors.component.card.success.base} ${colors.component.card.success.dark}`;
     case 'minimal':
-      return 'bg-gray-50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700';
+      return 'bg-muted/50 border-border';
     case 'vibrant':
-      return 'bg-blue-600 border-blue-700';
+      return 'bg-primary border-primary';
     default:
-      return `${colors.component.badge.success.base} ${colors.component.badge.success.dark} border-green-200 dark:border-green-700`;
+      return `${colors.component.badge.success.base} ${colors.component.badge.success.dark} border-success/20`;
   }
 };
 
@@ -49,7 +49,7 @@ const getTextStyle = (variant: BannerVariant) => {
     case 'compact':
       return `${colors.component.card.success.text}`;
     case 'minimal':
-      return 'text-gray-700 dark:text-gray-300';
+      return 'text-muted-foreground';
     case 'vibrant':
       return 'text-white';
     default:
@@ -60,19 +60,19 @@ const getTextStyle = (variant: BannerVariant) => {
 const getButtonStyle = (variant: BannerVariant) => {
   switch (variant) {
     case 'compact':
-      return 'bg-green-600 active:bg-green-700';
+      return 'bg-success active:bg-success';
     case 'minimal':
-      return 'bg-blue-600 active:bg-blue-700';
+      return 'bg-primary active:bg-primary/90';
     case 'vibrant':
-      return 'bg-white active:bg-gray-100';
+      return 'bg-white active:bg-muted';
     default:
-      return 'bg-green-600 active:bg-green-700';
+      return 'bg-success active:bg-success';
   }
 };
 
 const getButtonTextStyle = (variant: BannerVariant) => {
   if (variant === 'vibrant') {
-    return 'text-blue-600';
+    return 'text-primary';
   }
   return 'text-white';
 };
@@ -132,13 +132,13 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
             <View
               className={cn(
                 'px-3 py-1 rounded-full',
-                variant === 'vibrant' ? 'bg-white' : 'bg-green-500'
+                variant === 'vibrant' ? 'bg-white' : 'bg-success'
               )}
             >
               <Text
                 className={cn(
                   'text-xs font-bold',
-                  variant === 'vibrant' ? 'text-blue-600' : 'text-white'
+                  variant === 'vibrant' ? 'text-primary' : 'text-white'
                 )}
               >
                 {badgeText}

@@ -25,7 +25,7 @@ export const DriverLog: React.FC<DriverLogProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>DriverLog Component</Text>
+      <Text className='text-foreground'>DriverLog Component</Text>
     )}
   </View>
 );

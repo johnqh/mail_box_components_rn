@@ -39,25 +39,24 @@ export const SectionBadge: React.FC<SectionBadgeProps> = ({
 }) => {
   // Variant color configurations
   const variantClasses = {
-    default: 'bg-gray-100 dark:bg-gray-800',
-    premium: 'bg-amber-100 dark:bg-amber-900/30',
-    primary: 'bg-blue-100 dark:bg-blue-900/30',
-    light:
-      'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700',
+    default: 'bg-muted',
+    premium: 'bg-warning/10 ',
+    primary: 'bg-primary/10',
+    light: 'bg-background border border-border',
   };
 
   const iconColorClasses = {
-    default: 'text-gray-600 dark:text-gray-400',
-    premium: 'text-amber-600 dark:text-amber-400',
-    primary: 'text-blue-600 dark:text-blue-400',
-    light: 'text-gray-600 dark:text-gray-400',
+    default: 'text-muted-foreground',
+    premium: 'text-warning ',
+    primary: 'text-primary',
+    light: 'text-muted-foreground',
   };
 
   const textColorClasses = {
-    default: 'text-gray-900 dark:text-white',
-    premium: 'text-amber-900 dark:text-amber-100',
-    primary: 'text-blue-900 dark:text-blue-100',
-    light: 'text-gray-900 dark:text-white',
+    default: 'text-foreground',
+    premium: 'text-warning ',
+    primary: 'text-primary dark:text-primary-foreground',
+    light: 'text-foreground',
   };
 
   // Size configurations

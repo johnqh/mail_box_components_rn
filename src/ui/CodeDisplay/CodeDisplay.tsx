@@ -63,11 +63,10 @@ function buildDisplayColors() {
   return {
     primary: `${info.text} ${info.bg}`,
     // secondary uses purple — no DS mapping, keep local
-    secondary:
-      'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30',
+    secondary: 'text-accent-foreground bg-accent ',
     success: `${success.text} ${success.bg}`,
     warning: `${warning.text} ${warning.bg}`,
-    neutral: 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800',
+    neutral: 'text-muted-foreground bg-muted',
   } as Record<string, string>;
 }
 

@@ -97,7 +97,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   return (
     <Text
       className={cn(
-        'text-2xl font-bold text-gray-900 dark:text-white',
+        'text-2xl font-bold text-foreground',
         textClassName,
         className
       )}

@@ -120,8 +120,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         disabled={disabled}
         className={cn(
           'min-h-[44px] px-3 py-2',
-          'bg-white dark:bg-gray-900',
-          'border border-gray-300 dark:border-gray-700',
+          'bg-background',
+          'border border-border',
           'rounded-md',
           disabled && 'opacity-50'
         )}
@@ -131,7 +131,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
       >
         <View className='flex-row flex-wrap gap-1.5'>
           {selectedOptions.length === 0 ? (
-            <Text className='text-sm text-gray-500 dark:text-gray-400 py-0.5'>
+            <Text className='text-sm text-muted-foreground py-0.5'>
               {placeholder}
             </Text>
           ) : (
@@ -139,9 +139,9 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
               {selectedOptions.slice(0, maxDisplay).map(opt => (
                 <View
                   key={opt.value}
-                  className='flex-row items-center gap-1 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 rounded'
+                  className='flex-row items-center gap-1 px-2 py-0.5 bg-primary/10 rounded'
                 >
-                  <Text className='text-xs font-medium text-blue-700 dark:text-blue-300'>
+                  <Text className='text-xs font-medium text-primary'>
                     {opt.label}
                   </Text>
                   <Pressable
@@ -150,13 +150,13 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                     accessibilityRole='button'
                     accessibilityLabel={`Remove ${opt.label}`}
                   >
-                    <Text className='text-blue-700 dark:text-blue-300'>×</Text>
+                    <Text className='text-primary'>×</Text>
                   </Pressable>
                 </View>
               ))}
               {hiddenCount > 0 && (
-                <View className='px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded'>
-                  <Text className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+                <View className='px-2 py-0.5 bg-muted rounded'>
+                  <Text className='text-xs font-medium text-muted-foreground'>
                     +{hiddenCount} more
                   </Text>
                 </View>
@@ -176,16 +176,16 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         <TouchableWithoutFeedback onPress={handleClose}>
           <View className='flex-1 justify-end bg-black/50'>
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-t-xl max-h-[70%]'>
+              <View className='bg-background rounded-t-xl max-h-[70%]'>
                 {/* Search */}
                 {searchable && (
-                  <View className='p-3 border-b border-gray-200 dark:border-gray-700'>
+                  <View className='p-3 border-b border-border'>
                     <TextInput
                       value={searchQuery}
                       onChangeText={setSearchQuery}
                       placeholder={searchPlaceholder}
                       placeholderTextColor={colors.raw.neutral[400]}
-                      className='px-3 py-2 text-sm bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-md'
+                      className='px-3 py-2 text-sm bg-card text-foreground rounded-md'
                     />
                   </View>
                 )}
@@ -194,7 +194,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                 <ScrollView className='max-h-80'>
                   {filteredOptions.length === 0 ? (
                     <View className='px-3 py-4 items-center'>
-                      <Text className='text-sm text-gray-500 dark:text-gray-400'>
+                      <Text className='text-sm text-muted-foreground'>
                         No options found
                       </Text>
                     </View>
@@ -211,7 +211,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                           disabled={option.disabled}
                           className={cn(
                             'flex-row items-center gap-3 px-4 py-3',
-                            'active:bg-gray-100 dark:active:bg-gray-800',
+                            'active:bg-muted',
                             option.disabled && 'opacity-50'
                           )}
                           accessibilityRole='checkbox'
@@ -225,8 +225,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                             className={cn(
                               'w-5 h-5 border-2 rounded items-center justify-center',
                               isSelected
-                                ? 'bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500'
-                                : 'border-gray-300 dark:border-gray-600'
+                                ? 'bg-primary border-primary dark:bg-primary dark:border-primary'
+                                : 'border-border'
                             )}
                           >
                             {isSelected && (
@@ -237,7 +237,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                           </View>
 
                           {/* Label */}
-                          <Text className='flex-1 text-sm text-gray-900 dark:text-white'>
+                          <Text className='flex-1 text-sm text-foreground'>
                             {option.label}
                           </Text>
                         </Pressable>
@@ -247,8 +247,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                 </ScrollView>
 
                 {/* Footer */}
-                <View className='p-3 border-t border-gray-200 dark:border-gray-700 flex-row justify-between items-center'>
-                  <Text className='text-xs text-gray-600 dark:text-gray-400'>
+                <View className='p-3 border-t border-border flex-row justify-between items-center'>
+                  <Text className='text-xs text-muted-foreground'>
                     {value.length} selected
                   </Text>
                   <View className='flex-row gap-3'>
@@ -258,9 +258,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                         accessibilityRole='button'
                         accessibilityLabel='Clear all'
                       >
-                        <Text className='text-sm text-blue-600 dark:text-blue-400'>
-                          Clear all
-                        </Text>
+                        <Text className='text-sm text-primary'>Clear all</Text>
                       </Pressable>
                     )}
                     <Pressable
@@ -268,7 +266,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                       accessibilityRole='button'
                       accessibilityLabel='Done'
                     >
-                      <Text className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+                      <Text className='text-sm font-medium text-primary'>
                         Done
                       </Text>
                     </Pressable>

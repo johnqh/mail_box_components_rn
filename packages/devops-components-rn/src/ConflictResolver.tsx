@@ -30,7 +30,7 @@ export const ConflictResolver: React.FC<ConflictResolverProps> = ({
     {...props}
   >
     {children || (
-      <Text className='text-gray-900 dark:text-white'>
+      <Text className='text-foreground'>
         ConflictResolver Component
       </Text>
     )}

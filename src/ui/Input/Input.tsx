@@ -7,13 +7,14 @@ import {
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { variants as v } from '@sudobility/design';
+import { stripWebOnlyClasses } from '../Button/Button.shared';
 
-// RN input state classes aligned with design system (colors.component.input.default).
-// CSS pseudo-class selectors (focus:, disabled:) don't apply in RN, so we
-// apply these conditionally via component state instead.
-const inputFocusClass = 'border-blue-500 dark:border-blue-400';
-const inputErrorClass = 'border-red-500 dark:border-red-400';
-const inputDisabledClass = 'opacity-50 bg-gray-100 dark:bg-gray-800';
+// CSS pseudo-class selectors (focus:, disabled:) and focus rings don't work in
+// RN, so we apply state classes via component state using the design system's
+// semantic tokens (blue ring color, destructive border, muted disabled bg).
+const inputFocusClass = 'border-ring';
+const inputErrorClass = 'border-destructive';
+const inputDisabledClass = 'opacity-50 bg-muted';
 
 export interface InputProps extends Omit<TextInputProps, 'style'> {
   /** Additional class names for styling */
@@ -60,7 +61,11 @@ export const Input = React.forwardRef<TextInput, InputProps>(
       <TextInput
         ref={ref}
         className={cn(
-          v.input.default(),
+          // `border` ensures the border width is set (the variant only sets the
+          // color); stripWebOnlyClasses removes focus rings that render as a
+          // black halo on native.
+          'border',
+          stripWebOnlyClasses(v.input.default()),
           isFocused && inputFocusClass,
           error && inputErrorClass,
           disabled && inputDisabledClass,

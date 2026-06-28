@@ -5,11 +5,12 @@ import { designTokens } from '@sudobility/design';
 
 const { typography } = designTokens;
 
-// Heading colors aligned with the design system color architecture
+// Heading colors mapped to design-system theme tokens (CSS variables), so they
+// reflect the active design style and flip light/dark automatically.
 const colorClasses = {
-  default: 'text-gray-900 dark:text-gray-100',
-  muted: 'text-gray-700 dark:text-gray-300',
-  primary: 'text-blue-600 dark:text-blue-400',
+  default: 'text-foreground',
+  muted: 'text-muted-foreground',
+  primary: 'text-primary',
 } as const;
 
 export interface HeadingProps {

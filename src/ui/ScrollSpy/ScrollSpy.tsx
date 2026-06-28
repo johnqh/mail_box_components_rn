@@ -81,9 +81,7 @@ export const ScrollSpy: React.FC<ScrollSpyProps> = ({
           onPress={() => handlePress(section.id)}
           className={cn(
             'py-2 px-3 rounded-lg',
-            isActive
-              ? 'bg-blue-50 dark:bg-blue-900/30'
-              : 'active:bg-gray-100 dark:active:bg-gray-800'
+            isActive ? 'bg-primary/10' : 'active:bg-muted'
           )}
           style={{ paddingStart: level * 12 + 12 }}
           accessibilityRole='button'
@@ -95,10 +93,10 @@ export const ScrollSpy: React.FC<ScrollSpyProps> = ({
               'text-sm',
               level === 0 ? 'font-medium' : 'font-normal',
               isActive
-                ? 'text-blue-700 dark:text-blue-300'
+                ? 'text-primary'
                 : hasActiveChild
-                  ? 'text-gray-700 dark:text-gray-300'
-                  : 'text-gray-600 dark:text-gray-400'
+                  ? 'text-muted-foreground'
+                  : 'text-muted-foreground'
             )}
           >
             {section.label}
@@ -109,7 +107,7 @@ export const ScrollSpy: React.FC<ScrollSpyProps> = ({
         {showSubsections &&
           section.subsections &&
           section.subsections.length > 0 && (
-            <View className='ml-3 border-l-2 border-gray-200 dark:border-gray-700'>
+            <View className='ml-3 border-l-2 border-border'>
               {section.subsections.map(subsection =>
                 renderSection(subsection, level + 1)
               )}

@@ -51,10 +51,10 @@ function TierCard({
   const cardClasses = cn(
     'rounded-xl p-4 border-2',
     isCurrent && highlightCurrent
-      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+      ? 'border-primary bg-primary/10'
       : isRecommended
-        ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-        : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
+        ? 'border-success bg-success/10'
+        : 'border-border bg-card'
   );
 
   const content = (
@@ -62,14 +62,14 @@ function TierCard({
       {/* Header */}
       <View className='flex-row justify-between items-start mb-3'>
         <View>
-          <Text className='text-lg font-bold text-gray-900 dark:text-gray-100'>
+          <Text className='text-lg font-bold text-foreground'>
             {name}
           </Text>
           {(isCurrent || isRecommended) && (
             <View
               className={cn(
                 'mt-1 px-2 py-0.5 rounded-full self-start',
-                isCurrent ? 'bg-blue-500' : 'bg-green-500'
+                isCurrent ? 'bg-primary' : 'bg-success'
               )}
             >
               <Text className='text-xs font-medium text-white'>
@@ -79,7 +79,7 @@ function TierCard({
           )}
         </View>
         {showPrice && price && (
-          <Text className='text-xl font-bold text-gray-900 dark:text-gray-100'>
+          <Text className='text-xl font-bold text-foreground'>
             {price}
           </Text>
         )}
@@ -87,34 +87,34 @@ function TierCard({
 
       {/* Description */}
       {description && (
-        <Text className='text-sm text-gray-600 dark:text-gray-400 mb-3'>
+        <Text className='text-sm text-muted-foreground mb-3'>
           {description}
         </Text>
       )}
 
       {/* Limits */}
       <View className='space-y-2'>
-        <View className='flex-row justify-between py-2 border-b border-gray-100 dark:border-gray-700'>
-          <Text className='text-sm text-gray-600 dark:text-gray-400'>
+        <View className='flex-row justify-between py-2 border-b border-border'>
+          <Text className='text-sm text-muted-foreground'>
             Hourly
           </Text>
-          <Text className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className='text-sm font-semibold text-foreground'>
             {formatLimit(hourlyLimit)}
           </Text>
         </View>
-        <View className='flex-row justify-between py-2 border-b border-gray-100 dark:border-gray-700'>
-          <Text className='text-sm text-gray-600 dark:text-gray-400'>
+        <View className='flex-row justify-between py-2 border-b border-border'>
+          <Text className='text-sm text-muted-foreground'>
             Daily
           </Text>
-          <Text className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className='text-sm font-semibold text-foreground'>
             {formatLimit(dailyLimit)}
           </Text>
         </View>
         <View className='flex-row justify-between py-2'>
-          <Text className='text-sm text-gray-600 dark:text-gray-400'>
+          <Text className='text-sm text-muted-foreground'>
             Monthly
           </Text>
-          <Text className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className='text-sm font-semibold text-foreground'>
             {formatLimit(monthlyLimit)}
           </Text>
         </View>
@@ -122,11 +122,11 @@ function TierCard({
 
       {/* Features */}
       {features && features.length > 0 && (
-        <View className='mt-4 pt-3 border-t border-gray-200 dark:border-gray-700'>
+        <View className='mt-4 pt-3 border-t border-border'>
           {features.map((feature, index) => (
             <View key={index} className='flex-row items-center mb-2'>
-              <Text className='text-green-500 mr-2'>✓</Text>
-              <Text className='text-sm text-gray-700 dark:text-gray-300'>
+              <Text className='text-success mr-2'>✓</Text>
+              <Text className='text-sm text-muted-foreground'>
                 {feature}
               </Text>
             </View>
@@ -140,7 +140,7 @@ function TierCard({
           <View
             className={cn(
               'py-2.5 rounded-lg items-center',
-              isRecommended ? 'bg-green-500' : 'bg-blue-500'
+              isRecommended ? 'bg-success' : 'bg-primary'
             )}
           >
             <Text className='text-sm font-semibold text-white'>
@@ -187,7 +187,7 @@ export function TierComparisonTable({
     >
       {/* Header */}
       {title && (
-        <Text className='text-xl font-bold text-gray-900 dark:text-gray-100 mb-4'>
+        <Text className='text-xl font-bold text-foreground mb-4'>
           {title}
         </Text>
       )}
@@ -207,8 +207,8 @@ export function TierComparisonTable({
 
       {/* Empty state */}
       {tiers.length === 0 && (
-        <View className='py-8 items-center bg-gray-50 dark:bg-gray-800 rounded-xl'>
-          <Text className='text-gray-500 dark:text-gray-400'>
+        <View className='py-8 items-center bg-card rounded-xl'>
+          <Text className='text-muted-foreground'>
             No tiers available
           </Text>
         </View>

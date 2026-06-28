@@ -31,13 +31,13 @@ export const CryptoPortfolio: React.FC<CryptoPortfolioProps> = ({
         'p-4 rounded-lg',
         getCardVariantColors('bordered'),
         disabled && 'opacity-50',
-        'active:bg-gray-50 dark:active:bg-gray-800',
+        'active:bg-muted',
         className
       )}
       {...props}
     >
       {children || (
-        <Text className='text-gray-900 dark:text-white'>
+        <Text className='text-foreground'>
           Crypto Portfolio Component
         </Text>
       )}

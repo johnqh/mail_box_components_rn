@@ -59,18 +59,18 @@ const ChainPill: React.FC<ChainPillProps> = ({ type, addressType }) => {
       case 'sns':
         return `${colors.component.card.warning.base} ${colors.component.card.warning.dark}`;
       default:
-        return 'bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800';
+        return 'bg-muted/10 border-border';
     }
   };
 
   const getTextStyle = () => {
     switch (type) {
       case 'ens':
-        return 'text-green-700 dark:text-green-300';
+        return 'text-success';
       case 'sns':
-        return 'text-orange-700 dark:text-orange-300';
+        return 'text-warning ';
       default:
-        return 'text-gray-700 dark:text-gray-300';
+        return 'text-muted-foreground';
     }
   };
 
@@ -109,15 +109,15 @@ const CollapsibleDomainEmails: React.FC<CollapsibleDomainEmailsProps> = ({
             'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
             selectedAccount === email.address
               ? `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`
-              : 'active:bg-gray-100 dark:active:bg-gray-700'
+              : 'active:bg-muted'
           )}
         >
           <Text
             className={cn(
               'flex-1 text-sm',
               selectedAccount === email.address
-                ? 'text-blue-700 dark:text-blue-300'
-                : 'text-gray-900 dark:text-white'
+                ? 'text-primary'
+                : 'text-foreground'
             )}
             numberOfLines={1}
           >
@@ -155,8 +155,8 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
               'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
               selectedAccount === group.primaryEmail.address &&
                 group.domainEmails.length === 0
-                ? 'bg-blue-100 dark:bg-blue-900/30'
-                : 'active:bg-gray-100 dark:active:bg-gray-700'
+                ? 'bg-primary/10'
+                : 'active:bg-muted'
             )}
           >
             <View className='flex-row items-center flex-1 min-w-0 gap-2'>
@@ -164,8 +164,8 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
                 className={cn(
                   'flex-1 text-sm',
                   selectedAccount === group.primaryEmail.address
-                    ? 'text-blue-700 dark:text-blue-300'
-                    : 'text-gray-900 dark:text-white'
+                    ? 'text-primary'
+                    : 'text-foreground'
                 )}
                 numberOfLines={1}
               >
@@ -180,11 +180,11 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
               <Pressable
                 onPress={() => onToggleWallet(group.walletAddress)}
                 accessibilityRole='button'
-                className='p-1 rounded-lg active:bg-gray-200 dark:active:bg-gray-600'
+                className='p-1 rounded-lg active:bg-muted '
               >
                 <Text
                   className={cn(
-                    'text-gray-500',
+                    'text-muted-foreground',
                     expandedWallets.includes(group.walletAddress) && 'rotate-90'
                   )}
                 >

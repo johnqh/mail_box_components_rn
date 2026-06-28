@@ -247,7 +247,7 @@ export const Sheet: React.FC<SheetProps> = ({
       >
         <View
           className={cn(
-            'flex-1 bg-white dark:bg-gray-900 shadow-xl',
+            'flex-1 bg-background shadow-xl',
             radiusClasses[side],
             className
           )}
@@ -260,13 +260,13 @@ export const Sheet: React.FC<SheetProps> = ({
                 side === 'bottom' ? 'pt-3 pb-2' : 'pb-3 pt-2'
               )}
             >
-              <View className='w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full' />
+              <View className='w-12 h-1.5 bg-muted dark:bg-muted rounded-full' />
             </View>
           )}
 
           {/* Header */}
           {(title || description || showCloseButton) && (
-            <View className='px-4 py-4 border-b border-gray-200 dark:border-gray-700'>
+            <View className='px-4 py-4 border-b border-border'>
               <View className='flex flex-row items-start justify-between'>
                 <View className='flex-1'>
                   {title && (
@@ -274,7 +274,7 @@ export const Sheet: React.FC<SheetProps> = ({
                       className={cn(
                         typography.size.lg,
                         typography.weight.semibold,
-                        'text-gray-900 dark:text-white'
+                        'text-foreground'
                       )}
                     >
                       {title}
@@ -285,7 +285,7 @@ export const Sheet: React.FC<SheetProps> = ({
                       className={cn(
                         'mt-1',
                         typography.size.sm,
-                        'text-gray-600 dark:text-gray-400'
+                        'text-muted-foreground'
                       )}
                     >
                       {description}
@@ -299,7 +299,12 @@ export const Sheet: React.FC<SheetProps> = ({
                     accessibilityRole='button'
                     accessibilityLabel='Close sheet'
                   >
-                    <Text className={cn(typography.size.xl, 'text-gray-400')}>
+                    <Text
+                      className={cn(
+                        typography.size.xl,
+                        'text-muted-foreground'
+                      )}
+                    >
                       ✕
                     </Text>
                   </Pressable>
@@ -315,9 +320,7 @@ export const Sheet: React.FC<SheetProps> = ({
 
           {/* Footer */}
           {footer && (
-            <View className='px-4 py-4 border-t border-gray-200 dark:border-gray-700'>
-              {footer}
-            </View>
+            <View className='px-4 py-4 border-t border-border'>{footer}</View>
           )}
         </View>
       </Animated.View>

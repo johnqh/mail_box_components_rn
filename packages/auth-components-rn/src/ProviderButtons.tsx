@@ -17,13 +17,13 @@ interface ProviderButtonProps {
 }
 
 const providerBgColors: Record<AuthProviderType, string> = {
-  google: `bg-white border ${colors.component.input.default.base.split(' ').find(c => c.startsWith('border-')) ?? 'border-gray-300'}`,
+  google: `bg-white border ${colors.component.input.default.base.split(' ').find(c => c.startsWith('border-')) ?? 'border-border'}`,
   apple: 'bg-black',
   email: `bg-[${colors.raw.blue[600]}]`,
 };
 
 const providerTextColors: Record<AuthProviderType, string> = {
-  google: 'text-gray-900 dark:text-gray-900',
+  google: 'text-foreground dark:text-foreground',
   apple: 'text-white',
   email: 'text-white',
 };

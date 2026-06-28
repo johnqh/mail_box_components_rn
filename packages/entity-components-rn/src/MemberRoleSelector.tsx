@@ -10,12 +10,12 @@ import { DEFAULT_ROLE_CONFIGS } from './types';
 const getRoleBadgeClasses = (role: EntityRole): string => {
   const colorMap: Record<EntityRole, string> = {
     owner:
-      'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
-    admin: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-    member: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-    viewer: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+      'bg-accent  text-accent-foreground ',
+    admin: 'bg-primary/10  text-primary dark:text-primary-foreground',
+    member: 'bg-success/10  text-success',
+    viewer: 'bg-muted text-foreground',
     guest:
-      'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+      'bg-warning/10  text-warning ',
   };
   return colorMap[role] || colorMap.member;
 };
@@ -65,8 +65,8 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-4 py-3 rounded-xl',
-          'bg-white dark:bg-gray-800',
-          'border border-gray-200 dark:border-gray-700',
+          'bg-card',
+          'border border-border',
           disabled && 'opacity-50',
           'active:opacity-80',
         )}
@@ -84,14 +84,14 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
           </View>
           {showDescriptions && selectedConfig && (
             <Text
-              className='text-sm text-gray-500 dark:text-gray-400 flex-1'
+              className='text-sm text-muted-foreground flex-1'
               numberOfLines={1}
             >
               {selectedConfig.description}
             </Text>
           )}
         </View>
-        <Text className='text-gray-400 dark:text-gray-500 text-lg ml-2'>▼</Text>
+        <Text className='text-muted-foreground text-lg ml-2'>▼</Text>
       </Pressable>
 
       {/* Dropdown Modal */}
@@ -107,11 +107,11 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
         >
           <Pressable
             onPress={e => e.stopPropagation()}
-            className='bg-white dark:bg-gray-800 rounded-2xl overflow-hidden'
+            className='bg-card rounded-2xl overflow-hidden'
           >
             {/* Header */}
-            <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
-              <Text className='text-lg font-semibold text-gray-900 dark:text-white'>
+            <View className='px-4 py-3 border-b border-border'>
+              <Text className='text-lg font-semibold text-foreground'>
                 Select Role
               </Text>
             </View>
@@ -122,9 +122,9 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
                 key={config.role}
                 onPress={() => handleSelect(config.role)}
                 className={cn(
-                  'px-4 py-4 border-b border-gray-100 dark:border-gray-700',
-                  selectedRole === config.role && 'bg-blue-50 dark:bg-blue-900/30',
-                  'active:bg-gray-100 dark:active:bg-gray-700',
+                  'px-4 py-4 border-b border-border',
+                  selectedRole === config.role && 'bg-primary/10',
+                  'active:bg-muted',
                 )}
                 accessibilityRole='button'
                 accessibilityLabel={`${config.label}: ${config.description}`}
@@ -142,13 +142,13 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
                       </View>
                     </View>
                     {showDescriptions && (
-                      <Text className='text-sm text-gray-500 dark:text-gray-400 mt-2'>
+                      <Text className='text-sm text-muted-foreground mt-2'>
                         {config.description}
                       </Text>
                     )}
                   </View>
                   {selectedRole === config.role && (
-                    <Text className='text-blue-500 dark:text-blue-400 text-lg ml-2'>
+                    <Text className='text-primary dark:text-primary text-lg ml-2'>
                       ✓
                     </Text>
                   )}
@@ -159,9 +159,9 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
             {/* Cancel Button */}
             <Pressable
               onPress={handleClose}
-              className='px-4 py-3 items-center active:bg-gray-100 dark:active:bg-gray-700'
+              className='px-4 py-3 items-center active:bg-muted'
             >
-              <Text className='text-blue-500 dark:text-blue-400 font-medium'>
+              <Text className='text-primary dark:text-primary font-medium'>
                 Cancel
               </Text>
             </Pressable>

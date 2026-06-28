@@ -129,8 +129,8 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-3 py-2',
-          'bg-white dark:bg-gray-900',
-          'border border-gray-300 dark:border-gray-700',
+          'bg-background',
+          'border border-border',
           'rounded-md',
           disabled && 'opacity-50'
         )}
@@ -140,14 +140,12 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         <Text
           className={cn(
             'text-sm',
-            value
-              ? 'text-gray-900 dark:text-white'
-              : 'text-gray-500 dark:text-gray-400'
+            value ? 'text-foreground' : 'text-muted-foreground'
           )}
         >
           {formatDisplay()}
         </Text>
-        <Text className='text-gray-600 dark:text-gray-400'>🕐</Text>
+        <Text className='text-muted-foreground'>🕐</Text>
       </Pressable>
 
       {/* Time picker modal */}
@@ -160,14 +158,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
           <View className='flex-1 justify-end bg-black/50'>
             <TouchableWithoutFeedback>
-              <View className='bg-white dark:bg-gray-900 rounded-t-xl'>
+              <View className='bg-background rounded-t-xl'>
                 <View className='flex-row p-4 gap-2'>
                   {/* Hours */}
                   <View className='flex-1'>
-                    <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 text-center mb-2'>
+                    <Text className='text-xs font-medium text-muted-foreground text-center mb-2'>
                       Hour
                     </Text>
-                    <ScrollView className='h-48 border border-gray-200 dark:border-gray-700 rounded'>
+                    <ScrollView className='h-48 border border-border rounded'>
                       {hourOptions.map(hour => (
                         <Pressable
                           key={hour}
@@ -181,17 +179,16 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           }}
                           className={cn(
                             'px-3 py-2',
-                            'active:bg-gray-100 dark:active:bg-gray-800',
-                            hour === internalHour &&
-                              'bg-blue-100 dark:bg-blue-900/30'
+                            'active:bg-muted',
+                            hour === internalHour && 'bg-primary/10'
                           )}
                         >
                           <Text
                             className={cn(
                               'text-sm text-center',
                               hour === internalHour
-                                ? 'text-blue-700 dark:text-blue-300 font-medium'
-                                : 'text-gray-900 dark:text-white'
+                                ? 'text-primary font-medium'
+                                : 'text-foreground'
                             )}
                           >
                             {hour}
@@ -203,10 +200,10 @@ export const TimePicker: React.FC<TimePickerProps> = ({
 
                   {/* Minutes */}
                   <View className='flex-1'>
-                    <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 text-center mb-2'>
+                    <Text className='text-xs font-medium text-muted-foreground text-center mb-2'>
                       Min
                     </Text>
-                    <ScrollView className='h-48 border border-gray-200 dark:border-gray-700 rounded'>
+                    <ScrollView className='h-48 border border-border rounded'>
                       {minuteOptions.map(minute => (
                         <Pressable
                           key={minute}
@@ -220,17 +217,16 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           }}
                           className={cn(
                             'px-3 py-2',
-                            'active:bg-gray-100 dark:active:bg-gray-800',
-                            minute === internalMinute &&
-                              'bg-blue-100 dark:bg-blue-900/30'
+                            'active:bg-muted',
+                            minute === internalMinute && 'bg-primary/10'
                           )}
                         >
                           <Text
                             className={cn(
                               'text-sm text-center',
                               minute === internalMinute
-                                ? 'text-blue-700 dark:text-blue-300 font-medium'
-                                : 'text-gray-900 dark:text-white'
+                                ? 'text-primary font-medium'
+                                : 'text-foreground'
                             )}
                           >
                             {minute}
@@ -243,7 +239,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                   {/* AM/PM */}
                   {use12Hour && (
                     <View className='w-16'>
-                      <Text className='text-xs font-medium text-gray-700 dark:text-gray-300 text-center mb-2'>
+                      <Text className='text-xs font-medium text-muted-foreground text-center mb-2'>
                         {' '}
                       </Text>
                       <View className='h-48 justify-center gap-2'>
@@ -258,16 +254,16 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           }}
                           className={cn(
                             'px-3 py-2 rounded',
-                            'active:bg-gray-100 dark:active:bg-gray-800',
-                            period === 'AM' && 'bg-blue-100 dark:bg-blue-900/30'
+                            'active:bg-muted',
+                            period === 'AM' && 'bg-primary/10'
                           )}
                         >
                           <Text
                             className={cn(
                               'text-sm text-center',
                               period === 'AM'
-                                ? 'text-blue-700 dark:text-blue-300 font-medium'
-                                : 'text-gray-900 dark:text-white'
+                                ? 'text-primary font-medium'
+                                : 'text-foreground'
                             )}
                           >
                             AM
@@ -284,16 +280,16 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           }}
                           className={cn(
                             'px-3 py-2 rounded',
-                            'active:bg-gray-100 dark:active:bg-gray-800',
-                            period === 'PM' && 'bg-blue-100 dark:bg-blue-900/30'
+                            'active:bg-muted',
+                            period === 'PM' && 'bg-primary/10'
                           )}
                         >
                           <Text
                             className={cn(
                               'text-sm text-center',
                               period === 'PM'
-                                ? 'text-blue-700 dark:text-blue-300 font-medium'
-                                : 'text-gray-900 dark:text-white'
+                                ? 'text-primary font-medium'
+                                : 'text-foreground'
                             )}
                           >
                             PM
@@ -305,12 +301,12 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                 </View>
 
                 {/* Done button */}
-                <View className='p-3 border-t border-gray-200 dark:border-gray-700'>
+                <View className='p-3 border-t border-border'>
                   <Pressable
                     onPress={() => setIsOpen(false)}
                     className='items-center py-3'
                   >
-                    <Text className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+                    <Text className='text-sm font-medium text-primary'>
                       Done
                     </Text>
                   </Pressable>

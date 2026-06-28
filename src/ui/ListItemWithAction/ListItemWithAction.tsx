@@ -51,10 +51,9 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
   className,
 }) => {
   const variantClasses = {
-    default: 'bg-gray-50 dark:bg-gray-700',
-    compact: 'bg-gray-50 dark:bg-gray-700 py-2 px-3',
-    elevated:
-      'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm',
+    default: 'bg-muted dark:bg-muted',
+    compact: 'bg-muted dark:bg-muted py-2 px-3',
+    elevated: 'bg-card border border-border shadow-sm',
   };
 
   return (
@@ -67,9 +66,7 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
     >
       <View className='flex-1 mr-4'>
         {typeof children === 'string' ? (
-          <Text className='text-sm text-gray-900 dark:text-white'>
-            {children}
-          </Text>
+          <Text className='text-sm text-foreground'>{children}</Text>
         ) : (
           children
         )}
@@ -81,8 +78,8 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
         className={cn(
           'flex-row items-center px-3 py-1.5 rounded-md',
           destructive
-            ? 'active:bg-red-50 dark:active:bg-red-900/20'
-            : 'bg-gray-100 dark:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-500',
+            ? 'active:bg-destructive/10 '
+            : 'bg-muted dark:bg-muted active:bg-muted dark:active:bg-muted0',
           isProcessing && 'opacity-50'
         )}
         accessibilityRole='button'
@@ -100,9 +97,7 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
             <Text
               className={cn(
                 'text-sm font-medium',
-                destructive
-                  ? 'text-red-600 dark:text-red-400'
-                  : 'text-gray-700 dark:text-gray-300'
+                destructive ? 'text-destructive' : 'text-muted-foreground'
               )}
             >
               {actionText}

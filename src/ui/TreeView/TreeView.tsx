@@ -111,8 +111,8 @@ export const TreeView: React.FC<TreeViewProps> = ({
           disabled={node.disabled}
           className={cn(
             'flex-row items-center gap-2 px-2 py-1.5 rounded-md',
-            !node.disabled && 'active:bg-gray-100 dark:active:bg-gray-800',
-            isSelected && 'bg-blue-50 dark:bg-blue-900/30',
+            !node.disabled && 'active:bg-muted',
+            isSelected && 'bg-primary/10',
             node.disabled && 'opacity-50'
           )}
           style={{ paddingStart: level * 24 + 8 }}
@@ -123,14 +123,14 @@ export const TreeView: React.FC<TreeViewProps> = ({
           {hasChildren ? (
             <Pressable
               onPress={() => toggleExpand(node.id)}
-              className='w-4 h-4 items-center justify-center active:bg-gray-200 dark:active:bg-gray-700 rounded'
+              className='w-4 h-4 items-center justify-center active:bg-muted rounded'
               hitSlop={8}
               accessibilityRole='button'
               accessibilityLabel={isExpanded ? 'Collapse' : 'Expand'}
             >
               <Text
                 className={cn(
-                  'text-xs text-gray-600 dark:text-gray-400',
+                  'text-xs text-muted-foreground',
                   isExpanded && 'rotate-90'
                 )}
               >
@@ -150,9 +150,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
           <Text
             className={cn(
               'flex-1 text-sm',
-              isSelected
-                ? 'text-blue-700 dark:text-blue-300 font-medium'
-                : 'text-gray-900 dark:text-white'
+              isSelected ? 'text-primary font-medium' : 'text-foreground'
             )}
           >
             {node.label}
@@ -161,12 +159,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
 
         {/* Children */}
         {hasChildren && isExpanded && (
-          <View
-            className={cn(
-              showLines &&
-                'border-l-2 border-gray-200 dark:border-gray-700 ml-2'
-            )}
-          >
+          <View className={cn(showLines && 'border-l-2 border-border ml-2')}>
             {node.children!.map(child => renderNode(child, level + 1))}
           </View>
         )}

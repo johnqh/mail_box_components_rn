@@ -105,7 +105,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
 
   // Variant background+border from design system (colors.component.alert)
   const variantBgClasses = {
-    default: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700',
+    default: 'bg-card border-border',
     success: ac.success.container,
     error: ac.error.container,
     warning: ac.warning.container,
@@ -115,7 +115,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
   // Variant icon colors from design system
   const alert = colors.component.alert;
   const iconColorClasses = {
-    default: 'text-gray-600 dark:text-gray-400',
+    default: 'text-muted-foreground',
     success: alert.success.icon,
     error: alert.error.icon,
     warning: alert.warning.icon,
@@ -146,12 +146,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
 
       <View className='flex-1 min-w-0'>
         {title && (
-          <Text
-            className={cn(
-              textVariants.label.default(),
-              'text-gray-900 dark:text-white'
-            )}
-          >
+          <Text className={cn(textVariants.label.default(), 'text-foreground')}>
             {title}
           </Text>
         )}
@@ -162,7 +157,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
         )}
         {action && (
           <Pressable onPress={action.onPress} className='mt-2'>
-            <Text className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+            <Text className='text-sm font-medium text-primary'>
               {action.label}
             </Text>
           </Pressable>
@@ -175,7 +170,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
         accessibilityRole='button'
         accessibilityLabel='Close notification'
       >
-        <Text className='text-gray-400 text-lg'>✕</Text>
+        <Text className='text-muted-foreground text-lg'>✕</Text>
       </Pressable>
     </Animated.View>
   );

@@ -105,7 +105,7 @@ export const TabsList: React.FC<TabsListProps> = ({
     horizontal
     showsHorizontalScrollIndicator={false}
     className={cn(
-      'flex-row bg-gray-100 dark:bg-gray-800',
+      'flex-row bg-muted',
       designTokens.radius.lg,
       'p-1',
       className
@@ -146,7 +146,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       disabled={disabled}
       className={cn(
         'flex-1 px-4 py-2 rounded-md items-center justify-center',
-        isSelected ? 'bg-white dark:bg-gray-700 shadow-sm' : 'bg-transparent',
+        isSelected ? 'bg-card shadow-sm' : 'bg-transparent',
         disabled && 'opacity-50',
         className
       )}
@@ -158,9 +158,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
           designTokens.typography.size.sm,
           designTokens.typography.weight.medium,
           'text-center',
-          isSelected
-            ? 'text-gray-900 dark:text-white'
-            : 'text-gray-600 dark:text-gray-400'
+          isSelected ? 'text-foreground' : 'text-muted-foreground'
         )}
       >
         {children}

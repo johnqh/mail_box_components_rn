@@ -33,7 +33,7 @@ const stateConfig: Record<
   }
 > = {
   pending: {
-    color: 'text-gray-600 dark:text-gray-400',
+    color: 'text-muted-foreground',
     badge: `${colors.component.badge.default.base} ${colors.component.badge.default.dark}`,
     label: 'Pending',
     icon: '⏳',
@@ -45,8 +45,8 @@ const stateConfig: Record<
     icon: '🔨',
   },
   deploying: {
-    color: 'text-purple-600 dark:text-purple-400',
-    badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+    color: 'text-accent-foreground',
+    badge: 'bg-accent text-accent-foreground  ',
     label: 'Deploying',
     icon: '🚀',
   },
@@ -108,8 +108,8 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
                 {config.icon} {config.label}
               </Text>
             </View>
-            <View className='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md'>
-              <Text className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+            <View className='bg-muted px-2 py-1 rounded-md'>
+              <Text className='text-xs font-medium text-muted-foreground'>
                 {environment}
               </Text>
             </View>
@@ -118,13 +118,13 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
             {version}
           </Text>
           {commitHash && (
-            <Text className='mt-1 text-sm font-mono text-gray-600 dark:text-gray-400'>
+            <Text className='mt-1 text-sm font-mono text-muted-foreground'>
               {commitHash.substring(0, 7)}
             </Text>
           )}
           {commitMessage && (
             <Text
-              className='mt-1 text-sm text-gray-600 dark:text-gray-400'
+              className='mt-1 text-sm text-muted-foreground'
               numberOfLines={2}
             >
               {commitMessage}
@@ -132,7 +132,7 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
           )}
         </View>
       </View>
-      <View className='flex-row items-center justify-between mt-3 pt-3 border-t border-gray-200 dark:border-gray-700'>
+      <View className='flex-row items-center justify-between mt-3 pt-3 border-t border-border'>
         <Text className={textVariants.caption.default()}>
           {timestamp.toLocaleString()}
         </Text>

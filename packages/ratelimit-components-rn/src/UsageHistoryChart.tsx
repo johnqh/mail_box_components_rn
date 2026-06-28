@@ -19,34 +19,34 @@ function getColorClasses(color: UsageBarColor): {
     { bg: string; border: string; text: string }
   > = {
     green: {
-      bg: 'bg-green-500',
-      border: 'border-green-500',
-      text: 'text-green-600 dark:text-green-400',
+      bg: 'bg-success',
+      border: 'border-success',
+      text: 'text-success',
     },
     yellow: {
-      bg: 'bg-yellow-500',
-      border: 'border-yellow-500',
-      text: 'text-yellow-600 dark:text-yellow-400',
+      bg: 'bg-warning',
+      border: 'border-warning',
+      text: 'text-warning',
     },
     orange: {
-      bg: 'bg-orange-500',
-      border: 'border-orange-500',
-      text: 'text-orange-600 dark:text-orange-400',
+      bg: 'bg-warning',
+      border: 'border-warning',
+      text: 'text-warning',
     },
     red: {
-      bg: 'bg-red-500',
-      border: 'border-red-500',
-      text: 'text-red-600 dark:text-red-400',
+      bg: 'bg-destructive',
+      border: 'border-destructive',
+      text: 'text-destructive',
     },
     blue: {
-      bg: 'bg-blue-500',
-      border: 'border-blue-500',
-      text: 'text-blue-600 dark:text-blue-400',
+      bg: 'bg-primary',
+      border: 'border-primary',
+      text: 'text-primary',
     },
     gray: {
-      bg: 'bg-gray-500',
-      border: 'border-gray-500',
-      text: 'text-gray-600 dark:text-gray-400',
+      bg: 'bg-muted',
+      border: 'border-border',
+      text: 'text-muted-foreground',
     },
   };
   return colorMap[color];
@@ -117,7 +117,7 @@ function BarChart({
                 {/* Limit indicator */}
                 {showLimit && entry.limit && (
                   <View
-                    className='absolute left-0 right-0 border-t-2 border-dashed border-red-400'
+                    className='absolute left-0 right-0 border-t-2 border-dashed border-destructive'
                     style={{ bottom: limitHeight }}
                   />
                 )}
@@ -130,7 +130,7 @@ function BarChart({
               </View>
 
               {/* Timestamp label */}
-              <Text className='text-xs text-gray-500 dark:text-gray-400 mt-1 w-12 text-center'>
+              <Text className='text-xs text-muted-foreground mt-1 w-12 text-center'>
                 {label}
               </Text>
             </View>
@@ -204,7 +204,7 @@ function LineChart({
                 {/* Limit line */}
                 {showLimit && limitY !== null && (
                   <View
-                    className='absolute left-0 right-0 h-0.5 bg-red-400/50'
+                    className='absolute left-0 right-0 h-0.5 bg-destructive/50'
                     style={{ top: limitY }}
                   />
                 )}
@@ -226,13 +226,13 @@ function LineChart({
 
                 {/* Vertical guide line */}
                 <View
-                  className='w-px bg-gray-200 dark:bg-gray-700 absolute bottom-0'
+                  className='w-px bg-muted absolute bottom-0'
                   style={{ height: height - 50 - dotY, top: dotY + 6 }}
                 />
               </View>
 
               {/* Timestamp label */}
-              <Text className='text-xs text-gray-500 dark:text-gray-400 mt-1 w-14 text-center'>
+              <Text className='text-xs text-muted-foreground mt-1 w-14 text-center'>
                 {label}
               </Text>
             </View>
@@ -281,7 +281,7 @@ export function UsageHistoryChart({
   return (
     <View
       className={cn(
-        'bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm',
+        'bg-card rounded-xl p-4 shadow-sm',
         className
       )}
       accessibilityRole='none'
@@ -289,32 +289,32 @@ export function UsageHistoryChart({
     >
       {/* Header */}
       {title && (
-        <Text className='text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2'>
+        <Text className='text-lg font-semibold text-foreground mb-2'>
           {title}
         </Text>
       )}
 
       {/* Stats row */}
-      <View className='flex-row justify-between mb-4 pb-3 border-b border-gray-100 dark:border-gray-700'>
+      <View className='flex-row justify-between mb-4 pb-3 border-b border-border'>
         <View className='items-center'>
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+          <Text className='text-xs text-muted-foreground'>
             Total
           </Text>
-          <Text className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className='text-sm font-semibold text-foreground'>
             {totalUsage.toLocaleString()}
           </Text>
         </View>
         <View className='items-center'>
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+          <Text className='text-xs text-muted-foreground'>
             Average
           </Text>
-          <Text className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className='text-sm font-semibold text-foreground'>
             {avgUsage.toLocaleString()}
           </Text>
         </View>
         <View className='items-center'>
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>Peak</Text>
-          <Text className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
+          <Text className='text-xs text-muted-foreground'>Peak</Text>
+          <Text className='text-sm font-semibold text-foreground'>
             {maxUsage.toLocaleString()}
           </Text>
         </View>
@@ -343,7 +343,7 @@ export function UsageHistoryChart({
         )
       ) : (
         <View className='items-center justify-center' style={{ height }}>
-          <Text className='text-gray-500 dark:text-gray-400'>
+          <Text className='text-muted-foreground'>
             No history data available
           </Text>
         </View>
@@ -351,9 +351,9 @@ export function UsageHistoryChart({
 
       {/* Legend */}
       {showLimit && data.some(d => d.limit) && (
-        <View className='flex-row items-center justify-center mt-3 pt-2 border-t border-gray-100 dark:border-gray-700'>
-          <View className='w-4 h-0.5 bg-red-400 mr-2' />
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+        <View className='flex-row items-center justify-center mt-3 pt-2 border-t border-border'>
+          <View className='w-4 h-0.5 bg-destructive mr-2' />
+          <Text className='text-xs text-muted-foreground'>
             Limit
           </Text>
         </View>

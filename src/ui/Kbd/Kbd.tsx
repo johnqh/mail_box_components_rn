@@ -47,8 +47,8 @@ export const Kbd: React.FC<KbdProps> = ({
     <View
       className={cn(
         'items-center justify-center',
-        'bg-gray-100 dark:bg-gray-800',
-        'border border-gray-300 dark:border-gray-600',
+        'bg-muted',
+        'border border-border',
         'rounded',
         sizeClasses[size],
         className
@@ -58,7 +58,7 @@ export const Kbd: React.FC<KbdProps> = ({
       <Text
         className={cn(
           'font-mono font-semibold',
-          'text-gray-900 dark:text-gray-100',
+          'text-foreground',
           size === 'sm' && 'text-xs',
           size === 'md' && 'text-sm',
           size === 'lg' && 'text-base'

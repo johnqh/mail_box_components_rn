@@ -100,15 +100,18 @@ export const TextArea: React.FC<TextAreaProps> = ({
         textAlignVertical='top'
         className={cn(
           'w-full rounded-lg border',
-          'bg-white dark:bg-gray-800',
-          'text-gray-900 dark:text-gray-100',
-          'placeholder:text-gray-400 dark:placeholder:text-gray-500',
-          'border-gray-300 dark:border-gray-600',
+          'bg-background',
+          'text-foreground',
+          'placeholder:text-muted-foreground',
+          'border-input',
           sizeClasses[size],
           disabled && 'opacity-50',
-          readOnly && 'bg-gray-50 dark:bg-gray-900',
+          readOnly && 'bg-muted',
           inputClassName
         )}
+        // TODO: theme-aware color — placeholderTextColor is a raw prop and
+        // cannot be driven by a semantic className; this neutral works in
+        // both light and dark but is not theme-flipping.
         placeholderTextColor={colors.raw.neutral[400]}
         accessibilityRole='text'
         accessibilityState={{ disabled }}
@@ -122,11 +125,9 @@ export const TextArea: React.FC<TextAreaProps> = ({
             className={cn(
               'text-xs',
               maxLength && characterCount > maxLength * 0.9
-                ? 'text-yellow-600 dark:text-yellow-400'
-                : 'text-gray-500 dark:text-gray-400',
-              maxLength &&
-                characterCount >= maxLength &&
-                'text-red-600 dark:text-red-400'
+                ? 'text-warning'
+                : 'text-muted-foreground',
+              maxLength && characterCount >= maxLength && 'text-destructive'
             )}
           >
             {characterCount}

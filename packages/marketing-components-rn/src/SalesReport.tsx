@@ -30,7 +30,7 @@ export const SalesReport: React.FC<SalesReportProps> = ({
       {...props}
     >
       {children || (
-        <Text className='text-gray-900 dark:text-white'>
+        <Text className='text-foreground'>
           SalesReport Component
         </Text>
       )}

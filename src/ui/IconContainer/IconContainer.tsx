@@ -48,7 +48,7 @@ function getIconContainerColors() {
     }
     _iconContainerColors = {
       primary: extractBg(badge.primary.base, badge.primary.dark),
-      secondary: 'bg-purple-100 dark:bg-purple-900/30', // DS has no purple badge variant; local fallback
+      secondary: 'bg-accent', // DS has no purple badge variant; local fallback
       success: extractBg(badge.success.base, badge.success.dark),
       warning: extractBg(badge.warning.base, badge.warning.dark),
       error: extractBg(badge.error.base, badge.error.dark),

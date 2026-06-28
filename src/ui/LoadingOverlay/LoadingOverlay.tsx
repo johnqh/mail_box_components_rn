@@ -55,7 +55,7 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
       className={cn(
         mode === 'fullscreen' ? 'flex-1' : 'absolute inset-0',
         'items-center justify-center',
-        'bg-white/80 dark:bg-gray-900/80',
+        'bg-background/80',
         className
       )}
       accessibilityRole='alert'
@@ -63,9 +63,7 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
     >
       <Spinner size={spinnerSize} />
       {message && (
-        <Text className='text-base text-gray-700 dark:text-gray-300 mt-4'>
-          {message}
-        </Text>
+        <Text className='text-base text-muted-foreground mt-4'>{message}</Text>
       )}
     </View>
   );

@@ -106,11 +106,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
     return (
       <Animated.View
         key={key}
-        className={cn(
-          'bg-gray-200 dark:bg-gray-700',
-          variantClasses[variant],
-          className
-        )}
+        className={cn('bg-muted', variantClasses[variant], className)}
         style={[style, animate ? { opacity: animatedValue } : undefined]}
         {...viewProps}
       />

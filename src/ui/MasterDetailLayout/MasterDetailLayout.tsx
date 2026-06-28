@@ -37,16 +37,13 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
   return (
     <Pressable
       onPress={onPress}
-      className={cn(
-        'relative p-4 border-b border-gray-200 dark:border-gray-700',
-        className
-      )}
+      className={cn('relative p-4 border-b border-border', className)}
       accessibilityRole='button'
       accessibilityState={{ selected: isSelected }}
     >
       {/* Selection overlay */}
       {isSelected && (
-        <View className='absolute inset-1 bg-blue-500/10 dark:bg-blue-400/10 rounded-lg' />
+        <View className='absolute inset-1 bg-primary/10 /10 rounded-lg' />
       )}
 
       {/* Content */}
@@ -55,9 +52,7 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
           <View
             className={cn(
               'mr-3 mt-0.5',
-              isSelected
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-500 dark:text-gray-400'
+              isSelected ? 'text-primary' : 'text-muted-foreground'
             )}
           >
             {icon}
@@ -67,9 +62,7 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
           <Text
             className={cn(
               'font-medium',
-              isSelected
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-900 dark:text-gray-100'
+              isSelected ? 'text-primary' : 'text-foreground'
             )}
           >
             {label}
@@ -79,8 +72,8 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
               className={cn(
                 'text-xs mt-0.5',
                 isSelected
-                  ? 'text-blue-500 dark:text-blue-300'
-                  : 'text-gray-500 dark:text-gray-400'
+                  ? 'text-primary dark:text-primary'
+                  : 'text-muted-foreground'
               )}
             >
               {description}
@@ -173,18 +166,18 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
         {/* Master Panel */}
         <View style={{ width: masterWidth }}>
           {masterTitle && (
-            <Text className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
+            <Text className='text-lg font-semibold text-foreground mb-4'>
               {masterTitle}
             </Text>
           )}
           {masterSubtitle && (
-            <Text className='text-sm text-gray-600 dark:text-gray-400 mb-6'>
+            <Text className='text-sm text-muted-foreground mb-6'>
               {masterSubtitle}
             </Text>
           )}
           <View
             className={cn(
-              'bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700',
+              'bg-card rounded-lg border border-border',
               masterClassName
             )}
           >
@@ -196,12 +189,12 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
         <View className='flex-1'>
           <View
             className={cn(
-              'bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6',
+              'bg-card rounded-lg border border-border p-6',
               detailClassName
             )}
           >
             {detailTitle && (
-              <Text className='text-2xl font-bold text-gray-900 dark:text-white mb-6'>
+              <Text className='text-2xl font-bold text-foreground mb-6'>
                 {detailTitle}
               </Text>
             )}
@@ -217,14 +210,14 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
     <View className='flex-1'>
       {/* Mobile Navigation View */}
       {mobileView === 'navigation' && (
-        <View className='flex-1 bg-white dark:bg-gray-800 p-6'>
+        <View className='flex-1 bg-card p-6'>
           {masterTitle && (
-            <Text className='text-xl font-semibold text-gray-900 dark:text-white mb-4'>
+            <Text className='text-xl font-semibold text-foreground mb-4'>
               {masterTitle}
             </Text>
           )}
           {masterSubtitle && (
-            <Text className='text-sm text-gray-600 dark:text-gray-400 mb-6'>
+            <Text className='text-sm text-muted-foreground mb-6'>
               {masterSubtitle}
             </Text>
           )}
@@ -241,11 +234,11 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
           {onBackToNavigation && (
             <Pressable
               onPress={onBackToNavigation}
-              className='mb-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 self-start'
+              className='mb-4 px-4 py-2 border border-border rounded-md bg-card self-start'
               accessibilityRole='button'
               accessibilityLabel={`Back to ${buttonText}`}
             >
-              <Text className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+              <Text className='text-sm font-medium text-muted-foreground'>
                 ← {buttonText}
               </Text>
             </Pressable>
@@ -254,12 +247,12 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
           {/* Detail content */}
           <View
             className={cn(
-              'flex-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6',
+              'flex-1 bg-card rounded-lg border border-border p-6',
               detailClassName
             )}
           >
             {detailTitle && (
-              <Text className='text-2xl font-bold text-gray-900 dark:text-white mb-6'>
+              <Text className='text-2xl font-bold text-foreground mb-6'>
                 {detailTitle}
               </Text>
             )}

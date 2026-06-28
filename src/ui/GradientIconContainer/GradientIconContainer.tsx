@@ -50,10 +50,10 @@ function getGradientIconColors() {
     }
     _gradientIconColors = {
       blue: extractBg(btn.primary.base),
-      purple: 'bg-purple-600', // DS has no purple button; local fallback
+      purple: 'bg-accent', // DS has no purple button; local fallback
       green: extractBg(btn.success.base),
-      orange: 'bg-orange-600', // DS has no orange button; local fallback
-      gray: 'bg-gray-700 dark:bg-gray-600',
+      orange: 'bg-warning', // DS has no orange button; local fallback
+      gray: 'bg-muted dark:bg-muted',
     };
   }
   return _gradientIconColors;

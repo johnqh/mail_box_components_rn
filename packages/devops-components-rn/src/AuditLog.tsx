@@ -49,62 +49,62 @@ const actionConfig: Record<
   { color: string; badge: string; icon: string }
 > = {
   create: {
-    color: 'text-green-700 dark:text-green-300',
+    color: 'text-success',
     badge: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
     icon: '+',
   },
   update: {
-    color: 'text-blue-700 dark:text-blue-300',
+    color: 'text-primary',
     badge: `${colors.component.badge.primary.base} ${colors.component.badge.primary.dark}`,
     icon: '~',
   },
   delete: {
-    color: 'text-red-700 dark:text-red-300',
+    color: 'text-destructive',
     badge: `${colors.component.badge.error.base} ${colors.component.badge.error.dark}`,
     icon: '-',
   },
   login: {
-    color: 'text-purple-700 dark:text-purple-300',
-    badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+    color: 'text-accent-foreground',
+    badge: 'bg-accent text-accent-foreground  ',
     icon: '→',
   },
   logout: {
-    color: 'text-gray-700 dark:text-gray-300',
+    color: 'text-muted-foreground',
     badge: `${colors.component.badge.default.base} ${colors.component.badge.default.dark}`,
     icon: '←',
   },
   access: {
-    color: 'text-cyan-700 dark:text-cyan-300',
-    badge: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300',
+    color: 'text-info',
+    badge: 'bg-info/10 text-info  ',
     icon: '◉',
   },
   export: {
-    color: 'text-orange-700 dark:text-orange-300',
+    color: 'text-warning ',
     badge: `${colors.component.badge.warning.base} ${colors.component.badge.warning.dark}`,
     icon: '↑',
   },
   import: {
-    color: 'text-teal-700 dark:text-teal-300',
-    badge: 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-300',
+    color: 'text-info dark:text-info',
+    badge: 'bg-info/10 text-info  dark:text-info',
     icon: '↓',
   },
   approve: {
-    color: 'text-emerald-700 dark:text-emerald-300',
-    badge: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300',
+    color: 'text-success ',
+    badge: 'bg-success/10 text-success  ',
     icon: '✓',
   },
   reject: {
-    color: 'text-rose-700 dark:text-rose-300',
-    badge: 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-300',
+    color: 'text-secondary-foreground dark:text-secondary-foreground',
+    badge: 'bg-secondary text-secondary-foreground  dark:text-secondary-foreground',
     icon: '✗',
   },
   deploy: {
-    color: 'text-indigo-700 dark:text-indigo-300',
-    badge: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
+    color: 'text-primary ',
+    badge: 'bg-primary/10 text-primary  ',
     icon: '▲',
   },
   rollback: {
-    color: 'text-amber-700 dark:text-amber-300',
+    color: 'text-warning ',
     badge: `${colors.component.badge.attention.base} ${colors.component.badge.attention.dark}`,
     icon: '↺',
   },
@@ -134,7 +134,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
   return (
     <Card className={cn('overflow-hidden', className)}>
       {title && (
-        <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
+        <View className='px-4 py-3 border-b border-border'>
           <Text className={textVariants.label.default()}>
             {title}
           </Text>
@@ -149,7 +149,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
             <View
               className={cn(
                 'px-4 py-3',
-                !isLast && 'border-b border-gray-100 dark:border-gray-800'
+                !isLast && 'border-b border-border'
               )}
             >
               <View className='flex-row items-start'>
@@ -165,13 +165,13 @@ export const AuditLog: React.FC<AuditLogProps> = ({
                 </View>
                 <View className='flex-1'>
                   <View className='flex-row items-center flex-wrap'>
-                    <Text className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+                    <Text className='text-sm font-medium text-foreground'>
                       {entry.actor.name}
                     </Text>
-                    <Text className='text-sm text-gray-600 dark:text-gray-400 mx-1'>
+                    <Text className='text-sm text-muted-foreground mx-1'>
                       {entry.action}d
                     </Text>
-                    <Text className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+                    <Text className='text-sm font-medium text-foreground'>
                       {entry.resource.name}
                     </Text>
                   </View>
@@ -191,16 +191,16 @@ export const AuditLog: React.FC<AuditLogProps> = ({
                         {entry.action}
                       </Text>
                     </View>
-                    <Text className='text-xs text-gray-500 dark:text-gray-500'>
+                    <Text className='text-xs text-muted-foreground'>
                       {entry.resource.type}
                     </Text>
                   </View>
                   <View className='flex-row items-center mt-2'>
-                    <Text className='text-xs text-gray-400 dark:text-gray-600'>
+                    <Text className='text-xs text-muted-foreground'>
                       {formatTimestamp(entry.timestamp)}
                     </Text>
                     {entry.ipAddress && (
-                      <Text className='text-xs text-gray-400 dark:text-gray-600 ml-2'>
+                      <Text className='text-xs text-muted-foreground ml-2'>
                         IP: {entry.ipAddress}
                       </Text>
                     )}
@@ -225,7 +225,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
           return <View key={entry.id}>{content}</View>;
         })}
       </ScrollView>
-      <View className='px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700'>
+      <View className='px-4 py-2 bg-muted border-t border-border'>
         <Text className={textVariants.caption.default()}>
           Showing {entries.length} audit entries
         </Text>

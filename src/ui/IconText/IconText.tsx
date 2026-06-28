@@ -81,12 +81,12 @@ export const IconText: React.FC<IconTextProps> = ({
 
   // Color variant configurations using DS semantic references
   const variantClasses = {
-    default: 'text-gray-700 dark:text-gray-300',
+    default: 'text-muted-foreground',
     primary: colors.component.alert.info.icon,
     success: colors.component.alert.success.icon,
     warning: colors.component.alert.warning.icon,
     danger: colors.component.alert.error.icon,
-    muted: 'text-gray-500 dark:text-gray-400',
+    muted: 'text-muted-foreground',
   };
 
   // Layout based on icon position

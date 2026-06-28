@@ -24,37 +24,37 @@ const walletConfig: Record<
   metamask: {
     label: 'MetaMask',
     emoji: '🦊',
-    color: 'bg-orange-100 dark:bg-orange-900/30',
+    color: 'bg-warning/10 ',
   },
   walletconnect: {
     label: 'WalletConnect',
     emoji: '🔗',
-    color: 'bg-blue-100 dark:bg-blue-900/30',
+    color: 'bg-primary/10',
   },
   coinbase: {
     label: 'Coinbase',
     emoji: '🔵',
-    color: 'bg-blue-100 dark:bg-blue-900/30',
+    color: 'bg-primary/10',
   },
   rainbow: {
     label: 'Rainbow',
     emoji: '🌈',
-    color: 'bg-purple-100 dark:bg-purple-900/30',
+    color: 'bg-accent',
   },
   phantom: {
     label: 'Phantom',
     emoji: '👻',
-    color: 'bg-purple-100 dark:bg-purple-900/30',
+    color: 'bg-accent',
   },
   trust: {
     label: 'Trust Wallet',
     emoji: '🛡️',
-    color: 'bg-blue-100 dark:bg-blue-900/30',
+    color: 'bg-primary/10',
   },
   generic: {
     label: 'Wallet',
     emoji: '💳',
-    color: 'bg-gray-100 dark:bg-gray-800',
+    color: 'bg-muted',
   },
 };
 
@@ -98,7 +98,7 @@ export const WalletIcon: React.FC<WalletIconProps> = ({
         <Text className={textSizes[size]}>{config.emoji}</Text>
       </View>
       {showLabel && (
-        <Text className='text-gray-900 dark:text-white font-medium'>
+        <Text className='text-foreground font-medium'>
           {config.label}
         </Text>
       )}

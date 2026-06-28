@@ -37,7 +37,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       {illustration && <View className='mb-8'>{illustration}</View>}
 
       {subtitle && (
-        <Text className={cn(textVariants.caption.uppercase(), 'text-blue-600 dark:text-blue-400 mb-2')}>
+        <Text className={cn(textVariants.caption.uppercase(), 'text-primary mb-2')}>
           {subtitle}
         </Text>
       )}

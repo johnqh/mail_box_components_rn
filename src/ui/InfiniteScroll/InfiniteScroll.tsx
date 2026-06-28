@@ -110,7 +110,7 @@ export function InfiniteScroll<T>({
   // Default empty component
   const defaultEmptyComponent = (
     <View className='flex-1 justify-center items-center py-8'>
-      <Text className='text-gray-500 dark:text-gray-400'>No items found</Text>
+      <Text className='text-muted-foreground'>No items found</Text>
     </View>
   );
 
@@ -119,15 +119,13 @@ export function InfiniteScroll<T>({
     const footerLoader = (
       <View className='flex-row justify-center items-center py-4'>
         <ActivityIndicator size='small' color={colors.raw.blue[500]} />
-        <Text className='ml-2 text-sm text-gray-600 dark:text-gray-400'>
-          Loading...
-        </Text>
+        <Text className='ml-2 text-sm text-muted-foreground'>Loading...</Text>
       </View>
     );
 
     const footerEndMessage = (
       <View className='flex-row justify-center items-center py-4'>
-        <Text className='text-sm text-gray-600 dark:text-gray-400'>
+        <Text className='text-sm text-muted-foreground'>
           No more items to load
         </Text>
       </View>
@@ -177,10 +175,10 @@ export function InfiniteScroll<T>({
           className={cn(
             'absolute bottom-4 right-4',
             'w-12 h-12 rounded-full',
-            'bg-blue-600 dark:bg-blue-500',
+            'bg-primary dark:bg-primary',
             'items-center justify-center',
             'shadow-lg',
-            'active:bg-blue-700 dark:active:bg-blue-600'
+            'active:bg-primary/90'
           )}
           accessibilityRole='button'
           accessibilityLabel='Scroll to top'

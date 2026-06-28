@@ -138,8 +138,8 @@ export const Popover: React.FC<PopoverProps> = ({
             <Pressable onPress={e => e.stopPropagation()}>
               <View
                 className={cn(
-                  'bg-white dark:bg-gray-800',
-                  'border border-gray-200 dark:border-gray-700',
+                  'bg-card',
+                  'border border-border',
                   'rounded-lg shadow-lg',
                   className
                 )}

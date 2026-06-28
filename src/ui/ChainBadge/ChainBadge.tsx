@@ -38,8 +38,8 @@ function buildChainColors() {
     bitcoin: splitBadgeClasses(badge.bitcoin.base, badge.bitcoin.dark),
     // DS has no cosmos badge — use local fallback (indigo)
     cosmos: {
-      bg: 'bg-indigo-50 dark:bg-indigo-900/20',
-      text: 'text-indigo-700 dark:text-indigo-300',
+      bg: 'bg-primary/10 dark:bg-primary/10',
+      text: 'text-primary ',
     },
   };
 }

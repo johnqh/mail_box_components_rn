@@ -44,7 +44,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       return (
         <Image
           source={{ uri: entity.avatarUrl }}
-          className={cn(sizeClasses, 'rounded-full bg-gray-200 dark:bg-gray-600')}
+          className={cn(sizeClasses, 'rounded-full bg-muted dark:bg-muted')}
           accessibilityIgnoresInvertColors
         />
       );
@@ -52,10 +52,10 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
 
     return (
       <View
-        className={cn(sizeClasses, 'rounded-full bg-gray-200 dark:bg-gray-600 items-center justify-center')}
+        className={cn(sizeClasses, 'rounded-full bg-muted dark:bg-muted items-center justify-center')}
       >
         <Text
-          className={cn(textSize, 'font-semibold text-gray-600 dark:text-gray-300')}
+          className={cn(textSize, 'font-semibold text-muted-foreground')}
         >
           {entity.name.charAt(0).toUpperCase()}
         </Text>
@@ -68,8 +68,8 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       onPress={() => handleSelect(item)}
       className={cn(
         'flex-row items-center px-4 py-3',
-        selectedEntity?.id === item.id && 'bg-blue-50 dark:bg-blue-900/30',
-        'active:bg-gray-100 dark:active:bg-gray-700',
+        selectedEntity?.id === item.id && 'bg-primary/10',
+        'active:bg-muted',
       )}
       accessibilityRole='button'
       accessibilityLabel={`Select ${item.name}`}
@@ -78,19 +78,19 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       {showAvatars && <View className='mr-3'>{renderAvatar(item, 'sm')}</View>}
       <View className='flex-1'>
         <Text
-          className='text-base text-gray-900 dark:text-white'
+          className='text-base text-foreground'
           numberOfLines={1}
         >
           {item.name}
         </Text>
         {showRoles && item.role && (
-          <Text className='text-xs text-gray-500 dark:text-gray-400 capitalize'>
+          <Text className='text-xs text-muted-foreground capitalize'>
             {item.role}
           </Text>
         )}
       </View>
       {selectedEntity?.id === item.id && (
-        <Text className='text-blue-500 dark:text-blue-400 text-lg'>✓</Text>
+        <Text className='text-primary dark:text-primary text-lg'>✓</Text>
       )}
     </Pressable>
   );
@@ -103,8 +103,8 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
         disabled={disabled || loading}
         className={cn(
           'flex-row items-center px-4 py-3 rounded-xl',
-          'bg-white dark:bg-gray-800',
-          'border border-gray-200 dark:border-gray-700',
+          'bg-card',
+          'border border-border',
           disabled && 'opacity-50',
           'active:opacity-80',
         )}
@@ -116,7 +116,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
       >
         {loading ? (
           <View className='flex-row items-center'>
-            <Text className='text-gray-500 dark:text-gray-400'>Loading...</Text>
+            <Text className='text-muted-foreground'>Loading...</Text>
           </View>
         ) : selectedEntity ? (
           <>
@@ -125,24 +125,24 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
             )}
             <View className='flex-1'>
               <Text
-                className='text-base font-medium text-gray-900 dark:text-white'
+                className='text-base font-medium text-foreground'
                 numberOfLines={1}
               >
                 {selectedEntity.name}
               </Text>
               {showRoles && selectedEntity.role && (
-                <Text className='text-xs text-gray-500 dark:text-gray-400 capitalize'>
+                <Text className='text-xs text-muted-foreground capitalize'>
                   {selectedEntity.role}
                 </Text>
               )}
             </View>
           </>
         ) : (
-          <Text className='flex-1 text-gray-500 dark:text-gray-400'>
+          <Text className='flex-1 text-muted-foreground'>
             {placeholder}
           </Text>
         )}
-        <Text className='text-gray-400 dark:text-gray-500 text-lg ml-2'>▼</Text>
+        <Text className='text-muted-foreground text-lg ml-2'>▼</Text>
       </Pressable>
 
       {/* Dropdown Modal */}
@@ -158,11 +158,11 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
         >
           <Pressable
             onPress={e => e.stopPropagation()}
-            className='bg-white dark:bg-gray-800 rounded-2xl overflow-hidden max-h-96'
+            className='bg-card rounded-2xl overflow-hidden max-h-96'
           >
             {/* Header */}
-            <View className='px-4 py-3 border-b border-gray-200 dark:border-gray-700'>
-              <Text className='text-lg font-semibold text-gray-900 dark:text-white'>
+            <View className='px-4 py-3 border-b border-border'>
+              <Text className='text-lg font-semibold text-foreground'>
                 Select Entity
               </Text>
             </View>
@@ -175,7 +175,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
               showsVerticalScrollIndicator={false}
               ListEmptyComponent={
                 <View className='py-8 items-center'>
-                  <Text className='text-gray-500 dark:text-gray-400'>
+                  <Text className='text-muted-foreground'>
                     No entities available
                   </Text>
                 </View>
@@ -185,9 +185,9 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
             {/* Cancel Button */}
             <Pressable
               onPress={handleClose}
-              className='px-4 py-3 border-t border-gray-200 dark:border-gray-700 items-center active:bg-gray-100 dark:active:bg-gray-700'
+              className='px-4 py-3 border-t border-border items-center active:bg-muted'
             >
-              <Text className='text-blue-500 dark:text-blue-400 font-medium'>
+              <Text className='text-primary dark:text-primary font-medium'>
                 Cancel
               </Text>
             </Pressable>
