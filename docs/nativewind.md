@@ -97,8 +97,10 @@ module.exports = function (api) {
       /* module-resolver, … */
       // Env inlining — see §2.9. (Fine under both Metro and jest.)
       ['transform-inline-environment-variables', { include: [/* used keys */] }],
-      // If using reanimated/worklets, its plugin MUST remain LAST.
-      'react-native-worklets/plugin',
+      // If using reanimated, its plugin MUST remain LAST. Name depends on the
+      // version: 'react-native-reanimated/plugin' (v3) or
+      // 'react-native-worklets/plugin' (v4+ / when worklets is split out).
+      'react-native-reanimated/plugin',
     ],
   };
 };
@@ -106,7 +108,8 @@ module.exports = function (api) {
 
 > Other gotchas: preserve existing `babel-preset-expo` options (dropping
 > `unstable_transformImportMeta` breaks `import.meta` in shared code); and the
-> `react-native-worklets/plugin` (reanimated) must stay the **last** plugin.
+> reanimated plugin (`react-native-reanimated/plugin`, or
+> `react-native-worklets/plugin` on v4+) must stay the **last** plugin.
 
 ### 2.3 `metro.config.js`
 
@@ -203,6 +206,12 @@ variant classes get generated.
 
 ```js
 const { createTailwindPreset } = require('@sudobility/design');
+const { defaultTheme } = require('@sudobility/design/themes');
+
+// The design preset maps rounded-md/sm to `calc(var(--radius) - Npx)`, which
+// NativeWind cannot evaluate on native (corners render SQUARE). Compute concrete
+// px from the active theme's radius — the same result the web gets from calc.
+const radiusPx = parseFloat(defaultTheme.light.radius) * 16; // "0.5rem" -> 8
 
 module.exports = {
   darkMode: 'class',
@@ -213,7 +222,17 @@ module.exports = {
     './node_modules/@sudobility/design/dist/**/*.{js,jsx}',
   ],
   presets: [require('nativewind/preset'), createTailwindPreset()],
-  theme: { extend: {} },
+  theme: {
+    extend: {
+      // Override the calc()-based radii with concrete px (see radiusPx above).
+      borderRadius: {
+        sm: `${Math.max(radiusPx - 4, 0)}px`,
+        md: `${Math.max(radiusPx - 2, 0)}px`,
+        lg: `${radiusPx}px`,
+        xl: `${radiusPx + 4}px`,
+      },
+    },
+  },
   plugins: [],
 };
 ```
@@ -221,6 +240,12 @@ module.exports = {
 > `createTailwindPreset()` (CSS variables) supports light **and** dark.
 > `createNativeWindPreset(theme)` bakes in **light-only** concrete colors — use
 > it only if you don't need dark mode.
+
+> ⚠️ **Square corners on native.** The design preset expresses `rounded-sm/md`
+> as `calc(var(--radius) - 2px)`. NativeWind's compiler does **not** evaluate
+> `calc()` on native, so any `rounded-*` from a variant collapses to 0 (sharp
+> corners). The `borderRadius` override above pre-computes concrete px from
+> `defaultTheme.light.radius` — keep it whenever a theme uses a non-zero radius.
 
 ### 2.6 `nativewind-env.d.ts`
 
@@ -331,8 +356,10 @@ Notes:
 - `darkMode: 'class'` still matters for any leftover `dark:` variants; keep
   NativeWind's `colorScheme` in lockstep via AppNavigator
   (`colorScheme.set(isDark ? 'dark' : 'light')`).
-- Retire the app's `useAppColors`/`StyleSheet` colors in favor of components +
-  semantic classes (see §5).
+- Prefer components + semantic classes over the app's `useAppColors`/`StyleSheet`
+  colors (see §5). Where a concrete color string is genuinely unavoidable
+  (React Navigation's `Theme`, native SDK styles), **derive it from the design
+  tokens** rather than hardcoding — see §2.12.
 
 ### 2.11 SVG / icon colors
 
@@ -344,6 +371,71 @@ import { cssInterop } from 'nativewind';
 import Svg from 'react-native-svg';
 cssInterop(Svg, { className: { target: 'style', nativeStyleToProp: { color: true } } });
 ```
+
+Put this call in the `designTheme.ts` side-effect module (§2.7) so it runs once,
+at startup, alongside `configureTheme` — before any icon renders.
+
+### 2.12 Concrete colors outside `className` (React Navigation, native SDKs)
+
+Some consumers can't take a `className` and need a **concrete color string**:
+React Navigation's `Theme` (`NavigationContainer theme={…}`), the Stripe
+`CardForm`/`CardField` `cardStyle`, chart libraries, `StatusBar`, etc. **Do not
+hardcode a parallel palette** for these — derive the values from the **same
+`defaultTheme` tokens** the rest of the app uses, so they track the active design
+style and light/dark.
+
+Design tokens are **HSL channel strings** (`"222.2 84% 4.9%"`, no `hsl(...)`
+wrapper, space-separated). React Native's color parser accepts the **comma**
+form `hsl(h, s%, l%)`, so convert:
+
+```ts
+// "222.2 84% 4.9%" -> "hsl(222.2, 84%, 4.9%)"  (React-Native-parseable)
+const hsl = (channels: string): string => {
+  const [h, s, l] = channels.trim().split(/\s+/);
+  return `hsl(${h}, ${s}, ${l})`;
+};
+```
+
+Build the consumer's color object from the scheme's tokens. React Navigation
+theme (`src/config/theme.ts`), keyed off `defaultTheme.light` / `.dark`:
+
+```ts
+import type { Theme } from '@react-navigation/native';
+import { defaultTheme } from '@sudobility/design/themes';
+const l = defaultTheme.light;
+export const lightTheme: Theme = {
+  dark: false,
+  fonts,
+  colors: {
+    primary: hsl(l.primary),
+    background: hsl(l.background),
+    card: hsl(l.card),
+    text: hsl(l.foreground),
+    border: hsl(l.border),
+    notification: hsl(l.destructive),
+  },
+};
+```
+
+Same idea for a native SDK — derive from the active scheme's tokens at render:
+
+```tsx
+// Stripe CardForm — cardStyle wants concrete colors, so map tokens through hsl().
+const scheme = useColorScheme();
+const t = scheme === 'dark' ? defaultTheme.dark : defaultTheme.light;
+const cardStyle = {
+  backgroundColor: hsl(t.background),
+  textColor: hsl(t.foreground),
+  placeholderColor: hsl(t.mutedForeground),
+  borderColor: hsl(t.input),
+};
+```
+
+This replaces the old hand-written `config/theme.ts` palette (`primary: { 600:
+'#2563eb' }`, gray ramps, …) and the `useAppColors` hardcoded values — they now
+come from the design system. The only literal that legitimately stays is RN
+`shadowColor: '#000000'`, a fixed-black primitive tinted by elevation/opacity
+(not a themed surface). See §5 for the full list of allowed exceptions.
 
 ---
 
@@ -382,6 +474,22 @@ and contain **no** bundled `react-jsx-runtime`.
 4. **Modals drop safe-area context.** `useSafeAreaInsets()` returns 0 inside a
    RN `<Modal>` (and a tab navigator reports `bottom: 0`). Wrap modal content in
    its own `<SafeAreaProvider>`.
+5. **`cn()` must use `tailwind-merge`, not just `clsx`.** A component composes a
+   variant string with a caller's `className` (e.g. `cn(variant.input(), props.className)`).
+   NativeWind does **not** resolve same-property conflicts, so a passed override
+   loses to the variant: `w-20` is ignored under the variant's `w-full` (symptom:
+   a field/label rendered at full width, pushed offscreen); likewise `bg-card`
+   under `bg-white`. Define `cn` as `twMerge(clsx(inputs))` so the **last** class
+   wins, matching the web build. Declare `tailwind-merge` (and `clsx`) in the
+   library's `peerDependencies` (and `devDependencies` for local builds), like
+   `clsx`/`class-variance-authority`; the **consuming app** lists it in its own
+   `dependencies` so a single copy is installed.
+   ```ts
+   // src/lib/utils.ts
+   import { type ClassValue, clsx } from 'clsx';
+   import { twMerge } from 'tailwind-merge';
+   export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
+   ```
 
 ---
 
@@ -410,6 +518,28 @@ and contain **no** bundled `react-jsx-runtime`.
   (`text-blue-600`, `colors.raw.*`, `text-gray-900 dark:…`), fix the **library**
   to use semantic tokens (`text-foreground`, `text-muted-foreground`, `bg-card`,
   `border-border`, `text-primary`) rather than working around it in the app.
+- **No raw color literals anywhere** — not Tailwind palette classes
+  (`bg-blue-600`, `text-gray-500`, `border-gray-200`), not hex/`rgb()`/`hsl()`
+  literals, not `text-white`/`bg-black` on themed surfaces. Use semantic tokens.
+  - **Gradients/colored banners**: `bg-primary` (or `from-primary …` semantic
+    stops) with `text-primary-foreground` for the on-color text — **not**
+    `from-blue-600 to-blue-800 text-white`. (`text-primary-foreground` is the
+    near-white "text on primary" token and flips correctly per theme.) Avoid a
+    light semantic stop like `to-accent` under white text — it kills contrast.
+  - **Concrete colors** required by React Navigation / native SDKs: derive from
+    tokens via §2.12, don't hardcode.
+
+- **Legitimate fixed-color exceptions** (these intentionally must NOT theme-flip):
+  | Case | Why it stays literal |
+  |---|---|
+  | Printable/saveable QR labels (`bg-white`, `text-black`, the print-HTML) | Must be black-on-white to remain scannable in any theme; a token would flip and vanish |
+  | Over-camera scrims/overlays (`bg-black`, `text-white` on a live `CameraView`) | Fixed contrast over an arbitrary camera feed, not a themed surface |
+  | RN `shadowColor: '#000000'` | A fixed-black primitive tinted by elevation/opacity |
+  | Category/brand identity colors (e.g. per-equipment-type icon tints) | Distinct identity marks (chart-palette style) with no semantic-token equivalent; keep in a single `config/*Icons.ts` data map, not inline |
+
+  Anything outside this list should be a semantic token. A grep gate for raw
+  literals over `src` (Tailwind palette classes + `#rrggbb` + `rgb(`/`hsl(`) is a
+  useful CI check; whitelist only the rows above.
 
 ---
 
@@ -433,6 +563,8 @@ and contain **no** bundled `react-jsx-runtime`.
 | Button text black, not white/red | RN text-color non-inheritance | Apply variant text classes to inner `<Text>` |
 | Colors don't change with light/dark | CSS `.dark`/`@media` blocks don't switch on native | Use the `vars()` ThemeVarsProvider (§2.10), resolving scheme from RN `useColorScheme` + settings |
 | Icons render with wrong/no color | `react-native-svg` not interop'd | `cssInterop(Svg, …)` (§2.11) |
+| Square/sharp corners on cards & buttons | `calc()` radii don't evaluate on native | Concrete-px `borderRadius` override in `tailwind.config.js` (§2.5) |
+| A `className` override (e.g. `w-20`, `bg-card`) is ignored | `cn` uses only `clsx`; no conflict resolution | `cn = twMerge(clsx(inputs))` (§4) |
 | Edits to the library don't show | App bundles `src`; you rebuilt `dist` | Edit `src`; restart Metro (clears cache) |
 | Tailwind build errors | `tailwindcss@4` installed | Downgrade to `^3.4` |
 | `"Set X in .env"` though it's set | env not inlined (no inline-env plugin / stale Metro bundle) | §2.9 + `clean:metro` |
