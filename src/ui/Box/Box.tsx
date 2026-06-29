@@ -86,7 +86,7 @@ export const Box: React.FC<BoxProps> = ({
   const bgClasses = bg
     ? {
         transparent: 'bg-transparent',
-        white: 'bg-background',
+        white: 'bg-card',
         gray: 'bg-muted',
         primary: 'bg-primary/10',
         success: 'bg-success/10',

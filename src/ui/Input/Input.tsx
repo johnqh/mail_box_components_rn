@@ -10,10 +10,10 @@ import { variants as v } from '@sudobility/design';
 import { stripWebOnlyClasses } from '../Button/Button.shared';
 
 // CSS pseudo-class selectors (focus:, disabled:) and focus rings don't work in
-// RN, so we apply state classes via component state using the design system's
-// semantic tokens (blue ring color, destructive border, muted disabled bg).
-const inputFocusClass = 'border-ring';
-const inputErrorClass = 'border-destructive';
+// RN, so we apply state classes via component state. The shared variant now
+// uses a filled muted surface instead of a visible border.
+const inputFocusClass = 'bg-background';
+const inputErrorClass = 'bg-destructive/10';
 const inputDisabledClass = 'opacity-50 bg-muted';
 
 export interface InputProps extends Omit<TextInputProps, 'style'> {
@@ -61,10 +61,6 @@ export const Input = React.forwardRef<TextInput, InputProps>(
       <TextInput
         ref={ref}
         className={cn(
-          // `border` ensures the border width is set (the variant only sets the
-          // color); stripWebOnlyClasses removes focus rings that render as a
-          // black halo on native.
-          'border',
           stripWebOnlyClasses(v.input.default()),
           isFocused && inputFocusClass,
           error && inputErrorClass,
