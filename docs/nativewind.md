@@ -55,44 +55,103 @@ The two switches:
 ```
 nativewind@^4            tailwindcss@^3.4         (NOT v4)
 react-native-reanimated  react-native-safe-area-context
+babel-plugin-transform-inline-environment-variables   (env inlining, §2.9)
 ```
 `react-native-css-interop` comes in transitively with nativewind.
+
+**Also install `watchman`** (`brew install watchman`). Without it, Metro falls back
+to its Node file crawler, which **crashes with `RangeError: Invalid string length`**
+when `watchFolders` is large (see §2.3 — sibling-repo layouts hit this). watchman
+crawls efficiently and avoids the error.
 
 ### 2.2 `babel.config.js`
 
 Route the app's JSX through NativeWind's runtime so `className` becomes styles.
-Keep any existing presets/plugins (module-resolver, etc.).
+**Keep any existing preset options and plugins** — add to them, don't replace.
+
+> ⚠️ **Gate NativeWind to the Metro caller — otherwise it breaks jest.** With
+> `jsxImportSource: 'nativewind'`, JSX compiles to a `react-native-css-interop/
+> jsx-runtime` import hoisted to module scope. Under **jest** (babel-jest), that
+> trips `babel-plugin-jest-hoist`'s "no out-of-scope variables in `jest.mock()`"
+> rule and **every test suite fails to transform**. Make `babel.config.js` a
+> function and apply NativeWind only when Metro is the caller.
 
 ```js
-module.exports = {
-  presets: [
-    ['babel-preset-expo', { jsxImportSource: 'nativewind' }],
-    'nativewind/babel',
-  ],
-  plugins: [ /* module-resolver, … */ ],
+module.exports = function (api) {
+  // NativeWind JSX transform only for the Metro bundle, not babel-jest.
+  const isMetro = api.caller(
+    c => !!c && (c.name === 'metro' || c.bundler === 'metro')
+  );
+  api.cache.using(() => isMetro);
+
+  return {
+    presets: [
+      // Keep existing options (e.g. unstable_transformImportMeta for import.meta).
+      [
+        'babel-preset-expo',
+        { ...(isMetro ? { jsxImportSource: 'nativewind' } : {}) },
+      ],
+      ...(isMetro ? ['nativewind/babel'] : []),
+    ],
+    plugins: [
+      /* module-resolver, … */
+      // Env inlining — see §2.9. (Fine under both Metro and jest.)
+      ['transform-inline-environment-variables', { include: [/* used keys */] }],
+      // If using reanimated/worklets, its plugin MUST remain LAST.
+      'react-native-worklets/plugin',
+    ],
+  };
 };
 ```
 
+> Other gotchas: preserve existing `babel-preset-expo` options (dropping
+> `unstable_transformImportMeta` breaks `import.meta` in shared code); and the
+> `react-native-worklets/plugin` (reanimated) must stay the **last** plugin.
+
 ### 2.3 `metro.config.js`
 
-Wrap the config with `withNativeWind`, preserving the resolver settings used to
-resolve the `@sudobility` packages.
+Wrap the **existing** config with `withNativeWind`. Real apps already have a
+custom resolver (shims, `blockList`, `resolveRequest`, `extraNodeModules`,
+`watchFolders`, an SVG `babelTransformerPath`, …) to resolve the `@sudobility`
+packages — keep all of it; only add `withNativeWind` around `module.exports` and
+the `.env.merged` loader below. (`withNativeWind` composes with a custom
+`babelTransformerPath` like `react-native-svg-transformer`.)
 
 ```js
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const { withNativeWind } = require('nativewind/metro');
+const fs = require('fs');
+const path = require('path');
 
-const defaultConfig = getDefaultConfig(__dirname);
-const config = mergeConfig(defaultConfig, {
-  resolver: {
-    sourceExts: [...defaultConfig.resolver.sourceExts, 'cjs'],
-    resolverMainFields: ['react-native', 'browser', 'main'],
-    unstable_conditionNames: ['react-native', 'require', 'import', 'default'],
-  },
+// Load .env.merged into process.env at build time so the babel inline-env plugin
+// (§2.9) can replace process.env.* with real values (RN runtime process.env is {}).
+const envFile = process.env.ENVFILE || '.env.merged';
+const envFilePath = path.resolve(__dirname, envFile);
+if (fs.existsSync(envFilePath)) {
+  for (const line of fs.readFileSync(envFilePath, 'utf8').split('\n')) {
+    const t = line.trim();
+    if (!t || t.startsWith('#') || !t.includes('=')) continue;
+    const i = t.indexOf('=');
+    const key = t.slice(0, i).trim();
+    let val = t.slice(i + 1).trim().replace(/^['"]|['"]$/g, '');
+    if (!(key in process.env)) process.env[key] = val;
+  }
+}
+
+const config = mergeConfig(getDefaultConfig(__dirname), {
+  /* …keep the app's existing resolver/transformer/watchFolders… */
 });
 
 module.exports = withNativeWind(config, { input: './global.css' });
 ```
+
+> ⚠️ **`watchFolders` and the sibling-repo gotcha.** `~/projects` is NOT a
+> monorepo — it's many independent repos. If `watchFolders` points at the parent
+> root (to reach sibling `@sudobility` packages), Metro's Node crawler tries to
+> walk *everything* and **crashes with `RangeError: Invalid string length`**.
+> Watch ONLY the specific sibling package dirs the app consumes — e.g.
+> `watchFolders: [...Object.values(sudobilityPackages)]` — never the parent root.
+> Also install **watchman** (§2.1), which sidesteps the Node crawler entirely.
 
 > **Note — src vs dist.** Because `resolverMainFields`/`unstable_conditionNames`
 > prefer the `react-native` condition, and `@sudobility/components-rn` exposes
@@ -117,8 +176,11 @@ const { generateThemeCSS } = require('@sudobility/design');
 const { defaultTheme } = require('@sudobility/design/themes');
 
 const activeTheme = defaultTheme; // ← switch design style here
-// generateThemeCSS emits ":root {light} .dark {dark}"; keep only :root.
-const lightRoot = generateThemeCSS(activeTheme).replace(/\n\n\.dark\s*\{[\s\S]*?\n\}\n?$/, '\n');
+// generateThemeCSS emits ":root {light} .dark {dark}"; keep only :root by slicing
+// off everything from the ".dark" selector onward (robust to whitespace/format).
+const full = generateThemeCSS(activeTheme);
+const darkIdx = full.indexOf('.dark');
+const lightRoot = (darkIdx >= 0 ? full.slice(0, darkIdx).trimEnd() : full.trimEnd()) + '\n';
 const css = `@tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -192,6 +254,41 @@ selects each theme's `nativeClassOverrides` (RN-safe; e.g. drops `backdrop-blur`
 Change the theme in **all three** places together: `designTheme.ts`
 (`configureTheme`), `generate-theme-css.js` (`activeTheme`), and re-run the
 generator. The tailwind preset is variable-based so it needs no change.
+
+### 2.9 Environment variables (`.env`)
+
+React Native's **runtime `process.env` is `{}`** — env vars must be inlined at
+build time. `babel-preset-expo` only handles `EXPO_PUBLIC_*` (it rewrites those to
+`require("expo/virtual/env")`); any other prefix (e.g. `VITE_*`, shared with the
+web apps) is left as `process.env.X` → `undefined` in Hermes. So a dedicated
+inline step is required, or env access silently yields defaults. Three pieces:
+
+1. **`scripts/merge-env.js`** merges `.env` (+ `.env.local`) → `.env.merged`. Run
+   it in `pre{start,ios,android}` (alongside `generate-theme-css.js`, §2.4):
+   ```json
+   "prestart": "node scripts/merge-env.js && node scripts/generate-theme-css.js && bun run clean:metro"
+   ```
+2. **`metro.config.js`** loads `.env.merged` into `process.env` at build time
+   (the loop in §2.3).
+3. **`babel.config.js`** uses `transform-inline-environment-variables` with an
+   **explicit `include` whitelist** of only the keys the app actually reads, so
+   they're replaced with the loaded values:
+   ```js
+   ['transform-inline-environment-variables',
+     { include: ['VITE_WALLETCONNECT_PROJECT_ID', 'VITE_EMAIL_DOMAIN', /* …used keys… */] }]
+   ```
+
+Guidance:
+- **Whitelist the keys you use** — do NOT omit `include`. Omitting it inlines the
+  *entire build-machine environment* (PATH, secrets) into the bundle and can break
+  libraries that read `process.env`. (You can auto-derive the list from
+  `.env.merged`'s keys if you prefer no manual list — still scoped to your `.env`.)
+- Access vars with the **static** form `process.env.VITE_FOO` in one config module
+  (e.g. `src/config/env.ts`). The plugin only matches static `process.env.*` — a
+  dynamic `process.env['VITE_' + k]` will not be inlined.
+- Symptom of a missing/broken setup: "Set X in .env" errors even though `.env` has
+  it. A stale Metro bundle can mask this; `clean:metro` (in the pre-scripts) forces
+  a rebuild that reflects the real inlining.
 
 ### 2.10 Light/dark via a `vars()` provider (the working native approach)
 
@@ -338,3 +435,13 @@ and contain **no** bundled `react-jsx-runtime`.
 | Icons render with wrong/no color | `react-native-svg` not interop'd | `cssInterop(Svg, …)` (§2.11) |
 | Edits to the library don't show | App bundles `src`; you rebuilt `dist` | Edit `src`; restart Metro (clears cache) |
 | Tailwind build errors | `tailwindcss@4` installed | Downgrade to `^3.4` |
+| `"Set X in .env"` though it's set | env not inlined (no inline-env plugin / stale Metro bundle) | §2.9 + `clean:metro` |
+| Metro crash `RangeError: Invalid string length` | `watchFolders` too broad (sibling-repo root) + no watchman | Narrow `watchFolders`; `brew install watchman` (§2.1, §2.3) |
+| All jest suites fail to transform: "module factory of `jest.mock()` is not allowed to reference out-of-scope variables" | NativeWind's jsx-runtime import is hoisted; trips babel-plugin-jest-hoist | Gate NativeWind to the Metro caller in `babel.config.js` (§2.2) |
+
+**App-native prerequisites (not NativeWind, but block the first iOS run):**
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `xcodebuild` err 65: "Could not get GOOGLE_APP_ID" | `GoogleService-Info.plist` on disk but not in the Xcode target's Copy Bundle Resources | Add it to the target in Xcode (or via CocoaPods' bundled `xcodeproj`) |
+| `xcodebuild` err 65: provisioning profile lacks Push Notifications / `aps-environment` | signing/capabilities not provisioned for the team | Use a provisioning profile with the Push Notifications capability |
