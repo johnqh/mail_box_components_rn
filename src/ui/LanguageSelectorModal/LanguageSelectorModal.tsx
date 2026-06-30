@@ -152,6 +152,8 @@ const styles = StyleSheet.create({
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
+    // Translucent scrim that dims content while loading (no semantic token
+    // exists for a translucent overlay; kept as a literal like modal scrims).
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',

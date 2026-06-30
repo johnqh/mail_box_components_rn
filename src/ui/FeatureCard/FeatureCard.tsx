@@ -85,17 +85,19 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
     emerald: 'text-success ',
   };
 
+  // Decorative category colors mapped to semantic tokens, mirroring
+  // bulletColorClasses so the left border matches the accent for each color.
   const borderColorClasses: Record<FeatureCardColor, string> = {
-    green: 'border-l-4 border-l-green-500', // colors.raw.green[500]
-    blue: 'border-l-4 border-l-blue-500', // colors.raw.blue[500]
-    purple: 'border-l-4 border-l-purple-500', // colors.raw.purple[500]
-    orange: 'border-l-4 border-l-orange-500', // colors.raw.orange[500]
-    red: 'border-l-4 border-l-red-500', // colors.raw.red[500]
-    indigo: 'border-l-4 border-l-indigo-500',
-    cyan: 'border-l-4 border-l-cyan-500',
-    emerald: 'border-l-4 border-l-emerald-500',
-    pink: 'border-l-4 border-l-pink-500',
-    gray: 'border-l-4 border-l-gray-500', // colors.raw.neutral[500]
+    green: 'border-l-4 border-l-success',
+    blue: 'border-l-4 border-l-primary',
+    purple: 'border-l-4 border-l-accent',
+    orange: 'border-l-4 border-l-warning',
+    red: 'border-l-4 border-l-destructive',
+    indigo: 'border-l-4 border-l-primary',
+    cyan: 'border-l-4 border-l-info',
+    emerald: 'border-l-4 border-l-success',
+    pink: 'border-l-4 border-l-secondary',
+    gray: 'border-l-4 border-l-muted',
   };
 
   const iconBackgroundClasses: Record<FeatureCardColor, string> = {
