@@ -37,6 +37,13 @@ export interface ModalProps {
  *
  * Modal dialog for displaying content in an overlay.
  *
+ * @deprecated For form dialogs, prefer `FormModal` (`../FormModal`): it provides
+ * a fixed title/cancel top bar, a vertically scrollable content area, and a
+ * sticky bottom confirmation button, and is responsive (full-screen on phones,
+ * centered dialog on tablet/desktop). This primitive `Modal` (and its
+ * `ModalHeader`/`ModalContent`/`ModalFooter` sub-components) is retained for
+ * non-form/legacy use but should not be used for new form modals.
+ *
  * @example
  * ```tsx
  * <Modal

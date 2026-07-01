@@ -57,6 +57,7 @@ export * from './ui/InfoBox';
 // UI Components - Feedback
 export * from './ui/Progress';
 export * from './ui/Modal';
+export * from './ui/FormModal';
 export * from './ui/Toast';
 export * from './ui/LoadingOverlay';
 export * from './ui/LoadingDots';
