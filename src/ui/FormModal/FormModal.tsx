@@ -63,10 +63,15 @@ const SIZE_WIDTH: Record<NonNullable<FormModalProps['size']>, number> = {
  * Prefer this over composing `Modal` + `ModalHeader/Content/Footer` for forms.
  */
 export const FormModal: React.FC<FormModalProps> = props => {
+  const { width } = useWindowDimensions();
+  // Phones render a full-screen sheet, so it should slide up from the bottom
+  // like a native modal; tablets render a centered dialog over a dim backdrop,
+  // where a fade reads correctly (sliding the whole overlay up would look off).
+  const isLarge = width >= TABLET_MIN_WIDTH;
   return (
     <RNModal
       visible={props.visible}
-      animationType='fade'
+      animationType={isLarge ? 'fade' : 'slide'}
       transparent
       onRequestClose={props.onClose}
       statusBarTranslucent
