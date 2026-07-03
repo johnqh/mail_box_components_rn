@@ -15,7 +15,7 @@
         "@react-native/babel-preset": "^0.84.0",
         "@react-native/js-polyfills": "^0.84.0",
         "@react-native/normalize-colors": "^0.84.0",
-        "@sudobility/design": "^1.1.40",
+        "@sudobility/design": "^1.1.42",
         "@sudobility/types": "^1.9.62",
         "@testing-library/jest-native": "^5.4.3",
         "@testing-library/react-native": "^13.3.3",
@@ -47,7 +47,7 @@
         "vitest": "^4.1.3",
       },
       "peerDependencies": {
-        "@sudobility/design": "^1.1.40",
+        "@sudobility/design": "^1.1.42",
         "@sudobility/types": "^1.9.62",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
@@ -575,7 +575,7 @@
 
     "@standard-schema/spec": ["@standard-schema/spec@1.1.0", "", {}, "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="],
 
-    "@sudobility/design": ["@sudobility/design@1.1.40", "", { "peerDependencies": { "clsx": ">=2.0.0", "tailwind-merge": ">=2.0.0" } }, "sha512-kcuZypsp6dN3plXIU6f/k6pekVMzH2/97yoTiPQ89YjyzgeDF3J0Aw0G2NWHGD4Yy58/ZsgXYhR3iSJjEVAoKw=="],
+    "@sudobility/design": ["@sudobility/design@1.1.42", "", { "peerDependencies": { "clsx": ">=2.0.0", "tailwind-merge": ">=2.0.0" } }, "sha512-Kiiuo9+6Qdte1F+s/hm+qP5SoDn4ZXqi5q3qj8jOvnnIiIMaYSbH26lJv7GFxMrY4/oSx7dPk0x9d/peiLVkGw=="],
 
     "@sudobility/types": ["@sudobility/types@1.9.62", "", {}, "sha512-GOkz5oE7Fmlolba2aemBF2fKPtH4I2lHAjVta+fqZAoAV72DQaWYzVEjTwKZs/ACY/g9Z262IDa7lEh+IOrn7w=="],
 
