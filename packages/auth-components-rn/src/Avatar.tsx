@@ -61,7 +61,7 @@ export const Avatar: React.FC<AvatarProps & ViewProps> = ({
     >
       <Text
         style={{ fontSize: size * 0.4 }}
-        className={`${designTokens.typography.weight.medium} text-white`}
+        className={`${designTokens.typography.weight.medium} text-primary-foreground`}
       >
         {initials}
       </Text>

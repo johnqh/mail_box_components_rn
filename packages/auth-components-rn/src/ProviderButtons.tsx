@@ -16,6 +16,7 @@ interface ProviderButtonProps {
   className?: string;
 }
 
+// intentional: OAuth provider brand colors (Google/Apple/etc.)
 const providerBgColors: Record<AuthProviderType, string> = {
   google: `bg-white border ${colors.component.input.default.base.split(' ').find(c => c.startsWith('border-')) ?? 'border-border'}`,
   apple: 'bg-black',

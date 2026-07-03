@@ -111,7 +111,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
                 accessibilityRole='button'
                 className='px-8 py-3 rounded-md bg-primary active:bg-primary/90'
               >
-                <Text className='text-white font-medium'>
+                <Text className='text-primary-foreground font-medium'>
                   {primaryButton.text}
                 </Text>
               </Pressable>

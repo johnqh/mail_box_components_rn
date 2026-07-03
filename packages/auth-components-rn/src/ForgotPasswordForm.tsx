@@ -64,7 +64,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           className={cn(v.button.primary.default(), 'py-3 px-4 rounded-lg')}
           accessibilityRole='button'
         >
-          <Text className='font-medium text-white'>{texts.backToSignIn}</Text>
+          <Text className='font-medium text-primary-foreground'>{texts.backToSignIn}</Text>
         </Pressable>
       </View>
     );
@@ -104,7 +104,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         accessibilityRole='button'
         accessibilityLabel={texts.sendResetLink}
       >
-        <Text className='font-medium text-white'>
+        <Text className='font-medium text-primary-foreground'>
           {loading ? texts.loading : texts.sendResetLink}
         </Text>
       </Pressable>

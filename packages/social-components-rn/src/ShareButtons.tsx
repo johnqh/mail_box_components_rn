@@ -135,6 +135,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
     },
     twitter: {
       name: 'Twitter',
+      // intentional: Twitter/X brand color
       color: 'bg-sky-500',
       icon: '𝕏',
     },
@@ -188,7 +189,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
             >
               {({ pressed }) => (
                 <Text
-                  className='text-white font-bold'
+                  className='text-primary-foreground font-bold'
                   style={{
                     fontSize: config.icon * 0.5,
                     opacity: pressed ? 0.7 : 1,
@@ -215,7 +216,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
           >
             {({ pressed }) => (
               <Text
-                className={cn('text-white font-medium', config.text)}
+                className={cn('text-primary-foreground font-medium', config.text)}
                 style={{ opacity: pressed ? 0.7 : 1 }}
               >
                 {platformCfg.name}

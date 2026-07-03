@@ -164,12 +164,12 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
               {loading ? (
                 <View className='flex-row items-center justify-center gap-2'>
                   <ActivityIndicator size='small' color='white' />
-                  <Text className='text-sm font-medium text-white'>
+                  <Text className='text-sm font-medium text-primary-foreground'>
                     Loading...
                   </Text>
                 </View>
               ) : (
-                <Text className='text-sm font-medium text-center text-white'>
+                <Text className='text-sm font-medium text-center text-primary-foreground'>
                   {confirmLabel}
                 </Text>
               )}

@@ -272,7 +272,7 @@ export function SubscriptionLayout({
               {primaryAction.loading ? (
                 <ActivityIndicator size='small' color='white' />
               ) : (
-                <Text className='font-semibold text-white'>
+                <Text className='font-semibold text-primary-foreground'>
                   {primaryAction.label}
                 </Text>
               )}

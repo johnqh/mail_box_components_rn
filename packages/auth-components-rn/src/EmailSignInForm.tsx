@@ -78,7 +78,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
         accessibilityRole='button'
         accessibilityLabel={texts.signIn}
       >
-        <Text className='font-medium text-white'>
+        <Text className='font-medium text-primary-foreground'>
           {loading ? texts.loading : texts.signIn}
         </Text>
       </Pressable>

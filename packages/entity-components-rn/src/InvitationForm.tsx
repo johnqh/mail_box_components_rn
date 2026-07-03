@@ -144,13 +144,13 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
         {isSubmitting ? (
           <>
             <ActivityIndicator size='small' color={colors.raw.neutral[0]} />
-            <Text className='text-white font-semibold ml-2'>Sending...</Text>
+            <Text className='text-primary-foreground font-semibold ml-2'>Sending...</Text>
           </>
         ) : (
           <Text
             className={cn(
               'font-semibold',
-              canSubmit ? 'text-white' : 'text-muted-foreground'
+              canSubmit ? 'text-primary-foreground' : 'text-muted-foreground'
             )}
           >
             {submitLabel}

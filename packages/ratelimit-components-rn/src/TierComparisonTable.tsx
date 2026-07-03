@@ -70,7 +70,7 @@ function TierCard({
                 isCurrent ? 'bg-primary' : 'bg-success'
               )}
             >
-              <Text className='text-xs font-medium text-white'>
+              <Text className='text-xs font-medium text-primary-foreground'>
                 {isCurrent ? 'Current' : 'Recommended'}
               </Text>
             </View>
@@ -131,7 +131,7 @@ function TierCard({
               isRecommended ? 'bg-success' : 'bg-primary'
             )}
           >
-            <Text className='text-sm font-semibold text-white'>
+            <Text className='text-sm font-semibold text-primary-foreground'>
               {isRecommended ? 'Upgrade Now' : 'Select Plan'}
             </Text>
           </View>

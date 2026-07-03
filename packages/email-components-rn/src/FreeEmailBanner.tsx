@@ -51,7 +51,7 @@ const getTextStyle = (variant: BannerVariant) => {
     case 'minimal':
       return 'text-muted-foreground';
     case 'vibrant':
-      return 'text-white';
+      return 'text-primary-foreground';
     default:
       return `${colors.component.card.success.text}`;
   }
@@ -64,7 +64,7 @@ const getButtonStyle = (variant: BannerVariant) => {
     case 'minimal':
       return 'bg-primary active:bg-primary/90';
     case 'vibrant':
-      return 'bg-white active:bg-muted';
+      return 'bg-card active:bg-muted';
     default:
       return 'bg-success active:bg-success';
   }
@@ -74,7 +74,7 @@ const getButtonTextStyle = (variant: BannerVariant) => {
   if (variant === 'vibrant') {
     return 'text-primary';
   }
-  return 'text-white';
+  return 'text-primary-foreground';
 };
 
 /**
@@ -132,13 +132,13 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
             <View
               className={cn(
                 'px-3 py-1 rounded-full',
-                variant === 'vibrant' ? 'bg-white' : 'bg-success'
+                variant === 'vibrant' ? 'bg-card' : 'bg-success'
               )}
             >
               <Text
                 className={cn(
                   'text-xs font-bold',
-                  variant === 'vibrant' ? 'text-primary' : 'text-white'
+                  variant === 'vibrant' ? 'text-primary' : 'text-primary-foreground'
                 )}
               >
                 {badgeText}

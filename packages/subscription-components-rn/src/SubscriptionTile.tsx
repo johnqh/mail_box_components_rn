@@ -167,7 +167,7 @@ export function SubscriptionTile({
               'px-4 py-1.5 rounded-full'
             )}
           >
-            <Text className='text-white text-sm font-semibold'>
+            <Text className='text-primary-foreground text-sm font-semibold'>
               {topBadge.text}
             </Text>
           </View>
@@ -181,7 +181,7 @@ export function SubscriptionTile({
           <Text
             className={cn(
               'text-xl font-bold mb-2',
-              isSelected ? 'text-white' : 'text-foreground'
+              isSelected ? 'text-primary-foreground' : 'text-foreground'
             )}
           >
             {title}
@@ -190,7 +190,7 @@ export function SubscriptionTile({
             <Text
               className={cn(
                 'text-4xl font-bold',
-                isSelected ? 'text-white' : 'text-foreground'
+                isSelected ? 'text-primary-foreground' : 'text-foreground'
               )}
             >
               {price}
@@ -220,7 +220,7 @@ export function SubscriptionTile({
               <Text
                 className={cn(
                   'text-sm font-semibold',
-                  isSelected ? 'text-white' : 'text-success'
+                  isSelected ? 'text-primary-foreground' : 'text-success'
                 )}
               >
                 {discountBadge.text}
@@ -248,7 +248,7 @@ export function SubscriptionTile({
                 <Text
                   className={cn(
                     'text-sm flex-1',
-                    isSelected ? 'text-white' : 'text-muted-foreground'
+                    isSelected ? 'text-primary-foreground' : 'text-muted-foreground'
                   )}
                 >
                   {feature.replace(/^✓\s*/, '')}
@@ -269,7 +269,7 @@ export function SubscriptionTile({
             <Text
               className={cn(
                 'font-semibold text-sm mb-2',
-                isSelected ? 'text-white' : 'text-accent-foreground'
+                isSelected ? 'text-primary-foreground' : 'text-accent-foreground'
               )}
             >
               {premiumCallout.title}
@@ -315,7 +315,7 @@ export function SubscriptionTile({
             <Text
               className={cn(
                 'text-sm font-semibold text-center',
-                isSelected ? 'text-white' : 'text-warning'
+                isSelected ? 'text-primary-foreground' : 'text-warning'
               )}
             >
               {introPriceNote}
@@ -333,14 +333,14 @@ export function SubscriptionTile({
             disabled={disabled}
             className={cn(
               'w-full py-3 rounded-lg items-center',
-              isSelected ? 'bg-white' : 'bg-primary',
+              isSelected ? 'bg-primary-foreground' : 'bg-primary',
               disabled && 'opacity-50'
             )}
           >
             <Text
               className={cn(
                 'font-semibold',
-                isSelected ? 'text-primary' : 'text-white'
+                isSelected ? 'text-primary' : 'text-primary-foreground'
               )}
             >
               {ctaButton.label}
@@ -353,7 +353,7 @@ export function SubscriptionTile({
           <View
             className={cn(
               'w-5 h-5 rounded-full border-2 items-center justify-center',
-              isSelected ? 'border-white bg-white' : 'border-border'
+              isSelected ? 'border-primary-foreground bg-primary-foreground' : 'border-border'
             )}
           >
             {isSelected && <View className='w-2 h-2 rounded-full bg-primary' />}
