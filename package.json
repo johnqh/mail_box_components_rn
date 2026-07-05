@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/components-rn",
-  "version": "1.0.87",
+  "version": "1.0.88",
   "description": "React Native UI components and design system - Ported from @sudobility/components",
   "type": "module",
   "main": "dist/index.esm.js",
@@ -41,7 +41,7 @@
   ],
   "author": "Sudobility",
   "peerDependencies": {
-    "@sudobility/design": "^1.1.45",
+    "@sudobility/design": "^1.1.46",
     "@sudobility/types": "^1.9.62",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -65,7 +65,7 @@
     "@react-native/babel-preset": "^0.84.0",
     "@react-native/js-polyfills": "^0.84.0",
     "@react-native/normalize-colors": "^0.84.0",
-    "@sudobility/design": "^1.1.45",
+    "@sudobility/design": "^1.1.46",
     "@sudobility/types": "^1.9.62",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
