@@ -1,5 +1,10 @@
 # mail_box_components_rn - AI Development Guide
 
+> **Git policy — never auto-commit or auto-push.** Leave your work in the working tree.
+> Run `git commit`, `git push`, `gh pr create`, or `scripts/push_all.sh` **only when the user
+> explicitly asks in that turn**. Approval for an earlier change does not carry forward, and
+> finishing a task is not permission to commit it.
+
 ## Overview
 
 `@sudobility/components-rn` is a React Native UI component library built with TypeScript, Vite, and NativeWind v4. It provides 90+ reusable components ported from `@sudobility/components`, with design tokens and theming imported from `@sudobility/design`. The library follows a monorepo architecture with 10 domain-specific sub-packages under `packages/`.
@@ -472,3 +477,7 @@ Each specialized package (`packages/*`) requires:
 - `@sudobility/design` ^1.1.0
 - `react` ^18.0.0 or ^19.0.0
 - `react-native` >=0.72.0
+
+## Git Workflow
+
+- Do not use feature branches for code changes. Always stay on the current branch.
