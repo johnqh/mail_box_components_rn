@@ -56,6 +56,7 @@ export * from './ui/InfoBox';
 
 // UI Components - Feedback
 export * from './ui/Progress';
+export * from './ui/Slider';
 export * from './ui/Modal';
 export * from './ui/FormModal';
 export * from './ui/Toast';
@@ -65,9 +66,11 @@ export * from './ui/Backdrop';
 
 // UI Components - Overlay
 export * from './ui/Sheet';
+export * from './ui/SheetSelector';
 export * from './ui/Tooltip';
 export * from './ui/Dialog';
 export * from './ui/Popover';
+export * from './ui/Portal';
 
 // UI Components - Navigation
 export * from './ui/Tabs';
@@ -87,6 +90,7 @@ export * from './ui/EmptyState';
 // UI Components - Data & Selection
 export * from './ui/Calendar';
 export * from './ui/DataList';
+export * from './ui/CheckableSelect';
 export * from './ui/MultiSelect';
 
 // UI Components - Progress
@@ -94,6 +98,7 @@ export * from './ui/ProgressCircle';
 
 // UI Components - Layout & Structure
 export * from './ui/SideNav';
+export * from './ui/Section';
 export * from './ui/SectionHeader';
 export * from './ui/PageContainer';
 export * from './ui/FloatingPanel';

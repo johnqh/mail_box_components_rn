@@ -13,6 +13,7 @@ import {
 import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
+import { optionsFromChildren } from './SelectComposition';
 
 const { typography } = designTokens;
 
@@ -37,12 +38,21 @@ export interface SelectOption {
 }
 
 export interface SelectProps {
+  /**
+   * The options.
+   *
+   * Optional because this component also accepts the web library's
+   * compositional children (`<SelectContent><SelectItem/></SelectContent>`) —
+   * see `SelectComposition.tsx`. Exactly one of the two is used: children win
+   * when both are given, because a caller who wrote them meant them.
+   */
+  children?: React.ReactNode;
   /** Currently selected value */
   value?: string;
   /** Callback when value changes */
   onValueChange?: (value: string) => void;
   /** Options to display */
-  options: SelectOption[];
+  options?: SelectOption[];
   /** Placeholder text when no value selected */
   placeholder?: string;
   /** Whether the select is disabled */
@@ -74,14 +84,25 @@ export interface SelectProps {
  * ```
  */
 export const Select: React.FC<SelectProps> = ({
+  children,
+  options: optionsProp,
   value,
   onValueChange,
-  options,
   placeholder = 'Select...',
   disabled = false,
   className,
   title = 'Select Option',
 }) => {
+  /*
+    Either shape is accepted: an `options` array, or the web library's
+    compositional children. Children win when both are given, because a caller
+    who wrote `<SelectItem>` meant it — and silently preferring the array would
+    render a list they cannot see in their own JSX.
+  */
+  const options = React.useMemo(
+    () => (children ? optionsFromChildren(children) : (optionsProp ?? [])),
+    [children, optionsProp]
+  );
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<View>(null);
 
