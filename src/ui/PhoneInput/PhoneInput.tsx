@@ -5,10 +5,10 @@ import {
   Text,
   TextInput,
   Pressable,
-  Modal,
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
 
@@ -192,9 +192,8 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
       )}
 
       {/* Country picker modal */}
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='slide'
         onRequestClose={() => setIsOpen(false)}
       >
@@ -262,7 +261,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

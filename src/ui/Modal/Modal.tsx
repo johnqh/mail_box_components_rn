@@ -2,12 +2,12 @@ import * as React from 'react';
 import {
   View,
   Text,
-  Modal as RNModal,
   Pressable,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 
@@ -86,13 +86,7 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <RNModal
-      visible={isOpen}
-      animationType='fade'
-      transparent
-      onRequestClose={onClose}
-      statusBarTranslucent
-    >
+    <ModalHost visible={isOpen} animationType='fade' onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className='flex-1'
@@ -148,7 +142,7 @@ export const Modal: React.FC<ModalProps> = ({
           </Pressable>
         </Pressable>
       </KeyboardAvoidingView>
-    </RNModal>
+    </ModalHost>
   );
 };
 

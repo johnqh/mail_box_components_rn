@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { View, Text, Pressable, Modal, Animated } from 'react-native';
+import { View, Text, Pressable, Animated } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
 
@@ -184,9 +185,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
         {children}
       </Pressable>
 
-      <Modal
+      <ModalHost
         visible={isVisible}
-        transparent
         animationType='none'
         onRequestClose={hideTooltip}
       >
@@ -215,7 +215,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             </View>
           </Animated.View>
         </Pressable>
-      </Modal>
+      </ModalHost>
     </>
   );
 };

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { View, ScrollView, SafeAreaView } from 'react-native';
+import { View, ScrollView } from 'react-native';
+// React Native's own SafeAreaView is deprecated and iOS-only; the context
+// package's works on every platform and is what the app already provides.
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from '../../lib/utils';
 
 export interface PageContainerProps {

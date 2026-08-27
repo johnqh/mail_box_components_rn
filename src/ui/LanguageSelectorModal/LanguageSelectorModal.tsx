@@ -1,14 +1,16 @@
 import React, { useMemo } from 'react';
 import {
-  Modal,
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
+// React Native's own SafeAreaView is deprecated and iOS-only; the context
+// package's works on every platform and is what the app already provides.
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ModalHost } from '../ModalHost';
 // RN StyleSheet/color props (placeholderTextColor, ActivityIndicator color, SVG
 // fill) can't use NativeWind classNames, so they reference the design system's
 // raw palette — the lib-wide convention for RN-only color props.
@@ -55,12 +57,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
   };
 
   return (
-    <Modal
-      visible={visible}
-      animationType='slide'
-      presentationStyle='pageSheet'
-      onRequestClose={onClose}
-    >
+    <ModalHost visible={visible} animationType='slide' onRequestClose={onClose}>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>{title}</Text>
@@ -83,7 +80,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
           </View>
         )}
       </SafeAreaView>
-    </Modal>
+    </ModalHost>
   );
 };
 

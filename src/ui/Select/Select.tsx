@@ -4,12 +4,14 @@ import {
   View,
   Text,
   Pressable,
-  Modal,
   FlatList,
-  SafeAreaView,
   Platform,
   NativeModules,
 } from 'react-native';
+// React Native's own SafeAreaView is deprecated and iOS-only; the context
+// package's works on every platform and is what the app already provides.
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ModalHost } from '../ModalHost';
 import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
@@ -61,6 +63,14 @@ export interface SelectProps {
   className?: string;
   /** Title for the modal */
   title?: string;
+  /**
+   * The control's accessible name.
+   *
+   * A select's visible label usually sits outside it, so without this a screen
+   * reader announces only the current *value* — "Treble", with no word for what
+   * is treble. The web package takes an `ariaLabel` for the same reason.
+   */
+  accessibilityLabel?: string;
 }
 
 /**
@@ -92,6 +102,7 @@ export const Select: React.FC<SelectProps> = ({
   disabled = false,
   className,
   title = 'Select Option',
+  accessibilityLabel,
 }) => {
   /*
     Either shape is accepted: an `options` array, or the web library's
@@ -186,6 +197,7 @@ export const Select: React.FC<SelectProps> = ({
             borderRadius: 6,
           }}
           accessibilityRole='combobox'
+          {...(accessibilityLabel ? { accessibilityLabel } : {})}
           accessibilityState={{ disabled, expanded: isOpen }}
         >
           <Text
@@ -216,10 +228,9 @@ export const Select: React.FC<SelectProps> = ({
 
       {/* Modal Picker — mobile only */}
       {!isDesktop && (
-        <Modal
+        <ModalHost
           visible={isOpen}
           animationType='slide'
-          transparent
           onRequestClose={() => setIsOpen(false)}
         >
           <View className='flex-1 justify-end bg-black/50'>
@@ -252,7 +263,7 @@ export const Select: React.FC<SelectProps> = ({
               />
             </SafeAreaView>
           </View>
-        </Modal>
+        </ModalHost>
       )}
     </>
   );

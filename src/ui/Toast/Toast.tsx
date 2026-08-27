@@ -6,7 +6,10 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { View, Text, Pressable, Animated, SafeAreaView } from 'react-native';
+import { View, Text, Pressable, Animated } from 'react-native';
+// React Native's own SafeAreaView is deprecated and iOS-only; the context
+// package's works on every platform and is what the app already provides.
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from '../../lib/utils';
 import { colors, textVariants } from '@sudobility/design';
 

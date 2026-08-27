@@ -3,11 +3,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
   FlatList,
   StyleSheet,
   Pressable,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@sudobility/design';
 
@@ -128,10 +128,9 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
         <Text style={styles.triggerArrow}>▼</Text>
       </TouchableOpacity>
 
-      <Modal
+      <ModalHost
         visible={modalVisible}
         animationType='slide'
-        presentationStyle='pageSheet'
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={[styles.modalContainer, { paddingTop: insets.top }]}>
@@ -153,7 +152,7 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
             ItemSeparatorComponent={ItemSeparator}
           />
         </View>
-      </Modal>
+      </ModalHost>
     </>
   );
 };

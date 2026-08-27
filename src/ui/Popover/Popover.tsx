@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { View, Modal, Pressable, Animated } from 'react-native';
+import { View, Pressable, Animated } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 
 export interface PopoverProps {
@@ -119,9 +120,8 @@ export const Popover: React.FC<PopoverProps> = ({
         {trigger}
       </Pressable>
 
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='none'
         onRequestClose={() => setIsOpen(false)}
       >
@@ -149,7 +149,7 @@ export const Popover: React.FC<PopoverProps> = ({
             </Pressable>
           </Animated.View>
         </Pressable>
-      </Modal>
+      </ModalHost>
     </>
   );
 };

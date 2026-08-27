@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { View, Pressable, Modal, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 
 export interface OverlayProps {
@@ -24,7 +25,7 @@ export interface OverlayProps {
  * @example
  * ```tsx
  * <Overlay isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
- *   <Modal>Content</Modal>
+ *   <ModalHost>Content</ModalHost>
  * </Overlay>
  * ```
  *
@@ -50,12 +51,7 @@ export const Overlay: React.FC<OverlayProps> = ({
   };
 
   return (
-    <Modal
-      visible={isOpen}
-      transparent
-      animationType='fade'
-      onRequestClose={onClose}
-    >
+    <ModalHost visible={isOpen} animationType='fade' onRequestClose={onClose}>
       <View style={styles.container}>
         <Pressable
           style={StyleSheet.absoluteFill}
@@ -70,7 +66,7 @@ export const Overlay: React.FC<OverlayProps> = ({
           </View>
         )}
       </View>
-    </Modal>
+    </ModalHost>
   );
 };
 

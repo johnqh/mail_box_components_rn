@@ -4,10 +4,10 @@ import {
   View,
   Text,
   Pressable,
-  Modal,
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 
 export interface TimePickerProps {
@@ -149,9 +149,8 @@ export const TimePicker: React.FC<TimePickerProps> = ({
       </Pressable>
 
       {/* Time picker modal */}
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='slide'
         onRequestClose={() => setIsOpen(false)}
       >
@@ -315,7 +314,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

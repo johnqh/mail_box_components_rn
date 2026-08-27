@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native';
+import { FlatList, Pressable, Text, View } from 'react-native';
+// React Native's own SafeAreaView is deprecated and iOS-only; the context
+// package's works on every platform and is what the app already provides.
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';

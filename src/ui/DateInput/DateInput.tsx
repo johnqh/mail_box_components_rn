@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  Modal,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { View, Text, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { Calendar } from '../Calendar';
 
@@ -132,9 +127,8 @@ export const DateInput: React.FC<DateInputProps> = ({
       </Pressable>
 
       {/* Calendar Modal */}
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='fade'
         onRequestClose={handleClose}
       >
@@ -166,7 +160,7 @@ export const DateInput: React.FC<DateInputProps> = ({
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

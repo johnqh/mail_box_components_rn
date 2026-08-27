@@ -3,12 +3,12 @@ import { useRef, useEffect } from 'react';
 import {
   View,
   Text,
-  Modal,
   Pressable,
   ScrollView,
   Animated,
   Dimensions,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -94,13 +94,7 @@ export const Dialog: React.FC<DialogProps> = ({
   };
 
   return (
-    <Modal
-      visible={isOpen}
-      animationType='none'
-      transparent
-      onRequestClose={onClose}
-      statusBarTranslucent
-    >
+    <ModalHost visible={isOpen} animationType='none' onRequestClose={onClose}>
       {/* Backdrop */}
       <Pressable
         onPress={handleOverlayPress}
@@ -140,6 +134,6 @@ export const Dialog: React.FC<DialogProps> = ({
           </Pressable>
         </Animated.View>
       </Pressable>
-    </Modal>
+    </ModalHost>
   );
 };

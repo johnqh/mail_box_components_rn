@@ -6,10 +6,10 @@ import {
   TextInput,
   Pressable,
   ScrollView,
-  Modal,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
 
@@ -125,12 +125,7 @@ export const Command: React.FC<CommandProps> = ({
   };
 
   return (
-    <Modal
-      visible={isOpen}
-      transparent
-      animationType='fade'
-      onRequestClose={onClose}
-    >
+    <ModalHost visible={isOpen} animationType='fade' onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className='flex-1'
@@ -248,6 +243,6 @@ export const Command: React.FC<CommandProps> = ({
           </Pressable>
         </Pressable>
       </KeyboardAvoidingView>
-    </Modal>
+    </ModalHost>
   );
 };

@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  Modal,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { View, Text, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { Calendar } from '../Calendar';
 import { TimePicker } from '../TimePicker';
@@ -149,9 +144,8 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
       </Pressable>
 
       {/* Picker Modal */}
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='fade'
         onRequestClose={handleClose}
       >
@@ -223,7 +217,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

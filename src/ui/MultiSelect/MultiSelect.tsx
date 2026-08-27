@@ -4,11 +4,11 @@ import {
   View,
   Text,
   Pressable,
-  Modal,
   TextInput,
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
 
@@ -167,9 +167,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
       </Pressable>
 
       {/* Dropdown Modal */}
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='fade'
         onRequestClose={handleClose}
       >
@@ -276,7 +275,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

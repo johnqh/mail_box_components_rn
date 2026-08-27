@@ -5,11 +5,11 @@ import {
   Text,
   TextInput,
   Pressable,
-  Modal,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
 
@@ -126,9 +126,8 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
   const canSubmit = required ? value.trim().length > 0 : true;
 
   return (
-    <Modal
+    <ModalHost
       visible={isOpen}
-      transparent
       animationType='fade'
       onRequestClose={isLoading ? undefined : handleCancel}
     >
@@ -219,6 +218,6 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
-    </Modal>
+    </ModalHost>
   );
 };

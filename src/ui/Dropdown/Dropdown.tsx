@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { useState, useRef, useCallback } from 'react';
-import {
-  View,
-  Pressable,
-  Text,
-  Modal,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { View, Pressable, Text, TouchableWithoutFeedback } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 
@@ -122,9 +117,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
         {trigger}
       </Pressable>
 
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='fade'
         onRequestClose={handleClose}
       >
@@ -170,7 +164,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             </View>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

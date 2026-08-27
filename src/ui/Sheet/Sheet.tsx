@@ -3,13 +3,13 @@ import { useRef, useEffect } from 'react';
 import {
   View,
   Text,
-  Modal,
   Pressable,
   ScrollView,
   Animated,
   Dimensions,
   PanResponder,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 
@@ -223,13 +223,7 @@ export const Sheet: React.FC<SheetProps> = ({
   };
 
   return (
-    <Modal
-      visible={isOpen}
-      animationType='none'
-      transparent
-      onRequestClose={onClose}
-      statusBarTranslucent
-    >
+    <ModalHost visible={isOpen} animationType='none' onRequestClose={onClose}>
       {/* Backdrop */}
       <Pressable onPress={onClose} className='absolute inset-0 bg-black/50' />
 
@@ -324,6 +318,6 @@ export const Sheet: React.FC<SheetProps> = ({
           )}
         </View>
       </Animated.View>
-    </Modal>
+    </ModalHost>
   );
 };

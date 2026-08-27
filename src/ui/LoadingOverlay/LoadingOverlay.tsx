@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { View, Text, Modal } from 'react-native';
+import { View, Text } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 
@@ -71,14 +72,9 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   // Fullscreen mode uses Modal
   if (mode === 'fullscreen') {
     return (
-      <Modal
-        visible={isLoading}
-        transparent
-        animationType='fade'
-        statusBarTranslucent
-      >
+      <ModalHost visible={isLoading} animationType='fade'>
         {content}
-      </Modal>
+      </ModalHost>
     );
   }
 

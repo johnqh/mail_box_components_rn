@@ -71,6 +71,7 @@ export * from './ui/Tooltip';
 export * from './ui/Dialog';
 export * from './ui/Popover';
 export * from './ui/Portal';
+export * from './ui/ModalHost';
 
 // UI Components - Navigation
 export * from './ui/Tabs';

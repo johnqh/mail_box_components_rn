@@ -5,10 +5,10 @@ import {
   Text,
   TextInput,
   Pressable,
-  Modal,
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
 
@@ -126,9 +126,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
       </Pressable>
 
       {/* Dropdown Modal */}
-      <Modal
+      <ModalHost
         visible={isOpen}
-        transparent
         animationType='fade'
         onRequestClose={handleClose}
       >
@@ -208,7 +207,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </ModalHost>
     </View>
   );
 };

@@ -2,23 +2,43 @@ import * as React from 'react';
 import {
   View,
   Text,
-  Modal as RNModal,
   Pressable,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   useWindowDimensions,
 } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { ModalHost } from '../ModalHost';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 import { Button } from '../Button';
+import type { ButtonProps } from '../Button';
 import { Heading } from '../Heading';
 
 const { typography } = designTokens;
+
+/**
+ * One button in the modal's bottom bar.
+ *
+ * Exists so the same shell can carry the footers real dialogs need — a
+ * destructive confirm, a wizard's Back/Next pair, three peer choices — rather
+ * than only the single primary CTA a save-form wants. Mirrors the web
+ * package's `FormModalAction` field for field, so a dialog written for one
+ * platform ports without its footer being redesigned.
+ */
+export interface FormModalAction {
+  /** Button text, also its accessible name unless `accessibilityLabel` overrides it. */
+  label: string;
+  onPress: () => void;
+  /** Defaults to `'primary'` for the last action and `'ghost'` for the others. */
+  variant?: ButtonProps['variant'];
+  disabled?: boolean;
+  /** Shows a spinner in place of the label and disables the button. */
+  loading?: boolean;
+  /** Overrides the accessible name when `label` is ambiguous elsewhere. */
+  accessibilityLabel?: string;
+}
 
 /** Props for the {@link FormModal} component. */
 export interface FormModalProps {
@@ -28,8 +48,17 @@ export interface FormModalProps {
   title: string;
   /** Called when the user cancels (top-bar close button, overlay press on desktop, or hardware back). */
   onClose: () => void;
-  /** Called when the user activates the primary confirmation button. */
-  onSave: () => void;
+  /**
+   * Called when the user activates the primary confirmation button. Renders a
+   * single full-width CTA. Omit it and pass {@link FormModalProps.actions} for
+   * any other footer; omit both for a modal with no actions at all.
+   */
+  onSave?: () => void;
+  /**
+   * Bottom-bar buttons, in visual order — the last is the primary one. Takes
+   * precedence over `onSave`/`saveLabel`. Pass `[]` for no bottom bar.
+   */
+  actions?: FormModalAction[];
   /** Whether the confirm action is in progress. */
   saving?: boolean;
   /** Whether the confirm action is currently allowed. */
@@ -39,6 +68,13 @@ export interface FormModalProps {
   /** Dialog width on tablet/desktop. */
   size?: 'small' | 'medium' | 'large';
   closeOnOverlayClick?: boolean;
+  /**
+   * The accessible name of the top-bar close control.
+   *
+   * Any dialog whose footer already has a Cancel must set this to something
+   * else: two controls with one accessible name are ambiguous read aloud.
+   */
+  closeAriaLabel?: string;
   /** Extra element rendered in the top bar, before the close button. */
   headerRight?: React.ReactNode;
   children: React.ReactNode;
@@ -69,19 +105,15 @@ export const FormModal: React.FC<FormModalProps> = props => {
   // where a fade reads correctly (sliding the whole overlay up would look off).
   const isLarge = width >= TABLET_MIN_WIDTH;
   return (
-    <RNModal
+    <ModalHost
       visible={props.visible}
       animationType={isLarge ? 'fade' : 'slide'}
-      transparent
       onRequestClose={props.onClose}
-      statusBarTranslucent
     >
-      {/* RN <Modal> renders in a detached view tree where the app's
-          SafeAreaProvider doesn't reach; re-provide it so insets resolve. */}
-      <SafeAreaProvider>
-        <FormModalContent {...props} />
-      </SafeAreaProvider>
-    </RNModal>
+      {/* ModalHost re-provides the SafeAreaProvider a detached view tree
+          loses, so insets resolve inside here without a second one. */}
+      <FormModalContent {...props} />
+    </ModalHost>
   );
 };
 
@@ -90,10 +122,12 @@ function FormModalContent({
   onClose,
   onSave,
   saving = false,
+  actions,
   canSave = true,
   saveLabel = 'Save',
   size = 'medium',
   closeOnOverlayClick = true,
+  closeAriaLabel = 'Cancel',
   headerRight,
   children,
 }: FormModalProps) {
@@ -113,7 +147,7 @@ function FormModalContent({
       <Pressable
         onPress={saving ? undefined : onClose}
         accessibilityRole='button'
-        accessibilityLabel='Cancel'
+        accessibilityLabel={closeAriaLabel}
         className='rounded-full p-1'
       >
         <Text className={cn(typography.size.xl, 'text-muted-foreground')}>
@@ -133,7 +167,35 @@ function FormModalContent({
     </ScrollView>
   );
 
-  const footer = (
+  /*
+    Three footers, in precedence order: an explicit `actions` list, then the
+    `onSave` shorthand, then none at all. `actions={[]}` therefore means "no
+    bottom bar" rather than falling through to the CTA — which is what a
+    dialog whose settings apply on change needs.
+  */
+  const footer = actions ? (
+    actions.length === 0 ? null : (
+      <View className='flex-row justify-end gap-2 border-t border-border px-4 py-3'>
+        {actions.map((action, index) => (
+          <Button
+            key={action.label}
+            variant={
+              action.variant ??
+              (index === actions.length - 1 ? 'primary' : 'ghost')
+            }
+            onPress={action.onPress}
+            disabled={action.disabled || action.loading}
+            loading={action.loading ?? false}
+            {...(action.accessibilityLabel
+              ? { accessibilityLabel: action.accessibilityLabel }
+              : {})}
+          >
+            {action.label}
+          </Button>
+        ))}
+      </View>
+    )
+  ) : onSave ? (
     <View className='border-t border-border px-4 py-3'>
       <Button
         variant='primary'
@@ -145,7 +207,7 @@ function FormModalContent({
         {saveLabel}
       </Button>
     </View>
-  );
+  ) : null;
 
   if (isLarge) {
     // Centered dialog (tablet / desktop)
