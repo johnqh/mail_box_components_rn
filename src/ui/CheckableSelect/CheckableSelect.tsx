@@ -41,6 +41,16 @@ export interface CheckableSelectProps {
   placeholder?: string;
   /** Title for the picker sheet. */
   title?: string;
+  /**
+   * The sheet's dismiss button.
+   *
+   * Always rendered, with or without a `title`. Tapping the scrim also closes
+   * the sheet, but nothing on screen says so — and a full-width sheet with no
+   * visible way out reads as a trap, which is exactly how it was reported.
+   * Ticking is the one gesture that deliberately leaves the sheet open, so
+   * this is the control that ends it.
+   */
+  doneLabel?: string;
 }
 
 /**
@@ -82,6 +92,7 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
   className,
   placeholder,
   title,
+  doneLabel = 'Done',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const checkedSet = useMemo(() => new Set(checked), [checked]);
@@ -159,18 +170,31 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
               onPress={() => undefined}
             >
               <SafeAreaView>
-                {title ? (
-                  <View className='border-border border-b px-4 py-3'>
+                <View className='border-border flex-row items-center justify-between border-b px-4 py-3'>
+                  <Text
+                    className={cn(
+                      typography.size.base,
+                      'text-foreground font-semibold'
+                    )}
+                  >
+                    {title ?? ''}
+                  </Text>
+                  <Pressable
+                    onPress={() => setIsOpen(false)}
+                    hitSlop={8}
+                    accessibilityRole='button'
+                    accessibilityLabel={doneLabel}
+                  >
                     <Text
                       className={cn(
                         typography.size.base,
-                        'text-foreground font-semibold'
+                        'text-primary font-medium'
                       )}
                     >
-                      {title}
+                      {doneLabel}
                     </Text>
-                  </View>
-                ) : null}
+                  </Pressable>
+                </View>
                 <FlatList<CheckableSelectOption>
                   data={options}
                   keyExtractor={(o: CheckableSelectOption) => o.value}
