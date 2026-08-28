@@ -159,7 +159,21 @@ function FormModalContent({
 
   const body = (
     <ScrollView
-      className='flex-1'
+      /*
+        Sized per branch, because the two branches give it different parents.
+
+        The centred dialog's container has a `maxHeight` and no height, so it
+        sizes to its content — and `flex: 1` compiles to `flexBasis: 0%`, which
+        against a parent with no definite height resolves to **zero**. The
+        header and footer have intrinsic height and survive; the body vanishes,
+        leaving a dialog that is a title and some buttons with nothing between
+        them. Shrink-only lets it take its content height and still give way to
+        the container's `maxHeight` when the content is tall.
+
+        The full-screen branch keeps `flex: 1`: there the parent really is
+        `flex-1`, so the basis has a height to resolve against.
+      */
+      style={isLarge ? { flexGrow: 0, flexShrink: 1 } : { flex: 1 }}
       keyboardShouldPersistTaps='handled'
       bounces={false}
     >
