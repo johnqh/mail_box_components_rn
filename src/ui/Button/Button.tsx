@@ -1,13 +1,33 @@
 import * as React from 'react';
 import {
+  ActivityIndicator,
+  Platform,
   Pressable,
   Text,
-  ActivityIndicator,
-  type PressableProps,
   type GestureResponderEvent,
+  type PressableProps,
 } from 'react-native';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
+import { touchSlop, type HitSlop } from '../../lib/touch-target';
+
+/**
+ * What each size needs added to reach the minimum touch target.
+ *
+ * Keyed by the size variant so the numbers sit beside the heights they answer
+ * for — `sm` is `h-8`, `icon` is `h-10 w-10`, and the rest are already tall
+ * enough that `touchSlop` returns zeros.
+ */
+/** See the `android_ripple` note on the `Pressable` below. */
+const RIPPLE = { borderless: false } as const;
+const PRESSED_STYLE = Platform.OS === 'ios' ? { opacity: 0.6 } : undefined;
+
+const SIZE_SLOP: Record<string, HitSlop> = {
+  default: touchSlop(999, 40),
+  sm: touchSlop(999, 32),
+  lg: touchSlop(999, 48),
+  icon: touchSlop(40, 40),
+};
 import { variants as v } from '@sudobility/design';
 import {
   ButtonBaseProps,
@@ -115,6 +135,37 @@ export const Button = React.forwardRef<
         )}
         disabled={isDisabled}
         onPress={onPress}
+        /*
+          `sm` is 32pt tall and `icon` is 40 — both under the 44/48 both
+          platforms ask for. The hit region is extended rather than the button,
+          because growing them would relayout every screen in every app that
+          uses this library, and both platforms are explicit that it is the
+          *touch area* the figure applies to. A caller passing its own hitSlop
+          still wins: `props` is spread after this.
+        */
+        hitSlop={SIZE_SLOP[size ?? 'default']}
+        /*
+          What the button does while the finger is still down.
+
+          It used to do nothing: the fill only changed once the touch *ended*,
+          which reads as a control that did not notice the press — and on a
+          slow frame as one that ignored it. Every native button on both
+          platforms answers on touch-**down**, each in its own way, so this is
+          two answers rather than one drawn compromise.
+
+          Android gets the platform's own `RippleDrawable`, drawn by the OS
+          from the touch point outwards on the UI thread — so it appears even
+          while JavaScript is busy. iOS has no ripple; a `UIButton` dims the
+          instant it is touched and restores on release, which is the pressed
+          opacity. Deliberately not `TouchableOpacity`, whose 150ms fade is its
+          own invention rather than UIKit's.
+
+          A caller that wants neither passes its own: `props` spreads after.
+        */
+        android_ripple={RIPPLE}
+        style={({ pressed }) =>
+          pressed && !isDisabled ? PRESSED_STYLE : undefined
+        }
         accessibilityRole='button'
         accessibilityLabel={accessibilityLabel}
         accessibilityState={{ disabled: isDisabled }}

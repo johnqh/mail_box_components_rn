@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { TABLET_MIN_WIDTH } from '../../lib/large-screen';
 import {
   View,
   Text,
@@ -8,13 +9,12 @@ import {
   Platform,
   useWindowDimensions,
 } from 'react-native';
-import { ModalHost } from '../ModalHost';
+import { HAS_NATIVE_PRESENTATION, ModalHost } from '../ModalHost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 import { Button } from '../Button';
 import type { ButtonProps } from '../Button';
-import { Heading } from '../Heading';
 
 const { typography } = designTokens;
 
@@ -81,7 +81,8 @@ export interface FormModalProps {
 }
 
 /** Screens at or above this width render the modal as a centered dialog. */
-const TABLET_MIN_WIDTH = 768;
+// Shared with `SheetSelector`, so a dialog and the picker inside it cannot
+// disagree about when a window is big enough for a centred panel.
 
 const SIZE_WIDTH: Record<NonNullable<FormModalProps['size']>, number> = {
   small: 400,
@@ -94,7 +95,28 @@ const SIZE_WIDTH: Record<NonNullable<FormModalProps['size']>, number> = {
  * scrollable content area, and a sticky bottom bar holding the positive
  * confirmation button.
  *
- * Full-screen on phones, centered dialog on tablets/desktops.
+ * **The shell is the same three parts everywhere**, and callers get them by
+ * saying what goes in each rather than by laying anything out:
+ *
+ * 1. a **bar** carrying the `title` and the dismiss control — see the header
+ *    below for why those sit differently on iOS and Android;
+ * 2. the **content**, which is `children` and scrolls when it is taller than
+ *    the space it is given;
+ * 3. the **actions**, optional, and **always against the bottom edge** —
+ *    `actions` for an ordered list, `onSave` for a single CTA, `actions={[]}`
+ *    for none at all.
+ *
+ * Nothing about that changes with the platform. What changes is the shell they
+ * sit in: full-screen on phones, a dialog on tablets and desktops.
+ *
+ * **The dialog is the platform's own where the platform has one.** On iPadOS
+ * that is a UIKit form sheet — the system draws the corners, the shadow, the
+ * dimmed background and the drag-to-dismiss, so it looks like every other
+ * dialog on the device rather than like a white box this library painted. On
+ * Android and macOS there is no such presentation to ask for (RN's `Modal`
+ * offers no Android dialog, and macOS has no `RCTModalHostView` at all), so
+ * those keep the drawn frame — which is what a Material dialog and a macOS
+ * panel look like anyway.
  *
  * Prefer this over composing `Modal` + `ModalHeader/Content/Footer` for forms.
  */
@@ -109,6 +131,7 @@ export const FormModal: React.FC<FormModalProps> = props => {
       visible={props.visible}
       animationType={isLarge ? 'fade' : 'slide'}
       onRequestClose={props.onClose}
+      presentation={isLarge ? 'sheet' : 'fullScreen'}
     >
       {/* ModalHost re-provides the SafeAreaProvider a detached view tree
           loses, so insets resolve inside here without a second one. */}
@@ -136,44 +159,134 @@ function FormModalContent({
   const isLarge = width >= TABLET_MIN_WIDTH;
   const disabled = !canSave || saving;
 
-  const header = (
-    <View className='flex-row items-center justify-between border-b border-border px-4 py-3'>
-      <View className='flex-1 pr-3'>
-        <Heading level={2} size='lg' weight='semibold'>
+  /*
+    The top bar, laid out the way each platform lays out *its* top bar.
+
+    This used to be one arrangement everywhere — a large left-aligned heading
+    with a small ✕ floating at the right — which is neither platform's
+    convention and is why the dialog read as "not native" even once iOS was
+    presenting a real form sheet. The two conventions genuinely differ, and the
+    difference is not decoration:
+
+    - **iOS / iPadOS / macOS: a navigation bar.** 44pt tall, the title centred
+      and set in the system's 17pt semibold, and the dismiss control as a
+      *bar button item* at the trailing edge. Centring the title is what makes
+      it read as a title rather than as the first line of the content.
+    - **Android: an app bar.** 56dp tall, and the dismiss control is the
+      **navigation icon at the leading edge** — where Up/Close lives on
+      Android — with the title after it at the 72dp keyline. Putting the close
+      control on the right is an iOS habit that looks wrong here, and putting
+      the title in the middle looks wronger still.
+
+    Both give the dismiss control a 44/48pt touch target, which is the figure
+    each platform's own guidance asks for and which the old 1-padding ✕ was
+    well under.
+  */
+  const isAndroid = Platform.OS === 'android';
+
+  const closeButton = (
+    <Pressable
+      onPress={saving ? undefined : onClose}
+      accessibilityRole='button'
+      accessibilityLabel={closeAriaLabel}
+      disabled={saving}
+      hitSlop={8}
+      style={{
+        width: isAndroid ? 48 : 44,
+        height: isAndroid ? 48 : 44,
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: saving ? 0.4 : 1,
+      }}
+    >
+      {/*
+        Tinted like a bar button, not like body text. A dismiss control set in
+        the muted foreground reads as disabled; on both platforms the bar's
+        actions take the accent colour.
+      */}
+      <Text
+        className={cn(
+          typography.size.xl,
+          isAndroid ? 'text-foreground' : 'text-primary'
+        )}
+      >
+        ✕
+      </Text>
+    </Pressable>
+  );
+
+  const header = isAndroid ? (
+    // App bar: navigation icon, then the title on the keyline, then actions.
+    <View
+      className='flex-row items-center border-b border-border'
+      style={{ height: 56, paddingLeft: 4, paddingRight: 4 }}
+    >
+      {closeButton}
+      <View className='flex-1' style={{ paddingLeft: 20 }}>
+        <Text
+          accessibilityRole='header'
+          numberOfLines={1}
+          className='text-foreground text-xl font-medium'
+        >
           {title}
-        </Heading>
+        </Text>
       </View>
       {headerRight}
-      <Pressable
-        onPress={saving ? undefined : onClose}
-        accessibilityRole='button'
-        accessibilityLabel={closeAriaLabel}
-        className='rounded-full p-1'
-      >
-        <Text className={cn(typography.size.xl, 'text-muted-foreground')}>
-          ✕
+    </View>
+  ) : (
+    // Navigation bar: centred title, dismiss as a trailing bar button item.
+    <View
+      className='flex-row items-center border-b border-border'
+      style={{ height: 44, paddingHorizontal: 8 }}
+    >
+      {/*
+        The leading spacer is what actually centres the title: with only a
+        trailing button, a `flex-1` title centres itself in the space *left
+        over*, which is off-centre by half the button. Matching the trailing
+        width on both sides makes the centre the bar's centre.
+      */}
+      <View style={{ width: 44 }} />
+      <View className='flex-1 items-center px-1'>
+        {/*
+          A `Text`, not the library's `Heading`: a bar title has to truncate to
+          one line, and `Heading` takes no `numberOfLines` — a long title
+          wrapped to two lines and pushed the bar out of its 44pt height.
+        */}
+        <Text
+          accessibilityRole='header'
+          numberOfLines={1}
+          className='text-foreground text-base font-semibold'
+        >
+          {title}
         </Text>
-      </Pressable>
+      </View>
+      {headerRight}
+      {closeButton}
     </View>
   );
 
+  /*
+    Whether the content should hug its own height rather than fill the shell.
+
+    The question is not "is this a tablet" — it is **does this shell have a
+    definite height**, and only the drawn centred dialog does not. That one is
+    sized by `maxHeight` and grows to its content, so `flex: 1` there compiles
+    to `flexBasis: 0%` against a parent with no height and resolves to *zero*:
+    the bar and the actions have intrinsic height and survive, the content
+    vanishes, and the dialog is a title and some buttons with nothing between.
+
+    Every other shell — a native form sheet, a native full screen, a drawn full
+    screen — is `flex-1` with a real height, so the content fills it and the
+    actions are pushed to the bottom, which is where they belong. Keying this
+    off `isLarge` was what left the buttons floating in the middle of an iPad
+    form sheet: the sheet is a fixed size the system chooses, and content that
+    hugs leaves the rest of it empty underneath.
+  */
+  const hugsContent = !HAS_NATIVE_PRESENTATION && isLarge;
+
   const body = (
     <ScrollView
-      /*
-        Sized per branch, because the two branches give it different parents.
-
-        The centred dialog's container has a `maxHeight` and no height, so it
-        sizes to its content — and `flex: 1` compiles to `flexBasis: 0%`, which
-        against a parent with no definite height resolves to **zero**. The
-        header and footer have intrinsic height and survive; the body vanishes,
-        leaving a dialog that is a title and some buttons with nothing between
-        them. Shrink-only lets it take its content height and still give way to
-        the container's `maxHeight` when the content is tall.
-
-        The full-screen branch keeps `flex: 1`: there the parent really is
-        `flex-1`, so the basis has a height to resolve against.
-      */
-      style={isLarge ? { flexGrow: 0, flexShrink: 1 } : { flex: 1 }}
+      style={hugsContent ? { flexGrow: 0, flexShrink: 1 } : { flex: 1 }}
       keyboardShouldPersistTaps='handled'
       bounces={false}
     >
@@ -223,8 +336,35 @@ function FormModalContent({
     </View>
   ) : null;
 
+  /*
+    Where the platform presented the dialog itself, the content just fills it.
+
+    UIKit has already drawn the sheet and dimmed what is behind it, so painting
+    a backdrop and a rounded card *inside* that sheet would stack two frames:
+    a grey border around a white box inside the system's own white box. The
+    same is true of the full-screen presentation on a phone.
+  */
+  if (HAS_NATIVE_PRESENTATION) {
+    return (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className='flex-1 bg-card'
+      >
+        {header}
+        {body}
+        {/*
+          Below the content, not after it. The content is `flex: 1` here, so it
+          takes the sheet's remaining height and the actions land against the
+          bottom edge — which is what makes a fixed-size form sheet look
+          deliberate rather than half-filled.
+        */}
+        {footer}
+      </KeyboardAvoidingView>
+    );
+  }
+
   if (isLarge) {
-    // Centered dialog (tablet / desktop)
+    // Centered dialog drawn by us (Android tablet, macOS)
     return (
       <Pressable
         onPress={closeOnOverlayClick && !saving ? onClose : undefined}

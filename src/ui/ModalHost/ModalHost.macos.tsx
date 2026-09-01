@@ -16,10 +16,22 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Portal } from '../Portal';
 
+export type ModalPresentation = 'sheet' | 'fullScreen';
+
+/**
+ * macOS draws its own frame: there is no view controller to ask for one.
+ *
+ * Kept as a constant with the same name the iOS host exports, so `FormModal`
+ * can ask one question rather than branch on `Platform.OS` itself.
+ */
+export const HAS_NATIVE_PRESENTATION = false;
+
 export interface ModalHostProps {
   visible: boolean;
   animationType?: 'none' | 'slide' | 'fade';
   onRequestClose?: () => void;
+  /** Accepted and ignored: there is no native presentation to choose here. */
+  presentation?: ModalPresentation;
   children: React.ReactNode;
 }
 

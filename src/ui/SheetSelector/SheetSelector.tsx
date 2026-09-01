@@ -1,6 +1,17 @@
 import * as React from 'react';
+import {
+  PANEL_MARGIN,
+  PANEL_MAX_WIDTH,
+  TABLET_MIN_WIDTH,
+} from '../../lib/large-screen';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, Pressable, Text, View } from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -105,6 +116,13 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
   className,
   accessibilityLabel,
 }) => {
+  /*
+    A phone fills the screen; anything larger gets a centred panel. The
+    breakpoint is `FormModal`'s, shared — see `large-screen.ts`.
+  */
+  const { width, height } = useWindowDimensions();
+  const isLarge = width >= TABLET_MIN_WIDTH;
+
   const [isOpen, setIsOpen] = useState(false);
   const rows = useMemo(() => toRows(options), [options]);
   const selected = options.find(o => o.value === value);
@@ -173,88 +191,115 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
       */}
       {isOpen ? (
         <Portal>
-          <SafeAreaView className='bg-card flex-1'>
-            <View className='border-border flex-row items-center border-b px-4 py-3'>
-              <Text
-                className={cn(
-                  typography.size.base,
-                  'text-foreground flex-1 font-semibold'
-                )}
-                numberOfLines={1}
-              >
-                {title ?? ''}
-              </Text>
-              <Pressable
-                onPress={() => setIsOpen(false)}
-                hitSlop={8}
-                accessibilityRole='button'
-                {...(cancelLabel ? { accessibilityLabel: cancelLabel } : {})}
-              >
-                <Text className={cn(typography.size.base, 'text-primary')}>
-                  {cancelLabel ?? '✕'}
-                </Text>
-              </Pressable>
-            </View>
+          {/*
+            Full-bleed on a phone, a centred panel on anything larger.
 
-            {options.length === 0 ? (
-              <View className='flex-1 items-center justify-center p-8'>
-                <Text className='text-muted-foreground'>
-                  {emptyMessage ?? ''}
+            The screen *is* a panel on a phone, so filling it is right there.
+            On a tablet or a Mac window it is not: a list of eight clefs across
+            fourteen hundred points reads as the app having lost its place. The
+            breakpoint is `FormModal`'s own, shared, so a dialog and a picker
+            opened from inside it cannot disagree about when a window is big.
+          */}
+          <View
+            className={
+              isLarge
+                ? 'flex-1 items-center justify-center bg-black/50 px-4'
+                : 'flex-1'
+            }
+          >
+            <SafeAreaView
+              className={cn('bg-card', isLarge ? 'rounded-xl' : 'flex-1')}
+              style={
+                isLarge
+                  ? {
+                      width: Math.min(PANEL_MAX_WIDTH, width - PANEL_MARGIN),
+                      maxHeight: height * 0.8,
+                    }
+                  : undefined
+              }
+            >
+              <View className='border-border flex-row items-center border-b px-4 py-3'>
+                <Text
+                  className={cn(
+                    typography.size.base,
+                    'text-foreground flex-1 font-semibold'
+                  )}
+                  numberOfLines={1}
+                >
+                  {title ?? ''}
                 </Text>
+                <Pressable
+                  onPress={() => setIsOpen(false)}
+                  hitSlop={8}
+                  accessibilityRole='button'
+                  {...(cancelLabel ? { accessibilityLabel: cancelLabel } : {})}
+                >
+                  <Text className={cn(typography.size.base, 'text-primary')}>
+                    {cancelLabel ?? '✕'}
+                  </Text>
+                </Pressable>
               </View>
-            ) : (
-              <FlatList<Row>
-                data={rows}
-                keyExtractor={(row: Row) => row.key}
-                renderItem={({ item }: { item: Row }) =>
-                  item.kind === 'group' ? (
-                    <View className='bg-muted px-4 py-2'>
-                      <Text
-                        className={cn(
-                          typography.size.sm,
-                          'text-muted-foreground font-semibold uppercase'
-                        )}
+
+              {options.length === 0 ? (
+                <View className='flex-1 items-center justify-center p-8'>
+                  <Text className='text-muted-foreground'>
+                    {emptyMessage ?? ''}
+                  </Text>
+                </View>
+              ) : (
+                <FlatList<Row>
+                  data={rows}
+                  keyExtractor={(row: Row) => row.key}
+                  renderItem={({ item }: { item: Row }) =>
+                    item.kind === 'group' ? (
+                      <View className='bg-muted px-4 py-2'>
+                        <Text
+                          className={cn(
+                            typography.size.sm,
+                            'text-muted-foreground font-semibold uppercase'
+                          )}
+                        >
+                          {item.label}
+                        </Text>
+                      </View>
+                    ) : (
+                      <Pressable
+                        onPress={() => choose(item.option)}
+                        disabled={item.option.disabled}
+                        className='border-border/50 flex-row items-center border-b px-4 py-3'
+                        accessibilityRole='menuitem'
+                        accessibilityState={{
+                          selected: item.option.value === value,
+                          disabled: item.option.disabled,
+                        }}
                       >
-                        {item.label}
-                      </Text>
-                    </View>
-                  ) : (
-                    <Pressable
-                      onPress={() => choose(item.option)}
-                      disabled={item.option.disabled}
-                      className='border-border/50 flex-row items-center border-b px-4 py-3'
-                      accessibilityRole='menuitem'
-                      accessibilityState={{
-                        selected: item.option.value === value,
-                        disabled: item.option.disabled,
-                      }}
-                    >
-                      <Text
-                        className={cn(
-                          typography.size.base,
-                          'text-foreground flex-1',
-                          item.option.disabled && 'opacity-50'
-                        )}
-                        numberOfLines={1}
-                      >
-                        {item.option.label ?? item.option.value}
-                      </Text>
-                      {item.option.value === value ? (
-                        <Svg width={18} height={18} viewBox='0 0 20 20'>
-                          <Path
-                            fillRule='evenodd'
-                            d='M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z'
-                            clipRule='evenodd'
-                            fill={colors.raw.neutral[800]}
-                          />
-                        </Svg>
-                      ) : null}
-                    </Pressable>
-                  )
-                }
-              />
-            )}
-          </SafeAreaView>
+                        <Text
+                          className={cn(
+                            typography.size.base,
+                            'text-foreground flex-1',
+                            item.option.disabled && 'opacity-50'
+                          )}
+                          numberOfLines={1}
+                        >
+                          {item.option.label ?? item.option.value}
+                        </Text>
+                        {item.option.value === value ? (
+                          <Svg width={18} height={18} viewBox='0 0 20 20'>
+                            <Path
+                              fillRule='evenodd'
+                              d='M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z'
+                              clipRule='evenodd'
+                              fill={colors.raw.neutral[800]}
+                            />
+                          </Svg>
+                        ) : null}
+                      </Pressable>
+                    )
+                  }
+                />
+              )}
+            </SafeAreaView>
+          </View>
         </Portal>
       ) : null}
     </>

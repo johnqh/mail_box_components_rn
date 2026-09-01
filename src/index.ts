@@ -5,6 +5,8 @@
 
 // Utilities
 export { cn } from './lib/utils';
+export { MIN_TOUCH_TARGET, touchSlop } from './lib/touch-target';
+export type { HitSlop } from './lib/touch-target';
 
 // UI Components - Core
 export * from './ui/Banner';

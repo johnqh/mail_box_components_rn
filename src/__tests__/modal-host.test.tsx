@@ -70,3 +70,49 @@ describe('SafeAreaView', () => {
     expect(offenders).toEqual([]);
   });
 });
+
+/**
+ * A modal must never narrow the orientations its app supports.
+ *
+ * React Native defaults `supportedOrientations` to `['portrait']`, which the
+ * modal then asserts on behalf of the whole application. In a landscape-only
+ * app iOS reports "Modal was presented with 0x2 orientations mask but the
+ * application only supports 0x18" — a warning in development and **a crash in
+ * release**. Listing every orientation hands the decision back to the host's
+ * Info.plist, which is the only place that should be making it.
+ *
+ * Source-scanned rather than rendered: what matters is that the prop is passed
+ * at all, and a render test would assert the default of whatever platform the
+ * suite happens to run on.
+ */
+describe('ModalHost orientations', () => {
+  const source = fs.readFileSync(
+    path.join(__dirname, '..', 'ui', 'ModalHost', 'ModalHost.tsx'),
+    'utf8'
+  );
+
+  it('passes supportedOrientations to Modal', () => {
+    expect(source).toMatch(/supportedOrientations=/);
+  });
+
+  it('lists landscape as well as portrait', () => {
+    // Only listing portrait would reproduce the very default this exists to
+    // override.
+    expect(source).toMatch(/'landscape'/);
+    expect(source).toMatch(/'portrait'/);
+  });
+
+  it('asks iOS for a real presentation rather than a drawn one', () => {
+    // `presentationStyle` is what makes an iPad dialog a UIKit form sheet —
+    // the system's corners, shadow, dimming and drag-to-dismiss — instead of a
+    // white box this library painted inside a transparent window.
+    expect(source).toMatch(/presentationStyle/);
+    expect(source).toMatch(/formSheet/);
+  });
+
+  it('keeps the modal opaque where it asks for a presentation style', () => {
+    // iOS ignores `presentationStyle` on a transparent modal: there is no view
+    // controller frame to style, so the sheet silently never appears.
+    expect(source).toMatch(/transparent:\s*false/);
+  });
+});

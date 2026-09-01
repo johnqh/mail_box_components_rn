@@ -1,9 +1,27 @@
+/**
+ * The platform's own switch.
+ *
+ * This used to be a `Pressable` with an `Animated.View` thumb sliding inside a
+ * rounded track — a drawing of a switch, and it read as one: the wrong size,
+ * the wrong thumb shadow, the wrong spring, and none of the platform's own
+ * behaviours. React Native ships the real control, so this now renders
+ * `UISwitch` on iOS and iPadOS, a Material switch on Android, and `NSSwitch` on
+ * macOS, and gets each platform's animation, haptics and accessibility for
+ * free rather than approximating them.
+ *
+ * **The API is unchanged** — `checked` / `onCheckedChange`, controlled or
+ * uncontrolled — because callers should not have to care that the inside is
+ * now native.
+ */
 import * as React from 'react';
-import { useState } from 'react';
-import { View, Pressable, Animated, PressableProps } from 'react-native';
-import { cn } from '../../lib/utils';
+import { Switch as NativeSwitch, Platform } from 'react-native';
+import type { SwitchProps as NativeSwitchProps } from 'react-native';
+import { getActiveTheme } from '@sudobility/design';
 
-export interface SwitchProps extends Omit<PressableProps, 'onPress'> {
+export interface SwitchProps extends Omit<
+  NativeSwitchProps,
+  'value' | 'onValueChange' | 'trackColor' | 'thumbColor'
+> {
   /** Whether the switch is on (controlled mode) */
   checked?: boolean;
   /** Default checked state (uncontrolled mode) */
@@ -12,124 +30,79 @@ export interface SwitchProps extends Omit<PressableProps, 'onPress'> {
   onCheckedChange?: (checked: boolean) => void;
   /** Whether the switch is disabled */
   disabled?: boolean;
-  /** Size variant */
+  /**
+   * Accepted and ignored.
+   *
+   * A native switch is the size the platform draws it — `UISwitch` is 51×31pt
+   * and not resizable — so a size here would be a promise this cannot keep.
+   * Kept in the signature so existing callers still compile; scaling the
+   * control with a transform was the alternative and produces a blurry switch
+   * that no longer matches anything else on the screen.
+   */
   size?: 'sm' | 'md' | 'lg';
-  /** Additional className */
+  /** Additional className. Applied to the native control. */
   className?: string;
 }
 
-/**
- * Switch Component
- *
- * Toggle switch for binary on/off states with smooth animation.
- * Supports both controlled and uncontrolled modes.
- *
- * @example
- * ```tsx
- * // Controlled
- * <Switch
- *   checked={isEnabled}
- *   onCheckedChange={setIsEnabled}
- * />
- *
- * // Uncontrolled
- * <Switch defaultChecked={true} />
- * ```
- */
-export const Switch = React.forwardRef<View, SwitchProps>(
+/** `"0 84% 50%"` — the shape every `@sudobility/design` colour token has. */
+function hslTokenToCss(triple: string): string {
+  return `hsl(${triple.replace(/\s+/g, ', ').replace(/%,/g, '%,')})`;
+}
+
+export const Switch = React.forwardRef<
+  React.ComponentRef<typeof NativeSwitch>,
+  SwitchProps
+>(
   (
     {
-      checked: controlledChecked,
+      checked,
       defaultChecked = false,
       onCheckedChange,
       disabled = false,
-      size = 'md',
-      className,
-      ...pressableProps
+      // Destructured only so it is not forwarded to the native control, which
+      // would warn about an unknown prop.
+      size: _size,
+      ...props
     },
     ref
   ) => {
-    // Support both controlled and uncontrolled modes
-    const [uncontrolledChecked, setUncontrolledChecked] =
-      useState(defaultChecked);
-    const isControlled = controlledChecked !== undefined;
-    const checked = isControlled ? controlledChecked : uncontrolledChecked;
+    const [internal, setInternal] = React.useState(defaultChecked);
+    const isControlled = checked !== undefined;
+    const value = isControlled ? checked : internal;
 
-    // Animation value for thumb position
-    const animatedValue = React.useRef(
-      new Animated.Value(checked ? 1 : 0)
-    ).current;
-
-    React.useEffect(() => {
-      Animated.timing(animatedValue, {
-        toValue: checked ? 1 : 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }, [checked, animatedValue]);
-
-    // Size configurations
-    const sizeConfig = {
-      sm: {
-        track: 'w-8 h-4',
-        thumb: 'w-3 h-3',
-        translateX: 16,
+    const handleChange = React.useCallback(
+      (next: boolean) => {
+        if (!isControlled) setInternal(next);
+        onCheckedChange?.(next);
       },
-      md: {
-        track: 'w-11 h-6',
-        thumb: 'w-5 h-5',
-        translateX: 20,
-      },
-      lg: {
-        track: 'w-14 h-8',
-        thumb: 'w-7 h-7',
-        translateX: 24,
-      },
-    };
+      [isControlled, onCheckedChange]
+    );
 
-    const config = sizeConfig[size];
-
-    const handlePress = () => {
-      if (disabled) return;
-
-      const newChecked = !checked;
-
-      if (!isControlled) {
-        setUncontrolledChecked(newChecked);
-      }
-
-      onCheckedChange?.(newChecked);
-    };
-
-    const thumbTranslateX = animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, config.translateX],
-    });
+    /*
+      `getActiveTheme` answers null until a host calls `configureTheme`. The
+      fallback is undefined rather than a guessed colour: an unthemed host then
+      gets the platform's own green/blue switch, which is a better answer than
+      a red one this library invented.
+    */
+    const theme = getActiveTheme();
+    const on = theme ? hslTokenToCss(theme.light.primary) : undefined;
 
     return (
-      <Pressable
+      <NativeSwitch
         ref={ref}
-        onPress={handlePress}
+        value={value}
+        onValueChange={handleChange}
         disabled={disabled}
-        className={cn(
-          'rounded-full items-center justify-start flex-row',
-          config.track,
-          checked ? 'bg-primary' : 'bg-muted',
-          disabled && 'opacity-50',
-          className
-        )}
-        accessibilityRole='switch'
-        accessibilityState={{ checked, disabled }}
-        {...pressableProps}
-      >
-        <Animated.View
-          className={cn('rounded-full bg-white shadow-lg', config.thumb)}
-          style={{
-            transform: [{ translateX: thumbTranslateX }],
-            marginStart: 2,
-          }}
-        />
-      </Pressable>
+        /*
+          Only the "on" track is themed. The off track, the thumb and the
+          shadow are the platform's, which is the point of using the platform's
+          switch — overriding them is how a native control starts looking
+          drawn again.
+        */
+        trackColor={{ false: undefined, true: on }}
+        {...(Platform.OS === 'ios' ? {} : { thumbColor: undefined })}
+        {...props}
+      />
     );
   }
 );
