@@ -86,9 +86,13 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
 };
 
 export interface MasterDetailLayoutProps {
-  /** Title shown above the master panel */
+  /**
+   * Name of the master list. Not rendered as a heading — a title above the list
+   * only repeated what the screen already says. It labels the mobile back button
+   * when `backButtonText` is not given.
+   */
   masterTitle?: string;
-  /** Subtitle shown below master title */
+  /** Subtitle shown above the master list (e.g. a wallet address) */
   masterSubtitle?: string;
   /** Text shown in the back button on mobile */
   backButtonText?: string;
@@ -110,23 +114,43 @@ export interface MasterDetailLayoutProps {
   masterWidth?: number;
   /** Breakpoint for tablet layout (default: 768) */
   tabletBreakpoint?: number;
+  /**
+   * Whether the master panel paints its own recessed surface (default: false).
+   *
+   * By default the master sits flat on the page and a `border-r` divider
+   * separates it from the detail — a tinted list cost readability. Set true to
+   * paint `bg-well`, the theme's recessed role.
+   */
+  showMasterBackground?: boolean;
+  /**
+   * Inset the detail panel's title and content (default: false).
+   *
+   * The layout adds no padding of its own, so the master list runs to the screen
+   * edge; turn this on to give the detail a gutter from the divider and the
+   * screen edge.
+   */
+  detailPadding?: boolean;
 }
 
 /**
  * MasterDetailLayout Component
  *
- * A responsive master-detail layout for React Native.
+ * A responsive master-detail layout for React Native, matching the web
+ * `MasterDetailLayout` in `@sudobility/components`.
  * - Mobile: Toggle between master (navigation) and detail (content) views
- * - Tablet/Desktop: Side-by-side layout
+ * - Tablet/Desktop: Side-by-side, edge to edge, master separated by a divider
+ * - Master sits on the page background (opt in to `showMasterBackground`)
+ * - Optional detail inset (`detailPadding`)
  *
  * @example
  * ```tsx
  * <MasterDetailLayout
- *   masterTitle="Table of Contents"
+ *   masterTitle="Table of Contents" // mobile back-button label
  *   masterContent={<NavigationMenu items={sections} />}
  *   detailContent={<Article content={currentSection} />}
  *   mobileView={view}
  *   onBackToNavigation={() => setView('navigation')}
+ *   detailPadding
  * />
  * ```
  */
@@ -143,6 +167,8 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
   detailClassName,
   masterWidth = 320,
   tabletBreakpoint = 768,
+  showMasterBackground = false,
+  detailPadding = false,
 }) => {
   const { width } = useWindowDimensions();
   const isTablet = width >= tabletBreakpoint;
@@ -159,47 +185,45 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
       ? extractFirstPart(masterTitle)
       : 'Back';
 
+  const subtitle = masterSubtitle ? (
+    <Text className='text-sm text-muted-foreground px-4 pt-4 mb-2'>
+      {masterSubtitle}
+    </Text>
+  ) : null;
+
   // Tablet/Desktop: Side-by-side layout
   if (isTablet) {
     return (
-      <View className='flex-1 flex-row gap-8 p-4'>
+      <View className='flex-1 flex-row'>
         {/* Master Panel */}
-        <View style={{ width: masterWidth }}>
-          {masterTitle && (
-            <Text className='text-lg font-semibold text-foreground mb-4'>
-              {masterTitle}
-            </Text>
+        <View
+          testID='master-detail-master'
+          style={{ width: masterWidth }}
+          className={cn(
+            'border-r border-border',
+            showMasterBackground && 'bg-well',
+            masterClassName
           )}
-          {masterSubtitle && (
-            <Text className='text-sm text-muted-foreground mb-6'>
-              {masterSubtitle}
-            </Text>
-          )}
-          <View
-            className={cn(
-              'bg-card rounded-lg border border-border',
-              masterClassName
-            )}
-          >
-            <ScrollView>{masterContent}</ScrollView>
-          </View>
+        >
+          {subtitle}
+          <ScrollView>{masterContent}</ScrollView>
         </View>
 
         {/* Detail Panel */}
-        <View className='flex-1'>
-          <View
-            className={cn(
-              'bg-card rounded-lg border border-border p-6',
-              detailClassName
-            )}
-          >
-            {detailTitle && (
-              <Text className='text-2xl font-bold text-foreground mb-6'>
-                {detailTitle}
-              </Text>
-            )}
-            <ScrollView>{detailContent}</ScrollView>
-          </View>
+        <View
+          testID='master-detail-detail'
+          className={cn(
+            'flex-1',
+            detailPadding && 'px-6 py-6',
+            detailClassName
+          )}
+        >
+          {detailTitle && (
+            <Text className='text-2xl font-bold text-foreground mb-6'>
+              {detailTitle}
+            </Text>
+          )}
+          <ScrollView>{detailContent}</ScrollView>
         </View>
       </View>
     );
@@ -210,17 +234,11 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
     <View className='flex-1'>
       {/* Mobile Navigation View */}
       {mobileView === 'navigation' && (
-        <View className='flex-1 bg-card p-6'>
-          {masterTitle && (
-            <Text className='text-xl font-semibold text-foreground mb-4'>
-              {masterTitle}
-            </Text>
-          )}
-          {masterSubtitle && (
-            <Text className='text-sm text-muted-foreground mb-6'>
-              {masterSubtitle}
-            </Text>
-          )}
+        <View
+          testID='master-detail-master'
+          className={cn('flex-1', showMasterBackground && 'bg-well')}
+        >
+          {subtitle}
           <View className={masterClassName}>
             <ScrollView>{masterContent}</ScrollView>
           </View>
@@ -246,8 +264,10 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
 
           {/* Detail content */}
           <View
+            testID='master-detail-detail'
             className={cn(
-              'flex-1 bg-card rounded-lg border border-border p-6',
+              'flex-1 bg-card rounded-lg border border-border',
+              detailPadding && 'p-4',
               detailClassName
             )}
           >
