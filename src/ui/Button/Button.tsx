@@ -136,6 +136,19 @@ export const Button = React.forwardRef<
         disabled={isDisabled}
         onPress={onPress}
         /*
+          An assistive press calls `onPress` directly. On iOS VoiceOver falls
+          back to a synthesized touch when this is absent, but macOS has no such
+          fallback, so without it a button there cannot be pressed by VoiceOver
+          or any other accessibility client. There is no gesture behind this
+          press, hence no event.
+        */
+        {...(onPress && !isDisabled
+          ? {
+              onAccessibilityTap: () =>
+                onPress(undefined as unknown as GestureResponderEvent),
+            }
+          : {})}
+        /*
           `sm` is 32pt tall and `icon` is 40 — both under the 44/48 both
           platforms ask for. The hit region is extended rather than the button,
           because growing them would relayout every screen in every app that

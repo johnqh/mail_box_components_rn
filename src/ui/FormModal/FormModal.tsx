@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TABLET_MIN_WIDTH } from '../../lib/large-screen';
+import { useFormFactor } from '../../lib/form-factor';
 import {
   View,
   Text,
@@ -9,7 +9,8 @@ import {
   Platform,
   useWindowDimensions,
 } from 'react-native';
-import { HAS_NATIVE_PRESENTATION, ModalHost } from '../ModalHost';
+import { ModalHost, modalFrameFor } from '../ModalHost';
+import type { ModalPresentation } from '../ModalHost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
@@ -84,6 +85,9 @@ export interface FormModalProps {
 // Shared with `SheetSelector`, so a dialog and the picker inside it cannot
 // disagree about when a window is big enough for a centred panel.
 
+/** Kept clear either side of a card on a window barely wider than it. */
+const PANEL_GUTTER = 32;
+
 const SIZE_WIDTH: Record<NonNullable<FormModalProps['size']>, number> = {
   small: 400,
   medium: 520,
@@ -107,38 +111,47 @@ const SIZE_WIDTH: Record<NonNullable<FormModalProps['size']>, number> = {
  *    for none at all.
  *
  * Nothing about that changes with the platform. What changes is the shell they
- * sit in: full-screen on phones, a dialog on tablets and desktops.
+ * sit in, decided by the device (`useFormFactor`), not the window width:
  *
- * **The dialog is the platform's own where the platform has one.** On iPadOS
- * that is a UIKit form sheet — the system draws the corners, the shadow, the
- * dimmed background and the drag-to-dismiss, so it looks like every other
- * dialog on the device rather than like a white box this library painted. On
- * Android and macOS there is no such presentation to ask for (RN's `Modal`
- * offers no Android dialog, and macOS has no `RCTModalHostView` at all), so
- * those keep the drawn frame — which is what a Material dialog and a macOS
- * panel look like anyway.
+ * - **phone** (iPhone, Android under 600dp): full screen;
+ * - **tablet** (iPad, Android at 600dp or more): a dialog;
+ * - **desktop** (macOS, Windows): a dialog.
+ *
+ * **The dialog is the platform's own where the platform has one**: a UIKit form
+ * sheet on iPadOS, and a sheet on macOS in an app that supports native dialogs
+ * (see `setNativeDialogsSupported`). Elsewhere it is a drawn card over a dimmed
+ * backdrop. A card is sized to its content up to what the window allows, and
+ * past that the content scrolls with the bar and the actions fixed.
+ *
+ * `children` are ordinary views. The content area already scrolls, so a caller
+ * must not wrap them in a `ScrollView` of its own.
  *
  * Prefer this over composing `Modal` + `ModalHeader/Content/Footer` for forms.
  */
 export const FormModal: React.FC<FormModalProps> = props => {
-  const { width } = useWindowDimensions();
-  // Phones render a full-screen sheet, so it should slide up from the bottom
-  // like a native modal; tablets render a centered dialog over a dim backdrop,
-  // where a fade reads correctly (sliding the whole overlay up would look off).
-  const isLarge = width >= TABLET_MIN_WIDTH;
+  const presentation = presentationFor(useFormFactor());
   return (
     <ModalHost
       visible={props.visible}
-      animationType={isLarge ? 'fade' : 'slide'}
+      // A full-screen panel comes up from the bottom like a native modal; a
+      // dialog fades, since sliding a whole overlay up reads wrong.
+      animationType={presentation === 'fullScreen' ? 'slide' : 'fade'}
       onRequestClose={props.onClose}
-      presentation={isLarge ? 'sheet' : 'fullScreen'}
+      presentation={presentation}
     >
       {/* ModalHost re-provides the SafeAreaProvider a detached view tree
           loses, so insets resolve inside here without a second one. */}
-      <FormModalContent {...props} />
+      <FormModalContent {...props} presentation={presentation} />
     </ModalHost>
   );
 };
+
+/** Full screen on a phone; a dialog on a tablet or a desktop. */
+export function presentationFor(
+  formFactor: 'phone' | 'tablet' | 'desktop'
+): ModalPresentation {
+  return formFactor === 'phone' ? 'fullScreen' : 'dialog';
+}
 
 function FormModalContent({
   title,
@@ -153,10 +166,12 @@ function FormModalContent({
   closeAriaLabel = 'Cancel',
   headerRight,
   children,
-}: FormModalProps) {
+  presentation,
+}: FormModalProps & { presentation: ModalPresentation }) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const isLarge = width >= TABLET_MIN_WIDTH;
+  const frame = modalFrameFor(presentation);
+  const fullScreen = presentation === 'fullScreen';
   const disabled = !canSave || saving;
 
   /*
@@ -266,23 +281,17 @@ function FormModalContent({
   );
 
   /*
-    Whether the content should hug its own height rather than fill the shell.
+    Whether the content hugs its own height rather than filling the shell.
 
     The question is not "is this a tablet" — it is **does this shell have a
-    definite height**, and only the drawn centred dialog does not. That one is
-    sized by `maxHeight` and grows to its content, so `flex: 1` there compiles
-    to `flexBasis: 0%` against a parent with no height and resolves to *zero*:
-    the bar and the actions have intrinsic height and survive, the content
-    vanishes, and the dialog is a title and some buttons with nothing between.
-
-    Every other shell — a native form sheet, a native full screen, a drawn full
-    screen — is `flex-1` with a real height, so the content fills it and the
-    actions are pushed to the bottom, which is where they belong. Keying this
-    off `isLarge` was what left the buttons floating in the middle of an iPad
-    form sheet: the sheet is a fixed size the system chooses, and content that
-    hugs leaves the rest of it empty underneath.
+    definite height**. A full screen and a UIKit form sheet do, and the content
+    fills them: `flex: 1` puts the actions against the bottom edge. A card does
+    not — it is as tall as what it holds, up to what the window allows — and
+    `flex: 1` there resolves against a parent with no height to *zero*, so the
+    body would vanish between the bar and the buttons. The card's body shrinks
+    instead, and scrolls once the card reaches its limit.
   */
-  const hugsContent = !HAS_NATIVE_PRESENTATION && isLarge;
+  const hugsContent = frame.layout === 'card';
 
   const body = (
     <ScrollView
@@ -336,71 +345,68 @@ function FormModalContent({
     </View>
   ) : null;
 
-  /*
-    Where the platform presented the dialog itself, the content just fills it.
-
-    UIKit has already drawn the sheet and dimmed what is behind it, so painting
-    a backdrop and a rounded card *inside* that sheet would stack two frames:
-    a grey border around a white box inside the system's own white box. The
-    same is true of the full-screen presentation on a phone.
-  */
-  if (HAS_NATIVE_PRESENTATION) {
+  if (frame.layout === 'fill') {
+    /*
+      The platform gave the modal a window of a definite size — a full screen,
+      or a UIKit form sheet that draws its own frame and dims what is behind
+      it — so the content fills it, with no second frame painted inside.
+    */
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className='flex-1 bg-card'
+        className={fullScreen ? 'flex-1 bg-background' : 'flex-1 bg-card'}
+        style={fullScreen ? { paddingTop: insets.top } : undefined}
       >
         {header}
         {body}
-        {/*
-          Below the content, not after it. The content is `flex: 1` here, so it
-          takes the sheet's remaining height and the actions land against the
-          bottom edge — which is what makes a fixed-size form sheet look
-          deliberate rather than half-filled.
-        */}
-        {footer}
+        <View style={fullScreen ? { paddingBottom: insets.bottom } : undefined}>
+          {footer}
+        </View>
       </KeyboardAvoidingView>
     );
   }
 
-  if (isLarge) {
-    // Centered dialog drawn by us (Android tablet, macOS)
+  const cardWidth = Math.min(SIZE_WIDTH[size], width - PANEL_GUTTER);
+
+  if (!frame.backdrop) {
+    /*
+      A native sheet: the system dims the window and draws the frame, and sizes
+      the sheet to this card. The card may grow as tall as the sheet allows —
+      its host caps it — and shrinks its body past that.
+    */
     return (
-      <Pressable
-        onPress={closeOnOverlayClick && !saving ? onClose : undefined}
-        className='flex-1 items-center justify-center bg-black/50 px-4'
+      <View
+        style={{ width: cardWidth, flexShrink: 1 }}
+        className='overflow-hidden bg-card'
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          className='w-full items-center'
-        >
-          <Pressable
-            onPress={e => e.stopPropagation()}
-            style={{
-              width: Math.min(SIZE_WIDTH[size], width - 32),
-              maxHeight: height * 0.85,
-            }}
-            className='overflow-hidden rounded-xl bg-card shadow-xl'
-          >
-            {header}
-            {body}
-            {footer}
-          </Pressable>
-        </KeyboardAvoidingView>
-      </Pressable>
+        {header}
+        {body}
+        {footer}
+      </View>
     );
   }
 
-  // Full-screen (phone)
+  // A drawn dialog: a card over a dimmed backdrop (Android tablet, Windows,
+  // and macOS without native dialogs).
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      className='flex-1 bg-background'
-      style={{ paddingTop: insets.top }}
+    <Pressable
+      onPress={closeOnOverlayClick && !saving ? onClose : undefined}
+      className='flex-1 items-center justify-center bg-black/50 px-4'
     >
-      {header}
-      {body}
-      <View style={{ paddingBottom: insets.bottom }}>{footer}</View>
-    </KeyboardAvoidingView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className='w-full items-center'
+      >
+        <Pressable
+          onPress={e => e.stopPropagation()}
+          style={{ width: cardWidth, maxHeight: height * 0.85 }}
+          className='overflow-hidden rounded-xl bg-card shadow-xl'
+        >
+          {header}
+          {body}
+          {footer}
+        </Pressable>
+      </KeyboardAvoidingView>
+    </Pressable>
   );
 }

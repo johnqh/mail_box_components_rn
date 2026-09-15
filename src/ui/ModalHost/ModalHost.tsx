@@ -3,41 +3,51 @@
  *
  * React Native's `<Modal>` is a *native* window on the platforms that have one,
  * which is what makes a dialog sit above the app rather than inside its view
- * tree. Not every platform has one — see `ModalHost.macos.tsx`, which draws the
- * same overlay in-tree — so nothing here imports `Modal` directly. One host
- * with a platform variant is why a dialog written once works on all of them.
+ * tree. macOS has no modal host of its own — see `ModalHost.macos.tsx` — so
+ * nothing else imports `Modal` directly. One host with a platform variant is
+ * why a dialog written once works everywhere.
  *
- * The prop surface is deliberately the subset every caller in this library
- * actually used: visible, an animation, a close request, and how it should be
- * presented. Anything narrower than `Modal`'s full API is a prop a platform
- * variant would have to fake.
+ * **How a modal is presented is decided by its caller, from the form factor**
+ * (`useFormFactor`): a phone gets `fullScreen`, a tablet or a desktop gets a
+ * `dialog`. This host turns that into the platform's own presentation, and
+ * {@link modalFrameFor} tells the caller how much of the frame the platform
+ * already draws.
  */
 import React from 'react';
 import { Modal, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 /**
- * How the dialog should sit on screen.
+ * How the modal sits on screen.
  *
- * `sheet` asks the platform for its own dialog where it has one — on iPadOS a
- * UIKit form sheet, with the system's own corners, shadow, dimming and
- * drag-to-dismiss. `fullScreen` fills the screen, which is what a phone wants.
- *
- * The distinction is about *presentation*, not size: a caller says which shape
- * the dialog is, and each platform gives the closest thing it actually has.
+ * `fullScreen` fills the screen, which is what a phone wants. `dialog` is a
+ * panel over the app, which is what a tablet or a desktop wants — the platform's
+ * own dialog where it has one (a UIKit form sheet on iPadOS, a sheet on macOS
+ * where the app supports it) and a drawn one elsewhere. `sheet` is the older
+ * name for `dialog`.
  */
-export type ModalPresentation = 'sheet' | 'fullScreen';
+export type ModalPresentation = 'fullScreen' | 'dialog' | 'sheet';
+
+/** Whether this platform draws the modal's window itself (iOS). */
+export const HAS_NATIVE_PRESENTATION = Platform.OS === 'ios';
 
 /**
- * Whether this platform draws the dialog's frame itself.
+ * What the caller has to draw for a presentation.
  *
- * `true` means the content should simply fill what it is given — UIKit has
- * already drawn the sheet, its corners and the dimmed background behind it, and
- * a second backdrop painted underneath would show through as a grey border.
- * `false` means the caller draws its own frame, which is what Android and
- * macOS need. Exported so `FormModal` can ask rather than re-derive it.
+ * `fill` — the platform provides a window of a definite size (a full screen, a
+ * UIKit form sheet), and the content fills it: bar at the top, body taking the
+ * height between, actions against the bottom. `card` — the content is a card
+ * sized to what it holds, up to what the window allows, with its body scrolling
+ * past that; `backdrop` says whether the caller also dims what is behind it.
  */
-export const HAS_NATIVE_PRESENTATION = Platform.OS === 'ios';
+export type ModalFrame = { layout: 'fill' | 'card'; backdrop: boolean };
+
+export function modalFrameFor(presentation: ModalPresentation): ModalFrame {
+  if (HAS_NATIVE_PRESENTATION || presentation === 'fullScreen') {
+    return { layout: 'fill', backdrop: false };
+  }
+  return { layout: 'card', backdrop: true };
+}
 
 /**
  * Every orientation, so the modal never contradicts the app.
@@ -46,9 +56,7 @@ export const HAS_NATIVE_PRESENTATION = Platform.OS === 'ios';
  * claim the *modal* makes about the whole app. In a landscape-only app that
  * reads as "Modal was presented with 0x2 orientations mask but the application
  * only supports 0x18" — a warning in dev and **a crash in release**. Listing
- * all four hands the decision back to the host's Info.plist, which is the only
- * place that should be making it: a dialog has no business narrowing the
- * orientations its app supports.
+ * all four hands the decision back to the host's Info.plist.
  */
 const ALL_ORIENTATIONS = [
   'portrait',
@@ -58,11 +66,11 @@ const ALL_ORIENTATIONS = [
 
 export interface ModalHostProps {
   visible: boolean;
-  /** `slide` for a sheet that comes up, `fade` for a centred dialog. */
+  /** `slide` for a full-screen panel that comes up, `fade` for a dialog. */
   animationType?: 'none' | 'slide' | 'fade';
   /** Back button on Android, Escape where there is one. */
   onRequestClose?: () => void;
-  /** Defaults to `fullScreen`, which is what every caller wanted before this. */
+  /** Defaults to `fullScreen`. */
   presentation?: ModalPresentation;
   children: React.ReactNode;
 }
@@ -82,16 +90,16 @@ export const ModalHost: React.FC<ModalHostProps> = ({
     /*
       `presentationStyle` is iOS-only and is ignored unless the modal is
       opaque — a transparent modal has no view controller frame to style. So
-      iOS gets the real presentation and everything else keeps the transparent
-      window it has always had, with the caller painting its own backdrop.
+      iOS gets the real presentation and everything else keeps a transparent
+      window, with the caller painting its own backdrop and card.
     */
     {...(HAS_NATIVE_PRESENTATION
       ? {
           transparent: false,
           presentationStyle:
-            presentation === 'sheet'
-              ? ('formSheet' as const)
-              : ('fullScreen' as const),
+            presentation === 'fullScreen'
+              ? ('fullScreen' as const)
+              : ('formSheet' as const),
         }
       : { transparent: true, statusBarTranslucent: true })}
   >

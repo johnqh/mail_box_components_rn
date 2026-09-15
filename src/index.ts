@@ -74,6 +74,7 @@ export * from './ui/Dialog';
 export * from './ui/Popover';
 export * from './ui/Portal';
 export * from './ui/ModalHost';
+export * from './lib/form-factor';
 
 // UI Components - Navigation
 export * from './ui/Tabs';

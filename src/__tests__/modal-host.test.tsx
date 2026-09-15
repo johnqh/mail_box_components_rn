@@ -40,14 +40,14 @@ describe('ModalHost', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('has a macOS variant, since that is the platform without one', () => {
+  it('has a macOS variant that mounts Modal only for apps with native dialogs', () => {
     // A `.macos.tsx` beside the default is how Metro picks the other
-    // implementation. Losing the file would silently restore the crash.
+    // implementation. React Native macOS has no modal host, so `Modal` there
+    // is only safe in an app that patches one in and says so.
     const dir = path.join(__dirname, '..', 'ui', 'ModalHost');
     expect(fs.existsSync(path.join(dir, 'ModalHost.macos.tsx'))).toBe(true);
-    expect(codeOf(path.join(dir, 'ModalHost.macos.tsx'))).not.toMatch(
-      /from 'react-native'[\s\S]*Modal(?![A-Za-z])/
-    );
+    const code = codeOf(path.join(dir, 'ModalHost.macos.tsx'));
+    expect(code).toMatch(/nativeDialogsSupported\(\)[\s\S]*<Modal/);
   });
 });
 
@@ -108,6 +108,7 @@ describe('ModalHost orientations', () => {
     // white box this library painted inside a transparent window.
     expect(source).toMatch(/presentationStyle/);
     expect(source).toMatch(/formSheet/);
+    expect(source).toMatch(/'fullScreen' as const/);
   });
 
   it('keeps the modal opaque where it asks for a presentation style', () => {

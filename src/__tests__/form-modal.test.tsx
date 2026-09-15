@@ -160,10 +160,35 @@ describe('FormModal action placement', () => {
   it('sizes the content by the shell, not by the screen width', () => {
     // `isLarge` alone is the mistake: it conflates "tablet" with "no height".
     expect(source).toMatch(/hugsContent/);
-    expect(source).toMatch(/hugsContent\s*=\s*!HAS_NATIVE_PRESENTATION/);
+    expect(source).toMatch(/hugsContent\s*=\s*frame\.layout === 'card'/);
   });
 
   it('fills the shell wherever it has a height, so actions reach the bottom', () => {
     expect(source).toMatch(/hugsContent\s*\?[\s\S]{0,80}flex:\s*1/);
+  });
+});
+
+/**
+ * The frame's contract, whatever the presentation: the title in the bar, the
+ * content inside the one scrolling area, the actions outside it — so they stay
+ * visible however long the content is.
+ */
+describe('FormModal frame', () => {
+  it('puts the content in the scroll area and the actions after it', () => {
+    const { UNSAFE_getAllByType, getByText } = render(
+      <FormModal
+        visible
+        title='Settings'
+        onClose={jest.fn()}
+        actions={[{ label: 'Done', onPress: jest.fn() }]}
+      >
+        <Text>content</Text>
+      </FormModal>
+    );
+    const { ScrollView } = require('react-native');
+    const scroll = UNSAFE_getAllByType(ScrollView)[0];
+    expect(scroll.findByProps({ children: 'content' })).toBeTruthy();
+    expect(scroll.findAllByProps({ children: 'Done' })).toHaveLength(0);
+    expect(getByText('Settings')).toBeTruthy();
   });
 });
