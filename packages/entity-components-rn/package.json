@@ -22,7 +22,7 @@
     "build": "tsc && vite build",
     "dev": "vite build --watch",
     "type-check": "tsc --noEmit",
-    "test": "jest --passWithNoTests"
+    "test:unit": "jest --passWithNoTests"
   },
   "peerDependencies": {
     "@sudobility/components-rn": "^1.0.107",
