@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -181,6 +182,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                 {searchable && (
                   <View className='p-3 border-b border-border'>
                     <TextInput
+                      {...textInputDefaults}
                       value={searchQuery}
                       onChangeText={setSearchQuery}
                       placeholder={searchPlaceholder}

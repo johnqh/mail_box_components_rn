@@ -44,6 +44,9 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
         <Text className={textVariants.label.default()}>{texts.email}</Text>
         <TextInput
           value={email}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={setEmail}
           placeholder={texts.emailPlaceholder}
           keyboardType='email-address'
@@ -58,6 +61,9 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
         <Text className={textVariants.label.default()}>{texts.password}</Text>
         <TextInput
           value={password}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={setPassword}
           placeholder={texts.passwordPlaceholder}
           secureTextEntry

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -153,6 +154,7 @@ export const Command: React.FC<CommandProps> = ({
                   <Text className='text-muted-foreground'>🔍</Text>
                 </View>
                 <TextInput
+                  {...textInputDefaults}
                   ref={inputRef}
                   value={searchQuery}
                   onChangeText={setSearchQuery}

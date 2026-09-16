@@ -8,8 +8,10 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { safeAreaPadding } from '../../lib/safe-area';
 import { pressProps } from '../../lib/a11y';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -58,6 +60,7 @@ export const Dialog: React.FC<DialogProps> = ({
 }) => {
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (isOpen) {
@@ -100,13 +103,29 @@ export const Dialog: React.FC<DialogProps> = ({
       <Pressable
         {...pressProps(handleOverlayPress)}
         className='flex-1 justify-center items-center bg-black/60'
+        /*
+          Centred in the safe area, not in the screen. The scrim is this view's
+          own background and still covers the whole window; only the panel moves
+          in, so a wide dialog on a landscape phone can no longer run under a
+          display cutout.
+        */
+        style={safeAreaPadding(insets)}
       >
         {/* Dialog Container */}
         <Animated.View
           style={{
             opacity: opacityAnim,
             transform: [{ scale: scaleAnim }],
-            width: sizeWidths[size],
+            /*
+              A cutout column is width the dialog cannot use, so the size
+              fractions are capped by what is left — an `xl` at 95% of the
+              screen would otherwise overflow the padded container rather than
+              fit inside it.
+            */
+            width: Math.min(
+              sizeWidths[size],
+              SCREEN_WIDTH - insets.left - insets.right
+            ),
             maxHeight: '80%',
           }}
         >

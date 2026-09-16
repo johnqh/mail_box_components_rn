@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';
+import { selectTriggerLabelStyle } from '../../lib/select-trigger';
 import { colors, designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -148,7 +149,8 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
             selected ? 'text-foreground' : 'text-muted-foreground'
           )}
           numberOfLines={1}
-          style={{ flex: 1 }}
+          /* Not `flex: 1` — see `lib/select-trigger.ts`. */
+          style={selectTriggerLabelStyle}
         >
           {selected?.label ?? placeholder ?? ''}
         </Text>

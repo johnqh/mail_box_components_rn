@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { variants as v } from '@sudobility/design';
+import { textInputDefaults } from '../../lib/text-input';
 import { stripWebOnlyClasses } from '../Button/Button.shared';
 
 // CSS pseudo-class selectors (focus:, disabled:) and focus rings don't work in
@@ -60,6 +61,12 @@ export const Input = React.forwardRef<TextInput, InputProps>(
     return (
       <TextInput
         ref={ref}
+        /*
+          Before `{...props}`, so it stays a default a caller can turn back on.
+          See `lib/text-input.ts` for why the package turns Android's
+          fullscreen extract mode off.
+        */
+        {...textInputDefaults}
         className={cn(
           stripWebOnlyClasses(v.input.default()),
           isFocused && inputFocusClass,

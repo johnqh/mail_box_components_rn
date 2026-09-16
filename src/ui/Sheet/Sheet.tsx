@@ -9,12 +9,33 @@ import {
   Dimensions,
   PanResponder,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { safeAreaPadding, type SafeAreaEdge } from '../../lib/safe-area';
 import { designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
+
+/**
+ * The edges a sheet on each side actually touches.
+ *
+ * A bottom sheet reaches the bottom and both sides but stops short of the top,
+ * and padding its top would push the drag handle down away from the rounded
+ * corner it is drawn against. Both horizontal edges appear on every entry
+ * because every sheet either spans the screen's width or runs the full height
+ * of one side — which is the omission this table exists to make unrepeatable.
+ */
+const SHEET_EDGES: Record<
+  'bottom' | 'top' | 'left' | 'right',
+  readonly SafeAreaEdge[]
+> = {
+  bottom: ['bottom', 'left', 'right'],
+  top: ['top', 'left', 'right'],
+  left: ['top', 'bottom', 'left'],
+  right: ['top', 'bottom', 'right'],
+};
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -77,6 +98,7 @@ export const Sheet: React.FC<SheetProps> = ({
 }) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
   const panY = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
 
   // Size configurations (percentage of screen)
   const sizeValues = {
@@ -249,6 +271,15 @@ export const Sheet: React.FC<SheetProps> = ({
             radiusClasses[side],
             className
           )}
+          /*
+            The sheet had no safe-area handling at all: a bottom sheet's footer
+            sat under the home indicator, and on a landscape phone with a
+            display cutout a sheet on any side ran its header and content under
+            the housing. Padding is applied here, inside the surface, so the
+            background and the rounded corner still reach the physical edge and
+            only the content moves in.
+          */
+          style={safeAreaPadding(insets, SHEET_EDGES[side])}
         >
           {/* Drag Handle */}
           {showHandle && (side === 'bottom' || side === 'top') && (

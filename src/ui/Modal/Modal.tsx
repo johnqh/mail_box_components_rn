@@ -7,8 +7,10 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { safeAreaPadding } from '../../lib/safe-area';
 import { designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -72,6 +74,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   className,
 }) => {
+  const insets = useSafeAreaInsets();
   // Size configurations
   const sizeClasses = {
     small: 'w-72',
@@ -95,6 +98,12 @@ export const Modal: React.FC<ModalProps> = ({
         <Pressable
           {...pressProps(handleOverlayPress)}
           className='flex-1 justify-center items-center bg-black/50'
+          /*
+            Centred in the safe area, not in the screen: the scrim is this
+            view's background and still covers the whole window, and only the
+            panel moves clear of a landscape phone's display cutout.
+          */
+          style={safeAreaPadding(insets)}
         >
           <Pressable
             /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */

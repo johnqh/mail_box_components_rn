@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { selectTriggerLabelStyle } from '../../lib/select-trigger';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -116,10 +118,18 @@ export const Combobox: React.FC<ComboboxProps> = ({
       >
         <Text
           className={cn(
-            'flex-1 text-sm',
+            'text-sm',
             selectedOption ? 'text-foreground' : 'text-muted-foreground'
           )}
           numberOfLines={1}
+          /*
+            Was `flex-1`, which NativeWind emits as `flex: 1` — a flex-basis of
+            zero. See `lib/select-trigger.ts`. The `w-full` wrapper usually
+            spares this trigger the worst of it, but the row is the same shape
+            as the ones where it bit, and one picker measuring differently from
+            the rest is how the next report of this starts.
+          */
+          style={selectTriggerLabelStyle}
         >
           {selectedOption ? selectedOption.label : placeholder}
         </Text>
@@ -139,6 +149,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 {/* Search Input */}
                 <View className='p-3 border-b border-border'>
                   <TextInput
+                    {...textInputDefaults}
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                     placeholder={searchPlaceholder}

@@ -9,6 +9,7 @@ import {
   TextInputProps,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -121,6 +122,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
       {/* Input */}
       <TextInput
+        /* A default, so it sits before `{...textInputProps}` below. */
+        {...textInputDefaults}
         value={value}
         onChangeText={handleChange}
         placeholder={placeholder}

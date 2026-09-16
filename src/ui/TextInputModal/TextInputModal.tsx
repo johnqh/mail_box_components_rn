@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -43,6 +44,12 @@ export interface TextInputModalProps {
   required?: boolean;
   /** Custom validation function */
   validate?: (value: string) => string | null;
+  /**
+   * Whether Android's fullscreen extract mode is suppressed. Defaults to `true`
+   * across this package — see `lib/text-input.ts`. This component does not take
+   * `TextInputProps`, so the escape hatch has to be an explicit prop.
+   */
+  disableFullscreenUI?: boolean;
 }
 
 /**
@@ -79,6 +86,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
   maxLength,
   required = true,
   validate,
+  disableFullscreenUI = textInputDefaults.disableFullscreenUI,
 }) => {
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
@@ -153,6 +161,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                   <TextInput
                     value={value}
                     onChangeText={setValue}
+                    disableFullscreenUI={disableFullscreenUI}
                     placeholder={placeholder}
                     placeholderTextColor={colors.raw.neutral[400]}
                     maxLength={maxLength}

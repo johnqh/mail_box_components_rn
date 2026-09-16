@@ -30,6 +30,9 @@ export const EmailInputField: React.FC<EmailInputFieldProps> = ({
       </Text>
       <TextInput
         value={value}
+        /* Android's fullscreen extract mode off — the package rule; see
+           components-rn's `lib/text-input.ts`. */
+        disableFullscreenUI
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={colors.raw.neutral[400]}

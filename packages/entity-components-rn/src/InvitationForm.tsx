@@ -90,6 +90,9 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
         </Text>
         <TextInput
           value={email}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={handleEmailChange}
           placeholder={placeholder}
           placeholderTextColor={colors.raw.neutral[400]}

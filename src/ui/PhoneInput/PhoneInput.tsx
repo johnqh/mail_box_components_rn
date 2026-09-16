@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -41,6 +42,12 @@ export interface PhoneInputProps {
   disabled?: boolean;
   /** Additional className */
   className?: string;
+  /**
+   * Whether Android's fullscreen extract mode is suppressed. Defaults to `true`
+   * across this package — see `lib/text-input.ts`. This component does not take
+   * `TextInputProps`, so the escape hatch has to be an explicit prop.
+   */
+  disableFullscreenUI?: boolean;
 }
 
 // Common countries
@@ -87,6 +94,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
   placeholder = 'Phone number',
   disabled = false,
   className,
+  disableFullscreenUI = textInputDefaults.disableFullscreenUI,
 }) => {
   const [internalCountry, setInternalCountry] = useState(
     countries[0]?.code || 'US'
@@ -172,6 +180,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         <TextInput
           value={value}
           onChangeText={handleInputChange}
+          disableFullscreenUI={disableFullscreenUI}
           placeholder={placeholder}
           placeholderTextColor={colors.raw.neutral[400]}
           keyboardType='phone-pad'
@@ -206,6 +215,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                 {/* Search */}
                 <View className='p-3 border-b border-border'>
                   <TextInput
+                    {...textInputDefaults}
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                     placeholder='Search countries...'

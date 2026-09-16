@@ -64,6 +64,9 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
         </Text>
         <TextInput
           value={displayName}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={setDisplayName}
           placeholder={texts.displayNamePlaceholder}
           autoCapitalize='words'
@@ -76,6 +79,9 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
         <Text className={textVariants.label.default()}>{texts.email}</Text>
         <TextInput
           value={email}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={setEmail}
           placeholder={texts.emailPlaceholder}
           keyboardType='email-address'
@@ -90,6 +96,9 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
         <Text className={textVariants.label.default()}>{texts.password}</Text>
         <TextInput
           value={password}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={setPassword}
           placeholder={texts.passwordPlaceholder}
           secureTextEntry
@@ -104,6 +113,9 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
         </Text>
         <TextInput
           value={confirmPassword}
+          /* Android's fullscreen extract mode off — the package rule; see
+             components-rn's `lib/text-input.ts`. */
+          disableFullscreenUI
           onChangeText={setConfirmPassword}
           placeholder={texts.confirmPasswordPlaceholder}
           secureTextEntry

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { pressProps } from '../../lib/a11y';
 
 export interface NumberInputProps {
@@ -26,6 +27,13 @@ export interface NumberInputProps {
   size?: 'sm' | 'md' | 'lg';
   /** Additional className */
   className?: string;
+  /**
+   * Whether Android's fullscreen extract mode is suppressed. Defaults to `true`
+   * across this package — see `lib/text-input.ts`. Unlike `Input` this
+   * component does not take `TextInputProps`, so the escape hatch has to be an
+   * explicit prop rather than one that arrives through a spread.
+   */
+  disableFullscreenUI?: boolean;
 }
 
 /**
@@ -69,6 +77,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   placeholder,
   size = 'md',
   className,
+  disableFullscreenUI = textInputDefaults.disableFullscreenUI,
 }) => {
   // Size configurations
   const sizeClasses = {
@@ -167,6 +176,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         <TextInput
           value={String(value)}
           onChangeText={handleTextChange}
+          disableFullscreenUI={disableFullscreenUI}
           keyboardType='numeric'
           editable={!disabled}
           placeholder={placeholder}
@@ -197,6 +207,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         <TextInput
           value={String(value)}
           onChangeText={handleTextChange}
+          disableFullscreenUI={disableFullscreenUI}
           keyboardType='numeric'
           editable={!disabled}
           placeholder={placeholder}
@@ -253,6 +264,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     <TextInput
       value={String(value)}
       onChangeText={handleTextChange}
+      disableFullscreenUI={disableFullscreenUI}
       keyboardType='numeric'
       editable={!disabled}
       placeholder={placeholder}

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useCallback } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -170,6 +171,7 @@ export const TransferList: React.FC<TransferListProps> = ({
       {searchable && (
         <View className='p-2 border-b border-border'>
           <TextInput
+            {...textInputDefaults}
             value={searchValue}
             onChangeText={onSearchChange}
             placeholder={searchPlaceholder}

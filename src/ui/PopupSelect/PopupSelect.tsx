@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { safeAreaPadding } from '../../lib/safe-area';
+import { selectTriggerLabelStyle } from '../../lib/select-trigger';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -141,7 +143,13 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
         animationType='slide'
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={[styles.modalContainer, { paddingTop: insets.top }]}>
+        {/*
+          A full-screen modal, so all four insets — the horizontal pair used to
+          be missing and put the header and the option rows under a landscape
+          phone's cutout, and the bottom one keeps the last row clear of the
+          home indicator.
+        */}
+        <View style={[styles.modalContainer, safeAreaPadding(insets)]}>
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>{title}</Text>
             <Pressable
@@ -181,7 +189,10 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   triggerText: {
-    flex: 1,
+    // Not `flex: 1` — see `lib/select-trigger.ts`. This trigger is
+    // `justify-content: space-between`, which is exactly the row where a
+    // flex-basis of zero leaves nothing but the arrow visible.
+    ...selectTriggerLabelStyle,
     fontSize: 16,
     color: colors.raw.neutral[900],
   },

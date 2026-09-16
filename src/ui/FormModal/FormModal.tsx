@@ -12,6 +12,7 @@ import {
 import { ModalHost, modalFrameFor } from '../ModalHost';
 import type { ModalPresentation } from '../ModalHost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { safeAreaPadding } from '../../lib/safe-area';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 import { Button } from '../Button';
@@ -357,18 +358,41 @@ function FormModalContent({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className={fullScreen ? 'flex-1 bg-background' : 'flex-1 bg-card'}
-        style={fullScreen ? { paddingTop: insets.top } : undefined}
+        /*
+          All four insets, not two. The horizontal pair used to be missing,
+          which is invisible in portrait — every phone reports 0 there — and
+          fatal in landscape on a phone with a display cutout: the housing takes
+          a column 159px wide down one side, the close button landed inside it
+          with no way to reach it, and the body text started underneath it.
+          The bottom edge is padded on the footer instead, below, so the
+          content still scrolls the whole height of the shell.
+        */
+        style={
+          fullScreen
+            ? safeAreaPadding(insets, ['top', 'left', 'right'])
+            : undefined
+        }
       >
         {header}
         {body}
-        <View style={fullScreen ? { paddingBottom: insets.bottom } : undefined}>
+        <View
+          style={fullScreen ? safeAreaPadding(insets, ['bottom']) : undefined}
+        >
           {footer}
         </View>
       </KeyboardAvoidingView>
     );
   }
 
-  const cardWidth = Math.min(SIZE_WIDTH[size], width - PANEL_GUTTER);
+  /*
+    The window the card has to fit is the *safe* window: a cutout column is
+    unusable width, so counting it here would size a `large` card wider than
+    the space left for it and overflow the centring container.
+  */
+  const cardWidth = Math.min(
+    SIZE_WIDTH[size],
+    width - PANEL_GUTTER - insets.left - insets.right
+  );
 
   if (!frame.backdrop) {
     /*
@@ -394,6 +418,13 @@ function FormModalContent({
     <Pressable
       {...pressProps(closeOnOverlayClick && !saving ? onClose : undefined)}
       className='flex-1 items-center justify-center bg-black/50 px-4'
+      /*
+        The card is centred inside the safe area, not inside the screen. The
+        scrim itself still covers the whole window — it is this view's
+        background — so only the panel moves, and a `large` card on a landscape
+        tablet with a cutout can no longer reach under the housing.
+      */
+      style={safeAreaPadding(insets)}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}

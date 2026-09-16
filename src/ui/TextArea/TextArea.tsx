@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, TextInput, Text, TextInputProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { textInputDefaults } from '../../lib/text-input';
 import { colors } from '@sudobility/design';
 
 export interface TextAreaProps extends Omit<TextInputProps, 'onChange'> {
@@ -90,6 +91,8 @@ export const TextArea: React.FC<TextAreaProps> = ({
   return (
     <View className={cn('w-full', className)}>
       <TextInput
+        /* A default, so it sits before `{...textInputProps}` below. */
+        {...textInputDefaults}
         value={value}
         onChangeText={handleChangeText}
         placeholder={placeholder}

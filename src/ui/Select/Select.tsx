@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModalHost } from '../ModalHost';
 import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
+import { selectTriggerLabelStyle } from '../../lib/select-trigger';
 import { colors, designTokens } from '@sudobility/design';
 import { optionsFromChildren } from './SelectComposition';
 import { pressProps } from '../../lib/a11y';
@@ -211,7 +212,13 @@ export const Select: React.FC<SelectProps> = ({
               selectedOption ? 'text-foreground' : 'text-muted-foreground'
             )}
             numberOfLines={1}
-            style={{ flex: 1 }}
+            /*
+              Not `flex: 1`. That is a flex-basis of zero — a claim the label
+              needs no width — so inside a row whose own width comes from its
+              content the trigger measured as padding plus chevron and the value
+              was invisible. See `lib/select-trigger.ts`.
+            */
+            style={selectTriggerLabelStyle}
           >
             {selectedOption?.label || placeholder}
           </Text>

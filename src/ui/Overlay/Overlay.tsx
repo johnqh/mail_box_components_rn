@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { safeAreaPadding } from '../../lib/safe-area';
 import { pressProps } from '../../lib/a11y';
 
 export interface OverlayProps {
@@ -42,6 +44,9 @@ export const Overlay: React.FC<OverlayProps> = ({
   opacity = 'medium',
   className,
 }) => {
+  // Before the early return: a hook cannot sit behind a condition.
+  const insets = useSafeAreaInsets();
+
   if (!isOpen) return null;
 
   // Opacity configurations
@@ -62,7 +67,16 @@ export const Overlay: React.FC<OverlayProps> = ({
           accessibilityLabel='Close overlay'
         />
         {children && (
-          <View style={styles.content} pointerEvents='box-none'>
+          /*
+            The content is centred in the safe area, not in the screen. The
+            scrim is the sibling `absoluteFill` above and still covers the whole
+            window, so only what the caller put inside moves clear of a
+            landscape phone's display cutout and of the home indicator.
+          */
+          <View
+            style={[styles.content, safeAreaPadding(insets)]}
+            pointerEvents='box-none'
+          >
             {children}
           </View>
         )}

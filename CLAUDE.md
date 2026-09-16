@@ -360,6 +360,91 @@ for the start of a string literal and blanked the **rest of the file**, hiding
 two genuinely broken touchables in `auth-components-rn/ForgotPasswordForm.tsx`.
 A guard that silently stops looking is worse than no guard.
 
+### Layout and safe areas
+
+**Every full-screen or edge-anchored surface pads for all four insets — spread
+`safeAreaPadding(insets, edges?)` from `lib/safe-area` rather than adding
+paddings by hand.** The mistake this exists to prevent is always the same shape:
+`insets.top` and `insets.bottom` applied and `insets.left`/`insets.right`
+forgotten. It is invisible on the device most work is done on, because a
+portrait phone reports both horizontal insets as **0** — so the surface looks
+finished on every simulator anybody opens by habit, and every test passes. A
+**landscape** phone with a display cutout is where they are non-zero, and there
+the camera housing takes a whole column down one side: 159px on the Android
+phone this was measured on. `FormModal` shipped with exactly that omission and
+put its Close button at `[12,167][156,311]` — entirely inside the cutout, so the
+dialog could not be dismissed at all — while its body text started at x=45,
+underneath the housing. `BottomActionBar`, `PopupSelect`, `Sheet` (which had no
+safe-area handling whatever), `Dialog`, `Modal` and `Overlay` all had a version
+of it. Three sub-rules, each learned from one of those:
+
+- **Padding, not margin**, and applied *inside* the surface: the background
+  still reaches the physical edge, so a modal does not show the app through a
+  gap where the cutout is, and only the content moves in.
+- **A centred card is centred in the safe area, not in the screen** — pad the
+  centring container, whose own background is the scrim, and the scrim still
+  covers the whole window. Cap the card's width by the safe width too
+  (`width - insets.left - insets.right`), or a `large`/`xl` size overflows the
+  container it was just told to fit inside.
+- **`edges` is for a surface that genuinely touches only some of them.** A
+  bottom sheet takes bottom/left/right; padding its top pushes the drag handle
+  off the rounded corner it is drawn against. `SHEET_EDGES` in `Sheet.tsx` is
+  that table, and both horizontal edges are on every entry.
+
+`SafeAreaView` from `react-native-safe-area-context` applies all four by
+default, so the components using it (`PageContainer`, `Toast`, `Select`,
+`CheckableSelect`, `SheetSelector`, `LanguageSelectorModal`) are already
+correct — **do not narrow one with an `edges` prop** without the same reasoning.
+`src/__tests__/safe-area-insets.test.tsx` pins the rule against asymmetric
+insets (159 left, 0 right), because a symmetric fixture passes against code that
+reads `insets.left` for both sides.
+
+**A picker trigger's label is `selectTriggerLabelStyle` from
+`lib/select-trigger`, never `flex: 1`.** React Native expands `flex: 1` to
+`flexGrow: 1, flexShrink: 1, flexBasis: 0`, and a flex-basis of **zero is a
+claim that the text needs no width**. In a parent that has a width that is
+harmless. In a parent whose width comes from *its own content* — a toolbar row,
+a settings row beside its label, anything not stretched — there is nothing left
+over, because the row asked its children how wide they were and the label
+answered zero: the trigger measures as padding plus chevron and renders as a
+bare chevron with the value invisible. All three numbers are load-bearing and
+each is satisfiable by a fix that breaks another: `flexBasis: 'auto'` restores
+the intrinsic width, `flexGrow: 1` keeps the trigger filling a parent that *does*
+give it one, and `flexShrink: 1` beside `numberOfLines={1}` is what truncates
+with an ellipsis instead of pushing the chevron off the end. A consumer worked
+around this with three hardcoded widths before it was found here, which is the
+signal that a layout workaround repeated in an app belongs in the library.
+
+### Text inputs
+
+**Every `TextInput` this repo renders spreads `textInputDefaults` from
+`lib/text-input`, or takes the value through an explicit prop.** It carries one
+thing: `disableFullscreenUI: true`. When a phone is short of vertical room —
+which in practice means **landscape, on every phone** — Android may stop editing
+in place and replace the whole app with a full-screen text editor and a DONE
+button (`flagNoExtractUi` is what turns it off). For a login form that is
+defensible; for anything whose design is that you watch something *while* you
+type it, it is fatal.
+
+It needs **no platform branch**, in the code or in the types: the prop is
+declared on the shared `TextInputProps` and forwarded to a native view only from
+`TextInput`'s Android branch, so elsewhere it is a prop nothing reads. That is
+asserted against React Native's own source in
+`src/__tests__/text-input-defaults.test.tsx` rather than taken on trust.
+
+**Spread it _before_ a caller's props, never after** — it is a default, and a
+component taking `TextInputProps` must let a caller ask for the platform editor
+back. A component that takes no props spread (`NumberInput`, `PhoneInput`,
+`TextInputModal`) declares `disableFullscreenUI?: boolean` of its own, defaulted
+from `textInputDefaults`, so the escape hatch exists everywhere. A purely
+internal field — the search box inside `Combobox`, `Command`, `MultiSelect`,
+`TransferList` — just spreads the defaults, since those expose no text-input API
+at all. A source-scanning test fails on any `<TextInput>` in `src/ui` carrying
+neither, so a field added next month is caught by existing code. The sibling
+packages under `packages/` write the prop literally rather than importing the
+constant: they resolve `@sudobility/components-rn` from npm, so a fresh export
+is not available to them until the root package republishes.
+
 ### React Native Adaptations (from web)
 
 | Web | React Native |

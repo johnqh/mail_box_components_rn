@@ -15,6 +15,17 @@ export type { HitSlop } from './lib/touch-target';
 */
 export { accessibilityTap, pressProps } from './lib/a11y';
 export type { PressHandler, PressProps } from './lib/a11y';
+/*
+  Exported for the same reason `pressProps` is: the sibling packages under
+  `packages/` draw their own edge-anchored surfaces and their own text fields,
+  and a rule restated per package is a rule three of them will eventually be
+  missing. `safeAreaPadding` is the package's "all four edges" rule;
+  `textInputDefaults` is its "Android extract mode is off" one.
+*/
+export { ALL_EDGES, safeAreaPadding } from './lib/safe-area';
+export type { SafeAreaEdge } from './lib/safe-area';
+export { textInputDefaults } from './lib/text-input';
+export { selectTriggerLabelStyle } from './lib/select-trigger';
 
 // UI Components - Core
 export * from './ui/Banner';
