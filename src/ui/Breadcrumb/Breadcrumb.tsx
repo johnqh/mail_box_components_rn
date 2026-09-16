@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -115,7 +116,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     if (item.onPress) {
       return (
         <Pressable
-          onPress={item.onPress}
+          {...pressProps(item.onPress)}
           className='flex-row items-center gap-1.5 active:opacity-70'
           accessibilityRole='link'
         >
@@ -166,7 +167,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           return (
             <View key='ellipsis' className='flex-row items-center'>
               <Pressable
-                onPress={() => setIsExpanded(true)}
+                {...pressProps(() => setIsExpanded(true))}
                 className='px-1 active:opacity-70'
                 accessibilityRole='button'
                 accessibilityLabel='Show all breadcrumb items'

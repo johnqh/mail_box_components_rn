@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, Pressable, Linking } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textVariants } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface LinkProps {
   /** Link URL */
@@ -92,7 +93,7 @@ export const Link: React.FC<LinkProps> = ({
 
   return (
     <Pressable
-      onPress={handlePress}
+      {...pressProps(handlePress)}
       accessibilityRole='link'
       accessibilityLabel={typeof children === 'string' ? children : href}
     >

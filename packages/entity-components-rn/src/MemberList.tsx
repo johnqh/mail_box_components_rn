@@ -12,6 +12,7 @@ import { cn } from '@sudobility/components-rn';
 import { colors } from '@sudobility/design';
 import type { MemberListProps, Member, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get role badge color classes
@@ -112,7 +113,7 @@ export const MemberList: React.FC<MemberListProps> = ({
 
   const renderItem = ({ item }: { item: Member }) => (
     <Pressable
-      onPress={() => onMemberPress?.(item)}
+      {...pressProps(() => onMemberPress?.(item), !onMemberPress)}
       disabled={!onMemberPress}
       className={cn(
         'flex-row items-center p-4 rounded-xl mb-3',
@@ -122,6 +123,7 @@ export const MemberList: React.FC<MemberListProps> = ({
       )}
       accessibilityRole='button'
       accessibilityLabel={`Member: ${item.name}, Role: ${item.role}`}
+      accessibilityState={{ disabled: !onMemberPress }}
     >
       {/* Avatar with status indicator */}
       <View className='mr-3 relative'>
@@ -182,7 +184,7 @@ export const MemberList: React.FC<MemberListProps> = ({
       <View className='flex-row items-center ml-2'>
         {canEditMember(item) && onRoleChange && (
           <Pressable
-            onPress={() => {}}
+            {...pressProps(() => {})}
             className='p-2 mr-1 active:opacity-60'
             accessibilityRole='button'
             accessibilityLabel='Edit role'
@@ -192,7 +194,7 @@ export const MemberList: React.FC<MemberListProps> = ({
         )}
         {canRemoveMember(item) && onRemoveMember && (
           <Pressable
-            onPress={() => onRemoveMember(item)}
+            {...pressProps(() => onRemoveMember(item))}
             className='p-2 active:opacity-60'
             accessibilityRole='button'
             accessibilityLabel='Remove member'

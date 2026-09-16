@@ -8,6 +8,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface ScrollSpySection {
   /** Section ID */
@@ -78,7 +79,7 @@ export const ScrollSpy: React.FC<ScrollSpyProps> = ({
     return (
       <View key={section.id}>
         <Pressable
-          onPress={() => handlePress(section.id)}
+          {...pressProps(() => handlePress(section.id))}
           className={cn(
             'py-2 px-3 rounded-lg',
             isActive ? 'bg-primary/10' : 'active:bg-muted'

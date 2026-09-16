@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { View, Pressable, Animated } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface PopoverProps {
   /** Trigger element */
@@ -116,7 +117,7 @@ export const Popover: React.FC<PopoverProps> = ({
 
   return (
     <>
-      <Pressable ref={triggerRef} onPress={handleTriggerPress}>
+      <Pressable ref={triggerRef} {...pressProps(handleTriggerPress)}>
         {trigger}
       </Pressable>
 
@@ -125,7 +126,7 @@ export const Popover: React.FC<PopoverProps> = ({
         animationType='none'
         onRequestClose={() => setIsOpen(false)}
       >
-        <Pressable className='flex-1' onPress={() => setIsOpen(false)}>
+        <Pressable className='flex-1' {...pressProps(() => setIsOpen(false))}>
           <Animated.View
             style={[
               {
@@ -135,7 +136,9 @@ export const Popover: React.FC<PopoverProps> = ({
               },
             ]}
           >
-            <Pressable onPress={e => e.stopPropagation()}>
+            <Pressable /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
+              onPress={e => e.stopPropagation()}
+            >
               <View
                 className={cn(
                   'bg-card',

@@ -11,6 +11,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface MultiSelectOption {
   /** Option value */
@@ -116,7 +117,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
     <View className={cn('w-full', className)}>
       {/* Trigger */}
       <Pressable
-        onPress={() => !disabled && setIsOpen(true)}
+        {...pressProps(() => !disabled && setIsOpen(true), disabled)}
         disabled={disabled}
         className={cn(
           'min-h-[44px] px-3 py-2',
@@ -145,7 +146,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                     {opt.label}
                   </Text>
                   <Pressable
-                    onPress={() => removeItem(opt.value)}
+                    {...pressProps(() => removeItem(opt.value))}
                     hitSlop={8}
                     accessibilityRole='button'
                     accessibilityLabel={`Remove ${opt.label}`}
@@ -172,7 +173,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         animationType='fade'
         onRequestClose={handleClose}
       >
-        <TouchableWithoutFeedback onPress={handleClose}>
+        <TouchableWithoutFeedback {...pressProps(handleClose)}>
           <View className='flex-1 justify-end bg-black/50'>
             <TouchableWithoutFeedback>
               <View className='bg-background rounded-t-xl max-h-[70%]'>
@@ -204,9 +205,11 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                       return (
                         <Pressable
                           key={option.value}
-                          onPress={() =>
-                            !option.disabled && toggleOption(option.value)
-                          }
+                          {...pressProps(
+                            () =>
+                              !option.disabled && toggleOption(option.value),
+                            option.disabled
+                          )}
                           disabled={option.disabled}
                           className={cn(
                             'flex-row items-center gap-3 px-4 py-3',
@@ -253,7 +256,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                   <View className='flex-row gap-3'>
                     {value.length > 0 && (
                       <Pressable
-                        onPress={() => onChange([])}
+                        {...pressProps(() => onChange([]))}
                         accessibilityRole='button'
                         accessibilityLabel='Clear all'
                       >
@@ -261,7 +264,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                       </Pressable>
                     )}
                     <Pressable
-                      onPress={handleClose}
+                      {...pressProps(handleClose)}
                       accessibilityRole='button'
                       accessibilityLabel='Done'
                     >

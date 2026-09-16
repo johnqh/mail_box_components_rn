@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { getCardVariantColors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface CryptoPortfolioProps extends ViewProps {
   disabled?: boolean;
@@ -22,7 +23,7 @@ export const CryptoPortfolio: React.FC<CryptoPortfolioProps> = ({
 }) => {
   return (
     <Pressable
-      onPress={disabled ? undefined : onPress}
+      {...pressProps(disabled ? undefined : onPress, disabled)}
       disabled={disabled}
       accessibilityRole='button'
       accessibilityLabel='Crypto Portfolio'

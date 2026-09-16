@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface Metric {
   id: string;
@@ -91,7 +92,7 @@ export const MetricsGrid: React.FC<MetricsGridProps> = ({
           return (
             <View key={metric.id} className={columnWidthClass}>
               <Pressable
-                onPress={() => onMetricPress(metric)}
+                {...pressProps(() => onMetricPress(metric))}
                 accessibilityRole='button'
                 accessibilityLabel={
                   metric.label + ': ' + metric.value + (metric.unit || '')

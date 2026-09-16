@@ -8,6 +8,7 @@ import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -125,7 +126,7 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
   return (
     <>
       <Pressable
-        onPress={() => setIsOpen(true)}
+        {...pressProps(() => setIsOpen(true))}
         className={cn('bg-card', className)}
         style={{
           flexDirection: 'row',
@@ -163,11 +164,11 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
         <Portal>
           <Pressable
             className='flex-1 justify-end bg-black/50'
-            onPress={() => setIsOpen(false)}
+            {...pressProps(() => setIsOpen(false))}
           >
             <Pressable
               className='bg-card rounded-t-xl'
-              onPress={() => undefined}
+              {...pressProps(() => undefined)}
             >
               <SafeAreaView>
                 <View className='border-border flex-row items-center justify-between border-b px-4 py-3'>
@@ -180,7 +181,7 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
                     {title ?? ''}
                   </Text>
                   <Pressable
-                    onPress={() => setIsOpen(false)}
+                    {...pressProps(() => setIsOpen(false))}
                     hitSlop={8}
                     accessibilityRole='button'
                     accessibilityLabel={doneLabel}
@@ -239,7 +240,10 @@ function Row({
       style={{ paddingHorizontal: 16, paddingVertical: 12 }}
     >
       <Pressable
-        onPress={() => !option.disabled && onToggle(option)}
+        {...pressProps(
+          () => !option.disabled && onToggle(option),
+          option.disabled || checkDisabled
+        )}
         disabled={option.disabled || checkDisabled}
         hitSlop={8}
         accessibilityRole='checkbox'
@@ -253,11 +257,14 @@ function Row({
         <Box checked={checked} />
       </Pressable>
       <Pressable
-        onPress={() => !option.disabled && onChoose(option)}
+        {...pressProps(
+          () => !option.disabled && onChoose(option),
+          option.disabled
+        )}
         disabled={option.disabled}
         style={{ flex: 1 }}
         accessibilityRole='menuitem'
-        accessibilityState={{ selected: chosen }}
+        accessibilityState={{ selected: chosen, disabled: option.disabled }}
       >
         <Text
           className={cn(

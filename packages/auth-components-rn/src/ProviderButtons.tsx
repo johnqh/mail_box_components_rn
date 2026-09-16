@@ -8,6 +8,7 @@ import { cn } from '@sudobility/components-rn';
 import { colors, designTokens } from '@sudobility/design';
 import type { ProviderButtonsProps, AuthProviderType } from './types';
 import { useAuthStatus } from './AuthProvider';
+import { pressProps } from '@sudobility/components-rn';
 
 interface ProviderButtonProps {
   provider: AuthProviderType;
@@ -37,7 +38,7 @@ const ProviderButton: React.FC<ProviderButtonProps> = ({
 }) => {
   return (
     <Pressable
-      onPress={onPress}
+      {...pressProps(onPress)}
       className={cn(
         'flex-row items-center justify-center py-3 px-4 rounded-lg',
         'active:opacity-80',

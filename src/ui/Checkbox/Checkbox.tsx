@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View, Text, Pressable, PressableProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface CheckboxProps extends Omit<PressableProps, 'onPress'> {
   /** Whether the checkbox is checked (controlled mode) */
@@ -164,7 +165,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   return (
     <View className={cn('flex flex-col', className)}>
       <Pressable
-        onPress={handlePress}
+        {...pressProps(handlePress, disabled)}
         disabled={disabled}
         className={cn(
           'flex flex-row items-start gap-2',

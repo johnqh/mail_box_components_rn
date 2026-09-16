@@ -12,6 +12,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface CommandItem {
   /** Item ID */
@@ -133,7 +134,7 @@ export const Command: React.FC<CommandProps> = ({
         {/* Backdrop */}
         <Pressable
           className='flex-1 bg-black/50 justify-start pt-20'
-          onPress={onClose}
+          {...pressProps(onClose)}
         >
           {/* Command Palette */}
           <Pressable
@@ -142,6 +143,7 @@ export const Command: React.FC<CommandProps> = ({
               'shadow-xl',
               className
             )}
+            /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
             onPress={e => e.stopPropagation()}
           >
             {/* Search Input */}
@@ -194,7 +196,7 @@ export const Command: React.FC<CommandProps> = ({
                             return (
                               <Pressable
                                 key={item.id}
-                                onPress={() => handleSelect(item)}
+                                {...pressProps(() => handleSelect(item))}
                                 className={cn(
                                   'flex-row items-center gap-3 px-3 py-2 rounded-md',
                                   isSelected

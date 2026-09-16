@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface EmailInputFieldProps {
   label: string;
@@ -69,7 +70,7 @@ export const CollapsibleEmailField: React.FC<CollapsibleEmailFieldProps> = ({
   return (
     <View>
       <Pressable
-        onPress={onToggle}
+        {...pressProps(onToggle)}
         accessibilityRole='button'
         className='flex-row items-center mb-2'
       >

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface TimePickerProps {
   /** Time value in HH:mm format (24-hour) */
@@ -125,7 +126,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
     <View className={cn('w-full', className)}>
       {/* Input trigger */}
       <Pressable
-        onPress={() => !disabled && setIsOpen(true)}
+        {...pressProps(() => !disabled && setIsOpen(true), disabled)}
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-3 py-2',
@@ -136,6 +137,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         )}
         accessibilityRole='button'
         accessibilityLabel='Select time'
+        accessibilityState={{ disabled, expanded: isOpen }}
       >
         <Text
           className={cn(
@@ -154,7 +156,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         animationType='slide'
         onRequestClose={() => setIsOpen(false)}
       >
-        <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+        <TouchableWithoutFeedback {...pressProps(() => setIsOpen(false))}>
           <View className='flex-1 justify-end bg-black/50'>
             <TouchableWithoutFeedback>
               <View className='bg-background rounded-t-xl'>
@@ -168,14 +170,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                       {hourOptions.map(hour => (
                         <Pressable
                           key={hour}
-                          onPress={() => {
+                          {...pressProps(() => {
                             setInternalHour(hour);
                             handleTimeChange(
                               hour,
                               internalMinute,
                               use12Hour ? period : undefined
                             );
-                          }}
+                          })}
                           className={cn(
                             'px-3 py-2',
                             'active:bg-muted',
@@ -206,14 +208,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                       {minuteOptions.map(minute => (
                         <Pressable
                           key={minute}
-                          onPress={() => {
+                          {...pressProps(() => {
                             setInternalMinute(minute);
                             handleTimeChange(
                               internalHour,
                               minute,
                               use12Hour ? period : undefined
                             );
-                          }}
+                          })}
                           className={cn(
                             'px-3 py-2',
                             'active:bg-muted',
@@ -243,14 +245,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                       </Text>
                       <View className='h-48 justify-center gap-2'>
                         <Pressable
-                          onPress={() => {
+                          {...pressProps(() => {
                             setPeriod('AM');
                             handleTimeChange(
                               internalHour,
                               internalMinute,
                               'AM'
                             );
-                          }}
+                          })}
                           className={cn(
                             'px-3 py-2 rounded',
                             'active:bg-muted',
@@ -269,14 +271,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           </Text>
                         </Pressable>
                         <Pressable
-                          onPress={() => {
+                          {...pressProps(() => {
                             setPeriod('PM');
                             handleTimeChange(
                               internalHour,
                               internalMinute,
                               'PM'
                             );
-                          }}
+                          })}
                           className={cn(
                             'px-3 py-2 rounded',
                             'active:bg-muted',
@@ -302,7 +304,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                 {/* Done button */}
                 <View className='p-3 border-t border-border'>
                   <Pressable
-                    onPress={() => setIsOpen(false)}
+                    {...pressProps(() => setIsOpen(false))}
                     className='items-center py-3'
                   >
                     <Text className='text-sm font-medium text-primary'>

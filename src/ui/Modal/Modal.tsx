@@ -10,6 +10,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -92,10 +93,11 @@ export const Modal: React.FC<ModalProps> = ({
         className='flex-1'
       >
         <Pressable
-          onPress={handleOverlayPress}
+          {...pressProps(handleOverlayPress)}
           className='flex-1 justify-center items-center bg-black/50'
         >
           <Pressable
+            /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
             onPress={e => e.stopPropagation()}
             className={cn(
               'bg-card rounded-xl shadow-xl max-h-[80%]',
@@ -119,7 +121,7 @@ export const Modal: React.FC<ModalProps> = ({
                 )}
                 {showCloseButton && (
                   <Pressable
-                    onPress={onClose}
+                    {...pressProps(onClose)}
                     className='p-1 -mr-1 rounded-full'
                     accessibilityRole='button'
                     accessibilityLabel='Close modal'

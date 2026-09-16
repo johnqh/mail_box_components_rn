@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textVariants, getCardVariantColors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 /**
  * Props for the Card component.
@@ -92,7 +93,7 @@ export const Card: React.FC<CardProps> = ({
           <View className='flex-1'>{children}</View>
           {onClose && (
             <Pressable
-              onPress={onClose}
+              {...pressProps(onClose)}
               className='flex-shrink-0 opacity-70'
               accessibilityLabel='Close'
               accessibilityRole='button'

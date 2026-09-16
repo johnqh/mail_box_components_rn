@@ -4,6 +4,7 @@ import { View, Text, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { Calendar } from '../Calendar';
+import { pressProps } from '../../lib/a11y';
 
 export interface DateInputProps {
   /** Current value (ISO date string YYYY-MM-DD or Date object) */
@@ -101,7 +102,7 @@ export const DateInput: React.FC<DateInputProps> = ({
     <View className={cn('w-full', className)}>
       {/* Trigger Button */}
       <Pressable
-        onPress={() => !disabled && setIsOpen(true)}
+        {...pressProps(() => !disabled && setIsOpen(true), disabled)}
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between',
@@ -132,7 +133,7 @@ export const DateInput: React.FC<DateInputProps> = ({
         animationType='fade'
         onRequestClose={handleClose}
       >
-        <TouchableWithoutFeedback onPress={handleClose}>
+        <TouchableWithoutFeedback {...pressProps(handleClose)}>
           <View className='flex-1 justify-center px-4 bg-black/50'>
             <TouchableWithoutFeedback>
               <View className='bg-background rounded-lg p-4 shadow-xl'>
@@ -146,7 +147,7 @@ export const DateInput: React.FC<DateInputProps> = ({
                 {/* Close button */}
                 <View className='mt-4 pt-4 border-t border-border'>
                   <Pressable
-                    onPress={handleClose}
+                    {...pressProps(handleClose)}
                     className='items-center py-2'
                     accessibilityRole='button'
                     accessibilityLabel='Cancel'

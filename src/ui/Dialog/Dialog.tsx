@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -97,7 +98,7 @@ export const Dialog: React.FC<DialogProps> = ({
     <ModalHost visible={isOpen} animationType='none' onRequestClose={onClose}>
       {/* Backdrop */}
       <Pressable
-        onPress={handleOverlayPress}
+        {...pressProps(handleOverlayPress)}
         className='flex-1 justify-center items-center bg-black/60'
       >
         {/* Dialog Container */}
@@ -109,7 +110,9 @@ export const Dialog: React.FC<DialogProps> = ({
             maxHeight: '80%',
           }}
         >
-          <Pressable onPress={e => e.stopPropagation()}>
+          <Pressable /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
+            onPress={e => e.stopPropagation()}
+          >
             <View
               className={cn(
                 'bg-background rounded-xl shadow-xl overflow-hidden',
@@ -119,7 +122,7 @@ export const Dialog: React.FC<DialogProps> = ({
               {/* Close button */}
               {showCloseButton && onClose && (
                 <Pressable
-                  onPress={onClose}
+                  {...pressProps(onClose)}
                   className='absolute top-4 right-4 z-10 p-1'
                   accessibilityRole='button'
                   accessibilityLabel='Close dialog'

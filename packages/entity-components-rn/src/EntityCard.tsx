@@ -3,6 +3,7 @@ import { View, Text, Pressable, Image } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import type { EntityCardProps, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get role badge color classes
@@ -51,7 +52,7 @@ export const EntityCard: React.FC<EntityCardProps> = ({
 
   return (
     <Pressable
-      onPress={handlePress}
+      {...pressProps(handlePress, !onPress && !onLongPress)}
       onLongPress={handleLongPress}
       disabled={!onPress && !onLongPress}
       className={cn(
@@ -66,7 +67,7 @@ export const EntityCard: React.FC<EntityCardProps> = ({
       testID={testID}
       accessibilityRole='button'
       accessibilityLabel={`Entity: ${entity.name}`}
-      accessibilityState={{ selected }}
+      accessibilityState={{ selected, disabled: !onPress && !onLongPress }}
     >
       {/* Avatar */}
       <View className='mr-3'>

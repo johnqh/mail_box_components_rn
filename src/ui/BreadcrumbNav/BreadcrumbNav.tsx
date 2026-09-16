@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -68,7 +69,7 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
             </Text>
           ) : (
             <Pressable
-              onPress={item.onPress}
+              {...pressProps(item.onPress)}
               accessibilityRole='link'
               accessibilityLabel={item.label}
             >

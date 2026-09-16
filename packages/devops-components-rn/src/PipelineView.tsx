@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export type PipelineStageStatus =
   | 'pending'
@@ -184,7 +185,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
               <View key={stage.id} className='flex-row items-center'>
                 {onStagePress ? (
                   <Pressable
-                    onPress={() => onStagePress(stage)}
+                    {...pressProps(() => onStagePress(stage))}
                     accessibilityRole='button'
                     accessibilityLabel={`${stage.name} - ${stage.status}`}
                   >

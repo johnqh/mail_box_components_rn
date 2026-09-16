@@ -8,6 +8,7 @@ import type {
   PremiumCalloutConfig,
   SubscriptionTileTrackingData,
 } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface SubscriptionTileProps {
   /** Unique identifier for the subscription */
@@ -148,7 +149,7 @@ export function SubscriptionTile({
 
   return (
     <Pressable
-      onPress={handlePress}
+      {...pressProps(handlePress, !isInteractive || isCtaMode)}
       disabled={!isInteractive || isCtaMode}
       accessibilityRole={isCtaMode ? 'summary' : 'radio'}
       accessibilityState={{
@@ -248,7 +249,9 @@ export function SubscriptionTile({
                 <Text
                   className={cn(
                     'text-sm flex-1',
-                    isSelected ? 'text-primary-foreground' : 'text-muted-foreground'
+                    isSelected
+                      ? 'text-primary-foreground'
+                      : 'text-muted-foreground'
                   )}
                 >
                   {feature.replace(/^✓\s*/, '')}
@@ -269,7 +272,9 @@ export function SubscriptionTile({
             <Text
               className={cn(
                 'font-semibold text-sm mb-2',
-                isSelected ? 'text-primary-foreground' : 'text-accent-foreground'
+                isSelected
+                  ? 'text-primary-foreground'
+                  : 'text-accent-foreground'
               )}
             >
               {premiumCallout.title}
@@ -329,8 +334,11 @@ export function SubscriptionTile({
         {/* CTA Button */}
         {showIndicator && isCtaMode && (
           <Pressable
-            onPress={handleCtaPress}
+            {...pressProps(handleCtaPress, disabled)}
             disabled={disabled}
+            accessibilityRole='button'
+            accessibilityLabel={ctaButton.label}
+            accessibilityState={{ disabled }}
             className={cn(
               'w-full py-3 rounded-lg items-center',
               isSelected ? 'bg-primary-foreground' : 'bg-primary',
@@ -353,7 +361,9 @@ export function SubscriptionTile({
           <View
             className={cn(
               'w-5 h-5 rounded-full border-2 items-center justify-center',
-              isSelected ? 'border-primary-foreground bg-primary-foreground' : 'border-border'
+              isSelected
+                ? 'border-primary-foreground bg-primary-foreground'
+                : 'border-border'
             )}
           >
             {isSelected && <View className='w-2 h-2 rounded-full bg-primary' />}

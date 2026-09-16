@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -80,7 +81,10 @@ export const NavigationList: React.FC<NavigationListProps> = ({
         return (
           <Pressable
             key={item.id}
-            onPress={() => !isDisabled && onSelect(item.path)}
+            {...pressProps(
+              () => !isDisabled && onSelect(item.path),
+              isDisabled
+            )}
             disabled={isDisabled}
             className={cn(
               'flex-row items-start',

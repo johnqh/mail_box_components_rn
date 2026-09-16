@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, Linking, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface ButtonConfig {
   text: string;
@@ -107,7 +108,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
           <View className='flex-row flex-wrap gap-4 justify-center mb-8'>
             {primaryButton && (
               <Pressable
-                onPress={() => handleButtonPress(primaryButton)}
+                {...pressProps(() => handleButtonPress(primaryButton))}
                 accessibilityRole='button'
                 className='px-8 py-3 rounded-md bg-primary active:bg-primary/90'
               >
@@ -118,7 +119,7 @@ export const HeroBannerWithBadge: React.FC<HeroBannerWithBadgeProps> = ({
             )}
             {secondaryButton && (
               <Pressable
-                onPress={() => handleButtonPress(secondaryButton)}
+                {...pressProps(() => handleButtonPress(secondaryButton))}
                 accessibilityRole='button'
                 className='px-8 py-3 rounded-md border-2 border-border active:border-border'
               >

@@ -3,6 +3,7 @@ import { View, Text, Pressable, Animated } from 'react-native';
 import { InfoType } from '@sudobility/types';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const alert = colors.component.alert;
 
@@ -229,7 +230,7 @@ export const Banner: React.FC<BannerProps> = ({
 
         {/* Close button */}
         <Pressable
-          onPress={handleDismiss}
+          {...pressProps(handleDismiss)}
           className='flex-shrink-0 p-1 rounded-md'
           accessibilityRole='button'
           accessibilityLabel={closeAccessibilityLabel}

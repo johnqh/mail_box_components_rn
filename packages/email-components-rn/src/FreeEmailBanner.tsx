@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, Linking, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { colors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 type BannerVariant = 'default' | 'compact' | 'minimal' | 'vibrant';
 type BannerSize = 'default' | 'compact' | 'large';
@@ -118,7 +119,7 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
       <View className='items-center gap-4'>
         {isDismissible && onDismiss && (
           <Pressable
-            onPress={onDismiss}
+            {...pressProps(onDismiss)}
             accessibilityRole='button'
             accessibilityLabel={dismissAriaLabel}
             className='absolute right-2 top-2 p-1 rounded-full'
@@ -138,7 +139,9 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
               <Text
                 className={cn(
                   'text-xs font-bold',
-                  variant === 'vibrant' ? 'text-primary' : 'text-primary-foreground'
+                  variant === 'vibrant'
+                    ? 'text-primary'
+                    : 'text-primary-foreground'
                 )}
               >
                 {badgeText}
@@ -153,7 +156,7 @@ export const FreeEmailBanner: React.FC<FreeEmailBannerProps> = ({
         </View>
 
         <Pressable
-          onPress={handleCtaPress}
+          {...pressProps(handleCtaPress)}
           accessibilityRole='button'
           className={cn('px-6 py-2 rounded-lg', getButtonStyle(variant))}
         >

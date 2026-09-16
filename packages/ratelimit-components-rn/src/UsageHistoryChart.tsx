@@ -5,6 +5,7 @@ import type {
   HistoryEntryData,
   UsageBarColor,
 } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get color classes for chart elements
@@ -140,7 +141,7 @@ function BarChart({
             return (
               <Pressable
                 key={index}
-                onPress={() => onDataPointPress(entry, index)}
+                {...pressProps(() => onDataPointPress(entry, index))}
                 className='active:opacity-70'
                 accessibilityRole='button'
                 accessibilityLabel={label + ': ' + entry.value}
@@ -242,7 +243,7 @@ function LineChart({
             return (
               <Pressable
                 key={index}
-                onPress={() => onDataPointPress(entry, index)}
+                {...pressProps(() => onDataPointPress(entry, index))}
                 className='active:opacity-70'
                 accessibilityRole='button'
                 accessibilityLabel={label + ': ' + entry.value}

@@ -10,6 +10,7 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
 import { touchSlop, type HitSlop } from '../../lib/touch-target';
+import { pressProps } from '../../lib/a11y';
 
 /**
  * What each size needs added to reach the minimum touch target.
@@ -134,20 +135,15 @@ export const Button = React.forwardRef<
           className
         )}
         disabled={isDisabled}
-        onPress={onPress}
         /*
           An assistive press calls `onPress` directly. On iOS VoiceOver falls
-          back to a synthesized touch when this is absent, but macOS has no such
-          fallback, so without it a button there cannot be pressed by VoiceOver
-          or any other accessibility client. There is no gesture behind this
-          press, hence no event.
+          back to a synthesized touch when `onAccessibilityTap` is absent, but
+          macOS has no such fallback, so without it a button there cannot be
+          pressed by VoiceOver or any other accessibility client. This was
+          written out here first; it is `pressProps` now because every other
+          touchable in the package needs the same pair.
         */
-        {...(onPress && !isDisabled
-          ? {
-              onAccessibilityTap: () =>
-                onPress(undefined as unknown as GestureResponderEvent),
-            }
-          : {})}
+        {...pressProps(onPress, isDisabled)}
         /*
           `sm` is 32pt tall and `icon` is 40 — both under the 44/48 both
           platforms ask for. The hit region is extended rather than the button,

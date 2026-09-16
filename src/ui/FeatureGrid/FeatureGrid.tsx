@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors, getCardVariantColors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface Feature {
   /** Unique identifier */
@@ -136,7 +137,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
       return (
         <Pressable
           key={feature.id || index}
-          onPress={() => onFeaturePress(feature)}
+          {...pressProps(() => onFeaturePress(feature))}
           className='flex-1'
           style={{ minWidth: `${100 / columns - 5}%` }}
           accessibilityRole='button'

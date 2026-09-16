@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface AddressLabelProps extends ViewProps {
   address: string;
@@ -63,7 +64,7 @@ export const AddressLabel: React.FC<AddressLabelProps> = ({
   if (showCopy && onCopy) {
     return (
       <Pressable
-        onPress={handleCopy}
+        {...pressProps(handleCopy)}
         className='flex-row items-center gap-1'
         accessibilityRole='button'
         accessibilityLabel={`Copy address ${displayAddress}`}

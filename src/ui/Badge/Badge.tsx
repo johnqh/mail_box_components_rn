@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 /**
  * Split combined DS badge color strings (which include both bg-* and text-*)
@@ -206,7 +207,7 @@ export const Badge: React.FC<BadgeProps> = ({
       )}
       {dismissible && onDismiss && (
         <Pressable
-          onPress={onDismiss}
+          {...pressProps(onDismiss)}
           className='ml-1 p-0.5'
           accessibilityRole='button'
           accessibilityLabel='Dismiss'
@@ -220,7 +221,7 @@ export const Badge: React.FC<BadgeProps> = ({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className={containerClasses}
         accessibilityRole='button'
       >

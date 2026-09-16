@@ -19,6 +19,7 @@ import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -139,7 +140,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
   return (
     <>
       <Pressable
-        onPress={() => !disabled && setIsOpen(true)}
+        {...pressProps(() => !disabled && setIsOpen(true), disabled)}
         disabled={disabled}
         className={cn('bg-card', disabled && 'opacity-50', className)}
         style={{
@@ -229,7 +230,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
                   {title ?? ''}
                 </Text>
                 <Pressable
-                  onPress={() => setIsOpen(false)}
+                  {...pressProps(() => setIsOpen(false))}
                   hitSlop={8}
                   accessibilityRole='button'
                   {...(cancelLabel ? { accessibilityLabel: cancelLabel } : {})}
@@ -264,7 +265,10 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
                       </View>
                     ) : (
                       <Pressable
-                        onPress={() => choose(item.option)}
+                        {...pressProps(
+                          () => choose(item.option),
+                          item.option.disabled
+                        )}
                         disabled={item.option.disabled}
                         className='border-border/50 flex-row items-center border-b px-4 py-3'
                         accessibilityRole='menuitem'

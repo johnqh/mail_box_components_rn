@@ -3,6 +3,7 @@ import { useState, useCallback, createContext, useContext } from 'react';
 import { View, Text, Pressable, ScrollView, ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 // Context for tabs state
 interface TabsContextValue {
@@ -142,7 +143,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
 
   return (
     <Pressable
-      onPress={() => !disabled && onValueChange(value)}
+      {...pressProps(() => !disabled && onValueChange(value), disabled)}
       disabled={disabled}
       className={cn(
         'flex-1 px-4 py-2 rounded-md items-center justify-center',

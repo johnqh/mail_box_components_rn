@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -73,7 +74,7 @@ export const SettingsList: React.FC<SettingsListProps> = ({
         return (
           <Pressable
             key={setting.id}
-            onPress={() => onSettingSelect(setting.id)}
+            {...pressProps(() => onSettingSelect(setting.id))}
             className={cn(
               'flex-row items-center px-3 py-2.5 rounded-lg min-h-[44px]',
               isSelected ? 'bg-warning/10 ' : 'active:bg-muted'

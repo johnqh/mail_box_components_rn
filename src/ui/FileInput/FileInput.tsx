@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface FileInfo {
   /** File name */
@@ -84,7 +85,7 @@ export const FileInput: React.FC<FileInputProps> = ({
     return (
       <View className={cn('w-full', className)}>
         <Pressable
-          onPress={onSelectFiles}
+          {...pressProps(onSelectFiles, disabled)}
           disabled={disabled}
           className={cn(
             'border-2 border-dashed rounded-lg p-8',
@@ -128,7 +129,7 @@ export const FileInput: React.FC<FileInputProps> = ({
   return (
     <View className={cn('w-full', className)}>
       <Pressable
-        onPress={onSelectFiles}
+        {...pressProps(onSelectFiles, disabled)}
         disabled={disabled}
         className={cn(
           'flex-row items-center px-4 py-2',
@@ -193,7 +194,7 @@ const FileList: React.FC<{
 
           {onRemove && (
             <Pressable
-              onPress={() => onRemove(index)}
+              {...pressProps(() => onRemove(index))}
               className='p-1 active:bg-destructive/10  rounded'
               accessibilityRole='button'
               accessibilityLabel='Remove file'

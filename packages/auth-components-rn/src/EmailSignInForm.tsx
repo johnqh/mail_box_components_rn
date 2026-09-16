@@ -8,6 +8,7 @@ import { cn } from '@sudobility/components-rn';
 import { textVariants, variants as v, colors } from '@sudobility/design';
 import type { EmailSignInFormProps } from './types';
 import { useAuthStatus } from './AuthProvider';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Email sign-in form component
@@ -68,7 +69,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
       {error && <Text className={textVariants.label.error()}>{error}</Text>}
 
       <Pressable
-        onPress={handleSubmit}
+        {...pressProps(handleSubmit, loading || !email || !password)}
         disabled={loading || !email || !password}
         className={cn(
           v.button.primary.default(),
@@ -77,6 +78,7 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
         )}
         accessibilityRole='button'
         accessibilityLabel={texts.signIn}
+        accessibilityState={{ disabled: loading || !email || !password }}
       >
         <Text className='font-medium text-primary-foreground'>
           {loading ? texts.loading : texts.signIn}
@@ -84,14 +86,14 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
       </Pressable>
 
       <Pressable
-        onPress={() => {
+        {...pressProps(() => {
           onTrack?.({
             action: 'switch_mode',
             trackingLabel,
             componentName,
           });
           onSwitchToForgotPassword();
-        }}
+        })}
         className='items-center py-2'
         accessibilityRole='button'
       >
@@ -103,14 +105,14 @@ export const EmailSignInForm: React.FC<EmailSignInFormProps> = ({
       <View className='flex-row items-center justify-center gap-1'>
         <Text className={textVariants.body.sm()}>{texts.noAccount}</Text>
         <Pressable
-          onPress={() => {
+          {...pressProps(() => {
             onTrack?.({
               action: 'switch_mode',
               trackingLabel,
               componentName,
             });
             onSwitchToSignUp();
-          }}
+          })}
           accessibilityRole='button'
         >
           <Text className={textVariants.link.subtle()}>{texts.signUp}</Text>

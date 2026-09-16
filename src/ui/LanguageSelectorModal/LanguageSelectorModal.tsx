@@ -16,6 +16,7 @@ import { ModalHost } from '../ModalHost';
 // raw palette — the lib-wide convention for RN-only color props.
 import { colors } from '@sudobility/design';
 import { getSortedLanguages, type LanguageConfig } from './languages';
+import { pressProps } from '../../lib/a11y';
 
 interface LanguageSelectorModalProps {
   visible: boolean;
@@ -44,7 +45,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
     return (
       <TouchableOpacity
         style={[styles.languageItem, isSelected && styles.selectedItem]}
-        onPress={() => onSelectLanguage(item.code)}
+        {...pressProps(() => onSelectLanguage(item.code))}
         activeOpacity={0.7}
       >
         <Text style={styles.flag}>{item.flag}</Text>
@@ -61,7 +62,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>{title}</Text>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <TouchableOpacity {...pressProps(onClose)} style={styles.closeButton}>
             <Text style={styles.closeButtonText}>{doneLabel}</Text>
           </TouchableOpacity>
         </View>

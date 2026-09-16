@@ -11,6 +11,7 @@ import { cn } from '@sudobility/components-rn';
 import { colors } from '@sudobility/design';
 import type { InvitationListProps, Invitation, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get role badge color classes
@@ -162,7 +163,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
           <View className='flex-row items-center mt-2 pt-2 border-t border-border'>
             {showResend && (
               <Pressable
-                onPress={() => onResend(item)}
+                {...pressProps(() => onResend(item))}
                 className='flex-row items-center mr-4 py-1 active:opacity-60'
                 accessibilityRole='button'
                 accessibilityLabel='Resend invitation'
@@ -174,7 +175,7 @@ export const InvitationList: React.FC<InvitationListProps> = ({
             )}
             {showCancel && (
               <Pressable
-                onPress={() => onCancel(item)}
+                {...pressProps(() => onCancel(item))}
                 className='flex-row items-center py-1 active:opacity-60'
                 accessibilityRole='button'
                 accessibilityLabel='Cancel invitation'

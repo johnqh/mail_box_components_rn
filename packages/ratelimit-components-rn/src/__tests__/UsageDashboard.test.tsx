@@ -4,6 +4,19 @@ import { UsageDashboard } from '../UsageDashboard';
 import { UsageBarConfig } from '../types';
 
 jest.mock('@sudobility/components-rn', () => ({
+  // Both activation routes, as the real module returns them — a stub would
+  // make this suite pass while macOS could not operate the component.
+  pressProps: function (onPress, disabled) {
+    return {
+      onPress: onPress,
+      onAccessibilityTap:
+        !onPress || disabled
+          ? undefined
+          : function () {
+              onPress(undefined);
+            },
+    };
+  },
   cn: (...args: unknown[]) => args.filter(Boolean).join(' '),
 }));
 

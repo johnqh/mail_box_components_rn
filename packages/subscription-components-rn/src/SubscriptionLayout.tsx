@@ -15,6 +15,7 @@ import type {
   SubscriptionStatusConfig,
   ActionButtonConfig,
 } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Layout variant:
@@ -242,8 +243,17 @@ export function SubscriptionLayout({
           <View className='gap-3 mt-6'>
             {secondaryAction && (
               <Pressable
-                onPress={handleSecondaryPress}
+                {...pressProps(
+                  handleSecondaryPress,
+                  secondaryAction.disabled || secondaryAction.loading
+                )}
                 disabled={secondaryAction.disabled || secondaryAction.loading}
+                accessibilityRole='button'
+                accessibilityLabel={secondaryAction.label}
+                accessibilityState={{
+                  disabled: secondaryAction.disabled || secondaryAction.loading,
+                  busy: secondaryAction.loading,
+                }}
                 className={cn(
                   'py-3 rounded-lg border border-border items-center',
                   (secondaryAction.disabled || secondaryAction.loading) &&
@@ -261,8 +271,17 @@ export function SubscriptionLayout({
             )}
 
             <Pressable
-              onPress={handlePrimaryPress}
+              {...pressProps(
+                handlePrimaryPress,
+                primaryAction.disabled || primaryAction.loading
+              )}
               disabled={primaryAction.disabled || primaryAction.loading}
+              accessibilityRole='button'
+              accessibilityLabel={primaryAction.label}
+              accessibilityState={{
+                disabled: primaryAction.disabled || primaryAction.loading,
+                busy: primaryAction.loading,
+              }}
               className={cn(
                 'py-3 rounded-lg bg-primary items-center',
                 (primaryAction.disabled || primaryAction.loading) &&

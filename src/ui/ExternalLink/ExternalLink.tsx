@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { Text, Pressable, Linking } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textVariants } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface ExternalLinkProps {
   /** Link URL */
@@ -85,7 +86,7 @@ export const ExternalLink: React.FC<ExternalLinkProps> = ({
 
   return (
     <Pressable
-      onPress={handlePress}
+      {...pressProps(handlePress)}
       className={cn('flex-row items-center gap-1', className)}
       accessibilityRole='link'
       accessibilityLabel={

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable, FlatList } from 'react-native';
 import { cn } from '../../lib/utils';
 import { ui, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface DataListColumn<T> {
   /** Column key */
@@ -109,7 +110,7 @@ export function DataList<T extends Record<string, unknown>>({
 
     return (
       <Pressable
-        onPress={() => onRowPress?.(item, index)}
+        {...pressProps(() => onRowPress?.(item, index), !onRowPress)}
         className={cn(
           'flex-row border-b border-border',
           isOdd && ui.table.trAlt,
@@ -117,6 +118,7 @@ export function DataList<T extends Record<string, unknown>>({
         )}
         disabled={!onRowPress}
         accessibilityRole={onRowPress ? 'button' : 'none'}
+        accessibilityState={{ disabled: !onRowPress }}
       >
         {columns.map(column => (
           <View

@@ -5,6 +5,7 @@ import type {
   UsageBarConfig,
   UsageBarColor,
 } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get color classes based on usage percentage
@@ -119,7 +120,7 @@ function UsageBar({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className='active:opacity-80'
         accessibilityRole='button'
         accessibilityLabel={`${label}: ${current} of ${limit} used`}

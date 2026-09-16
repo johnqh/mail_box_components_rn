@@ -16,6 +16,7 @@ import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
 import { Button } from '../Button';
 import type { ButtonProps } from '../Button';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -201,9 +202,10 @@ function FormModalContent({
 
   const closeButton = (
     <Pressable
-      onPress={saving ? undefined : onClose}
+      {...pressProps(saving ? undefined : onClose, saving)}
       accessibilityRole='button'
       accessibilityLabel={closeAriaLabel}
+      accessibilityState={{ disabled: saving }}
       disabled={saving}
       hitSlop={8}
       style={{
@@ -390,7 +392,7 @@ function FormModalContent({
   // and macOS without native dialogs).
   return (
     <Pressable
-      onPress={closeOnOverlayClick && !saving ? onClose : undefined}
+      {...pressProps(closeOnOverlayClick && !saving ? onClose : undefined)}
       className='flex-1 items-center justify-center bg-black/50 px-4'
     >
       <KeyboardAvoidingView
@@ -398,6 +400,7 @@ function FormModalContent({
         className='w-full items-center'
       >
         <Pressable
+          /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
           onPress={e => e.stopPropagation()}
           style={{ width: cardWidth, maxHeight: height * 0.85 }}
           className='overflow-hidden rounded-xl bg-card shadow-xl'

@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { getCardVariantColors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface CodePlaygroundProps extends ViewProps {
   disabled?: boolean;
@@ -17,10 +18,11 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   ...props
 }) => (
   <Pressable
-    onPress={disabled ? undefined : onPress}
+    {...pressProps(disabled ? undefined : onPress, disabled)}
     disabled={disabled}
     accessibilityRole='button'
     accessibilityLabel='Code Playground'
+    accessibilityState={{ disabled }}
     className={cn(
       'p-4 rounded-lg',
       getCardVariantColors('bordered'),

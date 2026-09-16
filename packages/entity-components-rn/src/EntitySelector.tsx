@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, Modal, FlatList, Image } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import type { EntitySelectorProps, Entity } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * EntitySelector - Dropdown/Pressable selector for switching entities
@@ -66,7 +67,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
 
   const renderItem = ({ item }: { item: Entity }) => (
     <Pressable
-      onPress={() => handleSelect(item)}
+      {...pressProps(() => handleSelect(item))}
       className={cn(
         'flex-row items-center px-4 py-3',
         selectedEntity?.id === item.id && 'bg-primary/10',
@@ -97,7 +98,7 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
     <View className={className} style={style} testID={testID}>
       {/* Trigger Button */}
       <Pressable
-        onPress={handleOpen}
+        {...pressProps(handleOpen, disabled || loading)}
         disabled={disabled || loading}
         className={cn(
           'flex-row items-center px-4 py-3 rounded-xl',
@@ -149,10 +150,11 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
         onRequestClose={handleClose}
       >
         <Pressable
-          onPress={handleClose}
+          {...pressProps(handleClose)}
           className='flex-1 bg-black/50 justify-center px-4'
         >
           <Pressable
+            /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
             onPress={e => e.stopPropagation()}
             className='bg-card rounded-2xl overflow-hidden max-h-96'
           >
@@ -180,7 +182,9 @@ export const EntitySelector: React.FC<EntitySelectorProps> = ({
 
             {/* Cancel Button */}
             <Pressable
-              onPress={handleClose}
+              {...pressProps(handleClose)}
+              accessibilityRole='button'
+              accessibilityLabel='Cancel'
               className='px-4 py-3 border-t border-border items-center active:bg-muted'
             >
               <Text className='text-primary dark:text-primary font-medium'>

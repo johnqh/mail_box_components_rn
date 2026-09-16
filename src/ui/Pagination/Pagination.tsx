@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -169,7 +170,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       {/* First button */}
       {showFirstLast && (
         <Pressable
-          onPress={handleFirst}
+          {...pressProps(handleFirst, currentPage === 1)}
           disabled={currentPage === 1}
           className={navButtonClasses(currentPage === 1)}
           accessibilityRole='button'
@@ -184,7 +185,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {/* Previous button */}
       <Pressable
-        onPress={handlePrevious}
+        {...pressProps(handlePrevious, currentPage === 1)}
         disabled={currentPage === 1}
         className={navButtonClasses(currentPage === 1)}
         accessibilityRole='button'
@@ -213,7 +214,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         return (
           <Pressable
             key={page}
-            onPress={() => onPageChange(page)}
+            {...pressProps(() => onPageChange(page))}
             className={pageButtonClasses(isActive)}
             accessibilityRole='button'
             accessibilityLabel={`Go to page ${page}`}
@@ -233,7 +234,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {/* Next button */}
       <Pressable
-        onPress={handleNext}
+        {...pressProps(handleNext, currentPage === totalPages)}
         disabled={currentPage === totalPages}
         className={navButtonClasses(currentPage === totalPages)}
         accessibilityRole='button'
@@ -248,7 +249,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       {/* Last button */}
       {showFirstLast && (
         <Pressable
-          onPress={handleLast}
+          {...pressProps(handleLast, currentPage === totalPages)}
           disabled={currentPage === totalPages}
           className={navButtonClasses(currentPage === totalPages)}
           accessibilityRole='button'

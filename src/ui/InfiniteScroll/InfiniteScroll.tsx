@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface InfiniteScrollProps<T> {
   /** Data items to render */
@@ -171,7 +172,7 @@ export function InfiniteScroll<T>({
       {/* Scroll to top button */}
       {showScrollTop && showScrollTopButton && (
         <Pressable
-          onPress={scrollToTop}
+          {...pressProps(scrollToTop)}
           className={cn(
             'absolute bottom-4 right-4',
             'w-12 h-12 rounded-full',

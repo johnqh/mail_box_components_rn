@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { colors, getCardVariantColors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface InternalLinkProps {
   to: string;
@@ -25,7 +26,7 @@ export const InternalLink: React.FC<InternalLinkProps> = ({
   onPress,
 }) => (
   <Pressable
-    onPress={() => onPress?.(to)}
+    {...pressProps(() => onPress?.(to))}
     accessibilityRole='link'
     accessibilityLabel={
       typeof children === 'string' ? `Navigate to ${children}` : undefined

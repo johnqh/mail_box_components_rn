@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { statusIndicatorColors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface AvatarProps {
   /** Image source URL */
@@ -149,7 +150,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         accessibilityRole='button'
         accessibilityLabel={alt}
       >

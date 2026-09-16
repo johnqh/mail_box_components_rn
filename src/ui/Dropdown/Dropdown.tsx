@@ -4,6 +4,7 @@ import { View, Pressable, Text, TouchableWithoutFeedback } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -106,7 +107,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   return (
     <View className={cn('relative', className)} ref={triggerRef}>
       <Pressable
-        onPress={handleOpen}
+        {...pressProps(handleOpen)}
         className={cn(
           variant === 'bordered' && 'border border-border rounded-md px-3 py-2'
         )}
@@ -122,7 +123,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         animationType='fade'
         onRequestClose={handleClose}
       >
-        <TouchableWithoutFeedback onPress={handleClose}>
+        <TouchableWithoutFeedback {...pressProps(handleClose)}>
           <View className='flex-1'>
             <View
               style={menuStyle}
@@ -138,7 +139,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 ) : (
                   <Pressable
                     key={item.id}
-                    onPress={() => handleItemPress(item)}
+                    {...pressProps(() => handleItemPress(item), item.disabled)}
                     disabled={item.disabled}
                     className={cn(
                       'flex-row items-center gap-2 px-4 py-2.5',

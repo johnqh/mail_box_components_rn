@@ -12,6 +12,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface TextInputModalProps {
   /** Modal visibility */
@@ -131,7 +132,9 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
       animationType='fade'
       onRequestClose={isLoading ? undefined : handleCancel}
     >
-      <TouchableWithoutFeedback onPress={isLoading ? undefined : handleCancel}>
+      <TouchableWithoutFeedback
+        {...pressProps(isLoading ? undefined : handleCancel)}
+      >
         <View className='flex-1 justify-center px-4 bg-black/50'>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -178,7 +181,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                 {/* Footer */}
                 <View className='flex-row gap-2 p-4 border-t border-border'>
                   <Pressable
-                    onPress={handleCancel}
+                    {...pressProps(handleCancel, isLoading)}
                     disabled={isLoading}
                     className={cn(
                       'flex-1 items-center py-2',
@@ -189,6 +192,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     )}
                     accessibilityRole='button'
                     accessibilityLabel={cancelText}
+                    accessibilityState={{ disabled: isLoading }}
                   >
                     <Text className='text-sm text-muted-foreground'>
                       {cancelText}
@@ -196,7 +200,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                   </Pressable>
 
                   <Pressable
-                    onPress={handleSubmit}
+                    {...pressProps(handleSubmit, !canSubmit || isLoading)}
                     disabled={!canSubmit || isLoading}
                     className={cn(
                       'flex-1 items-center py-2',
@@ -207,6 +211,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     )}
                     accessibilityRole='button'
                     accessibilityLabel={confirmText}
+                    accessibilityState={{ disabled: !canSubmit || isLoading }}
                   >
                     <Text className='text-sm text-white font-medium'>
                       {isLoading ? loadingText : confirmText}

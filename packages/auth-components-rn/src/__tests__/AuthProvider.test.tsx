@@ -9,6 +9,19 @@ import {
 
 // Mock @sudobility/components-rn (imported by child components)
 jest.mock('@sudobility/components-rn', () => ({
+  // Both activation routes, as the real module returns them — a stub would
+  // make this suite pass while macOS could not operate the component.
+  pressProps: function (onPress, disabled) {
+    return {
+      onPress: onPress,
+      onAccessibilityTap:
+        !onPress || disabled
+          ? undefined
+          : function () {
+              onPress(undefined);
+            },
+    };
+  },
   cn: function () {
     var args = Array.prototype.slice.call(arguments);
     return args.filter(Boolean).join(' ');

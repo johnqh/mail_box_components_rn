@@ -4,6 +4,7 @@ import { View, Text, Pressable, Animated } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface TooltipProps {
   /** Content to display in the tooltip */
@@ -190,7 +191,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         animationType='none'
         onRequestClose={hideTooltip}
       >
-        <Pressable className='flex-1' onPress={hideTooltip}>
+        <Pressable className='flex-1' {...pressProps(hideTooltip)}>
           <Animated.View
             style={[
               {

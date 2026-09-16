@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -121,7 +122,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 
         {/* Title button */}
         <Pressable
-          onPress={handleSectionPress}
+          {...pressProps(handleSectionPress)}
           className='flex-1 py-4 pl-4 pr-2'
           accessibilityRole='button'
           accessibilityLabel={title}
@@ -143,7 +144,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
         {/* Expand/collapse button */}
         {hasSubsections && (
           <Pressable
-            onPress={handleToggle}
+            {...pressProps(handleToggle)}
             className='p-2 rounded-md'
             accessibilityRole='button'
             accessibilityLabel={isExpanded ? 'Collapse' : 'Expand'}
@@ -168,7 +169,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               )}
 
               <Pressable
-                onPress={() => onSubsectionSelect?.(subsection.id, id)}
+                {...pressProps(() => onSubsectionSelect?.(subsection.id, id))}
                 className='py-2 pl-4 pr-3'
                 accessibilityRole='button'
                 accessibilityLabel={subsection.title}

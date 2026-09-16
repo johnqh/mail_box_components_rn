@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 import { getStatusIndicatorColor, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export type SystemStatus = 'operational' | 'degraded' | 'major-outage';
 
@@ -73,7 +74,7 @@ export const SystemStatusIndicator: React.FC<SystemStatusIndicatorProps> = ({
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} accessibilityRole='button'>
+      <Pressable {...pressProps(onPress)} accessibilityRole='button'>
         {content}
       </Pressable>
     );

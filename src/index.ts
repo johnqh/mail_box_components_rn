@@ -7,6 +7,14 @@
 export { cn } from './lib/utils';
 export { MIN_TOUCH_TARGET, touchSlop } from './lib/touch-target';
 export type { HitSlop } from './lib/touch-target';
+/*
+  Exported because the sibling packages under `packages/` draw their own
+  touchables and need the same pair of activation props. Ten copies of a
+  four-line function is ten places for the macOS half to be forgotten, which is
+  the whole failure this helper exists to prevent.
+*/
+export { accessibilityTap, pressProps } from './lib/a11y';
+export type { PressHandler, PressProps } from './lib/a11y';
 
 // UI Components - Core
 export * from './ui/Banner';

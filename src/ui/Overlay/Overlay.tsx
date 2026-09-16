@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface OverlayProps {
   /** Whether overlay is visible */
@@ -56,7 +57,7 @@ export const Overlay: React.FC<OverlayProps> = ({
         <Pressable
           style={StyleSheet.absoluteFill}
           className={cn(opacityClasses[opacity], className)}
-          onPress={onClose}
+          {...pressProps(onClose)}
           accessibilityRole='button'
           accessibilityLabel='Close overlay'
         />

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface NumberInputProps {
   /** Current value */
@@ -134,10 +135,11 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     ariaLabel: string;
   }) => (
     <Pressable
-      onPress={onPress}
+      {...pressProps(onPress, disabled || buttonDisabled)}
       disabled={disabled || buttonDisabled}
       accessibilityRole='button'
       accessibilityLabel={ariaLabel}
+      accessibilityState={{ disabled: disabled || buttonDisabled }}
       className={cn(
         'items-center justify-center',
         'border border-border',
@@ -210,10 +212,11 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         />
         <View className='flex flex-col gap-0.5'>
           <Pressable
-            onPress={increment}
+            {...pressProps(increment, disabled || !canIncrement)}
             disabled={disabled || !canIncrement}
             accessibilityRole='button'
             accessibilityLabel='Increment'
+            accessibilityState={{ disabled: disabled || !canIncrement }}
             className={cn(
               'flex-1 items-center justify-center',
               'rounded border border-border',
@@ -225,10 +228,11 @@ export const NumberInput: React.FC<NumberInputProps> = ({
             <Text className='text-muted-foreground text-xs'>+</Text>
           </Pressable>
           <Pressable
-            onPress={decrement}
+            {...pressProps(decrement, disabled || !canDecrement)}
             disabled={disabled || !canDecrement}
             accessibilityRole='button'
             accessibilityLabel='Decrement'
+            accessibilityState={{ disabled: disabled || !canDecrement }}
             className={cn(
               'flex-1 items-center justify-center',
               'rounded border border-border',

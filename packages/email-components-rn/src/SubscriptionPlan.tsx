@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { getCardVariantColors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface SubscriptionPlanProps extends ViewProps {
   disabled?: boolean;
@@ -22,7 +23,7 @@ export const SubscriptionPlan: React.FC<SubscriptionPlanProps> = ({
 }) => {
   return (
     <Pressable
-      onPress={disabled ? undefined : onPress}
+      {...pressProps(disabled ? undefined : onPress, disabled)}
       disabled={disabled}
       accessibilityRole='button'
       accessibilityLabel='Subscription Plan'

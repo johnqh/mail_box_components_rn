@@ -16,6 +16,7 @@ import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
 import { colors, designTokens } from '@sudobility/design';
 import { optionsFromChildren } from './SelectComposition';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -147,7 +148,10 @@ export const Select: React.FC<SelectProps> = ({
 
   const renderOption = ({ item }: { item: SelectOption; index: number }) => (
     <Pressable
-      onPress={() => !item.disabled && handleSelect(item.value)}
+      {...pressProps(
+        () => !item.disabled && handleSelect(item.value),
+        item.disabled
+      )}
       disabled={item.disabled}
       className={cn(
         'px-4 py-3 border-b border-border',
@@ -181,9 +185,10 @@ export const Select: React.FC<SelectProps> = ({
       {/* Trigger */}
       <View ref={triggerRef} collapsable={false}>
         <Pressable
-          onPress={
-            isDesktop ? handleDesktopPress : () => !disabled && setIsOpen(true)
-          }
+          {...pressProps(
+            isDesktop ? handleDesktopPress : () => !disabled && setIsOpen(true),
+            disabled
+          )}
           disabled={disabled}
           className={cn('bg-card', disabled && 'opacity-50', className)}
           style={{
@@ -237,7 +242,7 @@ export const Select: React.FC<SelectProps> = ({
             <SafeAreaView className='bg-card rounded-t-xl'>
               {/* Header */}
               <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-border'>
-                <Pressable onPress={() => setIsOpen(false)}>
+                <Pressable {...pressProps(() => setIsOpen(false))}>
                   <Text className={cn('text-primary', typography.size.base)}>
                     Cancel
                   </Text>

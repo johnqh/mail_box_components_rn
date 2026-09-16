@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface FloatingPanelProps {
   /** Panel content */
@@ -76,7 +77,7 @@ export const FloatingPanel: React.FC<FloatingPanelProps> = ({
           <View className='flex-row items-center gap-2'>
             {collapsible && (
               <Pressable
-                onPress={() => setIsCollapsed(!isCollapsed)}
+                {...pressProps(() => setIsCollapsed(!isCollapsed))}
                 className='p-1 active:bg-muted rounded'
                 accessibilityRole='button'
                 accessibilityLabel={isCollapsed ? 'Expand' : 'Collapse'}
@@ -94,7 +95,7 @@ export const FloatingPanel: React.FC<FloatingPanelProps> = ({
 
             {closeable && (
               <Pressable
-                onPress={onClose}
+                {...pressProps(onClose)}
                 className='p-1 active:bg-muted rounded'
                 accessibilityRole='button'
                 accessibilityLabel='Close'

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { ui, designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface TableColumn<T> {
   /** Column key */
@@ -107,7 +108,10 @@ export function Table<T extends Record<string, unknown>>({
           {columns.map(column => (
             <Pressable
               key={column.key}
-              onPress={() => column.sortable && handleSort(column)}
+              {...pressProps(
+                () => column.sortable && handleSort(column),
+                !column.sortable
+              )}
               disabled={!column.sortable}
               className={cn(
                 compact ? 'px-3 py-2' : 'px-4 py-3',
@@ -156,14 +160,14 @@ export function Table<T extends Record<string, unknown>>({
             data.map((row, rowIndex) => (
               <Pressable
                 key={keyExtractor(row, rowIndex)}
-                onPress={() => onRowPress?.(row, rowIndex)}
+                {...pressProps(() => onRowPress?.(row, rowIndex), !onRowPress)}
                 disabled={!onRowPress}
                 className={cn(
                   'flex-row',
                   'border-b border-border',
                   striped && rowIndex % 2 === 1 && ui.table.trAlt
                 )}
-                accessibilityRole='button'
+                accessibilityRole={onRowPress ? 'button' : 'none'}
               >
                 {columns.map(column => (
                   <View

@@ -10,6 +10,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface PopupSelectOption {
   label: string;
@@ -86,9 +87,14 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
     return (
       <TouchableOpacity
         style={[styles.optionItem, isSelected && styles.optionItemSelected]}
-        onPress={() => !item.disabled && handleSelect(item.value)}
+        {...pressProps(
+          () => !item.disabled && handleSelect(item.value),
+          item.disabled
+        )}
         disabled={item.disabled}
         activeOpacity={0.7}
+        accessibilityRole='menuitem'
+        accessibilityState={{ selected: isSelected, disabled: item.disabled }}
       >
         <Text
           style={[
@@ -112,8 +118,10 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
           disabled && styles.triggerDisabled,
           triggerStyle,
         ]}
-        onPress={() => !disabled && setModalVisible(true)}
+        {...pressProps(() => !disabled && setModalVisible(true), disabled)}
         activeOpacity={0.7}
+        accessibilityRole='combobox'
+        accessibilityState={{ disabled, expanded: modalVisible }}
       >
         <Text
           style={[
@@ -138,7 +146,7 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
             <Text style={styles.modalTitle}>{title}</Text>
             <Pressable
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
+              {...pressProps(() => setModalVisible(false))}
             >
               <Text style={styles.closeButtonText}>Done</Text>
             </Pressable>

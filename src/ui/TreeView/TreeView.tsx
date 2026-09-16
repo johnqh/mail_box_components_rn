@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useCallback } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface TreeNode {
   /** Node ID */
@@ -107,7 +108,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
       <View key={node.id}>
         {/* Node item */}
         <Pressable
-          onPress={() => handleSelect(node)}
+          {...pressProps(() => handleSelect(node), node.disabled)}
           disabled={node.disabled}
           className={cn(
             'flex-row items-center gap-2 px-2 py-1.5 rounded-md',
@@ -122,7 +123,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
           {/* Expand/collapse button */}
           {hasChildren ? (
             <Pressable
-              onPress={() => toggleExpand(node.id)}
+              {...pressProps(() => toggleExpand(node.id))}
               className='w-4 h-4 items-center justify-center active:bg-muted rounded'
               hitSlop={8}
               accessibilityRole='button'

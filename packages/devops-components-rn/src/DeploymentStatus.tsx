@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export type DeploymentState =
   | 'pending'
@@ -142,7 +143,7 @@ export const DeploymentStatus: React.FC<DeploymentStatusProps> = ({
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} accessibilityRole='button'>
+      <Pressable {...pressProps(onPress)} accessibilityRole='button'>
         {content}
       </Pressable>
     );

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface PromotionalBannerProps {
   /** Banner title */
@@ -88,7 +89,7 @@ export const PromotionalBanner: React.FC<PromotionalBannerProps> = ({
 
           {/* CTA Button -- success button from DS */}
           <Pressable
-            onPress={onButtonPress}
+            {...pressProps(onButtonPress)}
             className={cn(
               'bg-success  rounded-lg',
               'flex-row items-center',

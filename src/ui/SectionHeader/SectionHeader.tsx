@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface SectionHeaderProps {
   /** The header text/title */
@@ -53,7 +54,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           {actions}
           {onAdd && (
             <Pressable
-              onPress={onAdd}
+              {...pressProps(onAdd)}
               className='p-2 rounded active:bg-muted'
               accessibilityRole='button'
               accessibilityLabel={addButtonLabel}

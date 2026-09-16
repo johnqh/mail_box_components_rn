@@ -12,6 +12,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -225,7 +226,10 @@ export const Sheet: React.FC<SheetProps> = ({
   return (
     <ModalHost visible={isOpen} animationType='none' onRequestClose={onClose}>
       {/* Backdrop */}
-      <Pressable onPress={onClose} className='absolute inset-0 bg-black/50' />
+      <Pressable
+        {...pressProps(onClose)}
+        className='absolute inset-0 bg-black/50'
+      />
 
       {/* Sheet */}
       <Animated.View
@@ -288,7 +292,7 @@ export const Sheet: React.FC<SheetProps> = ({
                 </View>
                 {showCloseButton && (
                   <Pressable
-                    onPress={onClose}
+                    {...pressProps(onClose)}
                     className='ml-4 p-1'
                     accessibilityRole='button'
                     accessibilityLabel='Close sheet'

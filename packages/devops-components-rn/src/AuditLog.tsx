@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export type AuditActionType =
   | 'create'
@@ -207,7 +208,7 @@ export const AuditLog: React.FC<AuditLogProps> = ({
             return (
               <Pressable
                 key={entry.id}
-                onPress={() => onEntryPress(entry)}
+                {...pressProps(() => onEntryPress(entry))}
                 accessibilityRole='button'
               >
                 {content}

@@ -12,6 +12,7 @@ import { View, Text, Pressable, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from '../../lib/utils';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 // Split DS alert colors for RN (Views don't cascade text color)
 function splitAlertClasses(base: string, dark: string) {
@@ -159,7 +160,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
           </Text>
         )}
         {action && (
-          <Pressable onPress={action.onPress} className='mt-2'>
+          <Pressable {...pressProps(action.onPress)} className='mt-2'>
             <Text className='text-sm font-medium text-primary'>
               {action.label}
             </Text>
@@ -168,7 +169,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
       </View>
 
       <Pressable
-        onPress={() => onRemove(id)}
+        {...pressProps(() => onRemove(id))}
         className='flex-shrink-0 p-1'
         accessibilityRole='button'
         accessibilityLabel='Close notification'

@@ -311,6 +311,55 @@ Some components have additional shared logic files (e.g., `Button/Button.shared.
 - Interactive elements use `Pressable` (not `TouchableOpacity`) for accessibility
 - The `VisuallyHidden` component is available for screen-reader-only content
 
+**A touchable wires `onPress` and `onAccessibilityTap`, always — spread
+`pressProps` from `lib/a11y` rather than writing `onPress` yourself.** On
+react-native-macos an assistive activation (VoiceOver's Control-Option-Space,
+Switch Control, Voice Control) arrives as **`onAccessibilityTap`** and *not* as
+`onPress`: there is no synthesized touch behind it. iOS VoiceOver happens to
+fall back to a synthesized press when the prop is absent, which is why the gap
+is invisible until somebody runs the app on a Mac — and there the control
+announces itself, takes focus, and then does nothing at all when activated. It
+was found that way, in a consumer's instrument, clef and track pickers, after
+207 touchables across this repo had shipped with `onPress` alone — 129 here and
+78 in `packages/` — and `Button` was the only one that had it.
+`pressProps(handler, disabled)` returns the pair from
+**one** handler, which is the point: written as two props they are two copies of
+the same expression, and the day one is edited is the day macOS stops matching
+the mouse. It withholds the tap when `disabled`, because `disabled` on the
+touchable suppresses `onPress` and suppresses nothing else — a disabled control
+would otherwise stay operable by assistive technology. Whatever guards the
+pointer must therefore guard the tap: `accessibilityState` has to report
+`disabled`/`selected`/`checked` too, or the control announces itself as
+available while it is not.
+
+`src/__tests__/accessibility-tap-guard.test.ts` fails on any touchable carrying
+`onPress` without `onAccessibilityTap`. The only way past it is a
+`/* no-a11y-tap: <reason> */` comment **inside that tag**, which seven modal
+panels use — five here, two in `entity-components-rn` — because they swallow a
+press so it does not reach the scrim behind them, and that needs the gesture an
+assistive activation does not have. A bare `no-a11y-tap` with no reason is not
+an exemption.
+
+**The rule and the guard cover `packages/*` too.** Every sibling package has the
+same guard under its own `src/__tests__/`, all of them calling
+`scanTouchables` from **`jest.touchable-scan.cjs` at the repo root** — one
+scanner, because a check against a repeated mistake that is itself repeated ten
+times drifts like everything else. The eight packages that already depend on
+`@sudobility/components-rn` import `pressProps` from it, which is why it is part
+of that package's public API; `social-components-rn` depends on React Native and
+`clsx` alone and keeps a documented **copy** in `src/a11y.ts` rather than taking
+a component library as a dependency for four lines.
+`analytics-components-rn` is still a placeholder with no components, so its
+guard pins no count — it is there for the first touchable somebody adds.
+
+**The scanner parses; it does not pattern-match, and that is not fussiness.**
+The first version blanked comments and string literals with a hand-written
+scanner so a `<Pressable onPress>` inside a JSDoc `@example` would not be read
+as a real one — then took the apostrophe in JSX text ("we'll send you a link")
+for the start of a string literal and blanked the **rest of the file**, hiding
+two genuinely broken touchables in `auth-components-rn/ForgotPasswordForm.tsx`.
+A guard that silently stops looking is worse than no guard.
+
 ### React Native Adaptations (from web)
 
 | Web | React Native |

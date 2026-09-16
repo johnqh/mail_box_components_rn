@@ -10,6 +10,7 @@ import {
 import { cn } from '@sudobility/components-rn';
 import { colors } from '@sudobility/design';
 import { WalletIcon, type WalletProvider } from './WalletIcon';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface WalletOption {
   id: string;
@@ -53,7 +54,7 @@ export const WalletSelectionButton: React.FC<WalletSelectionButtonProps> = ({
 
   return (
     <Pressable
-      onPress={wallet.onPress}
+      {...pressProps(wallet.onPress, isDisabled)}
       disabled={isDisabled}
       accessibilityRole='button'
       accessibilityLabel={`Connect ${wallet.name} wallet for ${wallet.chainType === 'solana' ? 'Solana' : 'Ethereum'} network`}
@@ -116,7 +117,7 @@ export const WalletTab: React.FC<WalletTabProps> = ({
 }) => {
   return (
     <Pressable
-      onPress={onPress}
+      {...pressProps(onPress)}
       accessibilityRole='tab'
       accessibilityState={{ selected: active }}
       className={cn(
@@ -245,7 +246,7 @@ export const WalletSelectionGrid: React.FC<WalletSelectionGridProps> = ({
         <Text className='text-sm text-muted-foreground'>
           {finalLabels.noWalletText}{' '}
         </Text>
-        <Pressable onPress={handleInstallPress} accessibilityRole='link'>
+        <Pressable {...pressProps(handleInstallPress)} accessibilityRole='link'>
           <Text
             className={cn(
               'text-sm font-medium',

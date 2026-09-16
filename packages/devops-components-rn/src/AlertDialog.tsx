@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 type AlertVariant = 'default' | 'danger' | 'warning' | 'success';
 
@@ -135,9 +136,10 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
           <View className='flex-row gap-3 px-6 py-4 bg-card/50 rounded-b-lg'>
             {showCancel && (
               <Pressable
-                onPress={onClose}
+                {...pressProps(onClose, loading)}
                 disabled={loading}
                 accessibilityRole='button'
+                accessibilityState={{ disabled: loading }}
                 className={cn(
                   'flex-1 px-4 py-2 rounded-md border',
                   'bg-card',
@@ -152,9 +154,10 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
             )}
 
             <Pressable
-              onPress={handleConfirm}
+              {...pressProps(handleConfirm, confirmDisabled || loading)}
               disabled={confirmDisabled || loading}
               accessibilityRole='button'
+              accessibilityState={{ disabled: confirmDisabled || loading }}
               className={cn(
                 'flex-1 px-4 py-2 rounded-md',
                 styles.button,

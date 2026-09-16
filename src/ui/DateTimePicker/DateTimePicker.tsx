@@ -5,6 +5,7 @@ import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { Calendar } from '../Calendar';
 import { TimePicker } from '../TimePicker';
+import { pressProps } from '../../lib/a11y';
 
 export interface DateTimePickerProps {
   /** Date time value */
@@ -126,7 +127,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
     <View className={cn('w-full', className)}>
       {/* Trigger Button */}
       <Pressable
-        onPress={() => !disabled && handleOpen()}
+        {...pressProps(() => !disabled && handleOpen(), disabled)}
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-3 py-2',
@@ -149,7 +150,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
         animationType='fade'
         onRequestClose={handleClose}
       >
-        <TouchableWithoutFeedback onPress={handleClose}>
+        <TouchableWithoutFeedback {...pressProps(handleClose)}>
           <View className='flex-1 justify-center px-4 bg-black/50'>
             <TouchableWithoutFeedback>
               <View className='bg-background rounded-lg p-4 shadow-xl'>
@@ -185,7 +186,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                 {/* Actions */}
                 <View className='flex-row gap-2 pt-4 mt-4 border-t border-border'>
                   <Pressable
-                    onPress={handleClose}
+                    {...pressProps(handleClose)}
                     className={cn(
                       'flex-1 items-center py-2',
                       'bg-muted',
@@ -200,7 +201,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                     </Text>
                   </Pressable>
                   <Pressable
-                    onPress={handleConfirm}
+                    {...pressProps(handleConfirm)}
                     className={cn(
                       'flex-1 items-center py-2',
                       'bg-primary dark:bg-primary',

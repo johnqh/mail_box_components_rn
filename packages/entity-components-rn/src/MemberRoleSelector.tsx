@@ -3,6 +3,7 @@ import { View, Text, Pressable, Modal } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import type { MemberRoleSelectorProps, EntityRole } from './types';
 import { DEFAULT_ROLE_CONFIGS } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get role badge color classes
@@ -59,7 +60,7 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
     <View className={className} style={style} testID={testID}>
       {/* Trigger Button */}
       <Pressable
-        onPress={handleOpen}
+        {...pressProps(handleOpen, disabled)}
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-4 py-3 rounded-xl',
@@ -103,10 +104,11 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
         onRequestClose={handleClose}
       >
         <Pressable
-          onPress={handleClose}
+          {...pressProps(handleClose)}
           className='flex-1 bg-black/50 justify-center px-4'
         >
           <Pressable
+            /* no-a11y-tap: swallows a press on the panel so it does not reach the scrim behind it. Not a control, and there is no gesture behind an assistive activation to stop. */
             onPress={e => e.stopPropagation()}
             className='bg-card rounded-2xl overflow-hidden'
           >
@@ -121,7 +123,7 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
             {availableConfigs.map(config => (
               <Pressable
                 key={config.role}
-                onPress={() => handleSelect(config.role)}
+                {...pressProps(() => handleSelect(config.role))}
                 className={cn(
                   'px-4 py-4 border-b border-border',
                   selectedRole === config.role && 'bg-primary/10',
@@ -162,7 +164,9 @@ export const MemberRoleSelector: React.FC<MemberRoleSelectorProps> = ({
 
             {/* Cancel Button */}
             <Pressable
-              onPress={handleClose}
+              {...pressProps(handleClose)}
+              accessibilityRole='button'
+              accessibilityLabel='Cancel'
               className='px-4 py-3 items-center active:bg-muted'
             >
               <Text className='text-primary dark:text-primary font-medium'>

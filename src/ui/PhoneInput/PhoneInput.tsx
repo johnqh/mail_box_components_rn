@@ -11,6 +11,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface Country {
   /** Country code (ISO 3166-1 alpha-2) */
@@ -147,7 +148,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
       <View className='flex-row gap-2'>
         {/* Country selector */}
         <Pressable
-          onPress={() => !disabled && setIsOpen(true)}
+          {...pressProps(() => !disabled && setIsOpen(true), disabled)}
           disabled={disabled}
           className={cn(
             'flex-row items-center gap-2 px-3 py-2 min-w-[120px]',
@@ -158,6 +159,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           )}
           accessibilityRole='button'
           accessibilityLabel='Select country'
+          accessibilityState={{ disabled, expanded: isOpen }}
         >
           <Text className='text-xl'>{selectedCountry?.flag}</Text>
           <Text className='text-sm font-medium text-foreground'>
@@ -197,7 +199,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         animationType='slide'
         onRequestClose={() => setIsOpen(false)}
       >
-        <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+        <TouchableWithoutFeedback {...pressProps(() => setIsOpen(false))}>
           <View className='flex-1 justify-end bg-black/50'>
             <TouchableWithoutFeedback>
               <View className='bg-background rounded-t-xl max-h-[70%]'>
@@ -224,7 +226,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                     filteredCountries.map(country => (
                       <Pressable
                         key={country.code}
-                        onPress={() => handleCountrySelect(country.code)}
+                        {...pressProps(() => handleCountrySelect(country.code))}
                         className={cn(
                           'flex-row items-center gap-3 px-4 py-3',
                           'active:bg-muted',
@@ -248,7 +250,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                 {/* Done button */}
                 <View className='p-3 border-t border-border'>
                   <Pressable
-                    onPress={() => setIsOpen(false)}
+                    {...pressProps(() => setIsOpen(false))}
                     className='items-center py-3'
                     accessibilityRole='button'
                   >

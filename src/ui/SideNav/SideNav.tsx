@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -49,7 +50,7 @@ export const SideNav: React.FC<SideNavProps> = ({ items, className }) => {
       {items.map(item => (
         <Pressable
           key={item.id}
-          onPress={item.onPress}
+          {...pressProps(item.onPress)}
           className={cn(
             'flex-row items-center gap-3 px-4 py-3 rounded-lg',
             item.active ? 'bg-primary/10' : 'active:bg-muted'

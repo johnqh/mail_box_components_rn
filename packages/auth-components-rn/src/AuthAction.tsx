@@ -9,6 +9,7 @@ import { textVariants, colors } from '@sudobility/design';
 import type { AuthActionProps } from './types';
 import { useAuthStatus } from './AuthProvider';
 import { Avatar } from './Avatar';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Authentication action component for app headers
@@ -92,7 +93,7 @@ export const AuthAction: React.FC<AuthActionProps> = ({
       )}
 
       <Pressable
-        onPress={handleLogoutPress}
+        {...pressProps(handleLogoutPress)}
         className={cn(
           colors.component.button.secondary.base,
           colors.component.button.secondary.dark,

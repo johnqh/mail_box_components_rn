@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface SearchInputProps extends Omit<TextInputProps, 'onChange'> {
   /** Current search query */
@@ -145,11 +146,12 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       {/* Clear Button or Loading Spinner */}
       {showClear && value && !loading && (
         <Pressable
-          onPress={handleClear}
+          {...pressProps(handleClear, disabled)}
           disabled={disabled}
           className='absolute inset-y-0 right-0 flex items-center justify-center pr-3'
           accessibilityRole='button'
           accessibilityLabel='Clear search'
+          accessibilityState={{ disabled }}
         >
           <Text className={cn(sizeConfig.icon, 'text-muted-foreground')}>
             ✕

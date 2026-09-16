@@ -3,6 +3,7 @@ import { View, Text, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { ChainBadge } from '@sudobility/components-rn';
 import { colors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface EmailAccount {
   address: string;
@@ -103,7 +104,7 @@ const CollapsibleDomainEmails: React.FC<CollapsibleDomainEmailsProps> = ({
       {domainEmails.map(email => (
         <Pressable
           key={email.address}
-          onPress={() => onAccountSelect(email.address)}
+          {...pressProps(() => onAccountSelect(email.address))}
           accessibilityRole='button'
           className={cn(
             'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
@@ -149,7 +150,7 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
       {walletGroups.map(group => (
         <View key={group.walletAddress}>
           <Pressable
-            onPress={() => onAccountSelect(group.primaryEmail.address)}
+            {...pressProps(() => onAccountSelect(group.primaryEmail.address))}
             accessibilityRole='button'
             className={cn(
               'w-full flex-row items-center justify-between px-3 py-2 rounded-lg',
@@ -178,7 +179,7 @@ export const EmailAccountsList: React.FC<EmailAccountsListProps> = ({
             </View>
             {group.domainEmails.length > 0 && (
               <Pressable
-                onPress={() => onToggleWallet(group.walletAddress)}
+                {...pressProps(() => onToggleWallet(group.walletAddress))}
                 accessibilityRole='button'
                 className='p-1 rounded-lg active:bg-muted '
               >

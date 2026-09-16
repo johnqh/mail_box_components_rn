@@ -29,6 +29,7 @@ jest.mock('@sudobility/design', () => ({
   getCalloutVariantColors: () => ({ background: '', text: '' }),
   getSectionBadgeColors: () => ({ container: '', icon: '' }),
   getStatusIndicatorColor: () => '',
+  statusIndicatorColors: createDeepProxy(),
   getColorClasses: () => '',
   buildColorClass: () => '',
   buttonVariant: () => '',
@@ -44,6 +45,20 @@ jest.mock('@sudobility/design', () => ({
 // jest.mock() in individual test files if they need more specific mocks.
 jest.mock('@sudobility/components-rn', () => ({
   cn: (...args) => args.filter(Boolean).join(' '),
+  /*
+    Real implementations, not fakes: `pressProps` is what wires both activation
+    routes on every touchable in every sibling package, so a stub here would
+    make each package's accessibility-tap tests prove nothing about what ships.
+    Kept in step with `src/lib/a11y.ts` by those tests — they fail if this
+    returns anything else.
+  */
+  accessibilityTap: (onPress, disabled) =>
+    !onPress || disabled ? undefined : () => onPress(undefined),
+  pressProps: (onPress, disabled) => ({
+    onPress: onPress ?? undefined,
+    onAccessibilityTap:
+      !onPress || disabled ? undefined : () => onPress(undefined),
+  }),
 }));
 
 // Mock NativeWind

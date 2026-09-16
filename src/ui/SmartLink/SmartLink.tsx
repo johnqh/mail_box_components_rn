@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, Pressable, Linking, Alert } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -127,7 +128,7 @@ export const SmartLink: React.FC<SmartLinkProps> = ({
 
   return (
     <Pressable
-      onPress={handlePress}
+      {...pressProps(handlePress, disabled)}
       disabled={disabled}
       accessibilityRole='link'
       accessibilityLabel={typeof children === 'string' ? children : undefined}

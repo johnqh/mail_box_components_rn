@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, Pressable, type ViewProps } from 'react-native';
 import { cn, Card } from '@sudobility/components-rn';
 import { colors, textVariants } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface ContactCardProps extends Omit<ViewProps, 'role'> {
   name: string;
@@ -60,7 +61,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className={cn('active:opacity-80', className)}
         accessibilityRole='button'
         accessibilityLabel={`Contact ${name}`}

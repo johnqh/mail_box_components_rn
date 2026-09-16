@@ -1,6 +1,7 @@
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import type { TierComparisonTableProps, TierDisplayData } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Format large numbers with K/M suffixes
@@ -143,7 +144,7 @@ function TierCard({
   if (onSelect && !isCurrent) {
     return (
       <Pressable
-        onPress={onSelect}
+        {...pressProps(onSelect)}
         className='active:opacity-90 mb-4'
         accessibilityRole='button'
         accessibilityLabel={'Select ' + name + ' plan'}

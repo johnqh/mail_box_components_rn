@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from './utils';
+import { pressProps } from './a11y';
 
 export interface RatingStarsProps {
   /** Current rating value (0-5) */
@@ -140,7 +141,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
           return (
             <Pressable
               key={starIndex}
-              onPress={() => handlePress(starIndex)}
+              {...pressProps(() => handlePress(starIndex), readonly)}
               disabled={readonly}
               accessibilityRole='button'
               accessibilityLabel={`Rate ${starIndex} star${starIndex !== 1 ? 's' : ''}`}

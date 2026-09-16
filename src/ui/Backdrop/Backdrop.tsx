@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface BackdropProps {
   /** Whether the backdrop is visible */
@@ -60,7 +61,7 @@ export const Backdrop: React.FC<BackdropProps> = ({
   if (children) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className={cn('absolute inset-0', opacityClasses[opacity], className)}
         accessibilityRole='none'
       >
@@ -77,7 +78,7 @@ export const Backdrop: React.FC<BackdropProps> = ({
 
   return (
     <Pressable
-      onPress={onPress}
+      {...pressProps(onPress)}
       className={cn('absolute inset-0', opacityClasses[opacity], className)}
       accessibilityRole='none'
     />

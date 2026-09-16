@@ -8,6 +8,7 @@ import { cn } from '@sudobility/components-rn';
 import { textVariants, variants as v, colors } from '@sudobility/design';
 import type { EmailSignUpFormProps } from './types';
 import { useAuthStatus } from './AuthProvider';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Email sign-up form component
@@ -116,7 +117,10 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       )}
 
       <Pressable
-        onPress={handleSubmit}
+        {...pressProps(
+          handleSubmit,
+          loading || !email || !password || !confirmPassword
+        )}
         disabled={loading || !email || !password || !confirmPassword}
         className={cn(
           v.button.primary.default(),
@@ -125,6 +129,9 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
         )}
         accessibilityRole='button'
         accessibilityLabel={texts.signUp}
+        accessibilityState={{
+          disabled: loading || !email || !password || !confirmPassword,
+        }}
       >
         <Text className='font-medium text-primary-foreground'>
           {loading ? texts.loading : texts.signUp}
@@ -134,14 +141,14 @@ export const EmailSignUpForm: React.FC<EmailSignUpFormProps> = ({
       <View className='flex-row items-center justify-center gap-1'>
         <Text className={textVariants.body.sm()}>{texts.haveAccount}</Text>
         <Pressable
-          onPress={() => {
+          {...pressProps(() => {
             onTrack?.({
               action: 'switch_mode',
               trackingLabel,
               componentName,
             });
             onSwitchToSignIn();
-          }}
+          })}
           accessibilityRole='button'
         >
           <Text className={textVariants.link.subtle()}>{texts.signIn}</Text>

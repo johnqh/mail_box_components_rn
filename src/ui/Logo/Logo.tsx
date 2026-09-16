@@ -7,6 +7,7 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface LogoProps {
   /** Logo size */
@@ -97,7 +98,7 @@ export const Logo: React.FC<LogoProps> = ({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className={cn(
           'flex-row items-center',
           config.container,

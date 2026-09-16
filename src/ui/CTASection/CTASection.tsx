@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface CTAButton {
   /** Button label */
@@ -87,7 +88,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
 
   const renderButton = (button: CTAButton, isPrimary: boolean) => (
     <Pressable
-      onPress={button.onPress}
+      {...pressProps(button.onPress)}
       className={cn(
         'px-6 py-3 rounded-lg',
         isPrimary ? 'bg-white' : 'bg-white/20 border border-white/30'

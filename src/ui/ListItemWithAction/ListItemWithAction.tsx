@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface ListItemWithActionProps {
   /** Main content/text to display */
@@ -73,7 +74,7 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
       </View>
 
       <Pressable
-        onPress={onAction}
+        {...pressProps(onAction, isProcessing)}
         disabled={isProcessing}
         className={cn(
           'flex-row items-center px-3 py-1.5 rounded-md',

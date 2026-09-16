@@ -7,6 +7,7 @@ import { View, Text, Image, Pressable, type ViewProps } from 'react-native';
 import { cn } from '@sudobility/components-rn';
 import { colors, designTokens } from '@sudobility/design';
 import type { AvatarProps } from './types';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Get initials from display name or email
@@ -71,7 +72,7 @@ export const Avatar: React.FC<AvatarProps & ViewProps> = ({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className={cn('active:opacity-80', className)}
         accessibilityRole='button'
         accessibilityLabel={user.displayName || 'User avatar'}

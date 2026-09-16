@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useCallback } from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 export interface AddressLinkProps {
   /** The blockchain address to display */
@@ -158,7 +159,7 @@ export const AddressLink: React.FC<AddressLinkProps> = ({
       <View className='flex-row items-center gap-1'>
         {showCopy && onCopy && (
           <Pressable
-            onPress={handleCopy}
+            {...pressProps(handleCopy)}
             className='p-1 rounded active:bg-muted'
             accessibilityRole='button'
             accessibilityLabel={copied ? 'Copied!' : 'Copy address'}
@@ -171,7 +172,7 @@ export const AddressLink: React.FC<AddressLinkProps> = ({
 
         {showExplorer && explorerLink && (
           <Pressable
-            onPress={handleOpenExplorer}
+            {...pressProps(handleOpenExplorer)}
             className='p-1 rounded active:bg-muted'
             accessibilityRole='link'
             accessibilityLabel='View on block explorer'

@@ -8,6 +8,7 @@ import { cn } from '@sudobility/components-rn';
 import { textVariants, variants as v, colors } from '@sudobility/design';
 import type { ForgotPasswordFormProps } from './types';
 import { useAuthStatus } from './AuthProvider';
+import { pressProps } from '@sudobility/components-rn';
 
 const alertSuccess = colors.component.alert.success;
 
@@ -53,18 +54,20 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         </View>
 
         <Pressable
-          onPress={() => {
+          {...pressProps(() => {
             onTrack?.({
               action: 'switch_mode',
               trackingLabel,
               componentName,
             });
             onSwitchToSignIn();
-          }}
+          })}
           className={cn(v.button.primary.default(), 'py-3 px-4 rounded-lg')}
           accessibilityRole='button'
         >
-          <Text className='font-medium text-primary-foreground'>{texts.backToSignIn}</Text>
+          <Text className='font-medium text-primary-foreground'>
+            {texts.backToSignIn}
+          </Text>
         </Pressable>
       </View>
     );
@@ -94,7 +97,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
       {error && <Text className={textVariants.label.error()}>{error}</Text>}
 
       <Pressable
-        onPress={handleSubmit}
+        {...pressProps(handleSubmit, loading || !email)}
         disabled={loading || !email}
         className={cn(
           v.button.primary.default(),
@@ -103,6 +106,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         )}
         accessibilityRole='button'
         accessibilityLabel={texts.sendResetLink}
+        accessibilityState={{ disabled: loading || !email }}
       >
         <Text className='font-medium text-primary-foreground'>
           {loading ? texts.loading : texts.sendResetLink}
@@ -110,14 +114,14 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
       </Pressable>
 
       <Pressable
-        onPress={() => {
+        {...pressProps(() => {
           onTrack?.({
             action: 'switch_mode',
             trackingLabel,
             componentName,
           });
           onSwitchToSignIn();
-        }}
+        })}
         className='items-center py-2'
         accessibilityRole='button'
       >

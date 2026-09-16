@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { colors } from '@sudobility/design';
+import { pressProps } from '@sudobility/components-rn';
 
 export interface SegmentedControlOption<T extends string = string> {
   /** Value for this option */
@@ -81,7 +82,10 @@ export function SegmentedControl<T extends string = string>({
         return (
           <Pressable
             key={option.value}
-            onPress={() => !isDisabled && onChange(option.value)}
+            {...pressProps(
+              () => !isDisabled && onChange(option.value),
+              isDisabled
+            )}
             disabled={isDisabled}
             accessibilityRole='tab'
             accessibilityState={{

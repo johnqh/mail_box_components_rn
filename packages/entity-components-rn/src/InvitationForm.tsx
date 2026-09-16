@@ -10,6 +10,7 @@ import { cn } from '@sudobility/components-rn';
 import { colors } from '@sudobility/design';
 import type { InvitationFormProps, EntityRole } from './types';
 import { MemberRoleSelector } from './MemberRoleSelector';
+import { pressProps } from '@sudobility/components-rn';
 
 /**
  * Validate email format
@@ -129,7 +130,7 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
 
       {/* Submit Button */}
       <Pressable
-        onPress={handleSubmit}
+        {...pressProps(handleSubmit, !canSubmit)}
         disabled={!canSubmit}
         className={cn(
           'flex-row items-center justify-center px-6 py-4 rounded-xl',
@@ -144,7 +145,9 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
         {isSubmitting ? (
           <>
             <ActivityIndicator size='small' color={colors.raw.neutral[0]} />
-            <Text className='text-primary-foreground font-semibold ml-2'>Sending...</Text>
+            <Text className='text-primary-foreground font-semibold ml-2'>
+              Sending...
+            </Text>
           </>
         ) : (
           <Text

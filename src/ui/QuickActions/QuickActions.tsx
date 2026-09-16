@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -106,7 +107,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
         return (
           <Pressable
             key={action.id}
-            onPress={action.onPress}
+            {...pressProps(action.onPress, action.disabled)}
             disabled={action.disabled}
             className={cn(
               'flex-row items-center justify-center gap-2 px-4 py-3 rounded-lg border',

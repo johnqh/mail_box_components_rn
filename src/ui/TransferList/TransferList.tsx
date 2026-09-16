@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface TransferListItem {
   /** Item ID */
@@ -191,7 +192,10 @@ export const TransferList: React.FC<TransferListProps> = ({
             return (
               <Pressable
                 key={item.id}
-                onPress={() => !item.disabled && !disabled && onToggle(item.id)}
+                {...pressProps(
+                  () => !item.disabled && !disabled && onToggle(item.id),
+                  item.disabled || disabled
+                )}
                 disabled={item.disabled || disabled}
                 className={cn(
                   'mx-2 my-1 px-3 py-2 rounded-md',
@@ -256,7 +260,7 @@ export const TransferList: React.FC<TransferListProps> = ({
       {/* Transfer buttons */}
       <View className='justify-center gap-2'>
         <Pressable
-          onPress={moveAllToTarget}
+          {...pressProps(moveAllToTarget, disabled || source.length === 0)}
           disabled={disabled || source.length === 0}
           className={cn(
             'px-3 py-2 bg-background',
@@ -267,12 +271,13 @@ export const TransferList: React.FC<TransferListProps> = ({
           )}
           accessibilityRole='button'
           accessibilityLabel='Move all to selected'
+          accessibilityState={{ disabled: disabled || source.length === 0 }}
         >
           <Text className='text-muted-foreground'>»</Text>
         </Pressable>
 
         <Pressable
-          onPress={moveToTarget}
+          {...pressProps(moveToTarget, disabled || sourceSelected.size === 0)}
           disabled={disabled || sourceSelected.size === 0}
           className={cn(
             'px-3 py-2 bg-background',
@@ -283,12 +288,15 @@ export const TransferList: React.FC<TransferListProps> = ({
           )}
           accessibilityRole='button'
           accessibilityLabel='Move selected to target'
+          accessibilityState={{
+            disabled: disabled || sourceSelected.size === 0,
+          }}
         >
           <Text className='text-muted-foreground'>›</Text>
         </Pressable>
 
         <Pressable
-          onPress={moveToSource}
+          {...pressProps(moveToSource, disabled || targetSelected.size === 0)}
           disabled={disabled || targetSelected.size === 0}
           className={cn(
             'px-3 py-2 bg-background',
@@ -299,12 +307,15 @@ export const TransferList: React.FC<TransferListProps> = ({
           )}
           accessibilityRole='button'
           accessibilityLabel='Move selected to source'
+          accessibilityState={{
+            disabled: disabled || targetSelected.size === 0,
+          }}
         >
           <Text className='text-muted-foreground'>‹</Text>
         </Pressable>
 
         <Pressable
-          onPress={moveAllToSource}
+          {...pressProps(moveAllToSource, disabled || target.length === 0)}
           disabled={disabled || target.length === 0}
           className={cn(
             'px-3 py-2 bg-background',
@@ -315,6 +326,7 @@ export const TransferList: React.FC<TransferListProps> = ({
           )}
           accessibilityRole='button'
           accessibilityLabel='Move all to available'
+          accessibilityState={{ disabled: disabled || target.length === 0 }}
         >
           <Text className='text-muted-foreground'>«</Text>
         </Pressable>

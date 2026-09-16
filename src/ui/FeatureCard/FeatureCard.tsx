@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export type FeatureCardColor =
   | 'green'
@@ -236,7 +237,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   if (onPress) {
     return (
       <Pressable
-        onPress={onPress}
+        {...pressProps(onPress)}
         className={baseClasses}
         accessibilityRole='button'
         accessibilityLabel={title}

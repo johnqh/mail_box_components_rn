@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable, Share, Linking, Alert } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { cn } from './utils';
+import { pressProps } from './a11y';
 
 export type SharePlatform =
   | 'native'
@@ -175,7 +176,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
           return (
             <Pressable
               key={platform}
-              onPress={() => handleShare(platform)}
+              {...pressProps(() => handleShare(platform))}
               className={cn(
                 'rounded-full items-center justify-center',
                 platformCfg.color
@@ -205,7 +206,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
         return (
           <Pressable
             key={platform}
-            onPress={() => handleShare(platform)}
+            {...pressProps(() => handleShare(platform))}
             className={cn(
               'rounded items-center justify-center',
               config.button,
@@ -216,7 +217,10 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
           >
             {({ pressed }) => (
               <Text
-                className={cn('text-primary-foreground font-medium', config.text)}
+                className={cn(
+                  'text-primary-foreground font-medium',
+                  config.text
+                )}
                 style={{ opacity: pressed ? 0.7 : 1 }}
               >
                 {platformCfg.name}

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
@@ -152,7 +153,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       {/* Header */}
       <View className='flex-row items-center justify-between mb-4'>
         <Pressable
-          onPress={goToPreviousMonth}
+          {...pressProps(goToPreviousMonth)}
           className='p-2 active:bg-muted rounded-md'
           accessibilityRole='button'
           accessibilityLabel='Previous month'
@@ -173,7 +174,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         </Text>
 
         <Pressable
-          onPress={goToNextMonth}
+          {...pressProps(goToNextMonth)}
           className='p-2 active:bg-muted rounded-md'
           accessibilityRole='button'
           accessibilityLabel='Next month'
@@ -222,7 +223,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             return (
               <Pressable
                 key={`${date.getTime()}-${dayIndex}`}
-                onPress={() => handleDayPress(date)}
+                {...pressProps(() => handleDayPress(date), isDisabled)}
                 disabled={isDisabled}
                 className={cn(
                   'flex-1 aspect-square items-center justify-center rounded-md m-0.5',

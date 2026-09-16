@@ -11,6 +11,7 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { colors } from '@sudobility/design';
+import { pressProps } from '../../lib/a11y';
 
 export interface ComboboxOption {
   /** Option value */
@@ -100,7 +101,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
     <View className={cn('w-full', className)}>
       {/* Trigger Button */}
       <Pressable
-        onPress={() => !disabled && setIsOpen(true)}
+        {...pressProps(() => !disabled && setIsOpen(true), disabled)}
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-between px-3 py-2',
@@ -131,7 +132,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         animationType='fade'
         onRequestClose={handleClose}
       >
-        <TouchableWithoutFeedback onPress={handleClose}>
+        <TouchableWithoutFeedback {...pressProps(handleClose)}>
           <View className='flex-1 justify-center px-4 bg-black/50'>
             <TouchableWithoutFeedback>
               <View className='bg-background rounded-lg max-h-[70%] shadow-xl'>
@@ -159,9 +160,10 @@ export const Combobox: React.FC<ComboboxProps> = ({
                     filteredOptions.map(option => (
                       <Pressable
                         key={option.value}
-                        onPress={() =>
-                          handleSelect(option.value, option.disabled)
-                        }
+                        {...pressProps(
+                          () => handleSelect(option.value, option.disabled),
+                          option.disabled
+                        )}
                         disabled={option.disabled}
                         className={cn(
                           'px-4 py-3',
@@ -193,7 +195,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 {/* Close button */}
                 <View className='p-3 border-t border-border'>
                   <Pressable
-                    onPress={handleClose}
+                    {...pressProps(handleClose)}
                     className='items-center py-2'
                     accessibilityRole='button'
                     accessibilityLabel='Close'

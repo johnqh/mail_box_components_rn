@@ -7,6 +7,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { pressProps } from '../../lib/a11y';
 
 /**
  * MasterListItem - Standardized list item with selection styling
@@ -36,7 +37,7 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
 }) => {
   return (
     <Pressable
-      onPress={onPress}
+      {...pressProps(onPress)}
       className={cn('relative p-4 border-b border-border', className)}
       accessibilityRole='button'
       accessibilityState={{ selected: isSelected }}
@@ -251,7 +252,7 @@ export const MasterDetailLayout: React.FC<MasterDetailLayoutProps> = ({
           {/* Back button */}
           {onBackToNavigation && (
             <Pressable
-              onPress={onBackToNavigation}
+              {...pressProps(onBackToNavigation)}
               className='mb-4 px-4 py-2 border border-border rounded-md bg-card self-start'
               accessibilityRole='button'
               accessibilityLabel={`Back to ${buttonText}`}
