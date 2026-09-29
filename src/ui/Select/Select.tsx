@@ -21,7 +21,9 @@ import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
 
-const isDesktop = Platform.OS === 'macos' || Platform.OS === 'windows';
+/** Read when asked rather than once at load, so a test can say which. */
+const onDesktop = (): boolean =>
+  Platform.OS === 'macos' || Platform.OS === 'windows';
 
 interface PopupMenuModuleInterface {
   show(
@@ -31,9 +33,27 @@ interface PopupMenuModuleInterface {
   ): Promise<string | null>;
 }
 
-const PopupMenuModule = isDesktop
-  ? (NativeModules.PopupMenuModule as PopupMenuModuleInterface | undefined)
-  : undefined;
+/**
+ * The system's own menu, where the app provides one.
+ *
+ * On a desktop the choices should open as that: an `NSMenu` is what a Mac
+ * user expects under a pop-up button, and it can leave the window where a
+ * drawn list cannot. But that menu is native code, and this package has
+ * none — the module is the app's to provide, and only one app in the family
+ * ever did. Everywhere else a press reached `if (!PopupMenuModule) return`
+ * and stopped: the control drew, took focus, and did nothing, with no error
+ * to say why. The picker below was compiled out for the same platforms, so
+ * there was nothing to fall back to either.
+ *
+ * So the native menu is used where it exists, and the drawn picker
+ * everywhere it does not. A select that opens the plainer of two lists is a
+ * working control; one that opens neither is not a control.
+ */
+function nativeMenu(): PopupMenuModuleInterface | undefined {
+  return onDesktop()
+    ? (NativeModules.PopupMenuModule as PopupMenuModuleInterface | undefined)
+    : undefined;
+}
 
 export interface SelectOption {
   label: string;
@@ -117,6 +137,9 @@ export const Select: React.FC<SelectProps> = ({
     [children, optionsProp]
   );
   const [isOpen, setIsOpen] = useState(false);
+  const isDesktop = onDesktop();
+  const menu = nativeMenu();
+  const usesNativeMenu = menu !== undefined;
   const triggerRef = useRef<View>(null);
 
   const selectedOption = options.find(opt => opt.value === value);
@@ -129,8 +152,8 @@ export const Select: React.FC<SelectProps> = ({
     [onValueChange]
   );
 
-  const handleDesktopPress = useCallback(async () => {
-    if (disabled || !PopupMenuModule || !triggerRef.current) return;
+  const handleNativeMenuPress = useCallback(async () => {
+    if (disabled || !menu || !triggerRef.current) return;
     triggerRef.current.measureInWindow((x, y, _width, height) => {
       const items = options
         .filter(opt => !opt.disabled)
@@ -139,13 +162,13 @@ export const Select: React.FC<SelectProps> = ({
           label: opt.label,
           selected: opt.value === value,
         }));
-      PopupMenuModule!.show(items, x, y + height).then(selected => {
+      menu.show(items, x, y + height).then(selected => {
         if (selected) {
           onValueChange?.(selected);
         }
       });
     });
-  }, [disabled, options, value, onValueChange]);
+  }, [disabled, menu, options, value, onValueChange]);
 
   const renderOption = ({ item }: { item: SelectOption; index: number }) => (
     <Pressable
@@ -187,7 +210,9 @@ export const Select: React.FC<SelectProps> = ({
       <View ref={triggerRef} collapsable={false}>
         <Pressable
           {...pressProps(
-            isDesktop ? handleDesktopPress : () => !disabled && setIsOpen(true),
+            usesNativeMenu
+              ? handleNativeMenuPress
+              : () => !disabled && setIsOpen(true),
             disabled
           )}
           disabled={disabled}
@@ -238,43 +263,77 @@ export const Select: React.FC<SelectProps> = ({
         </Pressable>
       </View>
 
-      {/* Modal Picker — mobile only */}
-      {!isDesktop && (
+      {/*
+        The drawn picker: every phone and tablet, and any desktop whose app
+        provides no native menu. A sheet rising from the bottom edge is a
+        touch idiom, so on a desktop it is a card in the middle of the window
+        instead, and the dimmed area around it dismisses it as a click
+        outside a menu would.
+      */}
+      {!usesNativeMenu && (
         <ModalHost
           visible={isOpen}
-          animationType='slide'
+          animationType={isDesktop ? 'fade' : 'slide'}
+          presentation={isDesktop ? 'dialog' : 'fullScreen'}
           onRequestClose={() => setIsOpen(false)}
         >
-          <View className='flex-1 justify-end bg-black/50'>
-            <SafeAreaView className='bg-card rounded-t-xl'>
-              {/* Header */}
-              <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-border'>
-                <Pressable {...pressProps(() => setIsOpen(false))}>
-                  <Text className={cn('text-primary', typography.size.base)}>
-                    Cancel
+          <Pressable
+            {...pressProps(() => setIsOpen(false))}
+            accessibilityRole='none'
+            accessible={false}
+            className={cn(
+              'flex-1 bg-black/50',
+              isDesktop ? 'items-center justify-center p-6' : 'justify-end'
+            )}
+          >
+            {/*
+              Swallows the press, so choosing inside the card is not also a
+              click on the backdrop behind it.
+            */}
+            <Pressable
+              {...pressProps(() => undefined)}
+              accessibilityRole='none'
+              accessible={false}
+              style={isDesktop ? { width: '100%', maxWidth: 420 } : undefined}
+            >
+              <SafeAreaView
+                className={cn(
+                  'bg-card',
+                  isDesktop ? 'rounded-xl border border-border' : 'rounded-t-xl'
+                )}
+              >
+                {/* Header */}
+                <View className='flex flex-row items-center justify-between px-4 py-3 border-b border-border'>
+                  <Pressable
+                    {...pressProps(() => setIsOpen(false))}
+                    accessibilityRole='button'
+                  >
+                    <Text className={cn('text-primary', typography.size.base)}>
+                      Cancel
+                    </Text>
+                  </Pressable>
+                  <Text
+                    className={cn(
+                      typography.size.base,
+                      typography.weight.semibold,
+                      'text-foreground'
+                    )}
+                  >
+                    {accessibilityLabel ?? title}
                   </Text>
-                </Pressable>
-                <Text
-                  className={cn(
-                    typography.size.base,
-                    typography.weight.semibold,
-                    'text-foreground'
-                  )}
-                >
-                  {title}
-                </Text>
-                <View style={{ width: 60 }} />
-              </View>
+                  <View style={{ width: 60 }} />
+                </View>
 
-              {/* Options */}
-              <FlatList
-                data={options}
-                renderItem={renderOption}
-                keyExtractor={(item: SelectOption) => item.value}
-                style={{ maxHeight: 300 }}
-              />
-            </SafeAreaView>
-          </View>
+                {/* Options */}
+                <FlatList
+                  data={options}
+                  renderItem={renderOption}
+                  keyExtractor={(item: SelectOption) => item.value}
+                  style={{ maxHeight: isDesktop ? 360 : 300 }}
+                />
+              </SafeAreaView>
+            </Pressable>
+          </Pressable>
         </ModalHost>
       )}
     </>
