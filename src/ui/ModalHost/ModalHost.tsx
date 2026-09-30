@@ -25,8 +25,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
  * own dialog where it has one (a UIKit form sheet on iPadOS, a sheet on macOS
  * where the app supports it) and a drawn one elsewhere. `sheet` is the older
  * name for `dialog`.
+ *
+ * `popover` is a clear window over the app, for something small drawn beside
+ * the control that opened it — a menu. The platform draws nothing: no sheet,
+ * no dimming, no frame. Whatever is behind stays visible and in place, which
+ * is the point; the caller draws the card and decides where.
  */
-export type ModalPresentation = 'fullScreen' | 'dialog' | 'sheet';
+export type ModalPresentation = 'fullScreen' | 'dialog' | 'sheet' | 'popover';
 
 /** Whether this platform draws the modal's window itself (iOS). */
 export const HAS_NATIVE_PRESENTATION = Platform.OS === 'ios';
@@ -43,6 +48,8 @@ export const HAS_NATIVE_PRESENTATION = Platform.OS === 'ios';
 export type ModalFrame = { layout: 'fill' | 'card'; backdrop: boolean };
 
 export function modalFrameFor(presentation: ModalPresentation): ModalFrame {
+  // A popover is the caller's card over an undimmed app, on every platform.
+  if (presentation === 'popover') return { layout: 'card', backdrop: false };
   if (HAS_NATIVE_PRESENTATION || presentation === 'fullScreen') {
     return { layout: 'fill', backdrop: false };
   }
@@ -93,7 +100,7 @@ export const ModalHost: React.FC<ModalHostProps> = ({
       iOS gets the real presentation and everything else keeps a transparent
       window, with the caller painting its own backdrop and card.
     */
-    {...(HAS_NATIVE_PRESENTATION
+    {...(HAS_NATIVE_PRESENTATION && presentation !== 'popover'
       ? {
           transparent: false,
           presentationStyle:

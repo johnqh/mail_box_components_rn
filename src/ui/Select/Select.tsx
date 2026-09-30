@@ -7,6 +7,8 @@ import {
   FlatList,
   Platform,
   NativeModules,
+  StyleSheet,
+  useWindowDimensions,
 } from 'react-native';
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
@@ -18,6 +20,9 @@ import { selectTriggerLabelStyle } from '../../lib/select-trigger';
 import { colors, designTokens } from '@sudobility/design';
 import { optionsFromChildren } from './SelectComposition';
 import { pressProps } from '../../lib/a11y';
+import { useFormFactor } from '../../lib/form-factor';
+import { measureAnchor, popoverPlacement } from '../../lib/select-popover';
+import type { PopoverAnchor } from '../../lib/select-popover';
 
 const { typography } = designTokens;
 
@@ -98,8 +103,9 @@ export interface SelectProps {
 /**
  * Select Component
  *
- * Dropdown select component using a modal picker for React Native.
- * Provides a native-feeling selection experience.
+ * A select, opening the way its platform opens one: the system's own menu
+ * on a desktop whose app provides it, a menu beside the control on a tablet,
+ * and a sheet from the bottom edge on a phone.
  *
  * @example
  * ```tsx
@@ -141,6 +147,29 @@ export const Select: React.FC<SelectProps> = ({
   const menu = nativeMenu();
   const usesNativeMenu = menu !== undefined;
   const triggerRef = useRef<View>(null);
+  /*
+    A tablet opens the choices beside the control — see
+    `lib/select-popover.ts`. It used to open the phone's sheet along the
+    bottom edge, a screen's length from a control in the far corner of an
+    iPad, for a choice of three things.
+  */
+  const opensBeside = useFormFactor() === 'tablet' && !usesNativeMenu;
+  const [anchor, setAnchor] = useState<PopoverAnchor | null>(null);
+  const window = useWindowDimensions();
+
+  const open = useCallback(() => {
+    if (disabled) return;
+    if (!opensBeside || !triggerRef.current) {
+      setIsOpen(true);
+      return;
+    }
+    // Measured when pressed, not when laid out: the control may have
+    // scrolled since, and the menu belongs where it is now.
+    measureAnchor(triggerRef.current, measured => {
+      setAnchor(measured);
+      setIsOpen(true);
+    });
+  }, [disabled, opensBeside]);
 
   const selectedOption = options.find(opt => opt.value === value);
 
@@ -210,21 +239,27 @@ export const Select: React.FC<SelectProps> = ({
       <View ref={triggerRef} collapsable={false}>
         <Pressable
           {...pressProps(
-            usesNativeMenu
-              ? handleNativeMenuPress
-              : () => !disabled && setIsOpen(true),
+            usesNativeMenu ? handleNativeMenuPress : open,
             disabled
           )}
           disabled={disabled}
-          className={cn('bg-card', disabled && 'opacity-50', className)}
+          /*
+            The border and the height are classes, not `style`. As style they
+            beat any class a caller passed: the border was a palette grey that
+            stayed light in a dark theme, and a trigger beside a 44-point
+            button could not be given its height, so a row of the two came out
+            ragged. `border-input` is the border the theme gives a field.
+          */
+          className={cn(
+            'bg-card border border-input min-h-[36px]',
+            disabled && 'opacity-50',
+            className
+          )}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            minHeight: 36,
             paddingHorizontal: 12,
             paddingVertical: 6,
-            borderWidth: 1,
-            borderColor: colors.raw.neutral[300],
             borderRadius: 6,
           }}
           accessibilityRole='combobox'
@@ -270,7 +305,39 @@ export const Select: React.FC<SelectProps> = ({
         instead, and the dimmed area around it dismisses it as a click
         outside a menu would.
       */}
-      {!usesNativeMenu && (
+      {opensBeside && anchor ? (
+        <ModalHost
+          visible={isOpen}
+          animationType='fade'
+          presentation='popover'
+          onRequestClose={() => setIsOpen(false)}
+        >
+          {/*
+            Clear, not dimmed: what is behind a menu stays as it was. A press
+            anywhere outside the card puts the menu away, as it does for the
+            platform's own.
+          */}
+          <Pressable
+            {...pressProps(() => setIsOpen(false))}
+            accessibilityRole='none'
+            accessible={false}
+            style={StyleSheet.absoluteFill}
+          />
+          <View
+            testID='select-popover'
+            className='bg-card rounded-lg border border-border'
+            style={[styles.popover, popoverPlacement(anchor, window)]}
+          >
+            <FlatList
+              data={options}
+              renderItem={renderOption}
+              keyExtractor={(item: SelectOption) => item.value}
+              accessibilityLabel={accessibilityLabel ?? title}
+            />
+          </View>
+        </ModalHost>
+      ) : null}
+      {!usesNativeMenu && !opensBeside && (
         <ModalHost
           visible={isOpen}
           animationType={isDesktop ? 'fade' : 'slide'}
@@ -339,6 +406,20 @@ export const Select: React.FC<SelectProps> = ({
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  // Lifted off what it covers, which is what says "over" where nothing is
+  // dimmed to say it.
+  popover: {
+    position: 'absolute',
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
+  },
+});
 
 /**
  * SelectTrigger - For compound component pattern

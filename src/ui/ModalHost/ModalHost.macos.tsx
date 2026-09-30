@@ -22,7 +22,7 @@ import { Modal, StyleSheet, View } from 'react-native';
 import { Portal, PortalHost } from '../Portal';
 import { nativeDialogsSupported } from './native-dialogs';
 
-export type ModalPresentation = 'fullScreen' | 'dialog' | 'sheet';
+export type ModalPresentation = 'fullScreen' | 'dialog' | 'sheet' | 'popover';
 
 /** No UIKit presentation on macOS: the frame is ours, or the sheet's. */
 export const HAS_NATIVE_PRESENTATION = false;
@@ -30,6 +30,7 @@ export const HAS_NATIVE_PRESENTATION = false;
 export type ModalFrame = { layout: 'fill' | 'card'; backdrop: boolean };
 
 export function modalFrameFor(presentation: ModalPresentation): ModalFrame {
+  if (presentation === 'popover') return { layout: 'card', backdrop: false };
   if (presentation === 'fullScreen') return { layout: 'fill', backdrop: false };
   // A native sheet is dimmed and framed by the system; a drawn one is not.
   return { layout: 'card', backdrop: !nativeDialogsSupported() };
@@ -51,7 +52,12 @@ export const ModalHost: React.FC<ModalHostProps> = ({
   children,
 }) => {
   if (!visible) return null;
-  if (presentation !== 'fullScreen' && nativeDialogsSupported()) {
+  // A popover is drawn in place; a native sheet would take it out of it.
+  if (
+    presentation !== 'fullScreen' &&
+    presentation !== 'popover' &&
+    nativeDialogsSupported()
+  ) {
     return (
       <Modal
         visible

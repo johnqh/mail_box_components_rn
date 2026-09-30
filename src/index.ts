@@ -80,6 +80,8 @@ export * from './ui/Progress';
 export * from './ui/Slider';
 export * from './ui/Modal';
 export * from './ui/FormModal';
+export * from './ui/LoginView';
+export * from './ui/LoginModal';
 export * from './ui/Toast';
 export * from './ui/LoadingOverlay';
 export * from './ui/LoadingDots';
@@ -94,6 +96,7 @@ export * from './ui/Popover';
 export * from './ui/Portal';
 export * from './ui/ModalHost';
 export * from './lib/form-factor';
+export * from './lib/select-popover';
 
 // UI Components - Navigation
 export * from './ui/Tabs';
