@@ -33,9 +33,9 @@ export interface LoginViewText {
   orContinueWith: string;
   signInWithGoogle: string;
   signInWithApple: string;
-  /** The whole line that leads back to signing in. */
+  /** Before the link back to signing in (`signIn`). */
   alreadyHaveAccount: string;
-  /** The whole line that leads to creating an account. */
+  /** Before the link to creating an account (`signUp`). */
   dontHaveAccount: string;
   /** Shown when either field is empty. */
   missingFields: string;
@@ -65,8 +65,8 @@ export const DEFAULT_LOGIN_VIEW_TEXT: LoginViewText = {
   orContinueWith: 'Or continue with',
   signInWithGoogle: 'Sign in with Google',
   signInWithApple: 'Sign in with Apple',
-  alreadyHaveAccount: 'Already have an account? Sign in',
-  dontHaveAccount: "Don't have an account? Sign up",
+  alreadyHaveAccount: 'Already have an account?',
+  dontHaveAccount: "Don't have an account?",
   missingFields: 'Enter your email and password.',
   genericError: 'Authentication failed',
   forgotPassword: 'Forgot password?',
@@ -79,8 +79,12 @@ export const DEFAULT_LOGIN_VIEW_TEXT: LoginViewText = {
   missingEmail: 'Enter your email address.',
 };
 
-/** The widest the view is drawn, in points, on every platform. */
-export const LOGIN_VIEW_MAX_WIDTH = 360;
+/**
+ * The widest the view is drawn, in points: the web `LoginView`'s 448
+ * (Tailwind's `max-w-md`), so the page, the modal and a pane hold the same
+ * form on every platform.
+ */
+export const LOGIN_VIEW_MAX_WIDTH = 448;
 
 // Codes that mean the user backed out rather than that something failed.
 const USER_ACTION_ERROR_CODES = [
@@ -124,6 +128,12 @@ export interface LoginViewProps {
    * it follows the device's appearance.
    */
   appleLogoTone?: AppleLogoTone;
+  /**
+   * The colour of the view's links — the mode toggle and "Forgot password?".
+   * A page with a colour of its own passes it; the default is the theme's
+   * primary.
+   */
+  linkClassName?: string;
   className?: string;
   style?: StyleProp<ViewStyle>;
 }
@@ -156,6 +166,7 @@ export function LoginView({
   onModeChange,
   text: textOverrides,
   appleLogoTone,
+  linkClassName = 'text-primary',
   className,
   style,
 }: LoginViewProps) {
@@ -299,165 +310,177 @@ export function LoginView({
 
   const appleFirst = Platform.OS === 'ios' || Platform.OS === 'macos';
 
+  /*
+    The web view's layout, group for group: `space-y-6` between the alerts,
+    the fields, the button and the providers; `space-y-4` between the two
+    fields; the footer 32 below the form (`mt-8`), a muted sentence with the
+    link in it.
+  */
+  const footer = resetting ? (
+    <Button
+      variant='link'
+      textClassName={cn('text-sm font-medium', linkClassName)}
+      onPress={() => goTo('signIn')}
+      disabled={busy}
+    >
+      {text.backToSignIn}
+    </Button>
+  ) : onEmailSignUp ? (
+    <View className='flex-row flex-wrap items-center justify-center gap-1'>
+      <Text className='text-muted-foreground text-sm'>
+        {creating ? text.alreadyHaveAccount : text.dontHaveAccount}
+      </Text>
+      <Button
+        variant='link'
+        textClassName={cn('text-sm font-medium', linkClassName)}
+        onPress={toggleMode}
+        disabled={busy}
+      >
+        {creating ? text.signIn : text.signUp}
+      </Button>
+    </View>
+  ) : null;
+
   return (
     <View
       testID='login-view'
-      className={cn('w-full gap-4 self-center bg-transparent', className)}
+      className={cn('w-full self-center bg-transparent', className)}
       style={[{ maxWidth: LOGIN_VIEW_MAX_WIDTH }, style]}
     >
-      {error ? (
-        <View
-          accessibilityRole='alert'
-          className='border-destructive/40 bg-destructive/10 rounded-md border px-4 py-3'
-        >
-          <Text className='text-destructive text-base'>{error}</Text>
-        </View>
-      ) : null}
+      <View className='gap-6'>
+        {error ? (
+          <View
+            accessibilityRole='alert'
+            className='border-destructive/40 bg-destructive/10 rounded-md border px-4 py-3'
+          >
+            <Text className='text-destructive text-sm'>{error}</Text>
+          </View>
+        ) : null}
 
-      {resetting ? (
-        <Text className='text-muted-foreground text-base'>
-          {text.resetPasswordHint}
-        </Text>
-      ) : null}
-
-      {resetting && resetSent ? (
-        <View
-          accessibilityRole='alert'
-          className='border-border bg-muted rounded-md border px-4 py-3'
-        >
-          <Text className='text-foreground text-base'>
-            {text.resetEmailSent}
+        {resetting ? (
+          <Text className='text-muted-foreground text-sm'>
+            {text.resetPasswordHint}
           </Text>
-        </View>
-      ) : null}
+        ) : null}
 
-      <View className='gap-1'>
-        <Text className='text-foreground text-sm font-medium'>
-          {text.emailLabel}
-        </Text>
-        {/*
-          `Input`'s default is a filled surface with no border. On a
-          background this view does not choose, a field the colour of what is
-          behind it says nothing of where to type, so it is given the border
-          every bordered card already uses.
-        */}
-        <Input
-          value={email}
-          onChangeText={setEmail}
-          placeholder={text.emailPlaceholder}
-          autoCapitalize='none'
-          autoCorrect={false}
-          autoComplete='email'
-          textContentType='emailAddress'
-          keyboardType='email-address'
-          accessibilityLabel={text.emailLabel}
-          {...(resetting
-            ? {
-                onSubmitEditing: () => void sendReset(),
-                returnKeyType: 'send' as const,
-              }
-            : {})}
-          disabled={busy}
-          className='border-border rounded-md border'
-        />
-      </View>
+        {resetting && resetSent ? (
+          <View
+            accessibilityRole='alert'
+            className='border-border bg-muted rounded-md border px-4 py-3'
+          >
+            <Text className='text-foreground text-sm'>
+              {text.resetEmailSent}
+            </Text>
+          </View>
+        ) : null}
 
-      {resetting ? (
-        <Button
-          variant='primary'
-          onPress={() => void sendReset()}
-          disabled={busy}
-          loading={busy}
-        >
-          {text.sendResetLink}
-        </Button>
-      ) : (
-        <>
+        <View className='gap-4'>
           <View className='gap-1'>
             <Text className='text-foreground text-sm font-medium'>
-              {text.passwordLabel}
+              {text.emailLabel}
             </Text>
+            {/*
+              `Input`'s default is a filled surface with no border. On a
+              background this view does not choose, a field the colour of
+              what is behind it says nothing of where to type, so it is given
+              the border every bordered card already uses.
+            */}
             <Input
-              value={password}
-              onChangeText={setPassword}
-              placeholder={text.passwordPlaceholder}
-              secureTextEntry
+              value={email}
+              onChangeText={setEmail}
+              placeholder={text.emailPlaceholder}
               autoCapitalize='none'
               autoCorrect={false}
-              autoComplete={creating ? 'new-password' : 'current-password'}
-              textContentType={creating ? 'newPassword' : 'password'}
-              accessibilityLabel={text.passwordLabel}
-              onSubmitEditing={submit}
-              returnKeyType='go'
+              autoComplete='email'
+              textContentType='emailAddress'
+              keyboardType='email-address'
+              accessibilityLabel={text.emailLabel}
+              {...(resetting
+                ? {
+                    onSubmitEditing: () => void sendReset(),
+                    returnKeyType: 'send' as const,
+                  }
+                : {})}
               disabled={busy}
               className='border-border rounded-md border'
             />
-            {/*
-              Under the field it is about, at its trailing edge, where every
-              sign-in form puts it. Only while signing in: somebody creating
-              an account has no password to forget.
-            */}
-            {onPasswordReset && !creating ? (
-              <View className='items-end'>
-                <Button
-                  variant='link'
-                  textClassName='text-sm'
-                  onPress={() => goTo('resetPassword')}
-                  disabled={busy}
-                >
-                  {text.forgotPassword}
-                </Button>
-              </View>
-            ) : null}
           </View>
 
-          <Button
-            variant='primary'
-            onPress={submit}
-            disabled={busy}
-            loading={busy}
-          >
-            {creating ? text.signUp : text.signIn}
-          </Button>
+          {resetting ? null : (
+            <View className='gap-1'>
+              <Text className='text-foreground text-sm font-medium'>
+                {text.passwordLabel}
+              </Text>
+              <Input
+                value={password}
+                onChangeText={setPassword}
+                placeholder={text.passwordPlaceholder}
+                secureTextEntry
+                autoCapitalize='none'
+                autoCorrect={false}
+                autoComplete={creating ? 'new-password' : 'current-password'}
+                textContentType={creating ? 'newPassword' : 'password'}
+                accessibilityLabel={text.passwordLabel}
+                onSubmitEditing={submit}
+                returnKeyType='go'
+                disabled={busy}
+                className='border-border rounded-md border'
+              />
+              {/*
+                Under the field it is about, at its trailing edge, where every
+                sign-in form puts it. Only while signing in: somebody creating
+                an account has no password to forget.
+              */}
+              {onPasswordReset && !creating ? (
+                <View className='items-end'>
+                  <Button
+                    variant='link'
+                    textClassName={cn('text-sm font-medium', linkClassName)}
+                    onPress={() => goTo('resetPassword')}
+                    disabled={busy}
+                  >
+                    {text.forgotPassword}
+                  </Button>
+                </View>
+              ) : null}
+            </View>
+          )}
+        </View>
 
-          {googleButton || appleButton ? (
-            <>
-              <View className='flex-row items-center gap-3'>
-                <View className='bg-border h-px flex-1' />
-                <Text className='text-muted-foreground text-sm'>
-                  {text.orContinueWith}
-                </Text>
-                <View className='bg-border h-px flex-1' />
-              </View>
-              <View className='gap-3'>
-                {appleFirst
-                  ? [appleButton, googleButton]
-                  : [googleButton, appleButton]}
-              </View>
-            </>
-          ) : null}
-        </>
-      )}
+        <Button
+          variant='primary'
+          onPress={resetting ? () => void sendReset() : submit}
+          disabled={busy}
+          loading={busy}
+        >
+          {resetting
+            ? text.sendResetLink
+            : creating
+              ? text.signUp
+              : text.signIn}
+        </Button>
 
-      {resetting ? (
-        <Button
-          variant='link'
-          textClassName='text-base'
-          onPress={() => goTo('signIn')}
-          disabled={busy}
-        >
-          {text.backToSignIn}
-        </Button>
-      ) : onEmailSignUp ? (
-        <Button
-          variant='link'
-          textClassName='text-base'
-          onPress={toggleMode}
-          disabled={busy}
-        >
-          {creating ? text.alreadyHaveAccount : text.dontHaveAccount}
-        </Button>
-      ) : null}
+        {!resetting && (googleButton || appleButton) ? (
+          <>
+            {/* A rule either side of the words: this view has no background
+                of its own to lay the words over one rule. */}
+            <View className='flex-row items-center gap-2'>
+              <View className='bg-border h-px flex-1' />
+              <Text className='text-muted-foreground text-sm'>
+                {text.orContinueWith}
+              </Text>
+              <View className='bg-border h-px flex-1' />
+            </View>
+            <View className='gap-3'>
+              {appleFirst
+                ? [appleButton, googleButton]
+                : [googleButton, appleButton]}
+            </View>
+          </>
+        ) : null}
+      </View>
+
+      {footer ? <View className='mt-8'>{footer}</View> : null}
     </View>
   );
 }

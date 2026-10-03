@@ -28,10 +28,25 @@ describe('LoginView', () => {
     expect(StyleSheet.flatten(root.props.style).maxWidth).toBe(
       LOGIN_VIEW_MAX_WIDTH
     );
-    expect(LOGIN_VIEW_MAX_WIDTH).toBe(360);
+    expect(LOGIN_VIEW_MAX_WIDTH).toBe(448);
     expect(root.props.className).toContain('w-full');
     expect(root.props.className).toContain('self-center');
     expect(root.props.className).toContain('bg-transparent');
+  });
+
+  it('lays the footer out as the web does: a sentence, then the link', () => {
+    const view = render(
+      <LoginView
+        onEmailSignIn={signIn()}
+        onEmailSignUp={signIn()}
+        linkClassName='text-success'
+      />
+    );
+    expect(view.getByText("Don't have an account?")).toBeTruthy();
+    const link = view.getByText('Sign up');
+    expect(link.props.className).toContain('text-success');
+    fireEvent.press(link);
+    expect(view.getByText('Already have an account?')).toBeTruthy();
   });
 
   it('brings no heading: the view that holds it says what it is', () => {
@@ -67,7 +82,7 @@ describe('LoginView', () => {
     const view = render(
       <LoginView onEmailSignIn={onEmailSignIn} onEmailSignUp={onEmailSignUp} />
     );
-    fireEvent.press(view.getByText("Don't have an account? Sign up"));
+    fireEvent.press(view.getByText('Sign up'));
     fill(view);
     await act(async () => {
       fireEvent.press(view.getByText('Sign up'));
@@ -81,7 +96,7 @@ describe('LoginView', () => {
     expect(view.queryByLabelText('Sign in with Google')).toBeNull();
     expect(view.queryByLabelText('Sign in with Apple')).toBeNull();
     expect(view.queryByText('Or continue with')).toBeNull();
-    expect(view.queryByText("Don't have an account? Sign up")).toBeNull();
+    expect(view.queryByText("Don't have an account?")).toBeNull();
   });
 
   it('offers Google and Apple when given them', async () => {
@@ -172,7 +187,7 @@ describe('LoginModal', () => {
         onEmailSignUp={signIn()}
       />
     );
-    fireEvent.press(view.getByText("Don't have an account? Sign up"));
+    fireEvent.press(view.getByText('Sign up'));
     expect(view.getByRole('header')).toHaveTextContent('Create your account');
   });
 
@@ -214,7 +229,7 @@ describe('LoginView password reset', () => {
       />
     );
     expect(view.getByText('Forgot password?')).toBeTruthy();
-    fireEvent.press(view.getByText("Don't have an account? Sign up"));
+    fireEvent.press(view.getByText('Sign up'));
     expect(view.queryByText('Forgot password?')).toBeNull();
   });
 

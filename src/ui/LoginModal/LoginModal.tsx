@@ -62,8 +62,10 @@ export function LoginModal({
       onClose={onClose}
       actions={[]}
       closeAriaLabel={text.close}
-      // `small` is 400 wide: the form at its full 360, inside the padding.
-      size='small'
+      // `medium` is 520 wide: the form at its full 448
+      // (`LOGIN_VIEW_MAX_WIDTH`) inside the card's padding — the web
+      // modal's 480 is the same form inside 16 either side.
+      size='medium'
     >
       <LoginView
         {...view}
