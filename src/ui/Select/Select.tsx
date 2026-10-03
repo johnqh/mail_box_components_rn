@@ -13,6 +13,7 @@ import {
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
 import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
@@ -132,6 +133,7 @@ export const Select: React.FC<SelectProps> = ({
   title = 'Select Option',
   accessibilityLabel,
 }) => {
+  const safeEdges = useSafeAreaEdges();
   /*
     Either shape is accepted: an `options` array, or the web library's
     compositional children. Children win when both are given, because a caller
@@ -364,6 +366,7 @@ export const Select: React.FC<SelectProps> = ({
               style={isDesktop ? { width: '100%', maxWidth: 420 } : undefined}
             >
               <SafeAreaView
+                edges={safeEdges}
                 className={cn(
                   'bg-card',
                   isDesktop ? 'rounded-xl border border-border' : 'rounded-t-xl'

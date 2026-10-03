@@ -10,6 +10,7 @@ import { View, Text, Pressable, Animated } from 'react-native';
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import { cn } from '../../lib/utils';
 import { colors, textVariants } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
@@ -232,6 +233,7 @@ const ToastItem: React.FC<{
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const safeEdges = useSafeAreaEdges();
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const removeToast = useCallback((id: string) => {
@@ -248,6 +250,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
       {toasts.length > 0 && (
         <SafeAreaView
+          edges={safeEdges}
           className='absolute top-0 left-0 right-0 z-50 px-4 pt-4'
           pointerEvents='box-none'
         >

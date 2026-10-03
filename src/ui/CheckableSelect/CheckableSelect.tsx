@@ -4,6 +4,7 @@ import { FlatList, Pressable, Text, View } from 'react-native';
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';
@@ -96,6 +97,7 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
   title,
   doneLabel = 'Done',
 }) => {
+  const safeEdges = useSafeAreaEdges();
   const [isOpen, setIsOpen] = useState(false);
   const checkedSet = useMemo(() => new Set(checked), [checked]);
   const selected = options.find(o => o.value === value);
@@ -172,7 +174,7 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
               className='bg-card rounded-t-xl'
               {...pressProps(() => undefined)}
             >
-              <SafeAreaView>
+              <SafeAreaView edges={safeEdges}>
                 <View className='border-border flex-row items-center justify-between border-b px-4 py-3'>
                   <Text
                     className={cn(

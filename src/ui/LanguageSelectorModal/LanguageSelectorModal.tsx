@@ -10,6 +10,7 @@ import {
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
 // RN StyleSheet/color props (placeholderTextColor, ActivityIndicator color, SVG
 // fill) can't use NativeWind classNames, so they reference the design system's
@@ -37,6 +38,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
   doneLabel = 'Done',
   loading = false,
 }) => {
+  const safeEdges = useSafeAreaEdges();
   const sortedLanguages = useMemo(() => getSortedLanguages(), []);
 
   const renderLanguageItem = ({ item }: { item: LanguageConfig }) => {
@@ -59,7 +61,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 
   return (
     <ModalHost visible={visible} animationType='slide' onRequestClose={onClose}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView edges={safeEdges} style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>{title}</Text>
           <TouchableOpacity {...pressProps(onClose)} style={styles.closeButton}>

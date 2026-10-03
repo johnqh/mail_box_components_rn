@@ -8,7 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import { ModalHost } from '../ModalHost';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { safeAreaPadding } from '../../lib/safe-area';
 import { selectTriggerLabelStyle } from '../../lib/select-trigger';
 import { colors } from '@sudobility/design';
@@ -71,7 +71,7 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
   triggerStyle,
   triggerTextStyle,
 }) => {
-  const insets = useSafeAreaInsets();
+  const insets = useSurfaceInsets();
   const [modalVisible, setModalVisible] = useState(false);
 
   const selectedOption = options.find(opt => opt.value === value);

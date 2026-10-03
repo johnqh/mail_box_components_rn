@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { ModalHost, modalFrameFor } from '../ModalHost';
 import type { ModalPresentation } from '../ModalHost';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { safeAreaPadding } from '../../lib/safe-area';
 import { cn } from '../../lib/utils';
 import { designTokens } from '@sudobility/design';
@@ -171,7 +171,7 @@ function FormModalContent({
   presentation,
 }: FormModalProps & { presentation: ModalPresentation }) {
   const { width, height } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
+  const insets = useSurfaceInsets();
   const frame = modalFrameFor(presentation);
   const fullScreen = presentation === 'fullScreen';
   const disabled = !canSave || saving;

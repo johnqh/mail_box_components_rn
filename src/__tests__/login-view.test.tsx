@@ -196,3 +196,122 @@ describe('LoginModal', () => {
     expect(onSuccess).toHaveBeenCalled();
   });
 });
+
+describe('LoginView password reset', () => {
+  const reset = () => jest.fn<Promise<void>, unknown[]>(async () => {});
+
+  it('offers no way to a forgotten password unless given one', () => {
+    const view = render(<LoginView onEmailSignIn={signIn()} />);
+    expect(view.queryByText('Forgot password?')).toBeNull();
+  });
+
+  it('offers it while signing in, and not while creating an account', () => {
+    const view = render(
+      <LoginView
+        onEmailSignIn={signIn()}
+        onEmailSignUp={signIn()}
+        onPasswordReset={reset()}
+      />
+    );
+    expect(view.getByText('Forgot password?')).toBeTruthy();
+    fireEvent.press(view.getByText("Don't have an account? Sign up"));
+    expect(view.queryByText('Forgot password?')).toBeNull();
+  });
+
+  it('sends the link to the address already typed, trimmed, and says so', async () => {
+    const onPasswordReset = reset();
+    const onSuccess = jest.fn();
+    const onModeChange = jest.fn();
+    const view = render(
+      <LoginView
+        onEmailSignIn={signIn()}
+        onPasswordReset={onPasswordReset}
+        onSuccess={onSuccess}
+        onModeChange={onModeChange}
+      />
+    );
+    fireEvent.changeText(
+      view.getByLabelText('Email address'),
+      ' ada@example.com '
+    );
+    fireEvent.press(view.getByText('Forgot password?'));
+    expect(onModeChange).toHaveBeenCalledWith('resetPassword');
+    // The address carries over; there is no password to ask for.
+    expect(view.queryByLabelText('Password')).toBeNull();
+    await act(async () => {
+      fireEvent.press(view.getByText('Send reset link'));
+    });
+    expect(onPasswordReset).toHaveBeenCalledWith('ada@example.com');
+    expect(view.getByText(/Check your email/)).toBeTruthy();
+    // Sending a link signs nobody in.
+    expect(onSuccess).not.toHaveBeenCalled();
+  });
+
+  it('asks for an address before sending', () => {
+    const onPasswordReset = reset();
+    const view = render(
+      <LoginView
+        onEmailSignIn={signIn()}
+        onPasswordReset={onPasswordReset}
+        mode='resetPassword'
+      />
+    );
+    fireEvent.press(view.getByText('Send reset link'));
+    expect(onPasswordReset).not.toHaveBeenCalled();
+    expect(view.getByText('Enter your email address.')).toBeTruthy();
+  });
+
+  it('does not say whether the address has an account', async () => {
+    const onPasswordReset = jest.fn<Promise<void>, unknown[]>(async () => {
+      throw Object.assign(new Error('There is no user record.'), {
+        code: 'auth/user-not-found',
+      });
+    });
+    const view = render(
+      <LoginView
+        onEmailSignIn={signIn()}
+        onPasswordReset={onPasswordReset}
+        mode='resetPassword'
+      />
+    );
+    fireEvent.changeText(view.getByLabelText('Email address'), 'x@y.z');
+    await act(async () => {
+      fireEvent.press(view.getByText('Send reset link'));
+    });
+    expect(view.getByText(/Check your email/)).toBeTruthy();
+    expect(view.queryByText('There is no user record.')).toBeNull();
+  });
+
+  it('reports any other failure, and leads back to signing in', async () => {
+    const onPasswordReset = jest.fn<Promise<void>, unknown[]>(async () => {
+      throw Object.assign(new Error('Too many requests.'), {
+        code: 'auth/too-many-requests',
+      });
+    });
+    const view = render(
+      <LoginView onEmailSignIn={signIn()} onPasswordReset={onPasswordReset} />
+    );
+    fireEvent.press(view.getByText('Forgot password?'));
+    fireEvent.changeText(view.getByLabelText('Email address'), 'x@y.z');
+    await act(async () => {
+      fireEvent.press(view.getByText('Send reset link'));
+    });
+    expect(view.getByText('Too many requests.')).toBeTruthy();
+    fireEvent.press(view.getByText('Back to sign in'));
+    expect(view.getByLabelText('Password')).toBeTruthy();
+    expect(view.queryByText('Too many requests.')).toBeNull();
+  });
+
+  it('titles the modal for what it is doing', () => {
+    const view = render(
+      <LoginModal
+        visible
+        onClose={jest.fn()}
+        onEmailSignIn={signIn()}
+        onPasswordReset={reset()}
+      />
+    );
+    fireEvent.press(view.getByText('Forgot password?'));
+    expect(view.getByText('Reset your password')).toBeTruthy();
+  });
+});

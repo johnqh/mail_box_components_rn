@@ -24,6 +24,13 @@ export type { PressHandler, PressProps } from './lib/a11y';
 */
 export { ALL_EDGES, safeAreaPadding } from './lib/safe-area';
 export type { SafeAreaEdge } from './lib/safe-area';
+export {
+  SafeAreaEdgesProvider,
+  maskInsets,
+  useSafeAreaEdges,
+  useSurfaceInsets,
+} from './lib/safe-area-edges';
+export type { SafeAreaEdgesProviderProps } from './lib/safe-area-edges';
 export { textInputDefaults } from './lib/text-input';
 export { selectTriggerLabelStyle } from './lib/select-trigger';
 

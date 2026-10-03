@@ -9,7 +9,7 @@ import {
   Dimensions,
   PanResponder,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { safeAreaPadding, type SafeAreaEdge } from '../../lib/safe-area';
@@ -98,7 +98,7 @@ export const Sheet: React.FC<SheetProps> = ({
 }) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
   const panY = useRef(new Animated.Value(0)).current;
-  const insets = useSafeAreaInsets();
+  const insets = useSurfaceInsets();
 
   // Size configurations (percentage of screen)
   const sizeValues = {

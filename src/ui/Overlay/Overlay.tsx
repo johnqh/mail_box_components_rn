@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { safeAreaPadding } from '../../lib/safe-area';
@@ -45,7 +45,7 @@ export const Overlay: React.FC<OverlayProps> = ({
   className,
 }) => {
   // Before the early return: a hook cannot sit behind a condition.
-  const insets = useSafeAreaInsets();
+  const insets = useSurfaceInsets();
 
   if (!isOpen) return null;
 

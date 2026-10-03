@@ -273,3 +273,48 @@ describe('PopupSelect safe area', () => {
     ).toBe(true);
   });
 });
+
+describe('the app decides which edges are cleared', () => {
+  // A landscape phone that hides its status bar and clears only the camera's
+  // side: a full-screen FormModal used to pad all four insets regardless,
+  // drawing a band where the hidden status bar would be and a gutter down the
+  // plain side.
+  const {
+    SafeAreaEdgesProvider,
+    maskInsets,
+  } = require('../lib/safe-area-edges');
+
+  it('masks the insets of every edge the app does not clear', () => {
+    expect(maskInsets(INSETS, ['left'])).toEqual({
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 159,
+    });
+  });
+
+  it("pads a full-screen FormModal for the app's edges only", () => {
+    const view = render(
+      <SafeAreaEdgesProvider edges={['left']}>
+        <FormModal visible title='Print' onClose={jest.fn()} actions={[]}>
+          <Text>body</Text>
+        </FormModal>
+      </SafeAreaEdgesProvider>
+    );
+    const styles = allStyles(view);
+    expect(
+      someNodeHas(styles, { paddingTop: 0, paddingLeft: 159, paddingRight: 0 })
+    ).toBe(true);
+    expect(styles.some(s => s.paddingTop === 24)).toBe(false);
+    expect(styles.some(s => s.paddingBottom === 34)).toBe(false);
+  });
+
+  it('clears every edge with no provider, as before', () => {
+    const view = render(
+      <FormModal visible title='T' onClose={jest.fn()} actions={[]}>
+        <Text>body</Text>
+      </FormModal>
+    );
+    expect(someNodeHas(allStyles(view), { paddingTop: 24 })).toBe(true);
+  });
+});

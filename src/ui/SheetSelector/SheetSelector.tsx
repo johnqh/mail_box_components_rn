@@ -15,6 +15,7 @@ import {
 // React Native's own SafeAreaView is deprecated and iOS-only; the context
 // package's works on every platform and is what the app already provides.
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';
@@ -118,6 +119,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
   className,
   accessibilityLabel,
 }) => {
+  const safeEdges = useSafeAreaEdges();
   /*
     A phone fills the screen; anything larger gets a centred panel. The
     breakpoint is `FormModal`'s, shared — see `large-screen.ts`.
@@ -211,6 +213,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
             }
           >
             <SafeAreaView
+              edges={safeEdges}
               className={cn('bg-card', isLarge ? 'rounded-xl' : 'flex-1')}
               style={
                 isLarge

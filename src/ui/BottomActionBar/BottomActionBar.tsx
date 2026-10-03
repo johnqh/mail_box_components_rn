@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { safeAreaPadding } from '../../lib/safe-area';
 
 const SPACING = 16;
@@ -41,7 +41,7 @@ export function BottomActionBar({
   tabBarHeight,
   style,
 }: BottomActionBarProps) {
-  const insets = useSafeAreaInsets();
+  const insets = useSurfaceInsets();
   const hasTabBar = (tabBarHeight ?? 0) > 0;
   const paddingBottom = hasTabBar ? SPACING : insets.bottom + SPACING;
   /*

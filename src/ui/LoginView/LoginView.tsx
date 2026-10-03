@@ -7,8 +7,11 @@ import { Input } from '../Input';
 import { AppleLogo, GoogleLogo } from './BrandLogos';
 import type { AppleLogoTone } from './BrandLogos';
 
-/** Whether the view is signing somebody in or creating their account. */
-export type LoginViewMode = 'signIn' | 'signUp';
+/**
+ * Whether the view is signing somebody in, creating their account, or sending
+ * a link to reset a forgotten password.
+ */
+export type LoginViewMode = 'signIn' | 'signUp' | 'resetPassword';
 
 /** What a failed attempt reports to `onAuthError`. */
 export interface LoginViewError {
@@ -38,6 +41,18 @@ export interface LoginViewText {
   missingFields: string;
   /** Shown when an attempt fails with no message of its own. */
   genericError: string;
+  /** The link under the password field that leads to resetting it. */
+  forgotPassword: string;
+  /** What the reset form is for, above its field. */
+  resetPasswordHint: string;
+  /** The reset form's button. */
+  sendResetLink: string;
+  /** Shown once the link has been sent. */
+  resetEmailSent: string;
+  /** The line that leads from the reset form back to signing in. */
+  backToSignIn: string;
+  /** Shown when the reset form is sent with no address. */
+  missingEmail: string;
 }
 
 export const DEFAULT_LOGIN_VIEW_TEXT: LoginViewText = {
@@ -54,6 +69,14 @@ export const DEFAULT_LOGIN_VIEW_TEXT: LoginViewText = {
   dontHaveAccount: "Don't have an account? Sign up",
   missingFields: 'Enter your email and password.',
   genericError: 'Authentication failed',
+  forgotPassword: 'Forgot password?',
+  resetPasswordHint:
+    "Enter your email address and we'll send you a link to reset your password.",
+  sendResetLink: 'Send reset link',
+  resetEmailSent:
+    'If an account uses that address, a link to reset its password is on its way. Check your email.',
+  backToSignIn: 'Back to sign in',
+  missingEmail: 'Enter your email address.',
 };
 
 /** The widest the view is drawn, in points, on every platform. */
@@ -74,6 +97,11 @@ export interface LoginViewProps {
    * only when this is given.
    */
   onEmailSignUp?: (email: string, password: string) => Promise<void>;
+  /**
+   * Sends a link to reset the password for an address. Throws on failure.
+   * The way to a forgotten password is offered only when this is given.
+   */
+  onPasswordReset?: (email: string) => Promise<void>;
   /** Signs in with Google. The button is drawn only when this is given. */
   onGoogleSignIn?: () => Promise<void>;
   /** Signs in with Apple. The button is drawn only when this is given. */
@@ -119,6 +147,7 @@ export interface LoginViewProps {
 export function LoginView({
   onEmailSignIn,
   onEmailSignUp,
+  onPasswordReset,
   onGoogleSignIn,
   onAppleSignIn,
   onSuccess,
@@ -132,15 +161,23 @@ export function LoginView({
 }: LoginViewProps) {
   const text = { ...DEFAULT_LOGIN_VIEW_TEXT, ...textOverrides };
   const [ownMode, setOwnMode] = React.useState<LoginViewMode>('signIn');
-  // Creating an account is a mode only where there is a way to create one.
+  // Creating an account, or resetting a password, is a mode only where there
+  // is a way to do it.
   const requestedMode = controlledMode ?? ownMode;
-  const mode: LoginViewMode = onEmailSignUp ? requestedMode : 'signIn';
+  const mode: LoginViewMode =
+    (requestedMode === 'signUp' && !onEmailSignUp) ||
+    (requestedMode === 'resetPassword' && !onPasswordReset)
+      ? 'signIn'
+      : requestedMode;
   const creating = mode === 'signUp';
+  const resetting = mode === 'resetPassword';
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
+  // The reset link has gone: the form says so instead of offering it again.
+  const [resetSent, setResetSent] = React.useState(false);
   const deviceScheme = useColorScheme();
   const appleTone: AppleLogoTone =
     appleLogoTone ?? (deviceScheme === 'dark' ? 'white' : 'black');
@@ -181,11 +218,44 @@ export function LoginView({
     );
   };
 
-  const toggleMode = () => {
-    const next: LoginViewMode = creating ? 'signIn' : 'signUp';
+  const goTo = (next: LoginViewMode) => {
     setError(null);
+    setResetSent(false);
     setOwnMode(next);
     onModeChange?.(next);
+  };
+  const toggleMode = () => goTo(creating ? 'signIn' : 'signUp');
+
+  /*
+    Sending the link signs nobody in, so `onSuccess` is not told. What it
+    says afterwards is the same whether or not the address has an account —
+    Firebase's own answer, with enumeration protection on, is the same too,
+    and a form that said "no such account" would tell anyone which addresses
+    have one.
+  */
+  const sendReset = async () => {
+    const address = email.trim();
+    if (!address) {
+      setError(text.missingEmail);
+      return;
+    }
+    if (!onPasswordReset) return;
+    setError(null);
+    setBusy(true);
+    try {
+      await onPasswordReset(address);
+      setResetSent(true);
+    } catch (err) {
+      // Without enumeration protection Firebase does say so; this form
+      // still does not.
+      if ((err as { code?: string })?.code === 'auth/user-not-found') {
+        setResetSent(true);
+      } else {
+        report(err);
+      }
+    } finally {
+      setBusy(false);
+    }
   };
 
   const googleButton = onGoogleSignIn ? (
@@ -244,6 +314,23 @@ export function LoginView({
         </View>
       ) : null}
 
+      {resetting ? (
+        <Text className='text-muted-foreground text-base'>
+          {text.resetPasswordHint}
+        </Text>
+      ) : null}
+
+      {resetting && resetSent ? (
+        <View
+          accessibilityRole='alert'
+          className='border-border bg-muted rounded-md border px-4 py-3'
+        >
+          <Text className='text-foreground text-base'>
+            {text.resetEmailSent}
+          </Text>
+        </View>
+      ) : null}
+
       <View className='gap-1'>
         <Text className='text-foreground text-sm font-medium'>
           {text.emailLabel}
@@ -264,54 +351,104 @@ export function LoginView({
           textContentType='emailAddress'
           keyboardType='email-address'
           accessibilityLabel={text.emailLabel}
+          {...(resetting
+            ? {
+                onSubmitEditing: () => void sendReset(),
+                returnKeyType: 'send' as const,
+              }
+            : {})}
           disabled={busy}
           className='border-border rounded-md border'
         />
       </View>
 
-      <View className='gap-1'>
-        <Text className='text-foreground text-sm font-medium'>
-          {text.passwordLabel}
-        </Text>
-        <Input
-          value={password}
-          onChangeText={setPassword}
-          placeholder={text.passwordPlaceholder}
-          secureTextEntry
-          autoCapitalize='none'
-          autoCorrect={false}
-          autoComplete={creating ? 'new-password' : 'current-password'}
-          textContentType={creating ? 'newPassword' : 'password'}
-          accessibilityLabel={text.passwordLabel}
-          onSubmitEditing={submit}
-          returnKeyType='go'
+      {resetting ? (
+        <Button
+          variant='primary'
+          onPress={() => void sendReset()}
           disabled={busy}
-          className='border-border rounded-md border'
-        />
-      </View>
-
-      <Button variant='primary' onPress={submit} disabled={busy} loading={busy}>
-        {creating ? text.signUp : text.signIn}
-      </Button>
-
-      {googleButton || appleButton ? (
+          loading={busy}
+        >
+          {text.sendResetLink}
+        </Button>
+      ) : (
         <>
-          <View className='flex-row items-center gap-3'>
-            <View className='bg-border h-px flex-1' />
-            <Text className='text-muted-foreground text-sm'>
-              {text.orContinueWith}
+          <View className='gap-1'>
+            <Text className='text-foreground text-sm font-medium'>
+              {text.passwordLabel}
             </Text>
-            <View className='bg-border h-px flex-1' />
+            <Input
+              value={password}
+              onChangeText={setPassword}
+              placeholder={text.passwordPlaceholder}
+              secureTextEntry
+              autoCapitalize='none'
+              autoCorrect={false}
+              autoComplete={creating ? 'new-password' : 'current-password'}
+              textContentType={creating ? 'newPassword' : 'password'}
+              accessibilityLabel={text.passwordLabel}
+              onSubmitEditing={submit}
+              returnKeyType='go'
+              disabled={busy}
+              className='border-border rounded-md border'
+            />
+            {/*
+              Under the field it is about, at its trailing edge, where every
+              sign-in form puts it. Only while signing in: somebody creating
+              an account has no password to forget.
+            */}
+            {onPasswordReset && !creating ? (
+              <View className='items-end'>
+                <Button
+                  variant='link'
+                  textClassName='text-sm'
+                  onPress={() => goTo('resetPassword')}
+                  disabled={busy}
+                >
+                  {text.forgotPassword}
+                </Button>
+              </View>
+            ) : null}
           </View>
-          <View className='gap-3'>
-            {appleFirst
-              ? [appleButton, googleButton]
-              : [googleButton, appleButton]}
-          </View>
-        </>
-      ) : null}
 
-      {onEmailSignUp ? (
+          <Button
+            variant='primary'
+            onPress={submit}
+            disabled={busy}
+            loading={busy}
+          >
+            {creating ? text.signUp : text.signIn}
+          </Button>
+
+          {googleButton || appleButton ? (
+            <>
+              <View className='flex-row items-center gap-3'>
+                <View className='bg-border h-px flex-1' />
+                <Text className='text-muted-foreground text-sm'>
+                  {text.orContinueWith}
+                </Text>
+                <View className='bg-border h-px flex-1' />
+              </View>
+              <View className='gap-3'>
+                {appleFirst
+                  ? [appleButton, googleButton]
+                  : [googleButton, appleButton]}
+              </View>
+            </>
+          ) : null}
+        </>
+      )}
+
+      {resetting ? (
+        <Button
+          variant='link'
+          textClassName='text-base'
+          onPress={() => goTo('signIn')}
+          disabled={busy}
+        >
+          {text.backToSignIn}
+        </Button>
+      ) : onEmailSignUp ? (
         <Button
           variant='link'
           textClassName='text-base'

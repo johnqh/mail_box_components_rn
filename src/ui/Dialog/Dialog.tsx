@@ -8,7 +8,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { safeAreaPadding } from '../../lib/safe-area';
@@ -60,7 +60,7 @@ export const Dialog: React.FC<DialogProps> = ({
 }) => {
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
-  const insets = useSafeAreaInsets();
+  const insets = useSurfaceInsets();
 
   useEffect(() => {
     if (isOpen) {
