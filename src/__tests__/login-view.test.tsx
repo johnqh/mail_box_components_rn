@@ -191,6 +191,34 @@ describe('LoginModal', () => {
     expect(view.getByRole('header')).toHaveTextContent('Create your account');
   });
 
+  it('opens on the mode it is asked for, each time it opens', () => {
+    const props = {
+      onClose: jest.fn(),
+      onEmailSignIn: signIn(),
+      onEmailSignUp: signIn(),
+      initialMode: 'signUp' as const,
+    };
+    const view = render(<LoginModal visible {...props} />);
+    expect(view.getByRole('header')).toHaveTextContent('Create your account');
+    fireEvent.press(view.getByText('Sign in'));
+    expect(view.getByRole('header')).toHaveTextContent('Sign in');
+    view.rerender(<LoginModal visible={false} {...props} />);
+    view.rerender(<LoginModal visible {...props} />);
+    expect(view.getByRole('header')).toHaveTextContent('Create your account');
+  });
+
+  it('opens on signing in when it has no way to sign up', () => {
+    const view = render(
+      <LoginModal
+        visible
+        onClose={jest.fn()}
+        onEmailSignIn={signIn()}
+        initialMode='signUp'
+      />
+    );
+    expect(view.getByRole('header')).toHaveTextContent('Sign in');
+  });
+
   it('closes once somebody has signed in', async () => {
     const onClose = jest.fn();
     const onSuccess = jest.fn();
