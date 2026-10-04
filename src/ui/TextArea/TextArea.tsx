@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View, TextInput, Text, TextInputProps } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 
 export interface TextAreaProps extends Omit<TextInputProps, 'onChange'> {
   /** Current value */
@@ -102,20 +101,17 @@ export const TextArea: React.FC<TextAreaProps> = ({
         multiline
         textAlignVertical='top'
         className={cn(
+          !textInputProps.placeholderTextColor &&
+            'placeholder:text-muted-foreground',
           'w-full rounded-lg border',
           'bg-background',
           'text-foreground',
-          'placeholder:text-muted-foreground',
           'border-input',
           sizeClasses[size],
           disabled && 'opacity-50',
           readOnly && 'bg-muted',
           inputClassName
         )}
-        // TODO: theme-aware color — placeholderTextColor is a raw prop and
-        // cannot be driven by a semantic className; this neutral works in
-        // both light and dark but is not theme-flipping.
-        placeholderTextColor={colors.raw.neutral[400]}
         accessibilityRole='text'
         accessibilityState={{ disabled }}
         {...textInputProps}

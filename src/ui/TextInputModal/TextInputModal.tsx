@@ -12,7 +12,6 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface TextInputModalProps {
@@ -163,11 +162,11 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     onChangeText={setValue}
                     disableFullscreenUI={disableFullscreenUI}
                     placeholder={placeholder}
-                    placeholderTextColor={colors.raw.neutral[400]}
                     maxLength={maxLength}
                     editable={!isLoading}
                     autoFocus
                     className={cn(
+                      'placeholder:text-muted-foreground',
                       'px-3 py-2 text-sm',
                       'bg-card',
                       'text-foreground',
@@ -222,7 +221,7 @@ export const TextInputModal: React.FC<TextInputModalProps> = ({
                     accessibilityLabel={confirmText}
                     accessibilityState={{ disabled: !canSubmit || isLoading }}
                   >
-                    <Text className='text-sm text-white font-medium'>
+                    <Text className='text-sm text-primary-foreground font-medium'>
                       {isLoading ? loadingText : confirmText}
                     </Text>
                   </Pressable>

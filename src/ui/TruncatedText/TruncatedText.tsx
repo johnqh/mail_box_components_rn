@@ -46,10 +46,16 @@ export const TruncatedText: React.FC<TruncatedTextProps> = ({
   className,
 }) => {
   const text = children || '';
+  /*
+    The page's foreground by default: a React Native `Text` inherits nothing,
+    so with no class it drew the platform's black on a dark theme. A colour in
+    `className` replaces it (`cn` merges conflicting classes, last wins).
+  */
+  const textClass = cn('text-foreground', className);
 
   // No truncation needed
   if (text.length <= maxLength) {
-    return <Text className={className}>{text}</Text>;
+    return <Text className={textClass}>{text}</Text>;
   }
 
   // Calculate truncated text based on position
@@ -76,5 +82,5 @@ export const TruncatedText: React.FC<TruncatedTextProps> = ({
 
   const truncatedText = getTruncatedText();
 
-  return <Text className={cn(className)}>{truncatedText}</Text>;
+  return <Text className={textClass}>{truncatedText}</Text>;
 };

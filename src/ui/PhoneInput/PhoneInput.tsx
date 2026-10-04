@@ -11,7 +11,6 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface Country {
@@ -182,10 +181,10 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           onChangeText={handleInputChange}
           disableFullscreenUI={disableFullscreenUI}
           placeholder={placeholder}
-          placeholderTextColor={colors.raw.neutral[400]}
           keyboardType='phone-pad'
           editable={!disabled}
           className={cn(
+            'placeholder:text-muted-foreground',
             'flex-1 px-3 py-2 text-sm',
             'bg-background text-foreground',
             'border border-border',
@@ -219,8 +218,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                     placeholder='Search countries...'
-                    placeholderTextColor={colors.raw.neutral[400]}
-                    className='px-3 py-2 text-sm bg-card text-foreground rounded-md'
+                    className='px-3 py-2 text-sm bg-card text-foreground rounded-md placeholder:text-muted-foreground'
                   />
                 </View>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 
 export type ChainType = 'evm' | 'solana' | 'bitcoin' | 'cosmos';
@@ -25,11 +26,8 @@ function splitBadgeClasses(base: string, dark: string) {
 }
 
 // Lazily derive chain colors from DS to avoid ESM issues in tests.
-let _chainColors: ReturnType<typeof buildChainColors> | null = null;
-function getChainColors() {
-  if (!_chainColors) _chainColors = buildChainColors();
-  return _chainColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getChainColors = themeCached(buildChainColors);
 function buildChainColors() {
   const badge = colors.component.badge;
   return {

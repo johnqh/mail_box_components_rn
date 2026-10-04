@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, Pressable, Animated } from 'react-native';
 import { InfoType } from '@sudobility/types';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
-
-const alert = colors.component.alert;
 
 // Split DS alert color strings into container (bg+border) and text for RN.
 // Views don't cascade text color to child Text elements.
@@ -18,11 +17,6 @@ function splitAlertClasses(base: string, dark: string) {
     text: all.filter(c => c.includes('text-')).join(' '),
   };
 }
-
-const dsInfo = splitAlertClasses(alert.info.base, alert.info.dark);
-const dsSuccess = splitAlertClasses(alert.success.base, alert.success.dark);
-const dsWarning = splitAlertClasses(alert.warning.base, alert.warning.dark);
-const dsError = splitAlertClasses(alert.error.base, alert.error.dark);
 
 export interface BannerProps {
   /** Whether the banner is visible */
@@ -45,41 +39,55 @@ export interface BannerProps {
   closeAccessibilityLabel?: string;
 }
 
-// Banner variant config derived from design system (colors.component.alert)
-const variantConfig: Record<
-  InfoType,
-  {
-    icon: string;
-    container: string;
-    iconColor: string;
-    textColor: string;
+/*
+  Banner variant config derived from design system (colors.component.alert).
+  Read when drawn, not at module load: the design system answers legacy
+  classes until a host calls `configureTheme`, which is after this module is
+  imported. Cached per theme (see lib/theme-cache).
+*/
+const getVariantConfig = themeCached(
+  (): Record<
+    InfoType,
+    {
+      icon: string;
+      container: string;
+      iconColor: string;
+      textColor: string;
+    }
+  > => {
+    const alert = colors.component.alert;
+    const dsInfo = splitAlertClasses(alert.info.base, alert.info.dark);
+    const dsSuccess = splitAlertClasses(alert.success.base, alert.success.dark);
+    const dsWarning = splitAlertClasses(alert.warning.base, alert.warning.dark);
+    const dsError = splitAlertClasses(alert.error.base, alert.error.dark);
+    return {
+      [InfoType.INFO]: {
+        icon: '\u2139',
+        container: dsInfo.container,
+        iconColor: alert.info.icon,
+        textColor: dsInfo.text,
+      },
+      [InfoType.SUCCESS]: {
+        icon: '\u2713',
+        container: dsSuccess.container,
+        iconColor: alert.success.icon,
+        textColor: dsSuccess.text,
+      },
+      [InfoType.WARNING]: {
+        icon: '\u26A0',
+        container: dsWarning.container,
+        iconColor: alert.warning.icon,
+        textColor: dsWarning.text,
+      },
+      [InfoType.ERROR]: {
+        icon: '\u2717',
+        container: dsError.container,
+        iconColor: alert.error.icon,
+        textColor: dsError.text,
+      },
+    };
   }
-> = {
-  [InfoType.INFO]: {
-    icon: '\u2139',
-    container: dsInfo.container,
-    iconColor: alert.info.icon,
-    textColor: dsInfo.text,
-  },
-  [InfoType.SUCCESS]: {
-    icon: '\u2713',
-    container: dsSuccess.container,
-    iconColor: alert.success.icon,
-    textColor: dsSuccess.text,
-  },
-  [InfoType.WARNING]: {
-    icon: '\u26A0',
-    container: dsWarning.container,
-    iconColor: alert.warning.icon,
-    textColor: dsWarning.text,
-  },
-  [InfoType.ERROR]: {
-    icon: '\u2717',
-    container: dsError.container,
-    iconColor: alert.error.icon,
-    textColor: dsError.text,
-  },
-};
+);
 
 /**
  * Banner Component
@@ -123,7 +131,7 @@ export const Banner: React.FC<BannerProps> = ({
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const dismissTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const config = variantConfig[variant];
+  const config = getVariantConfig()[variant];
 
   const clearDismissTimeout = useCallback(() => {
     if (dismissTimeoutRef.current) {

@@ -12,7 +12,6 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface CommandItem {
@@ -159,8 +158,7 @@ export const Command: React.FC<CommandProps> = ({
                   value={searchQuery}
                   onChangeText={setSearchQuery}
                   placeholder={placeholder}
-                  placeholderTextColor={colors.raw.neutral[400]}
-                  className='flex-1 text-foreground text-base'
+                  className='flex-1 text-foreground text-base placeholder:text-muted-foreground'
                   autoCapitalize='none'
                   autoCorrect={false}
                   returnKeyType='search'

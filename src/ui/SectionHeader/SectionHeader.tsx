@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface SectionHeaderProps {
@@ -49,7 +48,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <Text className='text-lg font-semibold text-foreground'>{title}</Text>
         <View className='flex-row items-center gap-2'>
           {loading && (
-            <ActivityIndicator size='small' color={colors.raw.blue[600]} />
+            <ActivityIndicator size='small' className='text-primary' />
           )}
           {actions}
           {onAdd && (

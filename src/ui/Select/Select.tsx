@@ -17,8 +17,9 @@ import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
 import Svg, { Path } from 'react-native-svg';
 import { cn } from '../../lib/utils';
+import '../../lib/svg-interop';
 import { selectTriggerLabelStyle } from '../../lib/select-trigger';
-import { colors, designTokens } from '@sudobility/design';
+import { designTokens } from '@sudobility/design';
 import { optionsFromChildren } from './SelectComposition';
 import { pressProps } from '../../lib/a11y';
 import { useFormFactor } from '../../lib/form-factor';
@@ -289,12 +290,13 @@ export const Select: React.FC<SelectProps> = ({
             height={16}
             viewBox='0 0 20 20'
             style={{ marginLeft: 8 }}
+            className='text-muted-foreground'
           >
             <Path
               fillRule='evenodd'
               d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
               clipRule='evenodd'
-              fill={colors.raw.neutral[500]}
+              fill='currentColor'
             />
           </Svg>
         </Pressable>

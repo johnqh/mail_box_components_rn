@@ -78,5 +78,12 @@ export const FormattedNumber: React.FC<FormattedNumberProps> = ({
     }
   };
 
-  return <Text className={cn(className)}>{formatNumber()}</Text>;
+  /*
+    The page's foreground by default: a React Native `Text` inherits nothing,
+    so with no class it drew the platform's black on a dark theme. A colour in
+    `className` replaces it (`cn` merges conflicting classes, last wins).
+  */
+  return (
+    <Text className={cn('text-foreground', className)}>{formatNumber()}</Text>
+  );
 };

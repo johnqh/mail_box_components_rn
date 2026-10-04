@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Animated } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 
 export interface ProgressProps {
@@ -39,11 +40,8 @@ export interface ProgressProps {
  */
 
 // Lazily derive progress colors from DS to avoid ESM issues in tests.
-let _progressColors: ReturnType<typeof buildProgressColors> | null = null;
-function getProgressColors() {
-  if (!_progressColors) _progressColors = buildProgressColors();
-  return _progressColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getProgressColors = themeCached(buildProgressColors);
 function buildProgressColors() {
   // Extract the leading bg-* class from DS button base strings
   function extractBg(base: string, darkStr: string) {

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
+import { resolveIconColor, useIconColor } from '../../lib/icon-color';
 import { designTokens, getCardVariantColors } from '@sudobility/design';
 
 export interface DashboardStatCardProps {
@@ -12,7 +14,10 @@ export interface DashboardStatCardProps {
   change?: number;
   /** Change period description */
   changePeriod?: string;
-  /** Icon element */
+  /**
+   * Icon element. Given the muted colour as its `color` unless it states its
+   * own (see `resolveIconColor`).
+   */
   icon?: React.ReactNode;
   /** Color variant */
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
@@ -38,20 +43,16 @@ export interface DashboardStatCardProps {
  * ```
  */
 
-// Lazily derive card variant colors from DS to avoid ESM issues in tests.
-let _cardColors: Record<string, string> | null = null;
-function getDashboardCardColors() {
-  if (!_cardColors) {
-    _cardColors = {
-      default: getCardVariantColors('default'),
-      primary: getCardVariantColors('info'),
-      success: getCardVariantColors('success'),
-      warning: getCardVariantColors('warning'),
-      danger: getCardVariantColors('error'),
-    };
-  }
-  return _cardColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getDashboardCardColors = themeCached(
+  (): Record<string, string> => ({
+    default: getCardVariantColors('default'),
+    primary: getCardVariantColors('info'),
+    success: getCardVariantColors('success'),
+    warning: getCardVariantColors('warning'),
+    danger: getCardVariantColors('error'),
+  })
+);
 
 export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
   title,
@@ -63,6 +64,9 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
   className,
 }) => {
   const variantClasses = getDashboardCardColors();
+  // The icon is given the muted colour unless it states its own; see
+  // lib/icon-color.
+  const iconColor = useIconColor('mutedForeground');
 
   const isPositive = change !== undefined && change >= 0;
 
@@ -81,7 +85,7 @@ export const DashboardStatCard: React.FC<DashboardStatCardProps> = ({
         >
           {title}
         </Text>
-        {icon && <View className='text-muted-foreground'>{icon}</View>}
+        {icon && <View>{resolveIconColor(icon, iconColor)}</View>}
       </View>
 
       {/* Value */}

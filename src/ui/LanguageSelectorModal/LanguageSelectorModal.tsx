@@ -12,10 +12,11 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import { ModalHost } from '../ModalHost';
-// RN StyleSheet/color props (placeholderTextColor, ActivityIndicator color, SVG
-// fill) can't use NativeWind classNames, so they reference the design system's
-// raw palette — the lib-wide convention for RN-only color props.
-import { colors } from '@sudobility/design';
+/*
+  Layout is in `styles`; every colour is a semantic class, so it follows the
+  palette the host applied (including one set at run time with `vars()`)
+  rather than a light-only literal.
+*/
 import { getSortedLanguages, type LanguageConfig } from './languages';
 import { pressProps } from '../../lib/a11y';
 
@@ -46,26 +47,42 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 
     return (
       <TouchableOpacity
-        style={[styles.languageItem, isSelected && styles.selectedItem]}
+        style={styles.languageItem}
+        className={isSelected ? 'bg-primary/10' : undefined}
         {...pressProps(() => onSelectLanguage(item.code))}
         activeOpacity={0.7}
       >
         <Text style={styles.flag}>{item.flag}</Text>
-        <Text style={[styles.languageName, isSelected && styles.selectedText]}>
+        <Text
+          style={[styles.languageName, isSelected && styles.selectedText]}
+          className={isSelected ? 'text-primary' : 'text-foreground'}
+        >
           {item.name}
         </Text>
-        {isSelected && <Text style={styles.checkmark}>{'\u2713'}</Text>}
+        {isSelected && (
+          <Text style={styles.checkmark} className='text-primary'>
+            {'\u2713'}
+          </Text>
+        )}
       </TouchableOpacity>
     );
   };
 
   return (
     <ModalHost visible={visible} animationType='slide' onRequestClose={onClose}>
-      <SafeAreaView edges={safeEdges} style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>{title}</Text>
+      <SafeAreaView
+        edges={safeEdges}
+        style={styles.container}
+        className='bg-background'
+      >
+        <View style={styles.header} className='border-border'>
+          <Text style={styles.headerTitle} className='text-foreground'>
+            {title}
+          </Text>
           <TouchableOpacity {...pressProps(onClose)} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>{doneLabel}</Text>
+            <Text style={styles.closeButtonText} className='text-primary'>
+              {doneLabel}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -78,8 +95,8 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
         />
 
         {loading && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size='large' color={colors.raw.blue[500]} />
+          <View style={styles.loadingOverlay} className='bg-background/90'>
+            <ActivityIndicator size='large' className='text-primary' />
           </View>
         )}
       </SafeAreaView>
@@ -90,7 +107,6 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.raw.neutral[50],
   },
   header: {
     flexDirection: 'row',
@@ -99,12 +115,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.raw.neutral[200],
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: colors.raw.neutral[800],
   },
   closeButton: {
     paddingVertical: 8,
@@ -113,7 +127,6 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: colors.raw.blue[500],
   },
   listContent: {
     paddingVertical: 8,
@@ -124,9 +137,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 20,
   },
-  selectedItem: {
-    backgroundColor: colors.raw.blue[50],
-  },
   flag: {
     fontSize: 24,
     marginEnd: 16,
@@ -134,32 +144,27 @@ const styles = StyleSheet.create({
   languageName: {
     flex: 1,
     fontSize: 17,
-    color: colors.raw.neutral[800],
   },
   selectedText: {
     fontWeight: '600',
-    color: colors.raw.blue[500],
   },
   checkmark: {
     fontSize: 18,
-    color: colors.raw.blue[500],
     fontWeight: '600',
   },
   separator: {
     height: 1,
-    backgroundColor: colors.raw.neutral[100],
     marginStart: 60,
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    // Translucent scrim that dims content while loading (no semantic token
-    // exists for a translucent overlay; kept as a literal like modal scrims).
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-const ItemSeparator = () => <View style={styles.separator} />;
+const ItemSeparator = () => (
+  <View style={styles.separator} className='bg-border' />
+);
 
 export default LanguageSelectorModal;

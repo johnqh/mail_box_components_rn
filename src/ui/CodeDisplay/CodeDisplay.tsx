@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 
 export interface CodeDisplayProps {
@@ -43,11 +44,8 @@ export interface CodeDisplayProps {
  */
 
 // Lazily derive display colors from DS to avoid ESM issues in tests.
-let _displayColors: ReturnType<typeof buildDisplayColors> | null = null;
-function getDisplayColors() {
-  if (!_displayColors) _displayColors = buildDisplayColors();
-  return _displayColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getDisplayColors = themeCached(buildDisplayColors);
 function buildDisplayColors() {
   const alert = colors.component.alert;
   function splitClasses(base: string, dark: string) {

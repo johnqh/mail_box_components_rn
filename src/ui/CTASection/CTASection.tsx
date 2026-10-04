@@ -24,7 +24,10 @@ export interface CTASectionProps {
   secondaryButton?: CTAButton;
   /** Gradient preset */
   gradient?: 'blue-purple' | 'green-blue' | 'orange-red' | 'purple-pink';
-  /** Text color theme */
+  /**
+   * `light` (the default) draws the text in the surface's own foreground
+   * colour, which reads on it in every theme; `dark` uses the page's.
+   */
   textColor?: 'light' | 'dark';
   /** Size variant */
   size?: 'sm' | 'md' | 'lg';
@@ -57,12 +60,37 @@ export const CTASection: React.FC<CTASectionProps> = ({
   size = 'lg',
   className,
 }) => {
-  const gradientClasses = {
-    'blue-purple': 'bg-primary dark:bg-primary',
-    'green-blue': 'bg-success ',
-    'orange-red': 'bg-warning ',
-    'purple-pink': 'bg-accent ',
+  /*
+    Each surface is a theme colour, and what sits on it takes that colour's
+    foreground — written out in full so NativeWind sees every class.
+  */
+  const surfaces = {
+    'blue-purple': {
+      bg: 'bg-primary dark:bg-primary',
+      text: 'text-primary-foreground',
+      buttonText: 'text-primary',
+      ghost: 'bg-primary-foreground/20 border border-primary-foreground/30',
+    },
+    'green-blue': {
+      bg: 'bg-success',
+      text: 'text-success-foreground',
+      buttonText: 'text-success',
+      ghost: 'bg-success-foreground/20 border border-success-foreground/30',
+    },
+    'orange-red': {
+      bg: 'bg-warning',
+      text: 'text-warning-foreground',
+      buttonText: 'text-warning',
+      ghost: 'bg-warning-foreground/20 border border-warning-foreground/30',
+    },
+    'purple-pink': {
+      bg: 'bg-accent',
+      text: 'text-accent-foreground',
+      buttonText: 'text-accent-foreground',
+      ghost: 'bg-accent-foreground/20 border border-accent-foreground/30',
+    },
   };
+  const surface = surfaces[gradient];
 
   const sizeClasses = {
     sm: 'py-8 px-4',
@@ -84,14 +112,14 @@ export const CTASection: React.FC<CTASectionProps> = ({
   };
 
   const textColorClass =
-    textColor === 'light' ? 'text-white' : 'text-foreground';
+    textColor === 'light' ? surface.text : 'text-foreground';
 
   const renderButton = (button: CTAButton, isPrimary: boolean) => (
     <Pressable
       {...pressProps(button.onPress)}
       className={cn(
         'px-6 py-3 rounded-lg',
-        isPrimary ? 'bg-white' : 'bg-white/20 border border-white/30'
+        isPrimary ? 'bg-background' : surface.ghost
       )}
       accessibilityRole='button'
       accessibilityLabel={button.label}
@@ -99,7 +127,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
       <Text
         className={cn(
           'text-base font-semibold text-center',
-          isPrimary ? 'text-primary' : 'text-white'
+          isPrimary ? surface.buttonText : textColorClass
         )}
       >
         {button.label}
@@ -111,7 +139,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
     <View
       className={cn(
         'rounded-2xl overflow-hidden',
-        gradientClasses[gradient],
+        surface.bg,
         sizeClasses[size],
         className
       )}

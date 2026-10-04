@@ -223,7 +223,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <Text
               className={cn(
                 config.text,
-                isActive ? 'text-white' : 'text-muted-foreground'
+                isActive ? 'text-primary-foreground' : 'text-muted-foreground'
               )}
             >
               {page}

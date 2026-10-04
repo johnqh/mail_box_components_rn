@@ -71,16 +71,15 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   borderColor = false,
   className,
 }) => {
-  // Color configurations -- derived from colors.raw.* palette
-  // Each Tailwind class maps to a colors.raw hex value at the same shade
+  // Each colour name maps to a semantic token, so it follows the active theme.
   const colorClasses: Record<FeatureCardColor, string> = {
-    blue: 'text-primary', // colors.raw.blue[600] / [400]
-    green: 'text-success', // colors.raw.green[600] / [400]
+    blue: 'text-primary',
+    green: 'text-success',
     purple: 'text-accent-foreground',
-    orange: 'text-warning', // colors.raw.orange[600] / [400]
+    orange: 'text-warning',
     pink: 'text-secondary-foreground',
-    gray: 'text-muted-foreground', // colors.raw.neutral[600] / [400]
-    red: 'text-destructive', // colors.raw.red[600] / [400]
+    gray: 'text-muted-foreground',
+    red: 'text-destructive',
     indigo: 'text-primary ',
     cyan: 'text-info ',
     emerald: 'text-success ',
@@ -102,29 +101,29 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   };
 
   const iconBackgroundClasses: Record<FeatureCardColor, string> = {
-    green: 'bg-success/10 ', // colors.raw.green[100] / [900]
-    blue: 'bg-primary/10', // colors.raw.blue[100] / [900]
-    purple: 'bg-accent ', // colors.raw.purple[100] / [900]
-    orange: 'bg-warning/10 ', // colors.raw.orange[100] / [900]
-    red: 'bg-destructive/10 ', // colors.raw.red[100] / [900]
+    green: 'bg-success/10 ',
+    blue: 'bg-primary/10',
+    purple: 'bg-accent ',
+    orange: 'bg-warning/10 ',
+    red: 'bg-destructive/10 ',
     indigo: 'bg-primary/10 dark:bg-primary/10',
     cyan: 'bg-info/10 ',
     emerald: 'bg-success/10 ',
     pink: 'bg-secondary ',
-    gray: 'bg-muted/20', // colors.raw.neutral[100] / [900]
+    gray: 'bg-muted/20',
   };
 
   const bulletColorClasses: Record<FeatureCardColor, string> = {
-    green: 'bg-success', // colors.raw.green[500]
-    blue: 'bg-primary', // colors.raw.blue[500]
-    purple: 'bg-accent', // colors.raw.purple[500]
-    orange: 'bg-warning', // colors.raw.orange[500]
-    red: 'bg-destructive', // colors.raw.red[500]
+    green: 'bg-success',
+    blue: 'bg-primary',
+    purple: 'bg-accent',
+    orange: 'bg-warning',
+    red: 'bg-destructive',
     indigo: 'bg-primary/100',
     cyan: 'bg-info',
     emerald: 'bg-success',
     pink: 'bg-secondary',
-    gray: 'bg-muted', // colors.raw.neutral[500]
+    gray: 'bg-muted',
   };
 
   const CardContent = () => (

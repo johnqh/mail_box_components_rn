@@ -98,7 +98,7 @@ export const Card: React.FC<CardProps> = ({
               accessibilityLabel='Close'
               accessibilityRole='button'
             >
-              <Text className='text-lg'>×</Text>
+              <Text className='text-lg text-foreground'>×</Text>
             </Pressable>
           )}
         </View>

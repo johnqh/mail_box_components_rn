@@ -360,6 +360,33 @@ for the start of a string literal and blanked the **rest of the file**, hiding
 two genuinely broken touchables in `auth-components-rn/ForgotPasswordForm.tsx`.
 A guard that silently stops looking is worse than no guard.
 
+### Colours follow the host's theme
+
+**Every colour is a semantic token, and a class wherever NativeWind can carry
+it** — because a class resolves against whatever the host applied, including
+CSS variables it sets at run time with `vars()`. That is how a host such as
+Moosiac lets its reader choose Dark on a light-OS device; anything read from the
+OS appearance (`useColorScheme()`) or from `colors.raw` gets that case wrong.
+Props that look as if they need a string often take a class:
+`ActivityIndicator` (`className='text-primary'` → `color`), `TextInput`
+(`placeholder:text-muted-foreground` → `placeholderTextColor`; skip the class
+when the caller passes `placeholderTextColor`, so theirs wins), and an `Svg`
+created in this package's JSX (`lib/svg-interop` registers it;
+`className='text-muted-foreground'` → `color`, paths `fill='currentColor'`).
+What cannot take a class (a `Switch`'s `trackColor`, an icon's `color`) uses
+`useThemeColor` from `lib/theme-color`, which reads the host's runtime
+variable first and falls back to the configured theme, then to the caller's
+fallback. React Native `Text` inherits no colour, so a `text-*` class on a
+`View` colours nothing — put it on the `Text`. An `icon` slot is given its
+colour through `resolveIconColor` (`lib/icon-color`): a lone element with no
+`color` of its own is cloned with the slot's resolved colour. Design-system
+class strings (`colors.component.*`) are read at render or cached per theme
+with `themeCached` (`lib/theme-cache`), never at module load.
+`src/__tests__/theme-color-scan.test.ts` refuses `colors.raw`, hex literals,
+palette classes (`text-white`, `bg-blue-500`) and `color=` on an
+`ActivityIndicator` in `src/ui`, with an allow list that gives a reason per
+entry; translucent `bg-black/NN` scrims are the one blanket exception.
+
 ### Layout and safe areas
 
 **Every full-screen or edge-anchored surface pads for all four insets — spread

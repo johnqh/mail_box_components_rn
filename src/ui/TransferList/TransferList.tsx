@@ -3,7 +3,6 @@ import { useState, useCallback } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface TransferListItem {
@@ -175,8 +174,7 @@ export const TransferList: React.FC<TransferListProps> = ({
             value={searchValue}
             onChangeText={onSearchChange}
             placeholder={searchPlaceholder}
-            placeholderTextColor={colors.raw.neutral[400]}
-            className='px-3 py-2 text-sm bg-card text-foreground border border-border rounded-md'
+            className='px-3 py-2 text-sm bg-card text-foreground border border-border rounded-md placeholder:text-muted-foreground'
           />
         </View>
       )}
@@ -222,7 +220,7 @@ export const TransferList: React.FC<TransferListProps> = ({
                     )}
                   >
                     {isSelected && (
-                      <Text className='text-white text-xs'>✓</Text>
+                      <Text className='text-primary-foreground text-xs'>✓</Text>
                     )}
                   </View>
 

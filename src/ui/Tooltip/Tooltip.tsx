@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { View, Text, Pressable, Animated } from 'react-native';
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
-import { colors, designTokens } from '@sudobility/design';
+import { designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface TooltipProps {
@@ -44,43 +44,25 @@ export interface TooltipProps {
  * ```
  */
 
-// Lazily derive tooltip colors from DS to avoid ESM issues in tests.
-let _tooltipColors: Record<string, string> | null = null;
-function getTooltipColors() {
-  if (!_tooltipColors) {
-    const btn = colors.component.button;
-    // Extract bg-* from DS button base for solid tooltip backgrounds
-    function extractBg(base: string, darkStr: string) {
-      const bg =
-        base
-          .split(' ')
-          .find(
-            c =>
-              c.startsWith('bg-') &&
-              !c.includes('hover:') &&
-              !c.includes('active:')
-          ) || '';
-      const darkBg =
-        darkStr
-          .split(' ')
-          .find(
-            c =>
-              c.startsWith('dark:bg-') &&
-              !c.includes('hover:') &&
-              !c.includes('active:')
-          ) || '';
-      return `${bg} ${darkBg}`;
-    }
-    _tooltipColors = {
-      default: 'bg-popover dark:bg-muted',
-      info: extractBg(btn.primary.base, btn.primary.dark),
-      success: extractBg(btn.success.base, btn.success.dark),
-      warning: 'bg-warning dark:bg-warning', // DS has no yellow button; local fallback
-      error: extractBg(btn.destructive.base, btn.destructive.dark),
-    };
-  }
-  return _tooltipColors;
-}
+/**
+ * Each variant's surface and the text drawn on it, as semantic tokens, so both
+ * follow the active theme and its dark mode. The text is the surface's own
+ * foreground: a fixed white was unreadable on the light `popover` surface.
+ */
+const tooltipColors: Record<
+  NonNullable<TooltipProps['variant']>,
+  { surface: string; text: string }
+> = {
+  default: {
+    surface: 'bg-popover border border-border',
+    text: 'text-popover-foreground',
+  },
+  // The primary surface, as the info tooltip has always drawn.
+  info: { surface: 'bg-primary', text: 'text-primary-foreground' },
+  success: { surface: 'bg-success', text: 'text-success-foreground' },
+  warning: { surface: 'bg-warning', text: 'text-warning-foreground' },
+  error: { surface: 'bg-destructive', text: 'text-destructive-foreground' },
+};
 
 export const Tooltip: React.FC<TooltipProps> = ({
   content,
@@ -141,7 +123,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   // Variant styles from DS
-  const variantClasses = getTooltipColors();
+  const variantColors = tooltipColors[variant];
 
   // Calculate tooltip position
   const getTooltipPosition = () => {
@@ -204,12 +186,12 @@ export const Tooltip: React.FC<TooltipProps> = ({
             <View
               className={cn(
                 'px-3 py-2 rounded-lg shadow-lg',
-                variantClasses[variant],
+                variantColors.surface,
                 className
               )}
             >
               <Text
-                className={`${designTokens.typography.size.xs} ${designTokens.typography.weight.medium} text-white`}
+                className={`${designTokens.typography.size.xs} ${designTokens.typography.weight.medium} ${variantColors.text}`}
               >
                 {content}
               </Text>

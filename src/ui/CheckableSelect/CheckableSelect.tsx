@@ -8,8 +8,9 @@ import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import Svg, { Path } from 'react-native-svg';
 import { Portal } from '../Portal';
 import { cn } from '../../lib/utils';
+import '../../lib/svg-interop';
 import { selectTriggerLabelStyle } from '../../lib/select-trigger';
-import { colors, designTokens } from '@sudobility/design';
+import { designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 const { typography } = designTokens;
@@ -130,7 +131,7 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
     <>
       <Pressable
         {...pressProps(() => setIsOpen(true))}
-        className={cn('bg-card', className)}
+        className={cn('bg-card border-input', className)}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -138,7 +139,6 @@ export const CheckableSelect: React.FC<CheckableSelectProps> = ({
           paddingHorizontal: 12,
           paddingVertical: 6,
           borderWidth: 1,
-          borderColor: colors.raw.neutral[300],
           borderRadius: 6,
         }}
         accessibilityRole='combobox'
@@ -285,29 +285,35 @@ function Row({
   );
 }
 
+/*
+  Checked is filled with the theme's primary and ticked in its foreground, as
+  `MultiSelect` and `TransferList` draw theirs; unchecked is an input border.
+*/
 function Box({ checked }: { checked: boolean }) {
   return (
     <View
+      className={checked ? 'bg-primary border-primary' : 'border-input'}
       style={{
         width: 20,
         height: 20,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: checked
-          ? colors.raw.neutral[800]
-          : colors.raw.neutral[400],
-        backgroundColor: checked ? colors.raw.neutral[800] : 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
       {checked ? (
-        <Svg width={14} height={14} viewBox='0 0 20 20'>
+        <Svg
+          width={14}
+          height={14}
+          viewBox='0 0 20 20'
+          className='text-primary-foreground'
+        >
           <Path
             fillRule='evenodd'
             d='M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z'
             clipRule='evenodd'
-            fill='#ffffff'
+            fill='currentColor'
           />
         </Svg>
       ) : null}
@@ -317,12 +323,18 @@ function Box({ checked }: { checked: boolean }) {
 
 function Chevron() {
   return (
-    <Svg width={16} height={16} viewBox='0 0 20 20' style={{ marginLeft: 8 }}>
+    <Svg
+      width={16}
+      height={16}
+      viewBox='0 0 20 20'
+      style={{ marginLeft: 8 }}
+      className='text-muted-foreground'
+    >
       <Path
         fillRule='evenodd'
         d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'
         clipRule='evenodd'
-        fill={colors.raw.neutral[500]}
+        fill='currentColor'
       />
     </Svg>
   );

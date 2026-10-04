@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ActivityIndicator, Text, type ViewProps } from 'react-native';
 import { cn } from '../../lib/utils';
-import { colors, textVariants } from '@sudobility/design';
+import { textVariants } from '@sudobility/design';
 
 /**
  * Props for the Spinner loading indicator component.
@@ -26,15 +26,19 @@ const sizeMap = {
   extraLarge: 'large' as const,
 };
 
-// TODO: theme-aware color — ActivityIndicator's `color` prop cannot be set via
-// a semantic className, so these raw values do not flip with light/dark theme.
-// The `default` variant uses the brand blue and stays legible in both schemes.
-const colorMap = {
-  default: colors.raw.blue[600],
-  white: colors.raw.neutral[0],
-  success: colors.raw.green[600],
-  warning: colors.raw.orange[600],
-  error: colors.raw.red[600],
+/**
+ * Each variant's colour, as a class. NativeWind maps a class's text colour
+ * onto `ActivityIndicator`'s `color`, so the spinner follows whatever palette
+ * the host applied — including one it sets at run time — with no hook.
+ * `white` is for a spinner on a primary surface, so it is that surface's
+ * foreground.
+ */
+const colorClassMap: Record<NonNullable<SpinnerProps['variant']>, string> = {
+  default: 'text-primary',
+  white: 'text-primary-foreground',
+  success: 'text-success',
+  warning: 'text-warning',
+  error: 'text-destructive',
 };
 
 /**
@@ -55,7 +59,6 @@ export const Spinner: React.FC<SpinnerProps> = ({
   ...props
 }) => {
   const activitySize = sizeMap[size];
-  const color = colorMap[variant];
 
   return (
     <View
@@ -64,7 +67,10 @@ export const Spinner: React.FC<SpinnerProps> = ({
       accessibilityLabel={accessibilityLabel}
       {...props}
     >
-      <ActivityIndicator size={activitySize} color={color} />
+      <ActivityIndicator
+        size={activitySize}
+        className={colorClassMap[variant]}
+      />
       {showText && (
         <Text className={cn(textVariants.body.sm(), 'mt-2')}>
           {loadingText}

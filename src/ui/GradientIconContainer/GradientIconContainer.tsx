@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors } from '@sudobility/design';
 
 export interface GradientIconContainerProps {
@@ -31,33 +32,30 @@ export interface GradientIconContainerProps {
  */
 
 // Lazily derive gradient icon colors from DS to avoid ESM issues in tests.
-let _gradientIconColors: Record<string, string> | null = null;
-function getGradientIconColors() {
-  if (!_gradientIconColors) {
-    const btn = colors.component.button;
-    // Extract the leading bg-* class from DS button base strings (solid colors)
-    function extractBg(base: string) {
-      return (
-        base
-          .split(' ')
-          .find(
-            c =>
-              c.startsWith('bg-') &&
-              !c.includes('hover:') &&
-              !c.includes('active:')
-          ) || ''
-      );
-    }
-    _gradientIconColors = {
-      blue: extractBg(btn.primary.base),
-      purple: 'bg-accent', // DS has no purple button; local fallback
-      green: extractBg(btn.success.base),
-      orange: 'bg-warning', // DS has no orange button; local fallback
-      gray: 'bg-muted dark:bg-muted',
-    };
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getGradientIconColors = themeCached((): Record<string, string> => {
+  const btn = colors.component.button;
+  // Extract the leading bg-* class from DS button base strings (solid colors)
+  function extractBg(base: string) {
+    return (
+      base
+        .split(' ')
+        .find(
+          c =>
+            c.startsWith('bg-') &&
+            !c.includes('hover:') &&
+            !c.includes('active:')
+        ) || ''
+    );
   }
-  return _gradientIconColors;
-}
+  return {
+    blue: extractBg(btn.primary.base),
+    purple: 'bg-accent', // DS has no purple button; local fallback
+    green: extractBg(btn.success.base),
+    orange: 'bg-warning', // DS has no orange button; local fallback
+    gray: 'bg-muted dark:bg-muted',
+  };
+});
 
 export const GradientIconContainer: React.FC<GradientIconContainerProps> = ({
   children,

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
-import { colors } from '@sudobility/design';
 
 export interface ProgressCircleProps {
   /** Progress value (0-100) */
@@ -16,13 +15,44 @@ export interface ProgressCircleProps {
   label?: string;
   /** Color variant */
   variant?: 'primary' | 'success' | 'warning' | 'danger';
-  /** Custom color (hex) */
+  /** Custom color. Overrides the variant's theme colour. */
   color?: string;
-  /** Background track color (hex) */
+  /** Background track color. Defaults to the theme's `muted`. */
   trackColor?: string;
   /** Additional className */
   className?: string;
 }
+
+/** Top, right, bottom and left arc classes for each variant. */
+const ARC_CLASSES: Record<
+  NonNullable<ProgressCircleProps['variant']>,
+  [string, string, string, string]
+> = {
+  primary: [
+    'border-t-primary',
+    'border-r-primary',
+    'border-b-primary',
+    'border-l-primary',
+  ],
+  success: [
+    'border-t-success',
+    'border-r-success',
+    'border-b-success',
+    'border-l-success',
+  ],
+  warning: [
+    'border-t-warning',
+    'border-r-warning',
+    'border-b-warning',
+    'border-l-warning',
+  ],
+  danger: [
+    'border-t-destructive',
+    'border-r-destructive',
+    'border-b-destructive',
+    'border-l-destructive',
+  ],
+};
 
 /**
  * ProgressCircle Component
@@ -49,23 +79,37 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
   label,
   variant = 'primary',
   color,
-  trackColor = colors.raw.neutral[200],
+  trackColor,
   className,
 }) => {
   // Clamp value between 0 and 100
   const progress = Math.min(100, Math.max(0, value));
 
-  // TODO: theme-aware color — these arc/track colors feed RN border style
-  // props (not className), so they cannot use semantic tokens. The raw palette
-  // values below do not flip with light/dark theme.
-  const variantColors = {
-    primary: colors.raw.blue[600],
-    success: colors.raw.green[600],
-    warning: colors.raw.amber[600],
-    danger: colors.raw.red[600],
-  };
-
-  const progressColor = color || variantColors[variant];
+  /*
+    The arc and track are drawn as classes, so they follow the palette the host
+    applied (including one set at run time with `vars()`). A side colour beats
+    the view's `borderColor` in React Native, so an unfilled side is simply
+    one with no side class. Every class is written out whole for NativeWind.
+    `color` and `trackColor`, when passed, are drawn as given.
+  */
+  const arcSides = ARC_CLASSES[variant];
+  const filled = [true, progress > 25, progress > 50, progress > 75];
+  const arcClass = color
+    ? undefined
+    : cn(
+        filled[0] && arcSides[0],
+        filled[1] && arcSides[1],
+        filled[2] && arcSides[2],
+        filled[3] && arcSides[3]
+      );
+  const arcStyle = color
+    ? {
+        borderTopColor: color,
+        borderRightColor: filled[1] ? color : 'transparent',
+        borderBottomColor: filled[2] ? color : 'transparent',
+        borderLeftColor: filled[3] ? color : 'transparent',
+      }
+    : undefined;
   const innerSize = size - strokeWidth * 2;
 
   return (
@@ -75,28 +119,27 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
     >
       {/* Background circle */}
       <View
+        className={trackColor ? undefined : 'border-muted'}
         style={{
           width: size,
           height: size,
           borderRadius: size / 2,
           borderWidth: strokeWidth,
-          borderColor: trackColor,
+          ...(trackColor ? { borderColor: trackColor } : null),
           position: 'absolute',
         }}
       />
 
       {/* Progress indicator - simplified arc */}
       <View
+        className={arcClass}
         style={{
           width: size,
           height: size,
           borderRadius: size / 2,
           borderWidth: strokeWidth,
           borderColor: 'transparent',
-          borderTopColor: progressColor,
-          borderRightColor: progress > 25 ? progressColor : 'transparent',
-          borderBottomColor: progress > 50 ? progressColor : 'transparent',
-          borderLeftColor: progress > 75 ? progressColor : 'transparent',
+          ...arcStyle,
           position: 'absolute',
           transform: [{ rotate: '-90deg' }],
         }}

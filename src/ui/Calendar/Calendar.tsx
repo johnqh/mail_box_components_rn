@@ -242,10 +242,12 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <Text
                   className={cn(
                     typography.size.sm,
-                    isCurrentMonth
-                      ? 'text-foreground'
-                      : 'text-muted-foreground',
-                    isSelected && `text-white ${typography.weight.semibold}`
+                    // One colour class, chosen here rather than by merging.
+                    isSelected
+                      ? `text-primary-foreground ${typography.weight.semibold}`
+                      : isCurrentMonth
+                        ? 'text-foreground'
+                        : 'text-muted-foreground'
                   )}
                 >
                   {date.getDate()}

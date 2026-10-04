@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 
 export interface CodeProps {
@@ -33,11 +34,8 @@ export interface CodeProps {
  */
 
 // Lazily derive code colors from DS to avoid ESM issues in tests.
-let _codeColors: ReturnType<typeof buildCodeColors> | null = null;
-function getCodeColors() {
-  if (!_codeColors) _codeColors = buildCodeColors();
-  return _codeColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getCodeColors = themeCached(buildCodeColors);
 function buildCodeColors() {
   const alert = colors.component.alert;
   // Split combined DS classes into separate bg/text for RN

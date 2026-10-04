@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 
 export interface StatDisplayProps {
@@ -36,11 +37,8 @@ export interface StatDisplayProps {
  */
 
 // Lazily derive stat display colors from DS to avoid ESM issues in tests.
-let _statColors: ReturnType<typeof buildStatColors> | null = null;
-function getStatColors() {
-  if (!_statColors) _statColors = buildStatColors();
-  return _statColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getStatColors = themeCached(buildStatColors);
 function buildStatColors() {
   const alert = colors.component.alert;
   // Extract text-* classes from DS alert icon strings
@@ -65,9 +63,10 @@ function buildStatColors() {
       value: 'text-foreground',
       label: 'text-muted-foreground',
     },
+    // For a primary surface: that surface's own ink, as Spinner's `white`.
     white: {
-      value: 'text-white',
-      label: 'text-white/70',
+      value: 'text-primary-foreground',
+      label: 'text-primary-foreground/70',
     },
   } as Record<string, { value: string; label: string }>;
 }

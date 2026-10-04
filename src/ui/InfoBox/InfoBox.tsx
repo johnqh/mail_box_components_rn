@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors } from '@sudobility/design';
-
-const alert = colors.component.alert;
 
 // Split DS alert color strings into separate parts for RN
 function splitAlertClasses(base: string, dark: string) {
@@ -15,10 +14,20 @@ function splitAlertClasses(base: string, dark: string) {
   };
 }
 
-const dsInfo = splitAlertClasses(alert.info.base, alert.info.dark);
-const dsSuccess = splitAlertClasses(alert.success.base, alert.success.dark);
-const dsWarning = splitAlertClasses(alert.warning.base, alert.warning.dark);
-const dsError = splitAlertClasses(alert.error.base, alert.error.dark);
+/*
+  Read when drawn, not at module load: `colors.component.alert` answers legacy
+  classes until a host calls `configureTheme`, which is after this module is
+  imported. Cached per theme (see lib/theme-cache).
+*/
+const getAlertClasses = themeCached(() => {
+  const alert = colors.component.alert;
+  return {
+    dsInfo: splitAlertClasses(alert.info.base, alert.info.dark),
+    dsSuccess: splitAlertClasses(alert.success.base, alert.success.dark),
+    dsWarning: splitAlertClasses(alert.warning.base, alert.warning.dark),
+    dsError: splitAlertClasses(alert.error.base, alert.error.dark),
+  };
+});
 
 export interface InfoBoxProps {
   /** Content to display in the info box */
@@ -68,6 +77,7 @@ export const InfoBox: React.FC<InfoBoxProps> = ({
   className,
 }) => {
   // Color variants derived from design system (colors.component.alert)
+  const { dsInfo, dsSuccess, dsWarning, dsError } = getAlertClasses();
   const variantClasses = {
     info: {
       bg: dsInfo.bg,

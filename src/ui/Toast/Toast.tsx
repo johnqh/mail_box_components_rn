@@ -12,6 +12,7 @@ import { View, Text, Pressable, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaEdges } from '../../lib/safe-area-edges';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, textVariants } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -26,22 +27,29 @@ function splitAlertClasses(base: string, dark: string) {
   };
 }
 
-// Lazily derive alert colors so module-level access doesn't fail
-// when Jest transforms ESM chunk imports.
-let _alertColors: Record<string, ReturnType<typeof splitAlertClasses>> | null =
-  null;
-function getAlertColors() {
-  if (!_alertColors) {
-    const alert = colors.component.alert;
-    _alertColors = {
-      success: splitAlertClasses(alert.success.base, alert.success.dark),
-      error: splitAlertClasses(alert.error.base, alert.error.dark),
-      warning: splitAlertClasses(alert.warning.base, alert.warning.dark),
-      info: splitAlertClasses(alert.info.base, alert.info.dark),
-    };
-  }
-  return _alertColors;
-}
+// Rebuilt when the theme changes (see lib/theme-cache): the design system
+// answers legacy classes until a host configures a theme.
+const getAlertColors = themeCached(() => {
+  const alert = colors.component.alert;
+  return {
+    success: {
+      ...splitAlertClasses(alert.success.base, alert.success.dark),
+      icon: alert.success.icon,
+    },
+    error: {
+      ...splitAlertClasses(alert.error.base, alert.error.dark),
+      icon: alert.error.icon,
+    },
+    warning: {
+      ...splitAlertClasses(alert.warning.base, alert.warning.dark),
+      icon: alert.warning.icon,
+    },
+    info: {
+      ...splitAlertClasses(alert.info.base, alert.info.dark),
+      icon: alert.info.icon,
+    },
+  };
+});
 
 /** Data structure representing a single toast notification. */
 export interface ToastMessage {
@@ -117,14 +125,15 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
     info: ac.info.container,
   };
 
-  // Variant icon colors from design system
-  const alert = colors.component.alert;
+  // Variant icon colors from design system. They go on the glyph's own
+  // `Text`: React Native has no colour inheritance, so a class on the `View`
+  // around it coloured nothing.
   const iconColorClasses = {
     default: 'text-muted-foreground',
-    success: alert.success.icon,
-    error: alert.error.icon,
-    warning: alert.warning.icon,
-    info: alert.info.icon,
+    success: ac.success.icon,
+    error: ac.error.icon,
+    warning: ac.warning.icon,
+    info: ac.info.icon,
   };
 
   // Icon symbols
@@ -145,8 +154,10 @@ export const Toast: React.FC<ToastProps> = ({ toast, onRemove }) => {
         variantBgClasses[variant]
       )}
     >
-      <View className={cn('flex-shrink-0', iconColorClasses[variant])}>
-        <Text className='text-lg'>{icons[variant]}</Text>
+      <View className='flex-shrink-0'>
+        <Text className={cn('text-lg', iconColorClasses[variant])}>
+          {icons[variant]}
+        </Text>
       </View>
 
       <View className='flex-1 min-w-0'>

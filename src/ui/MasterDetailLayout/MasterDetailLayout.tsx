@@ -7,6 +7,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { cn } from '../../lib/utils';
+import { resolveIconColor, useIconColor } from '../../lib/icon-color';
 import { pressProps } from '../../lib/a11y';
 
 /**
@@ -35,6 +36,9 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
   description,
   className,
 }) => {
+  // The icon is given the row's colour unless it states its own; see
+  // lib/icon-color.
+  const iconColor = useIconColor(isSelected ? 'primary' : 'mutedForeground');
   return (
     <Pressable
       {...pressProps(onPress)}
@@ -50,13 +54,8 @@ export const MasterListItem: React.FC<MasterListItemProps> = ({
       {/* Content */}
       <View className='relative flex-row items-start'>
         {icon && (
-          <View
-            className={cn(
-              'mr-3 mt-0.5',
-              isSelected ? 'text-primary' : 'text-muted-foreground'
-            )}
-          >
-            {icon}
+          <View className='mr-3 mt-0.5'>
+            {resolveIconColor(icon, iconColor)}
           </View>
         )}
         <View className='flex-1'>

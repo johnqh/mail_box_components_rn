@@ -66,9 +66,11 @@ export const PromotionalBanner: React.FC<PromotionalBannerProps> = ({
         <View className='flex-row items-center justify-between gap-4 flex-wrap'>
           {/* Left side: Badge + Title */}
           <View className='flex-row items-center flex-1'>
-            {/* Badge -- green-500 from colors.raw.green */}
+            {/* Badge */}
             <View className='bg-success px-3 py-1 rounded-full mr-3'>
-              <Text className='text-white text-xs font-bold'>{badgeText}</Text>
+              <Text className='text-success-foreground text-xs font-bold'>
+                {badgeText}
+              </Text>
             </View>
 
             {/* Title & Subtitle */}
@@ -101,7 +103,7 @@ export const PromotionalBanner: React.FC<PromotionalBannerProps> = ({
             {icon && <View className='mr-2'>{icon}</View>}
             <Text
               className={cn(
-                'text-white font-bold',
+                'text-success-foreground font-bold',
                 isProminent ? 'text-base' : 'text-sm'
               )}
             >

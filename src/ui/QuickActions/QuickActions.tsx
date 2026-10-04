@@ -67,22 +67,22 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
     primary: {
       bg: 'bg-primary border-primary',
       bgActive: 'active:bg-primary',
-      text: 'text-white',
+      text: 'text-primary-foreground',
     },
     success: {
       bg: 'bg-success border-success',
       bgActive: 'active:bg-success',
-      text: 'text-white',
+      text: 'text-success-foreground',
     },
     warning: {
       bg: 'bg-warning border-warning',
       bgActive: 'active:bg-warning',
-      text: 'text-white',
+      text: 'text-warning-foreground',
     },
     danger: {
       bg: 'bg-destructive border-destructive',
       bgActive: 'active:bg-destructive',
-      text: 'text-white',
+      text: 'text-destructive-foreground',
     },
   };
 

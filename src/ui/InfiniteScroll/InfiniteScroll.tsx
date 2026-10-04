@@ -9,7 +9,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { cn } from '../../lib/utils';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface InfiniteScrollProps<T> {
@@ -119,7 +118,7 @@ export function InfiniteScroll<T>({
   const ListFooterComponent = useCallback(() => {
     const footerLoader = (
       <View className='flex-row justify-center items-center py-4'>
-        <ActivityIndicator size='small' color={colors.raw.blue[500]} />
+        <ActivityIndicator size='small' className='text-primary' />
         <Text className='ml-2 text-sm text-muted-foreground'>Loading...</Text>
       </View>
     );
@@ -184,7 +183,7 @@ export function InfiniteScroll<T>({
           accessibilityRole='button'
           accessibilityLabel='Scroll to top'
         >
-          <Text className='text-white text-lg'>↑</Text>
+          <Text className='text-primary-foreground text-lg'>↑</Text>
         </Pressable>
       )}
     </View>

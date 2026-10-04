@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Pressable, PressableProps } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -58,11 +59,8 @@ export interface CheckboxProps extends Omit<PressableProps, 'onPress'> {
  */
 
 // Lazily derive checkbox colors from DS to avoid ESM issues in tests.
-let _checkboxColors: ReturnType<typeof buildCheckboxColors> | null = null;
-function getCheckboxColors() {
-  if (!_checkboxColors) _checkboxColors = buildCheckboxColors();
-  return _checkboxColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getCheckboxColors = themeCached(buildCheckboxColors);
 function buildCheckboxColors() {
   // Extract solid bg colors from DS button variants for checked states
   // DS button.primary.base contains "bg-primary ... text-white"
@@ -85,6 +83,17 @@ function buildCheckboxColors() {
     error: extractCheckedColor(btn.destructive.base),
   } as Record<string, string>;
 }
+
+/** The checked mark's colour, as the foreground of each variant's fill. */
+const MARK_CLASSES: Record<
+  'primary' | 'success' | 'warning' | 'error',
+  string
+> = {
+  primary: 'bg-primary-foreground',
+  success: 'bg-success-foreground',
+  warning: 'bg-warning-foreground',
+  error: 'bg-destructive-foreground',
+};
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked: controlledChecked,
@@ -162,6 +171,15 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
   const config = sizeClasses[size];
 
+  /*
+    The mark is drawn in the fill's own foreground — a success box takes
+    `success-foreground`, not the primary's — and the box is only
+    `bg-background` while unchecked, so the fill never depends on which of two
+    `bg-*` classes a merge keeps.
+  */
+  const markClass = error ? 'bg-destructive-foreground' : MARK_CLASSES[variant];
+  // An indeterminate box that is not filled draws its dash on the background.
+
   return (
     <View className={cn('flex flex-col', className)}>
       <Pressable
@@ -182,7 +200,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         <View className='relative flex items-center justify-center'>
           <View
             className={cn(
-              'rounded border-2 flex items-center justify-center bg-background',
+              'rounded border-2 flex items-center justify-center',
+              !checked && 'bg-background',
               config.box,
               getVariantClasses()
             )}
@@ -190,15 +209,14 @@ export const Checkbox: React.FC<CheckboxProps> = ({
             {indeterminate ? (
               <View
                 className={cn(
-                  'bg-primary-foreground rounded-sm',
+                  checked ? markClass : 'bg-foreground',
+                  'rounded-sm',
                   config.check,
                   'h-0.5'
                 )}
               />
             ) : checked ? (
-              <View
-                className={cn('bg-primary-foreground rounded-sm', config.check)}
-              />
+              <View className={cn(markClass, 'rounded-sm', config.check)} />
             ) : null}
           </View>
         </View>

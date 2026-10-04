@@ -11,7 +11,6 @@ import {
 import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface MultiSelectOption {
@@ -186,8 +185,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                       value={searchQuery}
                       onChangeText={setSearchQuery}
                       placeholder={searchPlaceholder}
-                      placeholderTextColor={colors.raw.neutral[400]}
-                      className='px-3 py-2 text-sm bg-card text-foreground rounded-md'
+                      className='px-3 py-2 text-sm bg-card text-foreground rounded-md placeholder:text-muted-foreground'
                     />
                   </View>
                 )}
@@ -234,7 +232,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                             )}
                           >
                             {isSelected && (
-                              <Text className='text-xs text-white font-bold'>
+                              <Text className='text-xs text-primary-foreground font-bold'>
                                 ✓
                               </Text>
                             )}

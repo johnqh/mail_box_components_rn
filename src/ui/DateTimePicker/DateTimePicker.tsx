@@ -211,7 +211,9 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                     accessibilityRole='button'
                     accessibilityLabel='Confirm'
                   >
-                    <Text className='text-sm text-white font-medium'>OK</Text>
+                    <Text className='text-sm text-primary-foreground font-medium'>
+                      OK
+                    </Text>
                   </Pressable>
                 </View>
               </View>

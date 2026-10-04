@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { cn } from '../../lib/utils';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface SearchInputProps extends Omit<TextInputProps, 'onChange'> {
@@ -130,6 +129,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         autoFocus={autoFocus}
         editable={!disabled && !loading}
         className={cn(
+          !textInputProps.placeholderTextColor &&
+            'placeholder:text-muted-foreground',
           'w-full rounded-lg border',
           'bg-card',
           'text-foreground',
@@ -140,7 +141,6 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           disabled && 'opacity-50',
           loading && 'opacity-60'
         )}
-        placeholderTextColor={colors.raw.neutral[400]}
         accessibilityRole='search'
         accessibilityState={{ disabled }}
         {...textInputProps}
@@ -165,7 +165,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       {/* Loading Spinner */}
       {loading && (
         <View className='absolute inset-y-0 right-0 flex items-center justify-center pr-3'>
-          <ActivityIndicator size='small' color={colors.raw.neutral[400]} />
+          <ActivityIndicator size='small' className='text-muted-foreground' />
         </View>
       )}
     </View>

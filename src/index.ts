@@ -32,6 +32,25 @@ export {
 } from './lib/safe-area-edges';
 export type { SafeAreaEdgesProviderProps } from './lib/safe-area-edges';
 export { textInputDefaults } from './lib/text-input';
+export {
+  hslTokenToCss,
+  resolveThemeColor,
+  themeVariableName,
+  themeVariableToCss,
+  useThemeColor,
+} from './lib/theme-color';
+export { resolveIconColor, useIconColor } from './lib/icon-color';
+export {
+  extractTextColorClasses,
+  stripTextColorClasses,
+} from './lib/text-color';
+// Lets this package's `Svg` elements take a colour from `className`.
+import './lib/svg-interop';
+export type {
+  ColorSchemeName,
+  ThemeColorOptions,
+  ThemeColorToken,
+} from './lib/theme-color';
 export { selectTriggerLabelStyle } from './lib/select-trigger';
 
 // UI Components - Core

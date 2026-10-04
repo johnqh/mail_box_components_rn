@@ -76,7 +76,8 @@ export const LoadingDots: React.FC<LoadingDotsProps> = ({
   const variantClasses = {
     primary: 'bg-primary dark:bg-primary',
     secondary: 'bg-muted ',
-    white: 'bg-white',
+    // For a primary surface: that surface's own ink, as Spinner's `white`.
+    white: 'bg-primary-foreground',
   };
 
   const gapClasses = {

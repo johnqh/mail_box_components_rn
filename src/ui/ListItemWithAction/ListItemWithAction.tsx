@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../lib/utils';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface ListItemWithActionProps {
@@ -90,7 +89,9 @@ export const ListItemWithAction: React.FC<ListItemWithActionProps> = ({
         {isProcessing ? (
           <ActivityIndicator
             size='small'
-            color={destructive ? colors.raw.red[600] : colors.raw.neutral[500]}
+            className={
+              destructive ? 'text-destructive' : 'text-muted-foreground'
+            }
           />
         ) : (
           <>

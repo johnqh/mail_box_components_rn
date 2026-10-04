@@ -12,7 +12,6 @@ import { ModalHost } from '../ModalHost';
 import { cn } from '../../lib/utils';
 import { selectTriggerLabelStyle } from '../../lib/select-trigger';
 import { textInputDefaults } from '../../lib/text-input';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface ComboboxOption {
@@ -153,9 +152,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                     placeholder={searchPlaceholder}
-                    placeholderTextColor={colors.raw.neutral[400]}
                     autoFocus
-                    className='px-3 py-2 text-sm bg-card text-foreground rounded-md'
+                    className='px-3 py-2 text-sm bg-card text-foreground rounded-md placeholder:text-muted-foreground'
                   />
                 </View>
 

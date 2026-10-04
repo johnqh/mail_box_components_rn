@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { resolveIconColor, useIconColor } from '../../lib/icon-color';
 
 export interface EmptyStateProps {
-  /** Icon or illustration to display */
+  /**
+   * Icon or illustration to display. An element with no `color` of its own is
+   * given the muted colour (see `resolveIconColor`).
+   */
   icon?: React.ReactNode;
   /** Main title */
   title: string;
@@ -74,6 +78,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   };
 
   const config = sizeConfig[size];
+  // The icon is given the muted colour unless it states its own; see
+  // lib/icon-color.
+  const iconColor = useIconColor('mutedForeground');
 
   return (
     <View
@@ -82,13 +89,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     >
       {icon && (
         <View
-          className={cn(
-            'items-center justify-center',
-            config.iconContainer,
-            'text-muted-foreground'
-          )}
+          className={cn('items-center justify-center', config.iconContainer)}
         >
-          {icon}
+          {resolveIconColor(icon, iconColor)}
         </View>
       )}
 

@@ -1,6 +1,19 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { cn } from '../../lib/utils';
+import { resolveIconColor, useIconColor } from '../../lib/icon-color';
+import type { ThemeColorToken } from '../../lib/theme-color';
+
+/** Each variant's icon colour, as the theme token it is drawn in. */
+const ICON_TOKENS: Record<
+  'default' | 'premium' | 'primary' | 'light',
+  ThemeColorToken
+> = {
+  default: 'mutedForeground',
+  premium: 'warning',
+  primary: 'primary',
+  light: 'mutedForeground',
+};
 
 export interface SectionBadgeProps {
   /** Icon element */
@@ -45,12 +58,9 @@ export const SectionBadge: React.FC<SectionBadgeProps> = ({
     light: 'bg-background border border-border',
   };
 
-  const iconColorClasses = {
-    default: 'text-muted-foreground',
-    premium: 'text-warning ',
-    primary: 'text-primary',
-    light: 'text-muted-foreground',
-  };
+  // The icon is given its variant's colour unless it states its own; see
+  // lib/icon-color.
+  const iconColor = useIconColor(ICON_TOKENS[variant]);
 
   const textColorClasses = {
     default: 'text-foreground',
@@ -89,7 +99,7 @@ export const SectionBadge: React.FC<SectionBadgeProps> = ({
         className
       )}
     >
-      <View className={cn('mr-2', iconColorClasses[variant])}>{icon}</View>
+      <View className='mr-2'>{resolveIconColor(icon, iconColor)}</View>
       <Text
         className={cn(
           'font-semibold',

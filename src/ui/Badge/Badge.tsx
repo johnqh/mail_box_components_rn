@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import { themeCached } from '../../lib/theme-cache';
 import { colors, designTokens } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -19,11 +20,8 @@ function splitBadgeClasses(base: string, dark: string) {
 
 // Lazily derive badge colors from the design system so module-level access
 // doesn't fail when Jest transforms ESM chunk imports.
-let _badgeColors: ReturnType<typeof buildBadgeColors> | null = null;
-function getBadgeColors() {
-  if (!_badgeColors) _badgeColors = buildBadgeColors();
-  return _badgeColors;
-}
+// Rebuilt when the theme changes; see lib/theme-cache.
+const getBadgeColors = themeCached(buildBadgeColors);
 function buildBadgeColors() {
   const badge = colors.component.badge;
   return {

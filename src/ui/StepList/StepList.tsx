@@ -58,7 +58,7 @@ export const StepList: React.FC<StepListProps> = ({
           <View className='w-6 h-6 bg-primary rounded-full items-center justify-center mr-3'>
             <Text
               className={cn(
-                'text-white',
+                'text-primary-foreground',
                 typography.size.sm,
                 typography.weight.medium
               )}

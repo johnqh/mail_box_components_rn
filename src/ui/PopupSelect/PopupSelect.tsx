@@ -11,7 +11,6 @@ import { ModalHost } from '../ModalHost';
 import { useSurfaceInsets } from '../../lib/safe-area-edges';
 import { safeAreaPadding } from '../../lib/safe-area';
 import { selectTriggerLabelStyle } from '../../lib/select-trigger';
-import { colors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
 export interface PopupSelectOption {
@@ -39,6 +38,12 @@ export interface PopupSelectProps {
   triggerTextStyle?: object;
 }
 
+/*
+  Layout is in `styles`; every colour is a semantic class, so it follows the
+  palette the host applied (including one set at run time with `vars()`).
+  A caller's `triggerStyle`/`triggerTextStyle` still wins: inline style
+  overrides a class.
+*/
 const ItemSeparator = () => <View style={styles.separator} />;
 
 /**
@@ -88,7 +93,8 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
     const isSelected = item.value === value;
     return (
       <TouchableOpacity
-        style={[styles.optionItem, isSelected && styles.optionItemSelected]}
+        style={styles.optionItem}
+        className={isSelected ? 'bg-primary/10' : 'bg-muted'}
         {...pressProps(
           () => !item.disabled && handleSelect(item.value),
           item.disabled
@@ -104,10 +110,15 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
             isSelected && styles.optionLabelSelected,
             item.disabled && styles.optionDisabled,
           ]}
+          className={isSelected ? 'text-primary' : 'text-foreground'}
         >
           {item.label}
         </Text>
-        {isSelected && <Text style={styles.checkmark}>✓</Text>}
+        {isSelected && (
+          <Text style={styles.checkmark} className='text-primary'>
+            ✓
+          </Text>
+        )}
       </TouchableOpacity>
     );
   };
@@ -120,22 +131,24 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
           disabled && styles.triggerDisabled,
           triggerStyle,
         ]}
+        className='border-input bg-card'
         {...pressProps(() => !disabled && setModalVisible(true), disabled)}
         activeOpacity={0.7}
         accessibilityRole='combobox'
         accessibilityState={{ disabled, expanded: modalVisible }}
       >
         <Text
-          style={[
-            styles.triggerText,
-            !selectedOption && styles.triggerPlaceholder,
-            triggerTextStyle,
-          ]}
+          style={[styles.triggerText, triggerTextStyle]}
+          className={
+            selectedOption ? 'text-foreground' : 'text-muted-foreground'
+          }
           numberOfLines={1}
         >
           {selectedOption?.label ?? placeholder}
         </Text>
-        <Text style={styles.triggerArrow}>▼</Text>
+        <Text style={styles.triggerArrow} className='text-muted-foreground'>
+          ▼
+        </Text>
       </TouchableOpacity>
 
       <ModalHost
@@ -149,14 +162,21 @@ export const PopupSelect: React.FC<PopupSelectProps> = ({
           phone's cutout, and the bottom one keeps the last row clear of the
           home indicator.
         */}
-        <View style={[styles.modalContainer, safeAreaPadding(insets)]}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>{title}</Text>
+        <View
+          style={[styles.modalContainer, safeAreaPadding(insets)]}
+          className='bg-background'
+        >
+          <View style={styles.modalHeader} className='border-border'>
+            <Text style={styles.modalTitle} className='text-foreground'>
+              {title}
+            </Text>
             <Pressable
               style={styles.closeButton}
               {...pressProps(() => setModalVisible(false))}
             >
-              <Text style={styles.closeButtonText}>Done</Text>
+              <Text style={styles.closeButtonText} className='text-primary'>
+                Done
+              </Text>
             </Pressable>
           </View>
 
@@ -179,11 +199,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderColor: colors.raw.neutral[300],
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    backgroundColor: colors.raw.neutral[0],
   },
   triggerDisabled: {
     opacity: 0.5,
@@ -194,19 +212,13 @@ const styles = StyleSheet.create({
     // flex-basis of zero leaves nothing but the arrow visible.
     ...selectTriggerLabelStyle,
     fontSize: 16,
-    color: colors.raw.neutral[900],
-  },
-  triggerPlaceholder: {
-    color: colors.raw.neutral[400],
   },
   triggerArrow: {
     fontSize: 10,
-    color: colors.raw.neutral[400],
     marginStart: 8,
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: colors.raw.neutral[0],
   },
   modalHeader: {
     flexDirection: 'row',
@@ -215,12 +227,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.raw.neutral[200],
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: colors.raw.neutral[900],
   },
   closeButton: {
     padding: 8,
@@ -228,7 +238,6 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: colors.raw.blue[500],
   },
   listContent: {
     padding: 16,
@@ -237,27 +246,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: colors.raw.neutral[50],
     borderRadius: 12,
-  },
-  optionItemSelected: {
-    backgroundColor: colors.raw.blue[100],
   },
   optionLabel: {
     flex: 1,
     fontSize: 16,
-    color: colors.raw.neutral[900],
   },
   optionLabelSelected: {
     fontWeight: '600',
-    color: colors.raw.blue[500],
   },
   optionDisabled: {
     opacity: 0.5,
   },
   checkmark: {
     fontSize: 18,
-    color: colors.raw.blue[500],
     fontWeight: 'bold',
   },
   separator: {

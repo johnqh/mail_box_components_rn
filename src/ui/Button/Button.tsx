@@ -11,6 +11,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
 import { touchSlop, type HitSlop } from '../../lib/touch-target';
 import { pressProps } from '../../lib/a11y';
+import { extractTextColorClasses } from '../../lib/text-color';
 
 /**
  * What each size needs added to reach the minimum touch target.
@@ -180,11 +181,20 @@ export const Button = React.forwardRef<
         accessibilityState={{ disabled: isDisabled }}
         {...props}
       >
+        {/*
+          The spinner is drawn in the label's colour: NativeWind maps a text
+          colour class onto `ActivityIndicator`'s `color`. It used to be
+          `color='currentColor'`, which React Native cannot resolve, so the
+          platform drew its own grey or accent on every variant.
+        */}
         {showSpinner && (
           <ActivityIndicator
             size='small'
-            color='currentColor'
-            className='mr-2'
+            className={cn(
+              'mr-2',
+              extractTextColorClasses(variantTextClass),
+              extractTextColorClasses(textClassName)
+            )}
           />
         )}
         {typeof children === 'string' ? (

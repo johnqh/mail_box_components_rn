@@ -16,7 +16,7 @@
 import * as React from 'react';
 import { Switch as NativeSwitch, Platform } from 'react-native';
 import type { SwitchProps as NativeSwitchProps } from 'react-native';
-import { getActiveTheme } from '@sudobility/design';
+import { useThemeColor } from '../../lib/theme-color';
 
 export interface SwitchProps extends Omit<
   NativeSwitchProps,
@@ -42,11 +42,6 @@ export interface SwitchProps extends Omit<
   size?: 'sm' | 'md' | 'lg';
   /** Additional className. Applied to the native control. */
   className?: string;
-}
-
-/** `"0 84% 50%"` — the shape every `@sudobility/design` colour token has. */
-function hslTokenToCss(triple: string): string {
-  return `hsl(${triple.replace(/\s+/g, ', ').replace(/%,/g, '%,')})`;
 }
 
 export const Switch = React.forwardRef<
@@ -79,13 +74,16 @@ export const Switch = React.forwardRef<
     );
 
     /*
-      `getActiveTheme` answers null until a host calls `configureTheme`. The
-      fallback is undefined rather than a guessed colour: an unthemed host then
-      gets the platform's own green/blue switch, which is a better answer than
-      a red one this library invented.
+      The track takes the theme as the host applied it: its runtime
+      `--primary` / `--input` variables when it sets them with `vars()`
+      (so a reader who chose Dark on a light-OS device gets the dark palette),
+      else the configured theme in the OS's scheme. With neither, both are
+      undefined rather than a guessed colour: an unthemed host gets the
+      platform's own green/blue switch, which is a better answer than a red one
+      this library invented.
     */
-    const theme = getActiveTheme();
-    const on = theme ? hslTokenToCss(theme.light.primary) : undefined;
+    const on = useThemeColor('primary');
+    const off = useThemeColor('input');
 
     return (
       <NativeSwitch
@@ -94,12 +92,15 @@ export const Switch = React.forwardRef<
         onValueChange={handleChange}
         disabled={disabled}
         /*
-          Only the "on" track is themed. The off track, the thumb and the
-          shadow are the platform's, which is the point of using the platform's
-          switch — overriding them is how a native control starts looking
-          drawn again.
+          The tracks are themed — the off one too, because the platform's
+          follows the OS appearance, not the palette the host chose, and drew a
+          light-mode track on a dark screen. The thumb and the shadow stay the
+          platform's, which is the point of using the platform's switch —
+          overriding them is how a native control starts looking drawn again.
         */
-        trackColor={{ false: undefined, true: on }}
+        trackColor={{ false: off, true: on }}
+        // iOS draws the off state's fill from this, not from `trackColor`.
+        ios_backgroundColor={off}
         {...(Platform.OS === 'ios' ? {} : { thumbColor: undefined })}
         {...props}
       />

@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { cn } from '../../lib/utils';
+import {
+  extractTextColorClasses,
+  stripTextColorClasses,
+} from '../../lib/text-color';
+import { resolveIconColor, useIconColor } from '../../lib/icon-color';
 import { colors, getCardVariantColors } from '@sudobility/design';
 import { pressProps } from '../../lib/a11y';
 
@@ -74,6 +79,10 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
     lg: 'w-20 h-20',
   };
 
+  // The icon is given the primary colour unless it states its own; see
+  // lib/icon-color.
+  const iconColor = useIconColor('primary');
+
   // Badge variants using DS badge colors
   const badgeVariants = {
     success: `${colors.component.badge.success.base} ${colors.component.badge.success.dark}`,
@@ -95,13 +104,28 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
         {/* Badge */}
         {feature.badge && (
           <View className='mb-4'>
+            {/*
+              The badge's text colour goes on the `Text`: React Native has no
+              inheritance, so on the `View` it coloured nothing.
+            */}
             <View
               className={cn(
                 'px-2.5 py-0.5 rounded-full',
-                badgeVariants[feature.badge.variant || 'default']
+                stripTextColorClasses(
+                  badgeVariants[feature.badge.variant || 'default']
+                )
               )}
             >
-              <Text className='text-xs font-medium'>{feature.badge.text}</Text>
+              <Text
+                className={cn(
+                  'text-xs font-medium',
+                  extractTextColorClasses(
+                    badgeVariants[feature.badge.variant || 'default']
+                  )
+                )}
+              >
+                {feature.badge.text}
+              </Text>
             </View>
           </View>
         )}
@@ -114,7 +138,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({
             iconSizeClasses[iconSize]
           )}
         >
-          <View className='text-primary'>{feature.icon}</View>
+          <View>{resolveIconColor(feature.icon, iconColor)}</View>
         </View>
 
         {/* Title */}

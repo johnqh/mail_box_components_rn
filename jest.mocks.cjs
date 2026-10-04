@@ -38,6 +38,9 @@ jest.mock('@sudobility/design', () => ({
   GRADIENTS: createDeepProxy(),
   GRADIENT_CLASSES: createDeepProxy(),
   SEMANTIC_COLOR_MAP: createDeepProxy(),
+  // No theme is configured unless a test configures one: components draw
+  // their unthemed fallback colours.
+  getActiveTheme: () => null,
 }));
 
 // Mock @sudobility/components-rn for subpackage tests that don't resolve to source.
@@ -63,5 +66,10 @@ jest.mock('@sudobility/components-rn', () => ({
 
 // Mock NativeWind
 jest.mock('nativewind', () => ({
-  styled: (component) => component,
+  styled: component => component,
+  // Interop is a no-op here: tests read the `className` a component passes.
+  cssInterop: component => component,
+  // No runtime theme variables unless a test sets some
+  // (see __tests__/theme-color.test.tsx).
+  useUnstableNativeVariable: () => undefined,
 }));
