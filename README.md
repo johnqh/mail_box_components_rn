@@ -8,24 +8,46 @@ React Native UI component library providing 90+ components ported from `@sudobil
 bun add @sudobility/components-rn @sudobility/design
 ```
 
-Peer dependencies: `react`, `react-native` (>=0.72), `nativewind` (>=4), `react-native-gesture-handler`, `react-native-reanimated`, `react-native-safe-area-context`, `react-native-svg`, `class-variance-authority`, `clsx`.
+Peer dependencies: `react`, `react-native` (>=0.72), `@react-native-community/slider`, `nativewind` (>=4), `react-native-gesture-handler`, `react-native-reanimated`, `react-native-safe-area-context`, `react-native-svg`, `class-variance-authority`, `clsx`.
+
+The `Slider` uses the platform-native control on iOS, Android, Windows, and macOS. The macOS `NSSlider` is provided by this package's autolinked CocoaPods view manager; run `pod install` after adding the package to a macOS app.
 
 ## Usage
 
 ```tsx
 import {
-  Button, Card, CardHeader, CardContent, Input, Alert,
-  Box, Flex, Stack, Tabs, TabsList, TabsTrigger, TabsContent,
-  Badge, Avatar, Spinner, Modal, Select, Switch,
-  variants, textVariants, designTokens,
+  Button,
+  Card,
+  CardHeader,
+  CardContent,
+  Input,
+  Alert,
+  Box,
+  Flex,
+  Stack,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  Badge,
+  Avatar,
+  Spinner,
+  Modal,
+  Select,
+  Switch,
+  variants,
+  textVariants,
+  designTokens,
 } from '@sudobility/components-rn';
 
 export function MyScreen() {
   return (
-    <Card variant="elevated">
+    <Card variant='elevated'>
       <CardContent>
-        <Input placeholder="Enter email" />
-        <Button variant="primary" onPress={handleSubmit}>Submit</Button>
+        <Input placeholder='Enter email' />
+        <Button variant='primary' onPress={handleSubmit}>
+          Submit
+        </Button>
       </CardContent>
     </Card>
   );
@@ -47,18 +69,18 @@ export function MyScreen() {
 
 ### Sub-Packages (`packages/`)
 
-| Package | Description |
-|---------|-------------|
-| `@sudobility/auth-components-rn` | Authentication (AuthProvider, AuthScreen) |
-| `@sudobility/email-components-rn` | Email (ContactCard, EmailAccountsList, EmailTemplate) |
-| `@sudobility/web3-components-rn` | Web3 (WalletIcon, AddressLabel, TokenSwap, NftGallery) |
-| `@sudobility/devops-components-rn` | DevOps (SystemStatusIndicator, PipelineView) |
-| `@sudobility/marketing-components-rn` | Marketing (WelcomeScreen, CtaBanner, NpsSurvey) |
-| `@sudobility/entity-components-rn` | Entity/Org (EntityCard, MemberList) |
-| `@sudobility/subscription-components-rn` | Subscriptions (SubscriptionTile, PeriodSelector) |
-| `@sudobility/ratelimit-components-rn` | Rate limiting (UsageDashboard) |
-| `@sudobility/social-components-rn` | Social (RatingStars, ShareButtons) |
-| `@sudobility/analytics-components-rn` | Analytics (stub, TBD) |
+| Package                                  | Description                                            |
+| ---------------------------------------- | ------------------------------------------------------ |
+| `@sudobility/auth-components-rn`         | Authentication (AuthProvider, AuthScreen)              |
+| `@sudobility/email-components-rn`        | Email (ContactCard, EmailAccountsList, EmailTemplate)  |
+| `@sudobility/web3-components-rn`         | Web3 (WalletIcon, AddressLabel, TokenSwap, NftGallery) |
+| `@sudobility/devops-components-rn`       | DevOps (SystemStatusIndicator, PipelineView)           |
+| `@sudobility/marketing-components-rn`    | Marketing (WelcomeScreen, CtaBanner, NpsSurvey)        |
+| `@sudobility/entity-components-rn`       | Entity/Org (EntityCard, MemberList)                    |
+| `@sudobility/subscription-components-rn` | Subscriptions (SubscriptionTile, PeriodSelector)       |
+| `@sudobility/ratelimit-components-rn`    | Rate limiting (UsageDashboard)                         |
+| `@sudobility/social-components-rn`       | Social (RatingStars, ShareButtons)                     |
+| `@sudobility/analytics-components-rn`    | Analytics (stub, TBD)                                  |
 
 ## Development
 

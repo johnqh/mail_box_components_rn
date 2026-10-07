@@ -1,21 +1,35 @@
 {
   "name": "@sudobility/components-rn",
-  "version": "1.0.116",
+  "version": "1.0.117",
   "description": "React Native UI components and design system - Ported from @sudobility/components",
   "type": "module",
   "main": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "react-native": "src/index.ts",
+  "codegenConfig": {
+    "name": "MoosiacNativeSliderSpec",
+    "type": "components",
+    "jsSrcsDir": "src",
+    "ios": {
+      "componentProvider": {
+        "MoosiacNativeSlider": "MoosiacNativeSliderComponentView"
+      }
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "react-native": "./src/index.ts",
-      "import": "./dist/index.esm.js"
-    }
+      "import": "./dist/index.esm.js",
+      "default": "./dist/index.esm.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
+    "macos",
+    "mail_box_components_rn.podspec",
     "README.md"
   ],
   "scripts": {
@@ -41,6 +55,7 @@
   ],
   "author": "Sudobility",
   "peerDependencies": {
+    "@react-native-community/slider": "^4.5.1",
     "@sudobility/design": "^1.1.58",
     "@sudobility/types": "^1.9.68",
     "class-variance-authority": "^0.7.0",
@@ -55,6 +70,7 @@
     "tailwind-merge": ">=2.0.0"
   },
   "devDependencies": {
+    "@react-native-community/slider": "^4.5.1",
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-flow": "^7.27.1",
