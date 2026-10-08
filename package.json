@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/components-rn",
-  "version": "1.0.118",
+  "version": "1.0.119",
   "description": "React Native UI components and design system - Ported from @sudobility/components",
   "type": "module",
   "main": "dist/index.esm.js",
@@ -14,6 +14,14 @@
       "componentProvider": {
         "MoosiacNativeSlider": "MoosiacNativeSliderComponentView"
       }
+    },
+    "windows": {
+      "namespace": "MoosiacSliderCodegen",
+      "generators": [
+        "componentsWindows"
+      ],
+      "outputDirectory": "windows/codegen",
+      "separateDataTypes": true
     }
   },
   "exports": {
@@ -29,6 +37,7 @@
     "dist",
     "src",
     "macos",
+    "windows",
     "mail_box_components_rn.podspec",
     "README.md"
   ],

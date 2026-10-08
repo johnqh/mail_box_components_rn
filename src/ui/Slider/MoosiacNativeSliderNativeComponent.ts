@@ -16,6 +16,7 @@ export interface NativeProps extends ViewProps {
   step?: Double;
   disabled?: WithDefault<boolean, false>;
   trackFillColor?: ColorValue;
+  trackColor?: ColorValue;
   faderThumb?: WithDefault<boolean, false>;
   onValueChange?: BubblingEventHandler<SliderValueEvent>;
   onSlidingComplete?: DirectEventHandler<SliderValueEvent>;
