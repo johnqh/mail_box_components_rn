@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { cn } from '../../lib/utils';
+import { useThemeColor } from '../../lib/theme-color';
 import type { SliderProps } from './Slider';
 import NativeSlider from './MoosiacNativeSliderNativeComponent';
 
@@ -15,9 +16,11 @@ export const Slider: React.FC<SliderProps> = ({
   disabled = false,
   className,
   accessibilityLabel,
+  thumbStyle = 'default',
 }) => {
   const safeValue = Math.min(max, Math.max(min, value));
   const nativeMax = max === min ? min + 1 : max;
+  const fillColor = useThemeColor('primary');
 
   return (
     <View className={cn('justify-center', disabled && 'opacity-40', className)}>
@@ -28,9 +31,15 @@ export const Slider: React.FC<SliderProps> = ({
         value={safeValue}
         step={step}
         disabled={disabled}
+        trackFillColor={fillColor}
+        faderThumb={thumbStyle === 'fader'}
         accessibilityRole='adjustable'
         accessibilityLabel={accessibilityLabel}
-        accessibilityValue={{ min, max, now: safeValue }}
+        accessibilityValue={{
+          min: 0,
+          max: 100,
+          now: Math.round(((safeValue - min) / (nativeMax - min)) * 100),
+        }}
         onValueChange={event => onValueChange?.(event.nativeEvent.value)}
         onSlidingComplete={event =>
           onSlidingComplete?.(event.nativeEvent.value)

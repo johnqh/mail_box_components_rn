@@ -2,6 +2,7 @@
 
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+#import <React/RCTConvert.h>
 #define SliderMinimum(slider) [(slider) minValue]
 #define SliderMaximum(slider) [(slider) maxValue]
 #define SliderCurrent(slider) [(slider) doubleValue]
@@ -23,17 +24,65 @@
 #import <React/RCTViewManager.h>
 
 #if TARGET_OS_OSX
+@interface MoosiacNativeSliderCell : NSSliderCell
+@property (nonatomic, assign) BOOL faderThumb;
+@end
+
+@implementation MoosiacNativeSliderCell
+
+- (void)drawKnob:(NSRect)knobRect
+{
+  if (!self.faderThumb) {
+    [super drawKnob:knobRect];
+    return;
+  }
+
+  // Keep the system track and interaction; only the pan handle becomes a fader.
+  NSRect handle = NSMakeRect(NSMidX(knobRect) - 4, NSMidY(knobRect) - 8, 8, 16);
+  NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:handle xRadius:2 yRadius:2];
+  [NSGraphicsContext saveGraphicsState];
+  NSShadow *shadow = [NSShadow new];
+  shadow.shadowColor = [[NSColor blackColor] colorWithAlphaComponent:0.25];
+  shadow.shadowBlurRadius = 3;
+  shadow.shadowOffset = NSMakeSize(0, -1);
+  [shadow set];
+  [[NSColor controlBackgroundColor] setFill];
+  [path fill];
+  [NSGraphicsContext restoreGraphicsState];
+  [[NSColor separatorColor] setStroke];
+  path.lineWidth = 0.5;
+  [path stroke];
+}
+
+@end
+
 @interface MoosiacNativeSliderControl : NSSlider
 #else
 @interface MoosiacNativeSliderControl : UISlider
 #endif
 @property (nonatomic, copy) dispatch_block_t onInteractionComplete;
 @property (nonatomic, assign) double stepValue;
+#if TARGET_OS_OSX
+@property (nonatomic, assign) BOOL faderThumb;
+#endif
 @property (nonatomic, copy) RCTBubblingEventBlock onValueChange;
 @property (nonatomic, copy) RCTBubblingEventBlock onSlidingComplete;
 @end
 
 @implementation MoosiacNativeSliderControl
+
+#if TARGET_OS_OSX
++ (Class)cellClass
+{
+  return [MoosiacNativeSliderCell class];
+}
+
+- (void)setFaderThumb:(BOOL)faderThumb
+{
+  ((MoosiacNativeSliderCell *)self.cell).faderThumb = faderThumb;
+  [self setNeedsDisplay:YES];
+}
+#endif
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -81,6 +130,9 @@
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
+#if TARGET_OS_OSX
+#import <React/RCTConversions.h>
+#endif
 #import <React/RCTViewComponentView.h>
 #import <react/renderer/components/MoosiacNativeSliderSpec/ComponentDescriptors.h>
 #import <react/renderer/components/MoosiacNativeSliderSpec/EventEmitters.h>
@@ -138,6 +190,10 @@ using namespace facebook::react;
   SliderSetMaximum(_slider, MAX(newProps.minimumValue, newProps.maximumValue));
   _slider.stepValue = newProps.step;
   _slider.enabled = !newProps.disabled;
+#if TARGET_OS_OSX
+  _slider.trackFillColor = RCTUIColorFromSharedColor(newProps.trackFillColor);
+  _slider.faderThumb = newProps.faderThumb;
+#endif
   SliderSetCurrent(_slider, MIN(SliderMaximum(_slider), MAX(SliderMinimum(_slider), newProps.value)));
 }
 
@@ -242,6 +298,16 @@ RCT_CUSTOM_VIEW_PROPERTY(disabled, BOOL, MoosiacNativeSliderControl)
 {
   view.enabled = json ? ![RCTConvert BOOL:json] : YES;
 }
+#if TARGET_OS_OSX
+RCT_CUSTOM_VIEW_PROPERTY(trackFillColor, NSColor, MoosiacNativeSliderControl)
+{
+  view.trackFillColor = json ? [RCTConvert NSColor:json] : nil;
+}
+RCT_CUSTOM_VIEW_PROPERTY(faderThumb, BOOL, MoosiacNativeSliderControl)
+{
+  view.faderThumb = json ? [RCTConvert BOOL:json] : NO;
+}
+#endif
 
 @end
 

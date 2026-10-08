@@ -5,7 +5,7 @@ import type {
   DirectEventHandler,
   WithDefault,
 } from 'react-native/Libraries/Types/CodegenTypes';
-import type { HostComponent, ViewProps } from 'react-native';
+import type { ColorValue, HostComponent, ViewProps } from 'react-native';
 
 type SliderValueEvent = Readonly<{ value: Double }>;
 
@@ -15,6 +15,8 @@ export interface NativeProps extends ViewProps {
   value?: Double;
   step?: Double;
   disabled?: WithDefault<boolean, false>;
+  trackFillColor?: ColorValue;
+  faderThumb?: WithDefault<boolean, false>;
   onValueChange?: BubblingEventHandler<SliderValueEvent>;
   onSlidingComplete?: DirectEventHandler<SliderValueEvent>;
 }

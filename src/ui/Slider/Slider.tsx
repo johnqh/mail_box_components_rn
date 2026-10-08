@@ -10,6 +10,8 @@ export interface SliderProps {
   max?: number;
   /** Quantum. 0 means continuous. */
   step?: number;
+  /** macOS: a narrow audio-fader thumb for position controls such as pan. */
+  thumbStyle?: 'default' | 'fader';
   /** Called continuously while dragging. */
   onValueChange?: (value: number) => void;
   /** Called once, on release — for work too expensive to do per frame. */
@@ -21,8 +23,7 @@ export interface SliderProps {
 
 /**
  * Native platform slider on iOS, Android, and Windows.
- * macOS uses the platform fallback in `Slider.macos.tsx` because the native
- * slider module does not implement React Native macOS.
+ * macOS uses the package's AppKit NSSlider view in `Slider.macos.tsx`.
  */
 export const Slider: React.FC<SliderProps> = ({
   value,
